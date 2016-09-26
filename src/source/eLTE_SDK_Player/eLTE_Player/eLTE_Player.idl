@@ -1,0 +1,140 @@
+// eLTE_Player.idl : type library source for ActiveX Control project.
+
+// This file will be processed by the MIDL compiler tool to
+// produce the type library (eLTE_Player.tlb) that will become a resource in
+// eLTE_Player.ocx.
+
+#include <olectl.h>
+#include <idispids.h>
+
+[ uuid(EBB01215-C409-4D39-A15D-5816C3852B0B), version(1.0),
+  control ]
+library eLTE_PlayerLib
+{
+	importlib(STDOLE_TLB);
+
+	//  Primary dispatch interface for CeLTE_PlayerCtrl
+	[ 
+		uuid(76935AE5-A248-4C3E-8759-00B616F97F41)	
+	]
+	dispinterface _DeLTE_Player
+	{
+		properties:
+		methods:
+
+			[id(DISPID_ABOUTBOX)] void AboutBox();
+			[id(1)] BSTR ELTE_OCX_SetLogPath(BSTR pLogFilePath);
+			[id(2)] BSTR ELTE_OCX_SetLogLevel(ULONG ulLogLevel);
+			[id(3)] BSTR ELTE_OCX_UploadLogo(BSTR pLogoFilePath);
+			[id(4)] BSTR ELTE_OCX_GetVersion(ULONG ulVersion);
+			[id(5)] BSTR ELTE_OCX_SetLanguage(ULONG ulLanguage);
+			[id(6)] BSTR ELTE_OCX_ShowToolbar(LONG ulToolbar);
+			[id(7)] BSTR ELTE_OCX_Load(ULONG ulType);
+			[id(8)] BSTR ELTE_OCX_UnLoad(void);
+			[id(10)] BSTR ELTE_OCX_Login(BSTR pUserID, BSTR pPWD, BSTR pServerIP, BSTR pLocalIP, BSTR pServerSIPPort);
+			[id(11)] BSTR ELTE_OCX_Logout(BSTR pUserID);
+			[id(12)] BSTR ELTE_OCX_TriggerStatusReport(ULONG ulEnableStatusReport);
+			//[id(13)] BSTR ELTE_OCX_ProvisionManagerInit(BSTR pServerIP, BSTR pUserID);
+			//[id(14)] BSTR ELTE_OCX_ProvisionManagerExit(void);
+			[id(15)] BSTR ELTE_OCX_GetDcGroups(BSTR pUserID);
+			[id(16)] BSTR ELTE_OCX_GetDcUsers(BSTR pUserID);
+			[id(17)] BSTR ELTE_OCX_GetGroupUsers(BSTR pGroupID);
+			[id(18)] BSTR ELTE_OCX_GetGroupInfo(BSTR pGroupID);
+			[id(19)] BSTR ELTE_OCX_GetUserInfo(BSTR pUserID);
+			[id(20)] BSTR ELTE_OCX_GetDcInfo(BSTR pUserID);
+			[id(21)] BSTR ELTE_OCX_UnSubscribeGroup(BSTR pGroupID);
+			[id(22)] BSTR ELTE_OCX_GetUserRECFileInfoList(BSTR pQueryXml);
+			[id(23)] BSTR ELTE_OCX_StartRealPlay(BSTR pResourceID, BSTR pVideoParam);
+			[id(24)] BSTR ELTE_OCX_ReverseRealPlay(BSTR pResourceID, BSTR pVideoParam);
+			[id(25)] BSTR ELTE_OCX_StopRealPlay(BSTR pResourceID);
+			[id(29)] BSTR ELTE_OCX_ShowRealPlay(BSTR pResourceID, BSTR pLocalMediaAddr, BSTR pRemoteMediaAddr);
+			[id(30)] BSTR ELTE_OCX_Snapshot(BSTR pResourceID);
+			[id(31)] BSTR ELTE_OCX_HideRealPlay(void);
+			[id(33)] BSTR ELTE_OCX_PlaySound(void);
+			[id(34)] BSTR ELTE_OCX_StopSound(void);
+			[id(35)] BSTR ELTE_OCX_SetVideoWindowPos(ULONG ulLeft, ULONG ulTop, ULONG ulWidth, ULONG ulHeight);
+			[id(36)] BSTR ELTE_OCX_FullScreenDisplay(void);
+			[id(37)] BSTR ELTE_OCX_NormalScreenDisplay(void);
+			[id(38)] BSTR ELTE_OCX_SetTitleText(BSTR pTitleText);
+			[id(39)] BSTR ELTE_OCX_CreateDynamicGroup(BSTR pDGNAParam);
+			[id(40)] BSTR ELTE_OCX_CancelDynamicGroup(BSTR pResourceID);
+			[id(41)] BSTR ELTE_OCX_CreateTempGroup(BSTR pTEMPGParam);
+			[id(42)] BSTR ELTE_OCX_GetNextTempGroupID(void);
+			[id(43)] BSTR ELTE_OCX_P2PDial(BSTR pResourceID);
+			[id(44)] BSTR ELTE_OCX_P2PRecv(BSTR pResourceID);
+			[id(45)] BSTR ELTE_OCX_P2PReject(BSTR pResourceID);
+			[id(46)] BSTR ELTE_OCX_P2PHangup(BSTR pResourceID);
+			//[id(47)] BSTR ELTE_OCX_JoinGroup(BSTR pGroupID);
+			[id(48)] BSTR ELTE_OCX_SubJoinGroup(BSTR pGroupID);
+			[id(49)] BSTR ELTE_OCX_PTTDial(BSTR pGroupID);
+			[id(50)] BSTR ELTE_OCX_PTTRelease(BSTR pGroupID);
+			[id(51)] BSTR ELTE_OCX_PTTHangup(BSTR pGroupID);
+			[id(52)] BSTR ELTE_OCX_PTTEmergency(BSTR pGroupID);
+			[id(53)] BSTR ELTE_OCX_GroupBreakoff(BSTR pGroupID);
+			[id(54)] BSTR ELTE_OCX_P2PBreakin(BSTR pResourceID);
+			[id(55)] BSTR ELTE_OCX_P2PBreakoff(BSTR pResourceID);
+			[id(56)] BSTR ELTE_OCX_VolMute(BSTR pResourceID, BSTR pMuteParam);
+			[id(57)] BSTR ELTE_OCX_VolUnMute(BSTR pResourceID, BSTR pMuteParam);
+			//[id(58)] BSTR ELTE_OCX_MuteControl(BSTR pResourceID, BSTR pMuteType);
+			[id(59)] BSTR ELTE_OCX_GISSubscribe(BSTR pResourceID, BSTR pGISParam);
+			[id(60)] BSTR ELTE_OCX_SetBypassBuildMedia(ULONG ulBypass);
+			[id(61)] BSTR ELTE_OCX_ProvisionManagerInitMRS(BSTR pServerIP);
+			[id(62)] BSTR ELTE_OCX_SDSSendMessage(BSTR pResourceID, BSTR pSDSParam);
+			[id(63)] BSTR ELTE_OCX_StartVideoDispatch(BSTR pResourceID, BSTR pVideoDispatchParam);
+			[id(64)] BSTR ELTE_OCX_StopVideoDispatch(BSTR pResourceID, BSTR pVideoDispatchParam);
+			[id(65)] BSTR ELTE_OCX_RecvVideoPlay(BSTR pResourceID, BSTR pMuteType);
+			
+			[id(66)] BSTR ELTE_OCX_GetDcVWallIDList(void);
+			[id(67)] BSTR ELTE_OCX_VWallStart(BSTR pResVWallID, BSTR pVWallStartParam);
+			[id(68)] BSTR ELTE_OCX_VWallStop(BSTR pResVWallID, BSTR pVWallStopParam);
+
+			[id(69)] BSTR ELTE_OCX_TelephoneDial(BSTR pTelNumber);
+			[id(70)] BSTR ELTE_OCX_TelephoneHangup(BSTR pTelNumber);
+			[id(71)] BSTR ELTE_OCX_StartDiscreetListen(BSTR pResourceID);
+			[id(72)] BSTR ELTE_OCX_StopDiscreetListen(BSTR pResourceID);
+			[id(73)] BSTR ELTE_OCX_StartEnvironmentListen(BSTR pResourceID);
+			[id(74)] BSTR ELTE_OCX_P2PTransfer(BSTR pResourceID, BSTR pP2PTransferParam);
+
+			[id(75)] BSTR ELTE_OCX_CreatePatchGroup(BSTR pPatchGroupParam);
+			[id(76)] BSTR ELTE_OCX_CancelPatchGroup(BSTR pPatchGroupID);
+			[id(77)] BSTR ELTE_OCX_AddPatchGroupMember(BSTR pPatchGroupParam);
+			[id(78)] BSTR ELTE_OCX_DeletePatchGroupMember(BSTR pPatchGroupParam);
+			[id(79)] BSTR ELTE_OCX_GetPatchGroups(BSTR pDcUser);
+			[id(80)] BSTR ELTE_OCX_GetGroupMemberByPatchId(BSTR pPatchGroupId);
+			[id(81)] BSTR ELTE_OCX_GetPatchGroupInfo(BSTR pPatchGroupId);
+			[id(82)] BSTR ELTE_OCX_PTZControl(BSTR pResourceID, ULONG ulPTZControlCode, ULONG ulPTZControlValue);
+			[id(83)] BSTR ELTE_OCX_GetUserSpecificGISCfg(BSTR pResourceID);
+			[id(84)] BSTR ELTE_OCX_SetGisParam(BSTR pResourceID, BSTR pUeGisCfg);
+			[id(85)] BSTR ELTE_OCX_GetGisSubscription(BSTR pUserID);
+			[id(86)] BSTR ELTE_OCX_ModifyDynamicGroup(BSTR pUserID, BSTR pDynamicGroupInfo);
+			[id(87)] BSTR ELTE_OCX_P2PHalfDpxDial(BSTR pResourceID);
+			[id(88)] BSTR ELTE_OCX_P2PHalfDpxRelease(BSTR pResourceID);
+			[id(89)] BSTR ELTE_OCX_TempUserJoinGroup(BSTR pGroupID, BSTR pPhonePatchParam);
+	};
+
+	//  Event dispatch interface for CeLTE_PlayerCtrl
+
+	[ 
+		uuid(241C1E26-BFDE-49BC-A440-E6C28DF3A7EE)	
+	]
+	dispinterface _DeLTE_PlayerEvents
+	{
+		properties:
+			//  Event interface has no properties
+
+		methods:
+			[id(50)] void ELTE_OCX_Event(ULONG ulEventType, BSTR pEventDataXml);
+			[id(51)] void ELTE_OCX_PlayerEvent(ULONG ulEventType, BSTR pEventDataXml);
+	};
+
+	//  Class information for CeLTE_PlayerCtrl
+	[
+		uuid(6AB35B6F-D5D4-4DA3-9503-1AD4E5E1E589)
+	]
+	coclass eLTE_Player
+	{
+		[default] dispinterface _DeLTE_Player;
+		[default, source] dispinterface _DeLTE_PlayerEvents;
+	};
+
+};

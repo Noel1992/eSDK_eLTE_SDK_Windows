@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="bcc_agent" code_type="cplus" user="ubp" team="BCC" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="dllvalue" value="ubp_bcc"/>
+        <Param name="dbenable" value="true"/>
+        <Param name="rtpport_start" value="28002"/>
+        <Param name="rtpport_num" value="8999"/>
+        <Param name="rtpport_start_alone" value="25000"/>
+        <Param name="rtpport_num_alone" value="18002"/>
+        <Param name="register_output" value="0"/>
+        <Param name="invite_output" value="0"/>
+        <Param name="cancel_output" value="1"/>
+        <Param name="ack_output" value="1"/>
+        <Param name="bye_output" value="1"/>
+        <Param name="option_output" value="3"/>
+        <Param name="info_output" value="1"/>
+        <Param name="response_100_output" value="1"/>
+        <Param name="response_180_output" value="1"/>
+        <Param name="response_183_output" value="1"/>
+        <Param name="response_200_output" value="1"/>
+        <Param name="response_400_output" value="1"/>
+        <Param name="response_401_output" value="2"/>
+        <Param name="response_403_output" value="1"/>
+        <Param name="response_404_output" value="1"/>
+        <Param name="response_407_output" value="2"/>
+        <Param name="response_420_output" value="1"/>
+        <Param name="response_450_output" value="1"/>
+        <Param name="response_480_output" value="1"/>
+        <Param name="response_481_output" value="1"/>
+        <Param name="response_486_output" value="1"/>
+        <Param name="response_487_output" value="1"/>
+        <Param name="response_488_output" value="1"/>
+        <Param name="response_491_output" value="1"/>
+        <Param name="response_493_output" value="1"/>
+        <Param name="response_500_output" value="1"/>
+        <Param name="response_501_output" value="1"/>
+        <Param name="response_503_output" value="1"/>
+        <Param name="response_603_output" value="1"/>
+        <Param name="init_wait_time" value="120"/>
+        <Param name="fir_req_list" value="HUAWEI TEx0,HUAWEI VP"/>
+		<Param name="eSpace_Agent" value="Huawei eSpace"/>
+        <Param name="video_transcode_license_on_one_bdc" value="4"/>
+        <Param name="video_transcode_license_on_multi_bdc" value="76"/>
+      </SvcParams>
+      <LoadModules>
+        <Module lib="ubp_sca" entry="CreateCfgMgr" />
+        <Module lib="ubp_svcmgr" />
+        <Module lib="ubp_error" />
+        <Module lib="ubp_threadpool" />
+        <Module lib="ubp_timer" />
+        <Module lib="ubp_encryption" />
+        <Module lib="ubp_dao" />
+        <Module lib="ubp_mq" />
+        <Module lib="ubp_fmproxy" />
+        <Module lib="ubp_lmproxy" />
+        <Module lib="ubp_lic_man_proxy" />
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+        <Svc name="cm_agent" />
+        <Svc name="lic_man_agent" />
+        <Svc name="hpgw_agent" />
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

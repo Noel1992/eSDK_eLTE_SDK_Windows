@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eLTE_SDK", "eLTE_SDK\eLTE_SDK.vcxproj", "{406BDA55-F198-4F90-B276-64BA3470BA4F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eLTE_NativeService", "eLTE_NativeService\eLTE_NativeService.vcxproj", "{041658AB-2A6C-4159-8D6A-A7C918A7353F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{406BDA55-F198-4F90-B276-64BA3470BA4F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{406BDA55-F198-4F90-B276-64BA3470BA4F}.Debug|Win32.Build.0 = Debug|Win32
+		{406BDA55-F198-4F90-B276-64BA3470BA4F}.Release|Win32.ActiveCfg = Release|Win32
+		{406BDA55-F198-4F90-B276-64BA3470BA4F}.Release|Win32.Build.0 = Release|Win32
+		{041658AB-2A6C-4159-8D6A-A7C918A7353F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{041658AB-2A6C-4159-8D6A-A7C918A7353F}.Debug|Win32.Build.0 = Debug|Win32
+		{041658AB-2A6C-4159-8D6A-A7C918A7353F}.Release|Win32.ActiveCfg = Release|Win32
+		{041658AB-2A6C-4159-8D6A-A7C918A7353F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

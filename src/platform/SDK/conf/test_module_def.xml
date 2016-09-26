@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frm:Modules xmlns:frm="http://www.td-tech.com/ubp/platform/frame/xml"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.td-tech.com/ubp/platform/frame/xml module_def.xsd">
+
+  <Module lib="test_module"/>
+  <Module lib="test_module" entry="CreateModule2"/>
+
+</frm:Modules>

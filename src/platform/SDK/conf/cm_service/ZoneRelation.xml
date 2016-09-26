@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="ZoneRelation" MOC_NAME_C="Zone邻节点关系" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ZoneID" desc="Zone节点ID" type="int" range="[0,2147483647]" constrain="PRI" mode="display" FK="FK:DRUR:Zone:ZoneID" />
+		<Parameter name="NeighborZoneID" desc="Zone节点ID" type="int" range="[0,2147483647]" constrain="PRI" mode="display" FK="FK:DRUR:Zone:ZoneID" />
+	</MOC>
+</Moc-Config>

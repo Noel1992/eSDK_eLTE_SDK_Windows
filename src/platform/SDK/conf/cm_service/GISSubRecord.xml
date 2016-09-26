@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="GISSubRecord" MOC_NAME_C="GIS订阅" Module="SDS" ACCESS_CONTROL="read" DEST_SVC="" Group="GISCfgGrp" Relation="">
+		<Parameter name="DcUserName" desc="订阅者号码" type="string" range="[0,20]" mode="display" />
+		<Parameter name="TeUserName" desc="被订阅者号码" type="string" range="[0,20]" mode="display" />
+	</MOC>
+</Moc-Config>

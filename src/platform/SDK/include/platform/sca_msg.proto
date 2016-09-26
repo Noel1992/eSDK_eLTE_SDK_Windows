@@ -1,0 +1,155 @@
+package ubp.platform.sca;
+
+//////////////////////////////////////////////////////////////////////////
+// ScaMessage
+/////////////////////////////////////////////////////////////////////////
+message ScaMessage{
+	required string msg_type = 1;
+	optional string param = 2;
+	optional string result = 3;
+}
+message ScaMsgServiceInfo{
+	required int32 node_id = 1;
+	required string host_ip = 2;
+	required string svc_name = 3;
+	required string svc_type = 4;
+	required int32 rpn_port = 5;
+	required int32 pub_port = 6;
+	required int32 pair_port = 7;
+	required string core = 8;
+	optional string domain = 9;
+  optional string hostname = 10;
+  optional string svc_mode = 11;
+  optional int32 offset_port = 12;
+  optional string om_ip = 13;
+  optional string med_ip = 14;
+}
+message ScaMsgServiceInfoList
+{
+	repeated ScaMsgServiceInfo svcs = 1;
+}
+message ScaMsgServiceRunInfo{
+	required ScaMsgServiceInfo svc_info = 1;
+	required int32 svc_pid = 2;
+	required string svc_state = 3;
+	required uint64 start_time = 4;
+	required uint64 boot_time = 5;
+}
+message ScaMsgServiceRunInfoList
+{
+	repeated ScaMsgServiceRunInfo svcs = 1;
+}
+
+message ScaMsgSvcState{
+	required string svc_key = 1;
+	optional string svc_state = 2;
+}
+
+message ScaMsgSvcStateList{
+	repeated ScaMsgSvcState states = 1;
+}
+
+message ScaSvcMessage{
+	required string msg_type = 1;
+	optional int32 version_id = 2;
+	optional ScaMsgServiceInfoList svc_list = 3;
+	optional ScaMsgSvcStateList svc_state_list = 4;
+}
+
+message DbAccntInfo{
+	optional string default_dao = 1;
+	optional string active = 2;
+  optional string name = 3;
+  optional string user = 4;
+  optional string passwd = 5;
+  optional string database = 6;
+	optional string port = 7;
+	optional string max_connection = 8;
+	optional string min_connection = 9;
+}
+
+message DbAccntInfoList{
+	repeated DbAccntInfo db_acc_info = 1;
+}
+
+message DbAccntMessage{
+	required string msg_type = 1;
+	optional string msg_para_1 = 2;
+	optional string msg_para_2 = 3;
+  optional string msg_para_3 = 4;
+	optional DbAccntInfoList acc_infos = 5;
+}
+
+message SyncInfoMsg{
+  optional string key = 1;
+  optional string value = 2;
+}
+
+message SyncInfoMsgList{
+  repeated SyncInfoMsg key_val_list = 1;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// NetWorkMessage
+/////////////////////////////////////////////////////////////////////////
+message NetWorkMessage{
+	optional string msg_type = 1;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// IP相关信息
+//////////////////////////////////////////////////////////////////////////
+message NetWorkInfo
+{
+  optional string device = 1;
+  optional string old_ip = 2;
+  optional string old_netmask = 3;
+  optional string old_gateway = 4;
+  optional string new_ip = 5;
+  optional string new_netmask = 6;
+  optional string new_gateway = 7;
+  optional string txqueuelen = 8;
+  optional string updown = 9;
+}
+
+message NetWorkInfoList
+{
+  repeated NetWorkInfo network = 1;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// IP修改响应
+//////////////////////////////////////////////////////////////////////////
+message NetWorkInfoListRsp
+{
+  required sint32 Result = 1;
+}
+//////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////
+// Process State Message
+/////////////////////////////////////////////////////////////////////////
+message ProStateMsg
+{
+	required string name = 1;
+	required uint32 state = 2;//0：initing，1：running，2：stopping
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Process cost time
+/////////////////////////////////////////////////////////////////////////
+message ProcessStartTime
+{
+  required string svc_name = 1;
+  optional uint64 start_start_time = 2;
+  optional uint64 start_wait_end_time = 3;
+  optional uint64 start_end_time = 4;
+}
+
+message ProcessStopTime
+{
+  required string svc_name = 1;
+  optional uint64 stop_start_time = 2;
+  optional uint64 stop_wait_end_time = 3;
+  optional uint64 stop_end_time = 4;
+}

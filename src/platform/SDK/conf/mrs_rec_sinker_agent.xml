@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="mrs_rec_sinker_agent" code_type="cplus" user="ubp" team="MRS" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="dllvalue" value="ubp_mrs_rec_sinker"/>
+        <Param name="dbenable" value="True"/>
+        <Param name="db_max_conn" value="5"/>
+        <Param name="db_min_conn" value="3"/>
+      </SvcParams>
+      <LoadModules>
+        <Module lib="ubp_svcmgr" />
+        <Module lib="ubp_threadpool" />
+        <Module lib="ubp_timer" />
+        <Module lib="ubp_encryption" />
+        <Module lib="ubp_dao" />
+        <Module lib="ubp_mq" />
+        <Module lib="ubp_fmproxy" />
+        <Module lib="ubp_lmproxy" />
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+        <Svc name="cm_agent" />
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svcmgr:deploypolicy xmlns:svcmgr="http://www.td-tech.com/ubp/platform/svcmgr/xml"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.td-tech.com/ubp/platform/svcmgr/xml deploy_policy_4.0.xsd">
+  <!--
+   deploy_policy配置项说明：
+   init_local_service - "true":"false"。 是否初始化本地服务；做客户方（测试程序）时填false；
+   host_name - 主机名称，在安装或者Web切换服务模式是设置；
+   cpu_cores - 主机的cpu的线程数（预留暂时不用）：grep 'processor' /proc/cpuinfo | sort -u | wc -l
+   memory - 主机的内存（预留暂时不用）：cat /proc/meminfo|grep MemTotal
+   om_ip - MDC或MRS的操作维护IP；
+   med_ip - MDC或MRS的媒体面IP；
+   signal_ip - MDC或MRS的信令面IP；
+   master_ip - 主机IP，作为从机是需要填写；
+   bcc_ip - bcc IP，兼容3.0前版本需要；
+   udc_om_ip - UDC的操作维护IP；
+   udc_sgn_ip - UDC的信令面IP；
+   udc_med_ip - UDC的用户面IP；
+   install_scene - 安装的场景，value取值:"trunking"或"broadband ",集群或宽带接入
+   install_package - 安装的应用类型组合，value取值包括："MDC","MRS","UDC"，多种组合以"+"连接；
+       MDC - MDC应用的服务模式，与svcgrp_info.xml中ServiceGroup的name对应，多种服务模式组合以"+"连接；
+       MRS - MRS应用的服务模式，与svcgrp_info.xml中ServiceGroup的name对应，多种服务模式组合以"+"连接；
+       UDC - UDC应用的服务模式，与svcgrp_info.xml中ServiceGroup的name对应，多种服务模式组合以"+"连接；
+   HA_MODE - 高可用模式。value ：默认STANDALONE（单机），MASTER(主机)或SLAVE(备机)
+   HA_LOCAL_IP - 主备模式下，本机的物理IP
+   HA_MASTER_LOCAL_IP - 主备模式下，从机上配置的主机的物理IP
+   HA_BACKUP_IP - 主备模式下，备机的物理IP
+   dev_db_ip - 数据库IP
+  -->
+  <HostInfo>
+      <HostCfg name="init_local_service" value="true"/>   	
+      <HostCfg name="host_name" value="$ubp_local_host_name"/>
+      <HostCfg name="cpu_cores" value="16" />
+      <!--HostCfg name="memory" value="8092" /--> 
+      <HostCfg name="om_ip" value="$ubp_local_ip"/> 
+      <HostCfg name="med_ip" value="$ubp_local_ip"/>
+      <HostCfg name="signal_ip" value="$ubp_local_ip"/>	
+      <HostCfg name="master_ip" value=""/>
+      <HostCfg name="bcc_ip" value=""/>
+      <HostCfg name="udc_om_ip" value=""/>     
+      <HostCfg name="udc_sgn_ip" value=""/>
+      <HostCfg name="udc_med_ip" value=""/>
+      <HostCfg name="install_scene" value="trunking"/>
+      <HostCfg name="install_package" value="MDC+UDC"/>
+      <HostCfg name="MDC" value="BCC+BDC"/> 
+      <HostCfg name="UDC" value="UDC_normal"/> <!-- 暂时使用UDC_normal，等UDC明确-->
+      <HostCfg name="MRS" value="MRS_C+MRS_D"/>        
+      <HostCfg name="HA_MODE" value="STANDALONE"/>
+      <HostCfg name="HA_LOCAL_IP" value="127.0.0.1"/>
+      <HostCfg name="HA_MASTER_LOCAL_IP" value=""/>
+      <HostCfg name="HA_BACKUP_IP" value=""/>
+  </HostInfo> 
+ </svcmgr:deploypolicy>

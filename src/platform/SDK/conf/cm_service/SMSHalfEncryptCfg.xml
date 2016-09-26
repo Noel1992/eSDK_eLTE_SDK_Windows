@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="SMSHalfEncryptCfg" MOC_NAME_C="半程短信加解密DC号码配置" Module="SDS" ACCESS_CONTROL="add,delete,modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="DN" desc="调度台号码" type="string" range="[1,8]" constrain="PRI" not_begin_with="0" all_num="" mode="update" FK="FK:DCUC:DCAttribute:ISDN" />
+	</MOC>
+</Moc-Config>

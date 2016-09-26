@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FADCE442-731F-4D0B-8693-5E8037BC60EB}</ProjectGuid>
+    <RootNamespace>eLTE_SDK_Demo</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\output\debug\</OutDir>
+    <IntDir>..\temp\debug\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\output\release\</OutDir>
+    <IntDir>..\temp\release\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\eLTE_SDK\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\eLTE_SDK\debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>eLTE_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y ..\eLTE_SDK\debug\eLTE_SDK.dll ..\output\debug\
+xcopy /Y ..\eLTE_SDK\debug\pdb\eLTE_SDK.pdb ..\output\debug\
+xcopy /Y ..\eLTE_SDK\debug\eLTE_SDK.ini ..\output\debug\
+xcopy /y ..\eLTE_SDK\debug\eSDKLogAPI.dll ..\output\debug\
+xcopy /y ..\eLTE_SDK\debug\eSDKClientLogCfg.ini ..\output\debug\
+xcopy /y ..\eLTE_SDK\debug\SDL2.dll ..\output\debug\
+xcopy /y ..\eLTE_SDK\debug\eSDK_Secure_C.dll ..\output\debug\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\eLTE_SDK\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\eLTE_SDK\release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>eLTE_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y ..\eLTE_SDK\release\eLTE_SDK.dll ..\output\release\
+xcopy /Y ..\eLTE_SDK\release\pdb\eLTE_SDK.pdb ..\output\release\
+xcopy /Y ..\eLTE_SDK\release\eLTE_SDK.ini ..\output\release\
+xcopy /y ..\eLTE_SDK\release\eSDKLogAPI.dll ..\output\release\
+xcopy /y ..\eLTE_SDK\release\eSDKClientLogCfg.ini ..\output\release\
+xcopy /y ..\eLTE_SDK\release\SDL2.dll ..\output\release\
+xcopy /y ..\eLTE_SDK\release\eSDK_Secure_C.dll ..\output\release\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="res\camera_offline.bmp" />
+    <None Include="res\camera_online.bmp" />
+    <None Include="res\dispatcher_offline.bmp" />
+    <None Include="res\dispatcher_online.bmp" />
+    <None Include="res\eLTE_SDK_Demo.ico" />
+    <None Include="res\eLTE_SDK_Demo.rc2" />
+    <None Include="res\group_offline.bmp" />
+    <None Include="res\group_online.bmp" />
+    <None Include="res\gwuser_offline.bmp" />
+    <None Include="res\gwuser_online.bmp" />
+    <None Include="res\pttuser_offline.bmp" />
+    <None Include="res\pttuser_online.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CallDlg.h" />
+    <ClInclude Include="CreateGroupDlg.h" />
+    <ClInclude Include="CreatePatchGroupDlg.h" />
+    <ClInclude Include="DataType.h" />
+    <ClInclude Include="DConsoleDlg.h" />
+    <ClInclude Include="DispatchParamDlg.h" />
+    <ClInclude Include="eLTE_SDK_Demo.h" />
+    <ClInclude Include="eLTE_SDK_DemoDlg.h" />
+    <ClInclude Include="eLTE_Tool.h" />
+    <ClInclude Include="InfoDlg.h" />
+    <ClInclude Include="MediaPlayerDlg.h" />
+    <ClInclude Include="MediaPlayerDlgMgr.h" />
+    <ClInclude Include="ModifyDGNADlg.h" />
+    <ClInclude Include="P2PTransferDlg.h" />
+    <ClInclude Include="PTZCtrlDlg.h" />
+    <ClInclude Include="RECFileDlg.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SDSMessage.h" />
+    <ClInclude Include="SetGisCfgDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TempUserJoinGrpCall.h" />
+    <ClInclude Include="UnDispatchParamDlg.h" />
+    <ClInclude Include="VideoCommingDlg.h" />
+    <ClInclude Include="VideoParamDlg.h" />
+    <ClInclude Include="Xml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CallDlg.cpp" />
+    <ClCompile Include="CreateGroupDlg.cpp" />
+    <ClCompile Include="CreatePatchGroupDlg.cpp" />
+    <ClCompile Include="DConsoleDlg.cpp" />
+    <ClCompile Include="DispatchParamDlg.cpp" />
+    <ClCompile Include="eLTE_SDK_Demo.cpp" />
+    <ClCompile Include="eLTE_SDK_DemoDlg.cpp" />
+    <ClCompile Include="eLTE_Tool.cpp" />
+    <ClCompile Include="InfoDlg.cpp" />
+    <ClCompile Include="MediaPlayerDlg.cpp" />
+    <ClCompile Include="MediaPlayerDlgMgr.cpp" />
+    <ClCompile Include="ModifyDGNADlg.cpp" />
+    <ClCompile Include="P2PTransferDlg.cpp" />
+    <ClCompile Include="PTZCtrlDlg.cpp" />
+    <ClCompile Include="RECFileDlg.cpp" />
+    <ClCompile Include="SDSMessage.cpp" />
+    <ClCompile Include="SetGisCfgDlg.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TempUserJoinGrpCall.cpp" />
+    <ClCompile Include="UnDispatchParamDlg.cpp" />
+    <ClCompile Include="VideoCommingDlg.cpp" />
+    <ClCompile Include="VideoParamDlg.cpp" />
+    <ClCompile Include="Xml.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="eLTE_SDK_Demo.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="eLTE_SDK_Demo.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

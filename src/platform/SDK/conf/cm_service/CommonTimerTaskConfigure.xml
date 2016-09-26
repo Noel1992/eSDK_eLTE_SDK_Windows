@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="CommonTimerTaskConfigure" MOC_NAME_C="定时任务配置表" Module="PLT" ACCESS_CONTROL="add,delete,modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="TaskName" desc="任务名字" type="string" range="[1,255]" constrain="PRI" />
+		<Parameter name="StartTime" desc="第一次执行时间" type="datetime" range="[1,64]" constrain="NOT NULL" />
+		<Parameter name="CycleTime" desc="循环周期" type="int" range="[1,2147483647]" constrain="NOT NULL" />
+		<Parameter name="Model" desc="任务模式(同步，异步)" type="string" range="[1,20]" constrain="NOT NULL" />
+		<Parameter name="RepeateTimes" desc="重复次数" type="int" range="" />
+	</MOC>
+</Moc-Config>

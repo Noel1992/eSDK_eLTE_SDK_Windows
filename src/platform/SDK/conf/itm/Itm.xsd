@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:Itm="http://www.td-tech.com/ubp/platform/Itm/xml"
+            targetNamespace="http://www.td-tech.com/ubp/platform/Itm/xml">
+  <xsd:simpleType name="tasktype">
+     <xsd:restriction base="xsd:string">
+       <xsd:enumeration value="DB"/>
+       <xsd:enumeration value="FILE"/>
+     </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="cycletype">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Hour"/>
+      <xsd:enumeration value="Day"/>
+      <xsd:enumeration value="Week"/>
+      <xsd:enumeration value="Month"/>	  
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="intervaldays">
+    <xsd:restriction base="xsd:integer">
+      <xsd:minInclusive value="0"/>
+      <xsd:maxInclusive value="365"/>
+    </xsd:restriction>
+  </xsd:simpleType>  
+  <xsd:complexType name="Table">
+    <xsd:attribute name="Tablename" type="xsd:string" use="required"/>
+    <xsd:attribute name="Col" type="xsd:string" use="required"/>
+    <xsd:attribute name="Intervaldays" type="Itm:intervaldays" use="required"/>
+    <xsd:attribute name="SysLogInfo" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="Tables">
+    <xsd:sequence>
+      <xsd:element name="Table" type="Itm:Table" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence> 
+  </xsd:complexType>
+  <xsd:complexType name="TaskInfo">
+    <xsd:sequence>
+      <xsd:element name="Tables" type="Itm:Tables" maxOccurs="1"/>
+    </xsd:sequence>
+    <xsd:attribute name="TaskName" type="xsd:string" use="required"/>
+    <xsd:attribute name="StartTime" type="xsd:dateTime" use="required"/>
+    <xsd:attribute name="Cycle" type="Itm:cycletype" use="required"/>
+    <xsd:attribute name="Type" type="Itm:tasktype" use="required"/>
+  </xsd:complexType>
+  <xsd:complexType name="TaskInfos">
+    <xsd:sequence>
+      <xsd:element name="TaskInfo" type="Itm:TaskInfo" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="TaskInfos" type="Itm:TaskInfos"/>
+</xsd:schema>

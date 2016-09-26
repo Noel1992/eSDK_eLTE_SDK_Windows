@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="PTTLinkCamera" MOC_NAME_C="终端绑定摄像头配置" Module="DC" ACCESS_CONTROL="add,delete,read,modify" DEST_SVC="" Group="" Relation="">
+		<Parameter name="PTTISDN" desc="用户号码" type="string" range="[1,8]" constrain="PRI" not_begin_with="0" all_num="" mode="update" FK="FK:DCUC:PTTUser:ISDN" />
+		<Parameter name="CameraISDN" desc="摄像头号码" type="string" range="[1,8]" constrain="NOT NULL" not_begin_with="0" all_num="" mode="update" FK="FK:DCUC:FixedUser:ISDN" />
+	</MOC>
+</Moc-Config>

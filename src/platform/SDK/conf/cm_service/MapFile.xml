@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="MapFile" MOC_NAME_C="文件信息表" Module="SDS" ACCESS_CONTROL="add,modify,delete,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="id" desc="地图索引" type="int" range="[1,2147483647]" constrain="PRI" />
+		<Parameter name="AreaCode" desc="区域代码" type="string" range="[1,40]" constrain="NOT NULL" mode="update" />
+		<Parameter name="AreaDescription" desc="区域描述" type="string" range="[1,255]" constrain="NOT NULL" mode="update" />
+		<Parameter name="FileName" desc="文件名" type="string" range="[1,255]" mode="display" />
+		<Parameter name="FilePath" desc="文件路径" type="string" range="[1,512]" />
+		<Parameter name="FileSize" desc="文件大小" type="double" range="" mode="display" />
+		<Parameter name="FileVersion" desc="文件版本" type="int" range="[1,2147483647]" mode="display" />
+	</MOC>
+</Moc-Config>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="ZoneEntry" MOC_NAME_C="Zone节点组网信息" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ZoneID" desc="Zone节点ID" type="int" range="[0,2147483647]" constrain="PRI" mode="display" FK="FK:DRUR:Zone:ZoneID" />
+		<Parameter name="NodeType" desc="网元类型" type="enum" range="0,1,2" vlist="0:BCC,1:SDS,2:UDC" constrain="PRI" mode="display" />
+		<Parameter name="IPAddr" desc="网元IP" type="string" range="[4,15]" constrain="NOT NULL" mode="display" />
+		<Parameter name="Port" desc="网元端口" type="int" range="[1,65535]" constrain="NOT NULL" mode="display" />
+	</MOC>
+</Moc-Config>

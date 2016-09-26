@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="NodeDeploy" MOC_NAME_C="NodeDeploy" Module="PLT" ACCESS_CONTROL="modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="omip" desc="omip" type="string" range="[1,255]" />
+		<Parameter name="sigip" desc="sigip" type="string" range="[1,255]" />
+		<Parameter name="mediaip" desc="mediaip" type="string" range="[1,255]" />
+		<Parameter name="udc_om_ip" desc="udc_om_ip" type="string" range="[1,255]" />
+		<Parameter name="udc_sgn_ip" desc="udc_sgn_ip" type="string" range="[1,255]" />
+		<Parameter name="udc_MED_ip" desc="udc_MED_ip" type="string" range="[1,255]" />
+		<Parameter name="MDC" desc="MDC" type="string" range="[1,255]" />
+		<Parameter name="UDC" desc="UDC" type="string" range="[1,255]" />
+		<Parameter name="MRS" desc="MRS" type="string" range="[1,255]" />
+	</MOC>
+</Moc-Config>

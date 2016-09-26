@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+///////////////////////////////////////////////////////////////////////
+// eAPP全局错误码定义范围如下：
+// Common  : 0     ~ -999
+// Platform:-1000  ~ -9999   
+// OM      :-10000 ~ -19999   
+// BCC     :-20000 ~ -29999
+// BDC     :-30000 ~ -34999
+// BDC_FRAMEWORDK :-35000 ~ -39999
+// DC      :-40000 ~ -49999
+// MRS     :-50000 ~ -64999
+// VGW     :-65000 ~ -69999
+// UDC     :-70000 ~ -79999
+///////////////////////////////////////////////////////////////////////
+
+//Platform子系统分配如下：
+//1、Platform（-1000 ~ - 9999）
+//    |==MQ    : -1000 ~ -1099
+//    |==SCA   : -1100 ~ -1199
+//    |==FRM   : -1200 ~ -1299
+//    |==Thread: -1300 ~ -1399
+//    |==DAO   : -1400 ~ -2999
+
+//2、OM（-10000 ~ -19999）
+//    |==CM : -10000 ~ -10099
+//    |==FM : -10100 ~ -10199
+//    |==LM : -10200 ~ -10299
+//    |==MON :-10300 ~ -10399
+//    |==LIC :-10400 ~ -10499
+//    |==keepalived :-10500 ~ -10599
+
+///////////////////////////////////////////////////////////////////////
+-->
+
+<Errors xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+       xsd:noNamespaceSchemaLocation="error_number.xsd">
+
+        <Error>
+		<code>101</code>
+		<detail message="Username not exsit or unlock. " suggestion=""/>
+	</Error>
+        <Error>
+		<code>000</code>
+		<detail message="OK. " suggestion=""/>
+	</Error>
+        <Error>
+		<code>001</code>
+		<detail message="Internal error. " suggestion=""/>
+	</Error>
+
+    
+<!--
+//MQ:-1000 ~-1099
+-->    
+  <Error>
+    <code>-1000</code>
+		<detail message="Initialize ZMQ context error. " suggestion="Check environment. "/>
+	</Error>
+  
+	<Error>
+	  <code>-1001</code>
+		<detail message="Socket connect error. " suggestion=""/>
+	</Error>
+
+  <Error>
+      <code>-1004</code>
+      <detail message="Initialize asyn request socket error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1005</code>
+    <detail message="Message consumer connect error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1006</code>
+    <detail message="Message consumer subscribe error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1007</code>
+    <detail message="Initialize local service error. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1008</code>
+    <detail message="Initialize reponse server error. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1009</code>
+    <detail message="Initialize dealer server error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1010</code>
+    <detail message="Initialize publisher server error. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1011</code>
+    <detail message="Get dest svc info error. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1012</code>
+    <detail message="Initialize consumer error. " suggestion=""/>
+  </Error>
+
+<!--
+//CM:-1100 ~-1199
+-->
+	<Error>
+    <code>-1100</code>
+		<detail message="Message body is empty. " suggestion="Please check message format. "/>
+	</Error>
+	<Error>
+	<code>-1101</code>
+		<detail message="Message body's type is not vallid. " suggestion="Please check message format. "/>
+	</Error>
+	<Error>
+	<code>-1102</code>
+		<detail message="Import XML file failed. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1103</code>
+		<detail message="Import CSV file failed. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1104</code>
+		<detail message="Unkown MOC type. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1105</code>
+		<detail message="Unkown operator type. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1106</code>
+		<detail message="MOC modification failed. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1107</code>
+		<detail message="BCC Node exceed max. " suggestion="Please check UBPNode table. "/>
+	</Error>
+	<Error>
+	<code>-1108</code>
+		<detail message="BDC node with the same IP address has already existed. " suggestion="Please check UBPNode configuration "/>
+	</Error>
+	<Error>
+	<code>-1109</code>
+		<detail message="Database error. " suggestion="Please check db status. "/>
+	</Error>
+	<Error>
+	<code>-1110</code>
+		<detail message="XML format error. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1111</code>
+		<detail message="Validate error: Not all ansi or utf8. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1112</code>
+		<detail message="Validate error: Size is invalid." suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1113</code>
+		<detail message="Validate error: Start with invalid value. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1114</code>
+		<detail message="Validate error: Not IP address. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1115</code>
+		<detail message="Validate error: Double percent signs exist. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1116</code>
+		<detail message="Validate error: Double spaces exist. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1117</code>
+		<detail message="Validate error: Not all number. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1118</code>
+		<detail message="Validate error: Some of ISDN exist. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+	<Error>
+	<code>-1119</code>
+		<detail message="Moc table not exists, Service mode probably not matched. " suggestion="Please check log ubp_cm.log for more details. "/>
+	</Error>
+  
+<!--
+//MONITOR:-1200 ~-1249
+-->
+  <Error>
+    <code>-1200</code>
+    <detail message="FmProxy module is not exist. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1201</code>
+    <detail message="Get disk state infos error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1202</code>
+    <detail message="Create message error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1203</code>
+    <detail message="Get memory state infos error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1204</code>
+    <detail message="Get cpu state infos error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1205</code>
+    <detail message="Get db state infos error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1206</code>
+    <detail message="Get service ubp_daem state timeout. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1207</code>
+    <detail message="Receive an unknow message type, expect ScaMessage. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1208</code>
+    <detail message="Daem service is not running. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1209</code>
+    <detail message="Execute script failed. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1210</code>
+    <detail message="Execute script only can be supported in unix system. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1211</code>
+    <detail message="GetDbStatus EASY_INSTALL is empty. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1212</code>
+    <detail message="Cannot find getdbspace.sh. " suggestion=""/>
+  </Error>
+  
+<!--
+//LICENSE:-1250 ~-1299
+-->
+
+  <Error>
+    <code>-1250</code>
+    <detail message="License file path error or not uploaded. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1251</code>
+    <detail message="Read content from license file error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1252</code>
+    <detail message="Decrypt license file error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1253</code>
+    <detail message="Parse license file error. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1254</code>
+    <detail message="ESN unfilled. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1255</code>
+    <detail message="License expired. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1256</code>
+    <detail message="License type or version unfilled. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1259</code>
+    <detail message="ESN error. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1260</code>
+    <detail message="License file digital signature verification fails." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1261</code>
+    <detail message="Remove custom encryption information is incorrect." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1262</code>
+    <detail message="Decrypting the encrypted information is incorrect." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1263</code>
+    <detail message="Generate summary error." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1264</code>
+    <detail message="System abnormalities, native ESN acquisition failure." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1265</code>
+    <detail message="License type is not matched." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1266</code>
+    <detail message="License version is not matched." suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1267</code>
+    <detail message="License is Revoked." suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1290</code>
+    <detail message="Read license file error! " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1291</code>
+    <detail message="license file not find!" suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1292</code>
+    <detail message="ESN does not match with current ESN!" suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1293</code>
+    <detail message="md5 digest error!" suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1294</code>
+    <detail message="lrvkcode encrypt/decrypt error!" suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1295</code>
+    <detail message="Rvklicense not find !" suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1296</code>
+    <detail message="license is already revoked!" suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1297</code>
+    <detail message="Get current ESN failed!" suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-1298</code>
+    <detail message="Current license is demo license!" suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-1299</code>
+    <detail message="RvkLicense timer running failure!" suggestion=""/>
+  </Error>  
+<!--
+//DAO:-1400 ~ -2999
+-->
+
+  <Error>
+    <code>-2737</code>
+    <detail message="Duplicate Record. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-2583</code>
+    <detail message="Cannot add or update a child row: a foreign key constraint fails. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-2582</code>
+    <detail message="Cannot delete or update a parent row: a foreign key constraint fails. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-2653</code>
+    <detail message="Table doesn't exist. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-2745</code>
+    <detail message="Unknown column in table. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-2348</code>
+    <detail message="Cann't delete or update a parent row: a foreign key constraint fails. " suggestion=""/>
+  </Error>
+
+  <Error>
+    <code>-2347</code>
+    <detail message="Cann't add or update a child row: a foreign key constraint fails. " suggestion=""/>
+  </Error>
+    
+<!--
+//QUERY:-3000 ~ -3099
+-->
+  
+  <Error>
+    <code>-3000</code>
+    <detail message="Update failed, moc has no primary key. " suggestion=""/>
+  </Error>
+  
+  <Error>
+    <code>-3001</code>
+    <detail message="Unknown field type. " suggestion=""/>
+  </Error>
+  <Error>
+    <code>-3002</code>
+    <detail message="Unknown field. " suggestion=""/>
+  </Error>
+ 
+<!--
+//keepalived :-10500 ~ -10599
+-->
+  <Error>
+    <code>-10500</code>
+    <detail message="Keepalived configuration is already in processing!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10501</code>
+    <detail message="Config deploy policy file error!" suggestion=""/>
+  </Error>  
+  <Error>
+    <code>-10502</code>
+    <detail message="Set host trust between local host and remote peer host error! Please validate host's password or network is ok. \
+    	Warning: If input wrong password for many times, user will be locked and can be only unlocked from remote peer host!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10503</code>
+    <detail message="Pretreatment to HA mode error!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10504</code>
+    <detail message="Config keepalived error!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10505</code>
+    <detail message="Config SSH error!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10506</code>
+    <detail message="Config database parameters error!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10507</code>
+    <detail message="Synchronizing database from remote peer host error!" suggestion=""/>
+  </Error>
+  <Error>
+    <code>-10508</code>
+    <detail message="Config database for slave error!" suggestion=""/>
+  </Error>
+  <Error>  	
+  <code>-10509</code>
+    <detail message="Config rsyncd service error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10510</code>
+    <detail message="Synchronizing files from remote peer host error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10511</code>
+    <detail message="Modify service mode error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10512</code>
+    <detail message="Excuted plugin scripts error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10513</code>
+    <detail message="Waiting keepalived to start error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10514</code>
+    <detail message="Start keepalived error!" suggestion=""/>
+  </Error>  
+  
+  <Error>
+  <code>-10520</code>
+    <detail message="eAPP version is not matched between local and remote peer host!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10521</code>
+    <detail message="The machine or the end data is wrong!" suggestion=""/>
+  </Error>
+    
+  <Error>
+  <code>-10550</code>
+    <detail message="Pretreatment to standalone error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10551</code>
+    <detail message="Excuted plugin scripts error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10552</code>
+    <detail message="Stopping keepalived error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10553</code>
+    <detail message="Reset database to standalone error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10554</code>
+    <detail message="Reset rsyncd service error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10555</code>
+    <detail message="Reset SSH service error!" suggestion=""/>
+  </Error>
+  <Error>    
+  <code>-10556</code>
+    <detail message="Reset host trusts error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10557</code>
+    <detail message="Reset deploy policy to standalone error!" suggestion=""/>
+  </Error>
+  <Error>
+  <code>-10558</code>
+    <detail message="Restaring UBP service error!" suggestion=""/>
+  </Error> 
+</Errors>
+

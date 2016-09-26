@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="ServerConfig" MOC_NAME_C="服务器配置" Module="" ACCESS_CONTROL="modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="id" desc="服务器标识" type="string" range="[1,20]" constrain="PRI" />
+		<Parameter name="ServerName" desc="服务器名字" type="string" range="[1,255]" constrain="NOT NULL" mode="update" />
+		<Parameter name="ServerPassword" desc="服务器密码" type="string" range="[1,255]" constrain="NOT NULL" c_type="password" mode="update" />
+	</MOC>
+</Moc-Config>

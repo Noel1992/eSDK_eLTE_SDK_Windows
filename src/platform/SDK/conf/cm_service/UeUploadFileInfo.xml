@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="UeUploadFileInfo" MOC_NAME_C="终端上传文件信息表" Module="MRS" ACCESS_CONTROL="add,delete,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="fileid" desc="终端上传文件id表示" type="string" range="[1,25]" constrain="NOT NULL" />
+		<Parameter name="filename" desc="终端上传文件名称" type="string" range="[1,255]" constrain="PRI" />
+		<Parameter name="vpnid" desc="录像人Vpnid" type="int" range="[0,65535]" constrain="NOT NULL" default="0" />
+		<Parameter name="recoder_ue_id" desc="上传录像文件录像人号码" type="string" range="[1,16]" constrain="NOT NULL" not_begin_with="0" all_num="" />
+		<Parameter name="file_type" desc="上传文件类型" type="enum" range="0,1,2,3" vlist="0:录像文件,1:语音文件,2:文本文件,3:未知" default="0" />
+		<Parameter name="file_status" desc="上传文件状态" type="enum" range="0,1,2" vlist="0:未创建,1:正在接收数据,2:接收完成" default="0" />
+		<Parameter name="node_id" desc="上传文件保存节点ID" type="int" range="[0,20]" constrain="NOT NULL" />
+		<Parameter name="file_path" desc="上传文件保存路径" type="string" range="[1,255]" constrain="NOT NULL" />
+		<Parameter name="media_start" desc="上传录像文件录像起始日期" type="datetime" range="" />
+		<Parameter name="media_end" desc="上传录像文件录像截止日期" type="datetime" range="" />
+		<Parameter name="file_description" desc="上传录像文件描述" type="string" range="[1,255]" />
+	</MOC>
+</Moc-Config>

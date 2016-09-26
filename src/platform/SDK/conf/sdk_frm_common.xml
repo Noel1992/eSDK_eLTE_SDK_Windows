@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="sdk_frm_common" code_type="cplus" user="ubp" team="SDK" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="itf_manager_listen_port" value="8200"/>
+        <Param name="itf_manager_enable_heartbeat" value="1"/>
+        <Param name="cert_path" value="/opt/UBP/conf/cert/eAPP610.cer"/>
+        <Param name="key_path" value="/opt/UBP/conf/cert/eAPP610_Ky.pem"/>
+        <Param name="ubp_sdk_agent_01" value="22121"/>
+        <Param name="ubp_sdk_agent_02" value="22122"/>
+        <Param name="ubp_sdk_agent_03" value="22123"/>
+        <Param name="ubp_sdk_agent_04" value="22124"/>
+        <Param name="ubp_sdk_agent_05" value="22125"/>
+        <Param name="ubp_sdk_agent_06" value="22126"/>
+        <Param name="ubp_sdk_agent_07" value="22127"/>
+        <Param name="ubp_sdk_agent_08" value="22128"/>
+        <Param name="ubp_sdk_agent_09" value="22129"/>
+        <Param name="ubp_sdk_agent_10" value="22130"/>
+        <Param name="curwkey" value="3CD512317830B5677AAF7C7E3D3BC17D73F71D0F133702AAE7F68A5B13D37D954D75E089E505E5A8BA00054D0F48CE16B7FF70B895C92A673FD031C25C10796E"/>
+      </SvcParams>
+      <LoadModules>
+        <Module lib="ubp_sca" entry="CreateCfgMgr" />
+        <Module lib="ubp_svcmgr" />
+        <Module lib="ubp_error" />
+        <Module lib="ubp_threadpool" />
+        <Module lib="ubp_timer" />
+        <Module lib="ubp_encryption" />
+        <Module lib="ubp_dao" />
+        <Module lib="ubp_mq" />
+        <Module lib="ubp_fmproxy" />
+        <Module lib="ubp_lmproxy" />
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

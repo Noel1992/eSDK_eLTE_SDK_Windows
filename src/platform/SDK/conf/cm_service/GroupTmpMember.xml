@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="GroupTmpMember" MOC_NAME_C=" 键值配置表" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="custom:ubp_grouptmpmember:CreateModule:before" Group="" Relation="">
+		<Parameter name="ID" desc="索引" type="int" range="[1,2147483647]" constrain="PRI" mode="display" />
+		<Parameter name="GroupID" desc="群组号" type="string" range="[1,8]" constrain="NOT NULL" not_begin_with="0" all_num="" mode="display" FK="FK:DRUR:Groups:GroupNumber" />
+		<Parameter name="TmpMemberID" desc="临时外网成员号码" type="string" range="[1,32]" constrain="NOT NULL" all_num="" mode="display" />
+	</MOC>
+</Moc-Config>

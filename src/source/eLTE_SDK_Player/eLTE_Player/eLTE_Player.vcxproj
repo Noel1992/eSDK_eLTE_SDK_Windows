@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{07C17E79-D303-4D86-AA94-BF20FA2B15DF}</ProjectGuid>
+    <RootNamespace>eLTE_Player</RootNamespace>
+    <Keyword>MFCActiveXProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.ocx</TargetExt>
+    <OutDir>..\output\debug\</OutDir>
+    <IntDir>..\temp\debug\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetExt>.ocx</TargetExt>
+    <OutDir>..\output\release</OutDir>
+    <IntDir>..\temp\release</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\platform\eDC610_TD V100R003C00SPC300B048\include\sdk\include;..\..\..\platform\eDC610_TD V100R003C00SPC300B048\include;..\..\..\platform\IVS_Player\include;..\..\..\self_dev\IVS_NetSource\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\platform\eSDKClientLogAPI\include;..\..\eLTE_SDK\eLTE_SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>.\eLTE_Player.def</ModuleDefinitionFile>
+      <OutputFile>$(OutDir)$(ProjectName).ocx</OutputFile>
+      <RegisterOutput>false</RegisterOutput>
+      <AdditionalLibraryDirectories>..\..\..\platform\IVS_Player\lib;..\..\..\self_dev\IVS_NetSource\lib;..\..\..\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IVS_NetSource.lib;IVS_Player.lib;tinyxml.lib;eSDKLogAPI.lib;eLTE_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
+      <PerUserRedirection>true</PerUserRedirection>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>$(IntDir)eLTE_Player.tlb</TypeLibraryName>
+      <HeaderFileName>$(ProjectName)idl.h</HeaderFileName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\..\platform\IVS_Player\include;..\..\..\self_dev\IVS_NetSource\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\platform\eSDKClientLogAPI\include;..\..\eLTE_SDK\eLTE_SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\eLTE_Player.def</ModuleDefinitionFile>
+      <OutputFile>$(OutDir)$(ProjectName).ocx</OutputFile>
+      <RegisterOutput>true</RegisterOutput>
+      <AdditionalLibraryDirectories>..\..\..\platform\IVS_Player\lib;..\..\..\self_dev\IVS_NetSource\lib;..\..\..\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\release;..\..\..\source\eLTE_SDK\output\release\eLTE_SDK;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>IVS_NetSource.lib;IVS_Player.lib;tinyxml.lib;eSDKLogAPI.lib;eLTE_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>$(IntDir)eLTE_Player.tlb</TypeLibraryName>
+      <HeaderFileName>$(ProjectName)idl.h</HeaderFileName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="eLTE_Player.def" />
+    <None Include="eLTE_Player.ico" />
+    <None Include="eLTE_PlayerCtrl.bmp" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AudioPlayer.cpp" />
+    <ClCompile Include="ConfigMgr.cpp" />
+    <ClCompile Include="eLTE_Log.cpp" />
+    <ClCompile Include="eLTE_Player.cpp" />
+    <ClCompile Include="eLTE_PlayerCtrl.cpp" />
+    <ClCompile Include="eLTE_PlayerPropPage.cpp" />
+    <ClCompile Include="eLTE_Tool.cpp" />
+    <ClCompile Include="eLTE_Xml.cpp" />
+    <ClCompile Include="ImageButton.cpp" />
+    <ClCompile Include="Language.cpp" />
+    <ClCompile Include="MediaPlayer.cpp" />
+    <ClCompile Include="OpencoreAmrnb.cpp" />
+    <ClCompile Include="OperationMgr.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="VideoPane.cpp" />
+    <ClCompile Include="VideoStatic.cpp" />
+    <ClCompile Include="XMLProcess.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AudioPlayer.h" />
+    <ClInclude Include="ConfigMgr.h" />
+    <ClInclude Include="DataType.h" />
+    <ClInclude Include="eLTE_Log.h" />
+    <ClInclude Include="eLTE_Player.h" />
+    <ClInclude Include="eLTE_PlayerCtrl.h" />
+    <ClInclude Include="eLTE_PlayerPropPage.h" />
+    <ClInclude Include="eLTE_Tool.h" />
+    <ClInclude Include="eLTE_Xml.h" />
+    <ClInclude Include="ImageButton.h" />
+    <ClInclude Include="Language.h" />
+    <ClInclude Include="MediaPlayer.h" />
+    <ClInclude Include="OpencoreAmrnb.h" />
+    <ClInclude Include="OperationMgr.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="VideoPane.h" />
+    <ClInclude Include="VideoStatic.h" />
+    <ClInclude Include="XMLProcess.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="eLTE_Player.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="eLTE_Player.idl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="eLTE_Player.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

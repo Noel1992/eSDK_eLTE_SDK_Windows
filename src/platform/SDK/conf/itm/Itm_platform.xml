@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Itm:TaskInfos xmlns:Itm="http://www.td-tech.com/ubp/platform/Itm/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://www.td-tech.com/ubp/platform/Itm/xml Itm.xsd">
+  <TaskInfo TaskName="PLT_TrunkLogs" StartTime="2014-12-25T23:40:00" Cycle="Day" Type="DB">
+    <Tables>
+      <Table Tablename="TBL_UbpSyncSsnAlarm" Col="raiseTime" Intervaldays="90" SysLogInfo="trunk alarm logs"/>
+      <Table Tablename="TBL_UserLog" Col="OpTime" Intervaldays="90" SysLogInfo="trunk user logs"/>
+      <Table Tablename="TBL_SysLog" Col="OpTime" Intervaldays="90" SysLogInfo="trunk system logs"/>
+      <Table Tablename="TBL_FeatureLog" Col="OpTime" Intervaldays="90" SysLogInfo="trunk feature logs"/>
+      <Table Tablename="TBL_SecurityLog" Col="OpTime" Intervaldays="90" SysLogInfo="trunk security logs"/>
+    </Tables>
+  </TaskInfo>
+</Itm:TaskInfos>

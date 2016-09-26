@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Williams (501) -->
+<!--xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:cm="http://www.td-tech.com/ubp/platform/cm/xml"
+            targetNamespace="http://www.td-tech.com/ubp/platform/cm/xml">
+<xsd:complexType name="initialization">
+    <xsd:sequence>
+        <xsd:element name="superUser" type="xsd:string"/>
+        <xsd:element name="superPwd" type="xsd:string" fixed="999999"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="PBX">
+    <xsd:sequence>
+        <xsd:element name="initialization" type="cm:initialization" maxOccurs="unbounded"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="PBXs">
+    <xsd:sequence>
+        <xsd:element name="PBX" type="cm:PBX" maxOccurs="unbounded"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="privilege">
+    <xsd:sequence>
+        <xsd:element name="index" type="xsd:short" default="1"/>
+        <xsd:element name="name" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="privileges">
+    <xsd:sequence>
+        <xsd:element name="privilege" type="cm:privilege" maxOccurs="unbounded"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="classxx">
+    <xsd:sequence>
+        <xsd:element name="name" type="xsd:string"/>
+        <xsd:element name="level" type ="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="classxxs">
+    <xsd:sequence>
+        <xsd:element name="classxx" type="cm:classxx" maxOccurs="unbounded"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="PTTUser">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="UserName" type="xsd:string"/>
+        <xsd:element name="UserPriority" type="xsd:short" default="15"/>
+        <xsd:element name="SipPass" type="xsd:string"/>
+        <xsd:element name="Capability" type="xsd:short" default="3"/>
+        <xsd:element name="VPNID" type="xsd:short" default="0"/>
+        <xsd:element name="VPNOut" type="xsd:short" default="0"/>
+        <xsd:element name="VPNIn" type="xsd:short" default="1"/>
+        <xsd:element name="DepartmentId" type="xsd:int"/>
+        <xsd:element name="EmergencyType" type="xsd:short"/>
+        <xsd:element name="EmergencyNum" type="xsd:string"/>
+        <xsd:element name="AudioLimits" type="xsd:short"/>
+        <xsd:element name="VideoLimits" type="xsd:short"/>
+        <xsd:element name="SDLimits" type="xsd:short"/>
+        <xsd:element name="LockStatus" type="xsd:short"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="PTTUsers">
+    <xsd:sequence>
+        <xsd:element name="PTTUser" type="cm:PTTUser" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="FixedUser">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="UserName" type="xsd:string"/>
+        <xsd:element name="UserPriority" type="xsd:short" default="15"/>
+        <xsd:element name="SipPass" type="xsd:string"/>
+        <xsd:element name="Category" type="xsd:short" default="0"/>
+        <xsd:element name="Location" type="xsd:short" default="0"/>
+        <xsd:element name="VPNID" type="xsd:short" default="0"/>
+        <xsd:element name="VPNOut" type="xsd:short" default="0"/>
+        <xsd:element name="VPNIn" type="xsd:short" default="1"/>
+        <xsd:element name="Capability" type="xsd:short" default="10"/>
+        <xsd:element name="DepartmentId" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FixedUsers">
+    <xsd:sequence>
+        <xsd:element name="FixedUser" type="cm:FixedUser" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="DCAttribute">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="Privilege" type="xsd:short"/>
+        <xsd:element name="DispatcherRole" type="xsd:short" default="1"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="DCAttributes">
+    <xsd:sequence>
+        <xsd:element name="DCAttribute" type="cm:DCAttribute" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Groups">
+    <xsd:sequence>
+        <xsd:element name="GroupNumber" type="xsd:string"/>
+        <xsd:element name="GroupName" type="xsd:string"/>
+        <xsd:element name="GroupPriority" type="xsd:short" default="15"/>
+        <xsd:element name="GroupCategory" type="xsd:short" default="1"/>
+        <xsd:element name="MaxPeriod" type="xsd:int" default="60"/>
+        <xsd:element name="GroupState" type="xsd:short" default="1"/>
+        <xsd:element name="VPNID" type="xsd:short" default="0"/>
+        <xsd:element name="DCID" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Groupss">
+    <xsd:sequence>
+        <xsd:element name="Groups" type="cm:Groups" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GroupPTTUser">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="GroupNumber" type="xsd:string"/>
+        <xsd:element name="GroupUserPriority" type="xsd:short" default="15"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GroupPTTUsers">
+    <xsd:sequence>
+        <xsd:element name="GroupPTTUser" type="cm:GroupPTTUser" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GroupFixedUser">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="GroupNumber" type="xsd:string"/>
+        <xsd:element name="GroupUserPriority" type="xsd:short" default="15"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GroupFixedUsers">
+    <xsd:sequence>
+        <xsd:element name="GroupFixedUser" type="cm:GroupFixedUser" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="VPN">
+    <xsd:sequence>
+        <xsd:element name="VPNID" type="xsd:short"/>
+        <xsd:element name="VPNName" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="VPNs">
+    <xsd:sequence>
+        <xsd:element name="VPN" type="cm:VPN" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="VPNRange">
+    <xsd:sequence>
+        <xsd:element name="VPNID" type="xsd:short"/>
+        <xsd:element name="FromISDN" type="xsd:string"/>
+        <xsd:element name="ToISDN" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="VPNRanges">
+    <xsd:sequence>
+        <xsd:element name="VPNRange" type="cm:VPNRange" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="RangeList">
+    <xsd:sequence>
+        <xsd:element name="RangeID" type="xsd:int"/>
+        <xsd:element name="RangeAlias" type="xsd:string"/>
+        <xsd:element name="RangeCategory" type="xsd:short"/>
+        <xsd:element name="FromISDN" type="xsd:string"/>
+        <xsd:element name="ToISDN" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="RangeLists">
+    <xsd:sequence>
+        <xsd:element name="RangeList" type="cm:RangeList" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="DCRanges">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="RangeID" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="DCRangess">
+    <xsd:sequence>
+        <xsd:element name="DCRanges" type="cm:DCRanges" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ExternalGroup">
+    <xsd:sequence>
+        <xsd:element name="GroupNumber" type="xsd:string"/>
+        <xsd:element name="GroupName" type="xsd:string"/>
+        <xsd:element name="VPNID" type="xsd:short" default="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ExternalGroups">
+    <xsd:sequence>
+        <xsd:element name="ExternalGroup" type="cm:ExternalGroup" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="OutNumberRule">
+    <xsd:sequence>
+        <xsd:element name="PrefixNum" type="xsd:string"/>
+        <xsd:element name="LengthLimit" type="xsd:short" default="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="OutNumberRules">
+    <xsd:sequence>
+        <xsd:element name="OutNumberRule" type="cm:OutNumberRule" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Department">
+    <xsd:sequence>
+        <xsd:element name="DepartmentId" type="xsd:int"/>
+        <xsd:element name="DepartmentName" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Departments">
+    <xsd:sequence>
+        <xsd:element name="Department" type="cm:Department" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GroupArea">
+    <xsd:sequence>
+        <xsd:element name="GroupNumber" type="xsd:string"/>
+        <xsd:element name="GroupAreaid" type="xsd:string"/>
+        <xsd:element name="GroupAreaName" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GroupAreas">
+    <xsd:sequence>
+        <xsd:element name="GroupArea" type="cm:GroupArea" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="RegionConfig">
+    <xsd:sequence>
+        <xsd:element name="ID" type="xsd:int"/>
+        <xsd:element name="ZoneID" type="xsd:int"/>
+        <xsd:element name="UdcPassword" type="xsd:string"/>
+        <xsd:element name="UdcIp" type="xsd:string"/>
+        <xsd:element name="UdcPort" type="xsd:int"/>
+        <xsd:element name="BccSIPAuthSwitch" type="xsd:short"/>
+        <xsd:element name="Password" type="xsd:string"/>
+        <xsd:element name="SIPSecuritySwitch" type="xsd:short"/>
+        <xsd:element name="RTPSecuritySwitch" type="xsd:short"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="RegionConfigs">
+    <xsd:sequence>
+        <xsd:element name="RegionConfig" type="cm:RegionConfig" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="Zone">
+    <xsd:sequence>
+        <xsd:element name="ZoneID" type="xsd:int"/>
+        <xsd:element name="ZoneType" type="xsd:short"/>
+        <xsd:element name="ZoneVersion" type="xsd:string"/>
+        <xsd:element name="IsFatherExist" type="xsd:short" default="0"/>
+        <xsd:element name="FatherZoneID" type="xsd:int"/>
+        <xsd:element name="FleetID" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="Zones">
+    <xsd:sequence>
+        <xsd:element name="Zone" type="cm:Zone" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ZoneRelation">
+    <xsd:sequence>
+        <xsd:element name="ZoneID" type="xsd:int"/>
+        <xsd:element name="NeighborZoneID" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ZoneRelations">
+    <xsd:sequence>
+        <xsd:element name="ZoneRelation" type="cm:ZoneRelation" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ZoneRange">
+    <xsd:sequence>
+        <xsd:element name="ZoneID" type="xsd:int"/>
+        <xsd:element name="StartIsdn" type="xsd:string"/>
+        <xsd:element name="EndIsdn" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ZoneRanges">
+    <xsd:sequence>
+        <xsd:element name="ZoneRange" type="cm:ZoneRange" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ZoneEntry">
+    <xsd:sequence>
+        <xsd:element name="ZoneID" type="xsd:int"/>
+        <xsd:element name="NodeType" type="xsd:short"/>
+        <xsd:element name="IPAddr" type="xsd:string"/>
+        <xsd:element name="Port" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ZoneEntrys">
+    <xsd:sequence>
+        <xsd:element name="ZoneEntry" type="cm:ZoneEntry" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="FleetRange">
+    <xsd:sequence>
+        <xsd:element name="FleetID" type="xsd:int"/>
+        <xsd:element name="StartIsdn" type="xsd:string"/>
+        <xsd:element name="EndIsdn" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FleetRanges">
+    <xsd:sequence>
+        <xsd:element name="FleetRange" type="cm:FleetRange" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="FleetConfig">
+    <xsd:sequence>
+        <xsd:element name="FleetID" type="xsd:int"/>
+        <xsd:element name="SharedPstnGwZoneID" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="FleetConfigs">
+    <xsd:sequence>
+        <xsd:element name="FleetConfig" type="cm:FleetConfig" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="UserLocation">
+    <xsd:sequence>
+        <xsd:element name="UserIsdn" type="xsd:string"/>
+        <xsd:element name="ZoneID" type="xsd:int"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="UserLocations">
+    <xsd:sequence>
+        <xsd:element name="UserLocation" type="cm:UserLocation" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="ExternalISDN">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="Name" type="xsd:string"/>
+        <xsd:element name="VPNID" type="xsd:short"/>
+        <xsd:element name="ISDNType" type="xsd:short"/>
+        <xsd:element name="GroupCategory" type="xsd:short"/>
+        <xsd:element name="UserCategory" type="xsd:short"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="ExternalISDNs">
+    <xsd:sequence>
+        <xsd:element name="ExternalISDN" type="cm:ExternalISDN" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="CallForward">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="TargetISDN" type="xsd:string"/>
+        <xsd:element name="ActiveState" type="xsd:short"/>
+        <xsd:element name="ForwardType" type="xsd:short" default="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="CallForwards">
+    <xsd:sequence>
+        <xsd:element name="CallForward" type="cm:CallForward" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="GroupTmpMember">
+    <xsd:sequence>
+        <xsd:element name="ID" type="xsd:int"/>
+        <xsd:element name="GroupID" type="xsd:string"/>
+        <xsd:element name="TmpMemberID" type="xsd:string"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="GroupTmpMembers">
+    <xsd:sequence>
+        <xsd:element name="GroupTmpMember" type="cm:GroupTmpMember" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="VideoLossRetransmission">
+    <xsd:sequence>
+        <xsd:element name="ID" type="xsd:int"/>
+        <xsd:element name="Status" type="xsd:short" default="0"/>
+        <xsd:element name="Rtxtime" type="xsd:short" default="1000"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="VideoLossRetransmissions">
+    <xsd:sequence>
+        <xsd:element name="VideoLossRetransmission" type="cm:VideoLossRetransmission" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="IPCATTRIBUTE">
+    <xsd:sequence>
+        <xsd:element name="ISDN" type="xsd:string"/>
+        <xsd:element name="IPCFIGURE" type="xsd:short" default="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+<xsd:complexType name="IPCATTRIBUTEs">
+    <xsd:sequence>
+        <xsd:element name="IPCATTRIBUTE" type="cm:IPCATTRIBUTE" maxOccurs="unbounded" minOccurs="0"/>
+    </xsd:sequence>
+</xsd:complexType>
+
+    <xsd:element name="ugc_data">
+        <xsd:annotation>
+            <xsd:documentation>Comment describing your root element</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="PBXs" type="cm:PBXs"/>
+                <xsd:element name="privileges" type="cm:privileges"/>
+                <xsd:element name="classxxs" type="cm:classxxs"/>
+                <xsd:element name="PTTUsers" type="cm:PTTUsers"/>
+                <xsd:element name="FixedUsers" type="cm:FixedUsers"/>
+                <xsd:element name="DCAttributes" type="cm:DCAttributes"/>
+                <xsd:element name="Groupss" type="cm:Groupss"/>
+                <xsd:element name="GroupPTTUsers" type="cm:GroupPTTUsers"/>
+                <xsd:element name="GroupFixedUsers" type="cm:GroupFixedUsers"/>
+                <xsd:element name="VPNs" type="cm:VPNs"/>
+                <xsd:element name="VPNRanges" type="cm:VPNRanges"/>
+                <xsd:element name="RangeLists" type="cm:RangeLists"/>
+                <xsd:element name="DCRangess" type="cm:DCRangess"/>
+                <xsd:element name="ExternalGroups" type="cm:ExternalGroups"/>
+                <xsd:element name="OutNumberRules" type="cm:OutNumberRules"/>
+                <xsd:element name="Departments" type="cm:Departments"/>
+                <xsd:element name="GroupAreas" type="cm:GroupAreas"/>
+                <xsd:element name="RegionConfigs" type="cm:RegionConfigs"/>
+                <xsd:element name="Zones" type="cm:Zones"/>
+                <xsd:element name="ZoneRelations" type="cm:ZoneRelations"/>
+                <xsd:element name="ZoneRanges" type="cm:ZoneRanges"/>
+                <xsd:element name="ZoneEntrys" type="cm:ZoneEntrys"/>
+                <xsd:element name="FleetRanges" type="cm:FleetRanges"/>
+                <xsd:element name="FleetConfigs" type="cm:FleetConfigs"/>
+                <xsd:element name="UserLocations" type="cm:UserLocations"/>
+                <xsd:element name="ExternalISDNs" type="cm:ExternalISDNs"/>
+                <xsd:element name="CallForwards" type="cm:CallForwards"/>
+                <xsd:element name="GroupTmpMembers" type="cm:GroupTmpMembers"/>
+                <xsd:element name="VideoLossRetransmissions" type="cm:VideoLossRetransmissions"/>
+                <xsd:element name="IPCATTRIBUTEs" type="cm:IPCATTRIBUTEs"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

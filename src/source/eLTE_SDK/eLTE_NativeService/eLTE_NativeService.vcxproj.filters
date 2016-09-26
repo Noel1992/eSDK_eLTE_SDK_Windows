@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{9b3a68d3-326d-41cf-98fd-115ea770eaaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service">
+      <UniqueIdentifier>{771e59a6-ceb4-417c-9e23-f4fea31a758a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LogicQueue">
+      <UniqueIdentifier>{66f7766e-1faa-4607-84e6-d9d05272f252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSLSocket">
+      <UniqueIdentifier>{3b090e38-7e9b-4b7a-b215-8c9878a6ab6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Product">
+      <UniqueIdentifier>{fc2b921a-1be9-4f67-9002-b906ec1e95c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Xml">
+      <UniqueIdentifier>{d8ccee31-a287-4f87-8f78-5a488ecfdf24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{12d0994d-bdbc-46e4-a0f7-a843b1b1ad91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\crypto">
+      <UniqueIdentifier>{c7d59756-379e-4a05-a8a6-ccd2e2ac33fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SessionMgr">
+      <UniqueIdentifier>{9b9456e9-bb54-4307-95a8-00826710b9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SharedMemory">
+      <UniqueIdentifier>{650c1a9f-3d28-450d-b851-aaaba9ac2f16}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OpenSSL_Mgr.cpp">
+      <Filter>SSLSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="SSL_Socket.cpp">
+      <Filter>SSLSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="eLTE_NativeService.cpp">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic_Queue.cpp">
+      <Filter>LogicQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\eLTE_Log.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\eLTE_Tool.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AppContextMgr.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayMgr.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+    <ClCompile Include="OperationMgr.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+    <ClCompile Include="ProvisionMgr.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\eLTE_Xml.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="XMLProcess.cpp">
+      <Filter>Xml</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigMgr.cpp">
+      <Filter>Config</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_aes.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_api.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_base64.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_sha.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionMgr.cpp">
+      <Filter>SessionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaMgr.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoRender.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemory.cpp">
+      <Filter>SharedMemory</Filter>
+    </ClCompile>
+    <ClCompile Include="GISReportMgr.cpp">
+      <Filter>Product</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OpenSSL_Mgr.h">
+      <Filter>SSLSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="SSL_Socket.h">
+      <Filter>SSLSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="eLTE_NativeService.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic_Queue.h">
+      <Filter>LogicQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Error.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Log.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Message.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Tool.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="AppContextMgr.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayMgr.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationMgr.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+    <ClInclude Include="ProvisionMgr.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Xml.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="XMLProcess.h">
+      <Filter>Xml</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigMgr.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_aes.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_api.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_base64.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_sha.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionMgr.h">
+      <Filter>SessionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaMgr.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoRender.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\mutex_locker.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemory.h">
+      <Filter>SharedMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="GISReportMgr.h">
+      <Filter>Product</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

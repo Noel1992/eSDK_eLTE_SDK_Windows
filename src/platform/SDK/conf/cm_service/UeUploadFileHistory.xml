@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="UeUploadFileHistory" MOC_NAME_C="终端上传文件修订表" Module="MRS" ACCESS_CONTROL="add,delete,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="seqid" desc="上传文件修改历史" type="int" range="[1,512]" constrain="PRI" />
+		<Parameter name="filename" desc="上传文件名称" type="string" range="[1,255]" not_begin_with="0" all_num="" FK="FK:DCUC:UeUploadFileInfo:filename" />
+		<Parameter name="modifier" desc="文件修改人号码" type="string" range="[1,16]" FK="FK:DCUC:PTTUser:ISDN" />
+		<Parameter name="task_id" desc="文件修改对应任务Id" type="string" range="[1,255]" FK="FK:DCUC:UeUploadFileTask:task_id" />
+		<Parameter name="node_id" desc="文件保存节点ID" type="int" range="[0,20]" constrain="NOT NULL" />
+		<Parameter name="op_result" desc="文件上传操作结果" type="enum" range="0,1" vlist="0:文件上传中,1:文件上传完成" />
+		<Parameter name="timestamp" desc="文件修改对应时间戳" type="datetime" range="" />
+	</MOC>
+</Moc-Config>

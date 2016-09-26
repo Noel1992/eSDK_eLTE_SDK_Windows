@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="VideoLossRetransmission" MOC_NAME_C="视频重传配置" Module="OMC,UDC,MDC,MRS" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ID" desc="ID" type="int" range="[0,2147483647]" constrain="PRI" mode="display" />
+		<Parameter name="Status" desc="使能状态" type="enum" range="0,1" vlist="0:关闭,1:打开" constrain="NOT NULL" mode="display" default="0" />
+		<Parameter name="Rtxtime" desc="重传最大缓存时间(毫秒)" type="int" range="[1,3000]" constrain="NOT NULL" mode="display" default="1000" />
+	</MOC>
+</Moc-Config>

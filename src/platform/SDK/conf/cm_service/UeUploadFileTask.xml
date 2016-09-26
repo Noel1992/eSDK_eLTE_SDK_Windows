@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="UeUploadFileTask" MOC_NAME_C="终端上传文件任务表" Module="MRS" ACCESS_CONTROL="add,delete,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="task_id" desc="终端上传文件任务表示，全局唯一" type="string" range="[1,255]" constrain="PRI" />
+		<Parameter name="upload_ue_id" desc="上传文件终端号码" type="string" range="[1,16]" not_begin_with="0" all_num="" FK="FK:DCUC:PTTUser:ISDN" />
+		<Parameter name="upload_time" desc="终端上传文件时间" type="datetime" range="" />
+		<Parameter name="file_num" desc="终端上传文件个数" type="int" range="[0,10]" default="1" />
+		<Parameter name="result" desc="终端上传文件结果" type="enum" range="0,1,2" vlist="0:全部成功,1:部分成功,2:全部失败" default="0" />
+	</MOC>
+</Moc-Config>

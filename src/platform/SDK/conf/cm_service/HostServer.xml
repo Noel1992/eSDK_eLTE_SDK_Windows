@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="HostServer" MOC_NAME_C="服务器列表" Module="PLT" ACCESS_CONTROL="add,delete,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="HostIp" desc="IPV4地址" type="string" range="[1,255]" constrain="PRI" c_type="ipv4" mode="display" />
+		<Parameter name="PassWord" desc="ubp用户密码" type="string" range="[1,255]" constrain="NOT NULL" c_type="password" mode="update" />
+		<Parameter name="Status" desc="配置文件同步状态" type="enum" range="0,1" vlist="0:Ok,1:Failed" mode="update" />
+	</MOC>
+</Moc-Config>

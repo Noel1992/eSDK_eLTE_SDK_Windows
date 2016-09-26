@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="UBPNode" MOC_NAME_C="设备节点" Module="BCC" ACCESS_CONTROL="add,delete,modify,read" DEST_SVC="custom:ubp_ubpnode:CreateModule:before" Group="" Relation="">
+		<Parameter name="NodeID" desc="设备节点ID" type="int" range="[0,99999999]" constrain="PRI" mode="display" />
+		<Parameter name="NodeName" desc="节点名" type="string" range="[0,31]" mode="update" />
+		<Parameter name="NodeType" desc="节点类型" type="enum" range="1,2,3,4,5,6,7,8" vlist="1:BDC,2:VGW,3:MRS,4:ECN,5:AFEE,6:OTHER,7:SDS,8:ENCRYPTOR" constrain="NOT NULL" control="1:OuterAddrIPV4|RtpPort|OuterRtpPort,2:,3:SipPort|ISDN|SipPass|OuterAddrIPV4|OuterPort1|OuterPort2,4:SipPort|ISDN|SipPass,5:OuterPort2,6:,7:OuterAddrIPV4|OuterPort1|OuterPort2,8:OuterPort1" mode="display" />
+		<Parameter name="AddrIPV4" desc="IPV4地址" type="string" range="[7,15]" constrain="NOT NULL" c_type="ipv4" mode="update" />
+		<Parameter name="SipPort" desc="SIP端口号" type="int" range="[1024,65535]" constrain="NOT NULL" mode="update" default="5060" />
+		<Parameter name="ISDN" desc="用户号码" type="int" range="[99900001,99909999]" constrain="NOT NULL" not_begin_with="0" all_num="" mode="update" />
+		<Parameter name="SipPass" desc="SIP密码" type="string" range="[8,128]" constrain="NOT NULL" c_type="password" mode="update" />
+		<Parameter name="OuterAddrIPV4" desc="外网IPV4地址" type="string" range="[7,15]" eq="1NodeType,BDCBDC2NodeType" c_type="ipv4" mode="update" />
+		<Parameter name="OuterPort1" desc="外网端口号1" type="int" range="[1024,65535]" eq="NodeType,MRSMRSHttpUENodeType" mode="update" />
+		<Parameter name="OuterPort2" desc="外网端口号2" type="int" range="[1024,65535]" eq="NodeType,SDSSDSHTTPSNodeType" mode="update" />
+		<Parameter name="OuterRtpPort" desc="外网RTP起始端口号" type="int" range="[1024,65535]" eq="NodeType,BDCBDCRTP" mode="update" />
+	</MOC>
+</Moc-Config>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="Zone" MOC_NAME_C="Zone配置" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ZoneID" desc="Zone节点ID" type="int" range="[0,2147483647]" constrain="PRI" mode="display" />
+		<Parameter name="ZoneType" desc="Zone的类型" type="enum" range="0,1,2" vlist="0:固网zone,1:车,2:rapid" constrain="NOT NULL" mode="display" />
+		<Parameter name="ZoneVersion" desc="Zone的版本" type="string" range="[1,18]" constrain="NOT NULL" mode="display" />
+		<Parameter name="IsFatherExist" desc="是否存在父节点" type="enum" range="0,1" vlist="0:不存在,1:存在" constrain="NOT NULL" mode="display" default="0" />
+		<Parameter name="FatherZoneID" desc="上级zone的ID" type="int" range="[0,2147483647]" mode="display" />
+		<Parameter name="FleetID" desc="所属的共享用户区的ID" type="int" range="[0,2147483647]" mode="display" />
+	</MOC>
+</Moc-Config>

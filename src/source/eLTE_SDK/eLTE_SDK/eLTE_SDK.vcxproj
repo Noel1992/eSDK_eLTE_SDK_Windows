@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{406BDA55-F198-4F90-B276-64BA3470BA4F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>eLTE_NativeAPI</RootNamespace>
+    <ProjectName>eLTE_SDK</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\output\debug\eLTE_SDK\</OutDir>
+    <IntDir>..\temp\debug\eLTE_SDK\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\output\release\eLTE_SDK\</OutDir>
+    <IntDir>..\temp\release\eLTE_SDK\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\open_src\openssl-1.0.1t\lib\windows;..\..\..\open_src\tinyxml\lib;..\..\..\open_src\sdl2-2.0.3\release\x86\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>eSDKLogAPI.lib;libeay32.lib;ssleay32.lib;tinyxml.lib;SDL2.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;LIBCMT.lib</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_SDK.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_Types.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.lib ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.pdb ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\pdb\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\debug\eSDKLogAPI.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\debug\eSDKClientLogCfg.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\open_src\sdl2-2.0.3\release\x86\dll\SDL2.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ELTE_SDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\release;..\..\..\open_src\openssl-1.0.1t\lib\windows;..\..\..\open_src\tinyxml\lib;..\..\..\open_src\sdl2-2.0.3\release\x86\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>eSDKLogAPI.lib;libeay32.lib;ssleay32.lib;tinyxml.lib;SDL2.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_SDK.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_Types.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.lib ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.pdb ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\pdb\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\release\eSDKLogAPI.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\release\eSDKClientLogCfg.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\open_src\sdl2-2.0.3\release\x86\dll\SDL2.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\crypto\crypto_aes.h" />
+    <ClInclude Include="..\common\crypto\crypto_api.h" />
+    <ClInclude Include="..\common\crypto\crypto_base64.h" />
+    <ClInclude Include="..\common\crypto\crypto_sha.h" />
+    <ClInclude Include="..\common\eLTE_Error.h" />
+    <ClInclude Include="..\common\eLTE_Log.h" />
+    <ClInclude Include="..\common\eLTE_Message.h" />
+    <ClInclude Include="..\common\eLTE_Tool.h" />
+    <ClInclude Include="..\common\eLTE_Xml.h" />
+    <ClInclude Include="..\common\mutex_locker.h" />
+    <ClInclude Include="ConfigMgr.h" />
+    <ClInclude Include="eLTE_SDK.h" />
+    <ClInclude Include="eLTE_Timer.h" />
+    <ClInclude Include="eLTE_Types.h" />
+    <ClInclude Include="EventMgr.h" />
+    <ClInclude Include="LoginMgr.h" />
+    <ClInclude Include="MediaMgr.h" />
+    <ClInclude Include="MediaPlayer.h" />
+    <ClInclude Include="OpenSSL_Mgr.h" />
+    <ClInclude Include="OperationMgr.h" />
+    <ClInclude Include="ProvisionMgr.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="ServerMgr.h" />
+    <ClInclude Include="SharedMemory.h" />
+    <ClInclude Include="SharedMemoryMgr.h" />
+    <ClInclude Include="SSL_Socket.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="UserMgr.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\crypto\crypto_aes.cpp" />
+    <ClCompile Include="..\common\crypto\crypto_api.cpp" />
+    <ClCompile Include="..\common\crypto\crypto_base64.cpp" />
+    <ClCompile Include="..\common\crypto\crypto_sha.cpp" />
+    <ClCompile Include="..\common\eLTE_Log.cpp" />
+    <ClCompile Include="..\common\eLTE_Tool.cpp" />
+    <ClCompile Include="..\common\eLTE_Xml.cpp" />
+    <ClCompile Include="ConfigMgr.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="eLTE_SDK.cpp" />
+    <ClCompile Include="eLTE_Timer.cpp" />
+    <ClCompile Include="EventMgr.cpp" />
+    <ClCompile Include="LoginMgr.cpp" />
+    <ClCompile Include="MediaMgr.cpp" />
+    <ClCompile Include="MediaPlayer.cpp" />
+    <ClCompile Include="OpenSSL_Mgr.cpp" />
+    <ClCompile Include="OperationMgr.cpp" />
+    <ClCompile Include="ProvisionMgr.cpp" />
+    <ClCompile Include="ServerMgr.cpp" />
+    <ClCompile Include="SharedMemory.cpp" />
+    <ClCompile Include="SharedMemoryMgr.cpp" />
+    <ClCompile Include="SSL_Socket.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="UserMgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="eLTE_SDK.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

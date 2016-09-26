@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			xmlns:svcmgr="http://www.td-tech.com/ubp/platform/svcmgr/xml"
+            targetNamespace="http://www.td-tech.com/ubp/platform/svcmgr/xml">
+	
+	<xsd:complexType name="ServiceType_t">
+		<xsd:attribute name="type" type="xsd:string" use="required"/>
+		<xsd:attribute name="defaultname" type="xsd:string" use="required"/>
+		<xsd:attribute name="svc_mode" type="xsd:string" use="required"/>
+		<xsd:attribute name="pubport" type="xsd:int" use="required"/>
+		<xsd:attribute name="dealport" type="xsd:int" use="required"/>
+		<xsd:attribute name="ip_type" type="xsd:int" use="required"/>
+		<xsd:attribute name="cpu_group" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServiceTypeInfo_t">
+		<xsd:sequence>
+			<xsd:element name="ServiceType" type="svcmgr:ServiceType_t" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="port_offset" type="xsd:int" use="required"/>
+		<xsd:attribute name="broker_dealport" type="xsd:int" use="required"/>
+		<xsd:attribute name="broker_pubport" type="xsd:int" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ServiceProxy_t">
+		<xsd:attribute name="name" type="xsd:string" use="required"/>
+		<xsd:attribute name="proxy_ip" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="ProxyPolicy_t">
+		<xsd:sequence>
+			<xsd:element name="ServiceProxy" type="svcmgr:ServiceProxy_t" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="default_ip" type="xsd:string" use="required"/>
+		<xsd:attribute name="active_subpolicy" type="xsd:boolean" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SvcTypePolicy_t">
+		<xsd:sequence>
+			<xsd:element name="ProxyPolicy" type="svcmgr:ProxyPolicy_t" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ServiceTypeInfo" type="svcmgr:ServiceTypeInfo_t" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+  <xsd:element name="svctypepolicy" type="svcmgr:SvcTypePolicy_t"/>
+  
+</xsd:schema>

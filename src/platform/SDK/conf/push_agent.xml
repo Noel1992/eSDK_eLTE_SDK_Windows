@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="push_agent" code_type="java" user="ubp" team="UDC" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="start_java" value="/opt/UDC/bin/start_openfire.sh"/>
+        <Param name="pid_java" value="/opt/UDC/bin/openfire_pid.sh"/>
+        <Param name="stop_java" value="/opt/UDC/bin/stop_openfire.sh"/>
+        <Param name="init_wait_time" value="180"/>
+      </SvcParams>
+      <LoadModules>
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+        <Svc name="cm_agent" />
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

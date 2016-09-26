@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="DCStatus" MOC_NAME_C="DC登录状态" Module="BCC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="isdn" desc="用户号码" type="string" range="[1,20]" constrain="PRI" mode="update" />
+		<Parameter name="ip" desc="IP地址" type="string" range="[1,255]" c_type="ipv4" mode="update" default="NULL" />
+		<Parameter name="dc_status" desc="状态" type="enum" range="0,1" vlist="0:在线,1:离线" mode="update" default="1" />
+		<Parameter name="dc_type" desc="调度台类型" type="enum" range="0,1,2,3" vlist="0:调度台,1:本地SDK,2:远程SDK,3:未知" mode="update" default="3" />
+	</MOC>
+</Moc-Config>

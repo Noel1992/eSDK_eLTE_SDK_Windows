@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="RegionConfig" MOC_NAME_C="全网区域配置" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ID" desc="ID" type="int" range="[0,2147483647]" constrain="PRI" mode="display" />
+		<Parameter name="ZoneID" desc="Zone节点ID" type="int" range="[0,2147483647]" constrain="NOT NULL" mode="display" />
+		<Parameter name="UdcPassword" desc="与UDC进行HTTP鉴权的Password" type="string" range="[8,128]" constrain="NOT NULL" c_type="password" mode="display" />
+		<Parameter name="UdcIp" desc="Udc的IP" type="string" range="[4,15]" constrain="NOT NULL" mode="display" />
+		<Parameter name="UdcPort" desc="Udc的端口" type="int" range="[1,65535]" constrain="NOT NULL" mode="display" />
+		<Parameter name="BccSIPAuthSwitch" desc="Bcc之间的SIP会话鉴权开关" type="enum" range="0,1" vlist="0:不鉴权,1:鉴权" constrain="NOT NULL" mode="display" />
+		<Parameter name="Password" desc="zone间鉴权密码" type="string" range="[8,128]" constrain="NOT NULL" c_type="password" mode="display" />
+		<Parameter name="SIPSecuritySwitch" desc="SIP加密开关" type="enum" range="0,1" vlist="0:不加密,1:加密" mode="display" />
+		<Parameter name="RTPSecuritySwitch" desc="RTP加密开关" type="enum" range="0,1" vlist="0:不加密,1:加密" mode="display" />
+	</MOC>
+</Moc-Config>

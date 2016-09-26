@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="ExternalISDN" MOC_NAME_C="外部号码" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ISDN" desc="用户/群组号码" type="string" range="[1,8]" constrain="PRI" mode="display" />
+		<Parameter name="Name" desc="用户/群组名" type="string" range="[0,32]" mode="update" />
+		<Parameter name="VPNID" desc="所属VPN" type="int" range="[0,200]" constrain="NOT NULL" mode="update" />
+		<Parameter name="ISDNType" desc="ISDN是用户还是群组" type="enum" range="0,1" vlist="0:组,1:用户" constrain="NOT NULL" control="0:GroupCategory,1:UserCategory" mode="update" />
+		<Parameter name="GroupCategory" desc="群组类型" type="enum" range="0,1,2,9" vlist="0:全网广播组,1:普通组,2:区域广播组,9:动态组" mode="update" />
+		<Parameter name="UserCategory" desc="用户类型" type="enum" range="0,1,2,3,4,5,6,9,255" vlist="0:调度台用户,1:固定摄像头,2:PSTN用户,3:TETRA用户,4:PLMN移动用户,5:外部PTT用户,6:SDK应用网关用户,9:PTTUser,255:其它未分类用户" mode="update" />
+	</MOC>
+</Moc-Config>

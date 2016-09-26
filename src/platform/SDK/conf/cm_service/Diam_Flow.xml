@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="Diam_Flow" MOC_NAME_C="Diameter流信息" Module="BCC" ACCESS_CONTROL="add,delete,read,modify" DEST_SVC="" Group="" Relation="">
+		<Parameter name="session_id" desc="会话标识" type="double" range="" constrain="PRI" />
+		<Parameter name="user_id" desc="终端用户号" type="double" range="" constrain="PRI" />
+		<Parameter name="FlowInfo" desc="业务参数信息" type="string" range="[1,255]" constrain="NOT NULL" />
+	</MOC>
+</Moc-Config>

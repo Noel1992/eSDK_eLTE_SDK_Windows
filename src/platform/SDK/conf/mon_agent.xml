@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="mon_agent" code_type="cplus" user="ubp" team="PLT" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="dllvalue" value="ubp_monitor"/>
+        <Param name="detect_switch" value="1"/>
+        <Param name="dbenable" value="True"/>
+        <Param name="periodic_time" value="300"/>
+        <Param name="disk_used_threshold_percent" value="80"/>
+        <Param name="memory_used_threshold_percent" value="90"/>
+        <Param name="cpu_used_threshold_percent" value="90"/>
+        <Param name="systime_check_period" value="5"/>
+        <Param name="diff_time" value="60"/>
+        <Param name="delay_reboot" value="5"/>
+        <Param name="cpu_detect_count" value="5"/>
+      </SvcParams>
+      <LoadModules>
+        <Module lib="ubp_sca" entry="CreateCfgMgr" />
+        <Module lib="ubp_svcmgr" />
+        <Module lib="ubp_error" />
+        <Module lib="ubp_threadpool" />
+        <Module lib="ubp_timer" />
+        <Module lib="ubp_encryption" />
+        <Module lib="ubp_dao" />
+        <Module lib="ubp_mq" />
+        <Module lib="ubp_fmproxy" />
+        <Module lib="ubp_lmproxy" />
+        <Module lib="ubp_mon_proxy" />
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+        <Svc name="lm_agent" />
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

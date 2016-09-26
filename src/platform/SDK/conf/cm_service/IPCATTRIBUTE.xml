@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="IPCATTRIBUTE" MOC_NAME_C="摄像头形状配置" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ISDN" desc="固定摄像头用户号码" type="string" range="[1,8]" constrain="PRI" mode="display" />
+		<Parameter name="IPCFIGURE" desc="摄像头外形" type="enum" range="0,1,2" vlist="0:未配置,1:球机,2:枪机" constrain="NOT NULL" mode="display" default="0" />
+	</MOC>
+</Moc-Config>

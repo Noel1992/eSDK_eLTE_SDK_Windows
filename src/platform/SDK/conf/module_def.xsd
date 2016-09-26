@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+file      : \code\src\platform\frame\module_def.xsd
+install   : \install\conf\module_def.xsd
+author    : ZhongWei
+created   : 2013/01/09 13:30
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:frm="http://www.td-tech.com/ubp/platform/frame/xml"
+            targetNamespace="http://www.td-tech.com/ubp/platform/frame/xml">
+
+  <xsd:complexType name="Module">
+    <xsd:attribute name="lib" type="xsd:string" use="required"/>
+    <xsd:attribute name="entry" type="xsd:string" default="CreateModule"/>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="Modules">
+    <xsd:sequence>
+      <xsd:element name="Module" type="frm:Module" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:element name="Modules" type="frm:Modules"/>
+
+</xsd:schema>

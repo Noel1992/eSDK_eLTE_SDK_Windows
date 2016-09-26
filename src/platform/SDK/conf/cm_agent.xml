@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="cm_agent" code_type="cplus" user="ubp" team="PLT" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="dllvalue" value="ubp_cm"/>
+      </SvcParams>
+      <LoadModules>
+        <Module lib="ubp_sca" entry="CreateCfgMgr" />
+        <Module lib="ubp_svcmgr" />
+        <Module lib="ubp_error" />
+        <Module lib="ubp_threadpool" />
+        <Module lib="ubp_timer" />
+        <Module lib="ubp_encryption" />
+        <Module lib="ubp_dao" />
+        <Module lib="ubp_mq" />
+        <Module lib="ubp_fmproxy" />
+        <Module lib="ubp_lmproxy" />
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+        <Svc name="lm_agent" />
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

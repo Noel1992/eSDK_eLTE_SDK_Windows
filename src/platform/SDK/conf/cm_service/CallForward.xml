@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="CallForward" MOC_NAME_C="呼叫转移" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="custom:ubp_callForwardnode:CreateModule:before" Group="" Relation="">
+		<Parameter name="ISDN" desc="用户号码" type="string" range="[1,20]" constrain="PRI" all_num="" mode="display" />
+		<Parameter name="TargetISDN" desc="转移目的号码" type="string" range="[1,20]" constrain="NOT NULL" all_num="" mode="display" />
+		<Parameter name="ActiveState" desc="激活状态" type="enum" range="0,1" vlist="0:去激活,1:激活" constrain="NOT NULL" mode="display" />
+		<Parameter name="ForwardType" desc="转移类型" type="enum" range="0,1" vlist="0:无条件呼叫转移,1:不可达呼叫转移" constrain="NOT NULL" mode="display" default="0" />
+	</MOC>
+</Moc-Config>

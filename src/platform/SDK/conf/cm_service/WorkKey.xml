@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="WorkKey" MOC_NAME_C="工作密钥" Module="OMC,MDC,MRS" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="WKey" desc="工作密钥" type="string" range="[0,255]" constrain="PRI" />
+		<Parameter name="Status" desc="状态" type="enum" range="0,1" vlist="0:准备使用,1:正在使用" default="0" />
+	</MOC>
+</Moc-Config>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dao:DAOCfgs xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:dao="http://www.td-tech.com/ubp/platform/dao"
+             xsd:schemaLocation="http://www.td-tech.com/ubp/platform/dao ubp_db_cfgdef.xsd">
+
+  <DAO name="mdc_dao"
+       active="true"
+       DefaultDAO="true">
+    <dbcfg name="user"
+           value="odb_user" />
+    <dbcfg name="passwd"
+           value="CE31390D0A7FCCAD9B1E827B46C0F42397EF4D9710A39CD617B716B7FF70B895C92A673FD031C25C10796E" />               <dbcfg name="rootpwd" value="CAF81B3AC5CCE7AB75FE9ADED3CB73547D169646F4D6E88727A485B7FF70B895C92A673FD031C25C10796E"/>
+    <dbcfg name="database"
+           value="ubpdb" />
+    <dbcfg name="moc_prefix"
+           value="ubp" />          
+    <dbcfg name="user_master"
+           value="odb_user" />
+    <dbcfg name="passwd_master"
+           value="328A9357E6BCAD3BB78A351E2D585CABE68AEF1F576C0FAF0A7C62B7FF70B895C92A673FD031C25C10796E" />
+    <dbcfg name="database_master"
+           value="ubpdb" />
+    <dbcfg name="port"
+           value="3306" />
+    <dbcfg name="max_connection"
+           value="30" />
+    <dbcfg name="min_connection"
+           value="1" />
+  </DAO>
+  
+  <DAO name="udc_dao"
+       active="true"
+       DefaultDAO="false">
+    <dbcfg name="user"
+           value="odb_user" />
+    <dbcfg name="passwd"
+           value="3405868D7FBD6F5298F7C7D01D10FBB4AF91D2C892DE1997533C0EB7FF70B895C92A673FD031C25C10796E" />
+    <dbcfg name="database"
+           value="ebs" />        
+    <dbcfg name="moc_prefix"
+           value="udc" />
+    <dbcfg name="user_master"
+           value="odb_user" />
+    <dbcfg name="passwd_master"
+           value="B210322A016CEE52AD4CC3612FEFAA49A536A12BBFC1F0BBD9664EB7FF70B895C92A673FD031C25C10796E" />
+    <dbcfg name="database_master"
+           value="ebs" />
+    <dbcfg name="port"
+           value="3306" />
+    <dbcfg name="max_connection"
+           value="30" />
+    <dbcfg name="min_connection"
+           value="1" />
+  </DAO>  
+</dao:DAOCfgs>

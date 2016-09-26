@@ -1,0 +1,650 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>eLTE Demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/home/styles.css" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="css/jquery.guide.css">
+    
+    <script src="js/jquery-1.7.1.min.js"></script>
+    <script src="js/jquery-ui-1.8.10.custom.min.js"></script>
+    <script src="js/axure/axQuery.js"></script>
+    <script src="js/axure/globals.js"></script>
+    <script src="js/axutils.js"></script>
+    <script src="js/axure/annotation.js"></script>
+    <script src="js/axure/axQuery.std.js"></script>
+    <script src="js/axure/doc.js"></script>
+    <script src="data/document.js"></script>
+    <script src="js/messagecenter.js"></script>
+    <script src="js/axure/events.js"></script>
+    <script src="js/axure/action.js"></script>
+    <script src="js/axure/expr.js"></script>
+    <script src="js/axure/geometry.js"></script>
+    <script src="js/axure/flyout.js"></script>
+    <script src="js/axure/ie.js"></script>
+    <script src="js/axure/model.js"></script>
+    <script src="js/axure/repeater.js"></script>
+    <script src="js/axure/sto.js"></script>
+    <script src="js/axure/utils.temp.js"></script>
+    <script src="js/axure/variables.js"></script>
+    <script src="js/axure/drag.js"></script>
+    <script src="js/axure/move.js"></script>
+    <script src="js/axure/visibility.js"></script>
+    <script src="js/axure/style.js"></script>
+    <script src="js/axure/adaptive.js"></script>
+    <script src="js/axure/init.temp.js"></script>
+    <script src="files/home/data.js"></script>
+    <script src="js/axure/legacy.js"></script>
+    <script src="js/axure/viewer.js"></script>
+    <script src="js/axure/math.js"></script>
+    
+    <!--<script type="text/javascript" src="./js/jquery/jquery.js"></script>-->
+    <script type="text/javascript" src="js/jquery/jquery.guide.js"></script>
+    <script type="text/javascript" src="http://api.tianditu.com/js/maps.js"></script> 
+    <script type="text/javascript" src="http://api.tianditu.com/js/service.js"></script> 
+    <script type="text/javascript" src="./js/mapOperations.js"></script> 
+    <script type="text/javascript" src="./js/eLTE_Player.js"></script>
+
+  </head>
+  <body onload="onLoad()" onbeforeunload="Uninit();">
+  <object classid="CLSID:76A64158-CB41-11D1-8B02-00600806D9B6" id="locator" style="display:none;visibility:hidden"></object>  
+  <object classid="CLSID:75718C9A-F029-11d1-A1AC-00C04FB6C223" id="foo" style="display:none;visibility:hidden"></object>   
+    <div id="base" class="">
+
+      <!--  (矩形) -->
+      <div id="opShading" class="ax_default box_2">
+        <div id="u0_div" class=""></div>
+
+        <div id="u1" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!-- stopPositioning (组合) -->
+      <div id="stopPositioning" class="ax_default" data-label="stopPositioning" onClick="StopGetPos()" title="Stop Positioning">
+        <!--  (形状) -->
+        <div id="u3" class="ax_default box_1">
+          <img id="u3_img" class="img " src="images/home/u3.png"/>
+          <div id="u4" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!--  (图片) -->
+        <div id="u5" class="ax_default box_1">
+          <img id="u5_img" class="img " src="images/home/u25.png"/>
+          <div id="u6" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u7" class="ax_default box_1">          
+          <div id="u7_div" class=""></div>
+          <div id="u8" class="text" style="visibility: visible;">
+            <p><span>Stop </span></p><p><span>Positioning</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CurrentLocation (组合) -->
+      <div id="CurLocation" class="ax_default" data-label="CurrentLocation" onClick="ToMyPos()" title="Current Location">
+
+        <!--  (形状) -->
+        <div id="u10" class="ax_default box_1">
+          <img id="u10_img" class="img " src="images/home/u10.png"/>
+          <div id="u11" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!--  (图片) -->
+        <div id="u12" class="ax_default box_1">
+          <img id="u12_img" class="img " src="images/home/u5.png"/>
+          <div id="u13" class="text" style="display: none; visibility: hidden"> 
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u14" class="ax_default box_1">
+          <div id="u15" class="text" style="visibility: visible;">
+            <p><span>Current</span></p><p><span>Location</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- drawTrack (组合) -->
+      <div id="drawtrack" class="ax_default" data-label="drawTrack" onClick="drawtrack()" title="Drawing track">
+
+        <!--  (形状) -->
+        <div id="u17" class="ax_default box_1">
+          <img id="u17_img" class="img " src="images/home/u17.png"/>
+          <div id="u18" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!--  (图片) -->
+        <div id="u19" class="ax_default box_1">
+          <img id="u19_img" class="img " src="images/home/u19.png"/>
+          <div id="u20" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u21" class="ax_default box_1">                    
+  <div id="u21_div" class=""></div>
+          <div id="u22" class="text" style="visibility: visible;">
+            <p><span>Drawing</span></p><p><span>Track</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- startPositioning (组合) -->
+      <div id="StartGetPos" class="ax_default" data-label="startPositioning" onClick="StartGetPos()" title="Start positioning">
+
+        <!--  (形状) -->
+        <div id="u24" class="ax_default box_1">
+          <img id="u24_img" class="img " src="images/home/u24.png"/>          
+          <div id="u25" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!--  (图片) -->
+        <div id="u26" class="ax_default box_1">
+          <img id="u26_img" class="img " src="images/home/u26.png"/>          
+          <div id="u27" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u28" class="ax_default box_1">
+          <div id="u28_div" class=""></div>
+          <div id="u29" class="text" style="visibility: visible;">
+            <p><span>Start</span></p><p><span>Positioning</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- StartShadow (矩形) -->
+      <div id="u30" class="ax_default box_2" data-label="StartShadow">
+        <div id="u30_div" class=""></div>
+        <div id="u31" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!-- endShadow (矩形) -->
+      <div id="u32" class="ax_default box_2" data-label="endShadow">
+        <div id="u32_div" class=""></div>
+        <div id="u33" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!-- resetAll (组合) -->
+      <div id="resetAll" class="ax_default" data-label="resetAll" onClick="clearDrivingRoute()" title="Reset all">
+        <!-- button (椭圆形) -->
+        <div id="u35" class="ax_default ellipse" data-label="button">
+          <img id="u35_img" class="img " src="images/home/button_u35.png"/>
+          <div id="u36" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!-- image (图片) -->
+        <div id="u37" class="ax_default image" data-label="image">
+          <img id="u37_img" class="img " src="images/home/image_u37.png"/>
+          <div id="u38" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u39" class="ax_default label">
+          <div id="u39_div" class=""></div>          
+          <div id="u40" class="text" style="visibility: visible;">
+            <p><span>Reset All</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom (矩形) -->
+      <div id="u41" class="ax_default shape" data-label="bottom">
+        <div id="u41_div" class=""></div>
+        <div id="u42" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!-- copyright (矩形) -->
+      <div id="u43" class="ax_default paragraph" data-label="copyright">
+        <div id="u43_div" class=""></div>
+        
+        <div id="u44" class="text" style="visibility: visible;">
+          <p><span>版权所有 © 华为技术有限公司 1998-2016。 保留一切权利。粤A2-20044005号</span></p>
+        </div>
+      </div>
+
+      <!-- lawauthor (矩形) -->
+      <div id="u45" class="ax_default paragraph" data-label="lawauthor">        
+  <div id="u45_div" class=""></div>
+        <div id="u46" class="text" style="visibility: visible;">
+          <p><span>法律声明 | 隐私保护</span></p>
+        </div>
+      </div>
+
+      <!-- mapArea (矩形) -->
+      <div id="mapDiv" class="ax_default shape" data-label="mapArea">
+        <div id="u47_div" class=""></div>
+        <div id="u48" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!-- Start (组合) -->
+      <div id="setstartpos" class="ax_default" data-label="Start" onClick="setstartpos()">
+
+        <!-- button (矩形) -->
+        <div id="u50" class="ax_default box_1" data-label="button">
+          <div id="u50_div" class=""></div>          
+          <div id="u51" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!-- image (图片) -->
+        <div id="u52" class="ax_default image" data-label="image">
+          <img id="u52_img" class="img " src="images/home/image_u52.png"/>          
+          <div id="u53" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!-- caption (矩形) -->
+        <div id="u54" class="ax_default label" data-label="caption">
+          <div id="u54_div" class=""></div>          
+          <div id="u55" class="text" style="visibility: visible;">
+            <p><span>Start</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- End (组合) -->
+      <div id="setendpos" class="ax_default" data-label="End"  onClick="endTool.open()">
+
+        <!-- button (矩形) -->
+        <div id="u57" class="ax_default box_1" data-label="button">
+          <div id="u57_div" class=""></div>          
+          <div id="u58" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!-- image (图片) -->
+        <div id="u59" class="ax_default image" data-label="image">
+          <img id="u59_img" class="img " src="images/home/image_u59.png"/>          
+          <div id="u60" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!-- caption (矩形) -->
+        <div id="u61" class="ax_default label" data-label="caption">
+          <div id="u61_div" class=""></div>          
+          <div id="u62" class="text" style="visibility: visible;">
+            <p><span>End</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- start lonlat (矩形) -->
+      <div id="startLonlat" class="ax_default label">
+        <div id="u63_div" class=""></div>
+        
+        <div id="u64" class="text" style="visibility: visible;">
+          <p><input id="start" type="text" disabled="true" style="border:0px;" value="120.72628,31.26507"></p>
+        </div>
+      </div>
+
+      <!-- End Lonlat (矩形) -->
+      <div id="endLonlat" class="ax_default label">
+        <div id="u65_div" class=""></div>        
+        <div id="u66" class="text" style="visibility: visible;">
+          <p><input id="end" type="text" disabled="true" style="border:0px;" value="120.7232,31.25166"></p>
+        </div>
+      </div>
+
+      <!-- pathPlanning (组合) -->
+      <div id="u67" class="ax_default" data-label="pathPlanning" onClick="searchDrivingRoute()">
+
+        <!--  (矩形) -->
+        <div id="u68" class="ax_default box_1">
+          <img id="u68_img" class="img " src="images/home/u68.png"/>          
+          <div id="u69" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u70" class="ax_default label">
+          <div id="u70_div" class=""></div>          
+          <div id="u71" class="text" style="visibility: visible;">
+            <p><span>Path Plannning</span></p>
+          </div>
+        </div>
+
+        <!--  (图片) -->
+        <div id="u72" class="ax_default image">
+          <img id="u72_img" class="img " src="images/home/u72.png"/>          
+          <div id="u73" class="text" style="display: none; visibility: hidden">            
+          </div>
+        </div>
+      </div>
+
+      <!--  (水平线) -->
+      <div id="u74" class="ax_default line">
+        <img id="u74_img" class="img " src="images/home/u74.png"/>
+        <div id="u75" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!--  (单选按钮) -->
+      <div id="u76" class="ax_default radio_button">
+        <label for="u76_input">          
+          <div id="u77" class="text" style="visibility: visible;">
+            <p><span>&nbsp; Minimum time</span></p>
+          </div>
+        </label>
+        <input id="u76_input" type="radio" value="0" name="planType" checked="checked"/>
+      </div>
+
+      <!--  (单选按钮) -->
+      <div id="u78" class="ax_default radio_button">
+        <label for="u78_input">          
+          <div id="u79" class="text" style="visibility: visible;">
+            <p><span>&nbsp; Avoid highway</span></p>
+          </div>
+        </label>
+        <input id="u78_input" type="radio" value="1" name="planType"/>
+      </div>
+
+      <!--  (单选按钮) -->
+      <div id="u80" class="ax_default radio_button">
+        <label for="u80_input">          
+          <div id="u81" class="text" style="visibility: visible;">
+            <p><span>&nbsp; Shortest distance</span></p>
+          </div>
+        </label>
+        <input id="u80_input" type="radio" value="2" name="planType"/>
+      </div>
+
+      <!--  (单选按钮) -->
+      <div id="u82" class="ax_default radio_button">
+        <label for="u82_input">          
+          <div id="u83" class="text" style="visibility: visible;">
+            <p><span>&nbsp; Walk</span></p>
+          </div>
+        </label>
+        <input id="u82_input" type="radio" value="3" name="planType"/>
+      </div>
+
+      <!--  (矩形) -->
+      <div id="u84" class="ax_default label"> 
+        <div id="u85" class="text" style="visibility: visible;">
+          <p><span>Resource ID</span></p>
+        </div>
+      </div>
+
+      <!-- Resource ID input Box (矩形) -->
+      <div id="u86" class="ax_default box_1">
+        <div id="u86_div" class="">
+          <input id="gisid" type="text" style="width:180px;border:0px" value="8895"" ">
+        </div>                  
+        </div>
+      </div>
+
+      <!-- add Resource ID (图片) -->
+      <div id="setResourceID" class="ax_default image" onClick="setResourceID()" title="Add ResourceID">
+        <img id="u88_img" class="img " src="images/home/u88.png"/> 
+        <div id="u89" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!--  (图片) -->
+      <div id="delResourceID" class="ax_default image" onClick="delResourceID()" title="Delete ResourceID">
+        <img id="u90_img" class="img " src="images/home/u90.png"/>
+        <div id="u91" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!--  (水平线) -->
+      <div id="u92" class="ax_default line">
+        <img id="u92_img" class="img " src="images/home/u92.png"/>        
+        <div id="u93" class="text" style="display: none; visibility: hidden">
+        </div>
+      </div>
+
+      <!--  (矩形) -->
+      <div id="u94" class="ax_default label">
+        <div id="u94_div" class=""></div>        
+        <div id="u95" class="text" style="visibility: visible;">
+          <p><span>Call API Result:</span></p>
+        </div>
+      </div>
+
+      <!--  (矩形) -->
+      <div id="u96" class="ax_default label">   
+  <div id="u96_div" class=""></div>
+        <div id="u97" class="text" style="visibility: visible;">
+          <input id="resultcode" style="width: 260px;border:0px" readonly="true" title="call interface result code，if success，return 0">
+        </div>
+      </div>
+
+      <!--  (矩形) -->
+      <div id="u98" class="ax_default label">       
+  <div id="u98_div" class=""></div>
+        <div id="u99" class="text" style="visibility: visible;">
+          <p><span>Event Upload Info:</span></p>
+        </div>
+      </div>
+
+       <!-- ocx load -->
+      <div id="OCXList" style="position:fixed;left:0px;bottom:0px;width:1px;height:1px;">
+          <OBJECT id="eLTE_PlayerOCX" classid="CLSID:6AB35B6F-D5D4-4DA3-9503-1AD4E5E1E589"></OBJECT>
+      </div>
+
+      <!--  (矩形) -->
+      <div id="u100" class="ax_default label">    
+        <div id="u100_div" class=""></div>
+        <div id="u101" class="text" style="visibility: visible;">
+          <input id="eventType" style="width: 240px;border:0px" readonly="true" title="Event upload Info">
+        </div>
+      </div>
+
+      <!-- guidance (组合) -->
+      <div id="startGuide" class="ax_default" data-label="guidance"  href="javascript:void(0)">
+
+        <!--  (图片) -->
+        <div id="u103" class="ax_default image">
+          <img id="u103_img" class="img " src="images/home/u103.png"/>
+          <div id="u104" class="text" style="display: none; visibility: hidden">
+          </div>
+        </div>
+
+        <!--  (矩形) -->
+        <div id="u105" class="ax_default label">
+          <img id="u105_img" class="img " src="images/home/u105.png"/>          
+          <div id="u106" class="text" style="visibility: visible;">
+            <p><span>Guidance</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- callback message handle -->
+<script language="javascript" for="eLTE_PlayerOCX" event="ELTE_OCX_Event(ulEventType,pEventDataXml)">
+    var msg = "EventType: ";
+    var isLogin = false;
+    var startplay=false;
+    msg += ulEventType;
+    
+    if (ulEventType == 2)
+    {
+      var xmlDoc = $.parseXML(pEventDataXml);
+      xmlDoc = $(xmlDoc);
+      var type = xmlDoc.find("StatusType").text();
+      var value = xmlDoc.find("StatusValue").text();
+      var strResId = xmlDoc.find("ResourceID").text();
+      
+      if (type == 15 && value == 4011)
+      {
+        if(isLogin == false)
+        {
+          isLogin = true;
+          startplay=false;
+        }
+      }
+      else if (type == 15 && value != 4011 && value != 4017)
+      {
+        if(isLogin == true)
+        {
+          alert("login failed");
+        }
+      }
+      
+      msg += " type:"
+      msg += type;
+      msg += " value:"
+      msg += value;
+    }
+    else if (ulEventType == 1)
+    {
+      var xmlDoc = $.parseXML(pEventDataXml);
+      xmlDoc = $(xmlDoc);
+      var type = xmlDoc.find("CallStatus").text();
+      if (type == 3003)
+      {
+        var localVideoPort = xmlDoc.find("LocalVideoPort").text();
+        var localAudioPort = xmlDoc.find("LocalAudioPort").text();
+        var remoteVideoPort = xmlDoc.find("RemoteVideoPort").text();
+        var remoteAudioPort = xmlDoc.find("RemoteAudioPort").text();
+        
+        setTimeout(ShowRealPlay(localVideoPort,localAudioPort,remoteVideoPort,remoteAudioPort),3000);
+        startplay=false;
+        //In order to keep in line with the button state of the interface, there is a need for silence.
+        var param = "<Content><MuteParam><CallType>2</CallType></MuteParam></Content>";
+    
+        resultXml = ocx.ELTE_OCX_VolMute(xmlDoc.find("Callee").text(), param);
+      }
+      else if (type == 3009)
+      {
+        var localVideoPort = "";
+        var localAudioPort = "";
+        var remoteVideoPort = "";
+        var remoteAudioPort = "";
+      }
+      else if (type == 3011)
+      {
+        var strResID = xmlDoc.find("Uri").text();
+        var strMuteType = xmlDoc.find("SoundMute").text();
+        if(confirm(strResID + " 视频来电提示"))
+        {
+          RecvVideoPlay();
+        }
+        else
+        {
+          StopRealPlay();
+        }
+      }
+      else if (type == 3006)
+      {
+        //In order to keep in line with the button state of the interface, there is a need for silence.
+        var param = "<Content><MuteParam><CallType>2</CallType></MuteParam></Content>";
+    
+        resultXml = ocx.ELTE_OCX_VolMute(xmlDoc.find("Callee").text(), param);
+      }
+      
+      if (3021 == type || 3013 == type || 3008 == type)
+      {
+        //alert(type);
+        var strResID = xmlDoc.find("Uri").text();
+        if(3008 == type)
+        {
+          strResID = xmlDoc.find("Uri").text();
+        }
+        StopCurrentRealPlay(strResID);
+      }
+      
+      msg += " type:"
+      msg += type;
+    }
+    else if (ulEventType == 4)
+    {
+      
+    }    
+    else if (ulEventType == 6)
+    {
+      var xmlDoc = $.parseXML(pEventDataXml);
+      xmlDoc = $(xmlDoc);
+      var grpId = xmlDoc.find("GroupID").text();
+      var status = xmlDoc.find("GroupCallStatus").text();
+      var speaker = xmlDoc.find("Speaker").text();
+      
+      $("#groupId").val(grpId);
+      $("#speakerId").val(speaker);
+    }
+    else if(ulEventType == 7)
+    {
+      if (false == startplay) {
+        startplay=true;
+      }
+        
+    }
+    else if (8 == ulEventType) 
+    {
+        //GIS data analysis
+        var xmlDoc = $.parseXML(pEventDataXml);        
+        xmlDoc = $(xmlDoc);
+        
+        var status = xmlDoc.find("ReportStatus").text();      
+        if ("0" == status) {
+            curLatitude = xmlDoc.find("Latitude").text();
+            curLongtitude = xmlDoc.find("Longtitude").text();
+            gisResId = xmlDoc.find("ResourceID").text();
+            posMoving(curLatitude,curLongtitude,gisResId);
+        }
+        else
+        {
+            $("#eventType").val("GIS定位中,请稍等...");
+        }        
+    }
+    else if (ulEventType ==0 || ulEventType == 9 || ulEventType == 10 || ulEventType == 11)
+    {
+      msg += pEventDataXml;
+    }
+    $("#eventType").val(msg);
+
+</script>
+  </body>
+</html>
+<script language="javascript">
+var ipaddr="";
+var localIP=""; 
+var service = locator.ConnectServer();  
+service.Security_.ImpersonationLevel=3;  
+service.InstancesOfAsync(foo, 'Win32_NetworkAdapterConfiguration');  
+</script>  
+<script FOR="foo" EVENT="OnObjectReady(objObject,objAsyncContext)" LANGUAGE="JScript"> 
+         if(objObject.IPEnabled != null && objObject.IPEnabled != "undefined" && objObject.IPEnabled == true)
+         {
+            if(objObject.IPEnabled && objObject.IPAddress(0) !=null && objObject.IPAddress(0) != "undefined")
+            {
+                ipaddr = objObject.IPAddress(0); 
+                var local = ipaddr.split(".");
+                var server = serverIP.split(".");
+                if (server[0] == local[0]) 
+                {
+                  localIP = ipaddr;
+                }
+            }
+          }  
+</script>
+
+  
+<script FOR="foo" EVENT="OnCompleted(hResult,pErrorObject, pAsyncContext)" LANGUAGE="JScript">  
+//alert(localIP); 
+if (false==isLogin && "" != localIP)
+{
+    Login();
+}
+</script> 

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="QosPolicy" MOC_NAME_C="Qos策略参数" Module="BCC" ACCESS_CONTROL="modify,read" DEST_SVC="" Group="QosGrp" Relation="">
+		<Parameter name="QosPolicyIndex" desc="索引" type="int" range="[0,20]" constrain="PRI" />
+		<Parameter name="VideoBearerReleasePolicy" desc="视频专用承载释放策略" type="enum" range="0,1,2" vlist="0:默认承载,1:业务释放,2:周期重建" constrain="NOT NULL" mode="update" default="0" />
+	</MOC>
+</Moc-Config>

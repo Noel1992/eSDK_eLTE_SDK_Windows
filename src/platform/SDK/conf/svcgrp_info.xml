@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<svcmgr:svcgrppolicy  xmlns:svcmgr="http://www.td-tech.com/ubp/platform/svcmgr/xml"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="http://www.td-tech.com/ubp/platform/svcmgr/xml svcgrp_info.xsd">
+  <Packages>
+    <Package name="3rdparty">
+      <ServiceGroup name="3rdparty normal">
+             <Service name="mysqld" /> 
+      </ServiceGroup>
+    </Package>
+    <Package name="UBP">
+      <ServiceGroup name="UBP_normal">
+        <Service name="ubp_mq_broker" />
+
+        <Service name="ubp_daem" />
+
+        <Service name="ubp_security" />
+
+        <Service name="ubp_cm" />
+
+        <Service name="ubp_fm" />
+
+        <Service name="ubp_lm" />
+
+        <Service name="ubp_monitor" />
+
+        <Service name="ubp_maintain" />
+
+        <Service name="ubp_lic_man" />
+    </ServiceGroup>
+</Package>
+    <Package name="MDC">
+      <ServiceGroup name="BCC">
+        <Service name="ubp_mq_broker" />
+
+        <Service name="ubp_daem" />
+
+        <Service name="ubp_security" />
+
+        <Service name="ubp_cm" />
+
+        <Service name="ubp_fm" />
+
+        <Service name="ubp_lm" />
+
+        <Service name="ubp_monitor" />
+
+        <Service name="ubp_maintain" />
+
+        <Service name="ubp_lic_man" />
+
+        <Service name="ubp_sds_adapter" />
+
+        <Service name="ubp_bcc" />
+
+        <Service name="ubp_hpgw" />
+
+        <Service name="ubp_diam" />
+
+        <Service name="ubp_pres" />
+
+        <Service name="ubp_dec_vgw" />
+
+        <Service name="ubp_sds_dataman" />
+
+        <Service name="ubp_km" />
+		<Service name="ubp_itf_manager" />
+		<Service name="ubp_sdk_agent_01" />
+		<Service name="ubp_sdk_agent_02" />
+		<Service name="ubp_sdk_agent_03" />
+		<Service name="ubp_sdk_agent_04" />
+		<Service name="ubp_sdk_agent_05" />
+		<Service name="ubp_sdk_agent_06" />
+		<Service name="ubp_sdk_agent_07" />
+		<Service name="ubp_sdk_agent_08" />
+		<Service name="ubp_sdk_agent_09" />
+		<Service name="ubp_sdk_agent_10" />
+    </ServiceGroup>
+      <ServiceGroup name="BDC">
+        <Service name="ubp_mq_broker" />
+
+        <Service name="ubp_daem" />
+
+        <Service name="ubp_monitor" />
+
+        <Service name="ubp_bdc01" />
+
+        <Service name="ubp_maintain" />
+    </ServiceGroup>
+</Package>
+    <Package name="MRS">
+      <ServiceGroup name="MRS_C">
+        <Service name="ubp_mq_broker" />
+
+        <Service name="ubp_daem" />
+
+        <Service name="ubp_security" />
+
+        <Service name="ubp_cm" />
+
+        <Service name="ubp_fm" />
+
+        <Service name="ubp_lm" />
+
+        <Service name="ubp_monitor" />
+
+        <Service name="ubp_maintain" />
+
+        <Service name="ubp_lic_man" />
+
+        <Service name="ubp_mrs_vgw" />
+
+        <Service name="ubp_mrs_ivs" />
+
+        <Service name="ubp_mrs_node_mgr" />
+
+        <Service name="ubp_mrs_mgr" />
+
+        <Service name="ubp_mrs_plb" />
+
+        <Service name="ubp_mrs_rec_man" />
+
+        <Service name="ubp_mrs_web" />
+
+        <Service name="ubp_mrs_rec_sinker" />
+    </ServiceGroup>
+      <ServiceGroup name="MRS_D">
+        <Service name="ubp_mq_broker" />
+
+        <Service name="ubp_daem" />
+
+        <Service name="ubp_monitor" />
+
+        <Service name="ubp_maintain" />
+
+        <Service name="ubp_mrs_vgw" />
+
+        <Service name="ubp_mrs_ivs" />
+
+        <Service name="ubp_mrs_plb" />
+
+        <Service name="ubp_mrs_mgr" />
+
+        <Service name="ubp_mrs_web" />
+
+        <Service name="ubp_mrs_rec_sinker" />
+    </ServiceGroup>
+</Package>
+    <Package name="UDC">
+      <ServiceGroup name="UDC_normal">
+        <Service name="ubp_mq_broker" />
+
+        <Service name="ubp_daem" />
+
+        <Service name="ubp_security" />
+
+        <Service name="ubp_cm" />
+
+        <Service name="ubp_fm" />
+
+        <Service name="ubp_lm" />
+
+        <Service name="ubp_monitor" />
+
+        <Service name="ubp_maintain" />
+
+        <Service name="ubp_lic_man" />
+
+        <Service name="udc_mdm" />
+
+        <Service name="udc_uis" />
+
+        <Service name="udc_eir" />
+
+        <Service name="udc_aas" />
+
+        <Service name="udc_tis" />
+
+        <Service name="udc_uom" />
+
+        <Service name="udc_web" />
+
+        <Service name="udc_push" />
+
+        <Service name="udc_omp" />
+
+        <Service name="udc_ftp" />
+
+        <Service name="udc_med" />
+
+        <Service name="udc_opm" />
+    </ServiceGroup>
+</Package>
+ </Packages> 
+</svcmgr:svcgrppolicy>

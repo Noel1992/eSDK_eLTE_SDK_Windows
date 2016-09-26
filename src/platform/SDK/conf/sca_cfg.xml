@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/cfg/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.td-tech.com/ubp/platform/cfg/cfg_template.xsd"
+              name="cfg_template">
+ 
+  <Template item='CRONTAB_ADD_SCA_MON' file_name="/var/spool/cron/tabs/root">
+  	<action name="delete"  cmd="sed" full_cmd="'/sca_monitor.sh/d'" />
+  	<action name="append"  cmd="echo" full_cmd="*/1 * * * * /opt/UBP/bin/sca_monitor.sh" />
+  </Template>
+  
+  <Template item='CRONTAB_DEL_SCA_MON' file_name="/var/spool/cron/tabs/root">
+    <action name="delete"  cmd="sed" full_cmd="'/sca_monitor.sh/d'" />		
+  </Template>  
+   
+</sca:svcagent>

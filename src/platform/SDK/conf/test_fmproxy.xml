@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent.xsd"
+          name="test_fmproxy">
+		<!--dllvalue:服务启动入口对应的动态库，如果是libxxx_agent.so，则写成xxx_agent  -->
+		<param name="dllvalue">ubp_fm</param>
+		
+    <!--dbenable 是否使用数据库；如果使用数据库，则从数据库加载主机、服务信息
+    否则不初始化数据库接口，并从deploy_policy.xml加载；默认为false-->
+    <param name="dbenable">true</param>
+    
+    <!--单独配置自己服务连接数据库的最大连接数、最小连接数；如果不配置就使用全局默认的连接数-->
+    <param name="db_max_conn">15</param>
+    <param name="db_min_conn">3</param>
+    
+    <!--要加载的模块-->
+    <module lib="ubp_fmproxy"/>
+
+</sca:svcagent>

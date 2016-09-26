@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>eLTE_PlayerDemo</title>
+<script type="text/javascript" src="../js/jquery/jquery.js"></script>
+<script type="text/javascript" src="../js/eLTE_Player.js"></script>
+</head>
+<body onload="Init();" onbeforeunload="Uninit();">
+	<div class="InputText">
+		<form>
+			UserName:
+			<input id="userName" type="text" style="width:110px" value="4116">
+			Password:
+			<input id="password" type="password" style="width:110px" value="4116">
+			ServerIP:
+			<input id="serverIP" type="text" style="width:110px" value="172.22.9.105">
+			LocalIP:
+			<input id="localIP" type="text" style="width:110px" value="172.24.4.232">
+			SipPort:
+			<input id="sipPort" type="text" style="width:110px" value="5060">
+			LogPath:
+			<input id="logPath" type="text" style="width:150px" value="D:\\eLTE_Player_log">
+			LogLevel:
+			<select id="logLevel">
+				<option id="debug" value="0">Debug</option>
+				<option id="info" value="1">Info</option>
+				<option id="warn" value="2">Warn</option>
+				<option id="error" value="3">Error</option>
+			</select>
+			LogoPath:
+			<input id="logoPath" type="text" style="width:110px" value="">
+			Version:
+			<input id="version" type="text" style="width:110px" value="">
+		</form>
+	</div>
+	<hr />
+	<div class="OpreatorButton">
+		<form>
+		<input id="load" type="button" style="width:120px" value="Load" onclick="Load()">
+		<input id="exit" type="button" style="width:120px" value="Exit" onclick="Exit()">
+		<input id="login" type="button" style="width:120px" value="Login" onclick="Login()">
+		<input id="logout" type="button" style="width:120px" value="Logout" onclick="Logout()">
+		<br />
+		<hr />
+		<input id="triggerStatusReport" type="button" style="width:120px" value="TriggerStatusReport" onclick="TriggerStatusReport()">
+		<select id="triggerStatusReportSelect">
+			<option id="ONTriggerStatusReport" value="1">ON</option>
+			<option id="OFFTriggerStatusReport" value="0">OFF</option>
+		</select>
+		<br />
+		<hr />
+		<input id="startRealPlay" type="button" style="width:120px" value="StartRealPlay" onclick="StartRealPlay()">
+		<input id="stopRealPlay" type="button" style="width:120px" value="StopRealPlay" onclick="StopRealPlay()">
+		<input id="reverseRealPlay" type="button" style="width:120px" value="ReverseRealPlay" onclick="ReverseRealPlay()">
+		<input id="recvVideoPlay" type="button" style="width:120px" value="RecvVideoPlay" onclick="RecvVideoPlay()">
+		ResourceID:
+		<input id="resourceId" type="text" style="width:40px">
+		VideoFormat:
+		<select id="videoFormat">
+			<option id="D1" value="D1">D1</option>
+			<option id="CIF" value="CIF">CIF</option>
+			<option id="QCIF" value="QCIF">QCIF</option>
+			<option id="720P" value="720P">720P</option>
+			<option id="1080P" value="1080P">1080P</option>
+		</select>
+		CameraType:
+		<select id="cameraType">
+			<option id="front" value="0">前置摄像头</option>
+			<option id="back" value="1">后置摄像头</option>
+		</select>
+		UserConfirm:
+		<select id="userConfirm">
+			<option id="unconfirm" value="0">无需确认</option>
+			<option id="confirm" value="1">需要确认</option>
+		</select>
+		MuteType:
+		<select id="muteType">
+			<option id="unmute" value="0">需要伴音</option>
+			<option id="mute" value="1">无需伴音</option>
+		</select>
+		<br/>
+		<input id="startVideoDispatch" type="button" style="width:120px" value="StartVideoDispatch" onclick="StartVideoDispatch()">
+		Dstviewerlist:
+		<input id="dstviewerlist" type="text" style="width:200px">
+		<input id="stopVideoDispatch" type="button" style="width:120px" value="StopVideoDispatch" onclick="StopVideoDispatch()">
+		StopDispatchResId:
+		<input id="stopDispatchResId" type="text" style="width:120px">		
+		<br />
+		<hr />
+		<input id="showRealPlay" type="button" style="width:120px" value="ShowRealPlay" onclick="ShowRealPlay()">
+		<input id="hideRealPlay" type="button" style="width:120px" value="HideRealPlay" onclick="HideRealPlay()">
+		<input id="snapshot" type="button" style="width:120px" value="Snapshot" onclick="Snapshot()">
+		<input id="playSound" type="button" style="width:120px" value="PlaySound" onclick="PlaySound()">
+		<input id="stopSound" type="button" style="width:120px" value="StopSound" onclick="StopSound()">
+		<input id="fullScreen" type="button" style="width:120px" value="FullScreen" onclick="FullScreen()">
+		<input id="normalScreen" type="button" style="width:120px" value="NormalScreen" onclick="NormalScreen()">
+        <input id="StartDiscreetListen" type="button" style="width:136px" value="StartDiscreetListen" onclick="Startdiscreetlisten()">
+        <input id="StopDiscreetListen" type="button" style="width:130px" value="StopDiscreetListen" onclick="Stopdiscreetlisten()">
+        <input id="GetVWallIDList" type="button" style="width:120px" value="GetVWallIDList" onclick="GetVWallIDlist()">
+         <input id="VWallStart" type="button" style="width:120px" value="VWallStart" onclick="VWallstart()">
+         <input id="VWallStop" type="button" style="width:120px" value="VWallStop" onclick="VWallstop()"> 
+         <input id="VWallID" type="text" style="width:200px" value="99910001">
+  		<br />
+		<hr />
+		<input id="setVideoPos" type="button" style="width:120px" value="SetVideoPos" onclick="SetVideoPos()">
+		Left:
+		<input id="left" type="text" style="width:40px" value="0">
+		Top:
+		<input id="top" type="text" style="width:40px" value="0">
+		Width:
+		<input id="width" type="text" style="width:40px" value="500">
+		Height:
+		<input id="height" type="text" style="width:40px" value="450">
+		<br />
+		<hr />
+		<input id="setTitleText" type="button" style="width:120px" value="SetTitleText" onclick="SetTitleText()">
+		<input id="titleText" type="text" style="width:120px" value="实况播放">
+		<br />
+		<hr />
+		工具栏:
+		<select id="toolBar" onchange="ShowToolBar()">
+			<option id="showToolBar" value="1">ShowToolBar</option>
+			<option id="hideToolBar" value="0">HideToolBar</option>
+		</select>
+		语言:
+		<select id="language" onchange="SetLang()">
+			<option id="lang_zh_CN" value="1">中文</option>
+			<option id="lang_en_US" value="2">English</option>
+			<option id="lang_es_ES" value="3">西班牙</option>
+		</select>
+		<br />
+		<hr />
+		<input id="p2pDial" type="button" style="width:120px" value="P2PDial" onclick="P2PDial()">
+		<input id="p2pReceive" type="button" style="width:120px" value="P2PReceive" onclick="P2PReceive()">
+		<input id="p2pReject" type="button" style="width:120px" value="P2PReject" onclick="P2PReject()">
+		<input id="p2pHangup" type="button" style="width:120px" value="P2PHangup" onclick="P2PHangup()">
+		<input id="p2pBreakin" type="button" style="width:120px" value="P2PBreakin" onclick="P2PBreakin()">
+		<input id="p2pBreakoff" type="button" style="width:120px" value="P2PBreakoff" onclick="P2PBreakoff()">
+		<input id="p2pMute" type="button" style="width:120px" value="P2PMute" onclick="P2PMute()">
+		<input id="p2pUnMute" type="button" style="width:120px" value="P2PUnMute" onclick="P2PUnMute()">
+        <input id="EnvironmentListen" type="button" style="width:120px" value="EnvironmentListen" onclick="Environmentlisten()">
+		ResourceID:
+		<input id="p2pResId" type="text" style="width:40px">
+		<br />
+		<hr />
+		<input id="unSubscribeGroup" type="button" style="width:120px" value="UnSubscribeGroup" onclick="UnSubscribeGroup()">
+		<input id="subJoinGroup" type="button" style="width:120px" value="SubJoinGroup" onclick="SubJoinGroup()">
+		<input id="pttDial" type="button" style="width:120px" value="PTTDial" onclick="PTTDial()">
+		<input id="pttRelease" type="button" style="width:120px" value="PTTRelease" onclick="PTTRelease()">
+		<input id="pttHangup" type="button" style="width:120px" value="PTTHangup" onclick="PTTHangup()">
+		<input id="pttEmergency" type="button" style="width:120px" value="PTTEmergency" onclick="PTTEmergency()">
+		<input id="groupBreakoff" type="button" style="width:120px" value="GroupBreakoff" onclick="GroupBreakoff()">
+		<input id="pttMute" type="button" style="width:120px" value="PTTMute" onclick="PTTMute()">
+		<input id="pttUnMute" type="button" style="width:120px" value="PTTUnMute" onclick="PTTUnMute()">
+		GroupID:
+		<input id="groupId" type="text" style="width:40px">
+		SpeakerID:
+		<input id="speakerId" type="text" style="width:40px">
+		
+		<br />
+		<hr />
+		<input id="getDCInfo" type="button" style="width:120px" value="GetDCInfo" onclick="GetDCInfo()">
+		<input id="getDcGroups" type="button" style="width:120px" value="GetDcGroups" onclick="GetDcGroups()">
+		<input id="getDcUsers" type="button" style="width:120px" value="GetDcUsers" onclick="GetDcUsers()">
+		<input id="getGroupUsers" type="button" style="width:120px" value="GetGroupUsers" onclick="GetGroupUsers()">
+		<input id="getGroupInfo" type="button" style="width:120px" value="GetGroupInfo" onclick="GetGroupInfo()">
+		<input id="getUserInfo" type="button" style="width:120px" value="GetUserInfo" onclick="GetUserInfo()">
+		GroupID:
+		<input id="groupIdForQuery" type="text" style="width:40px">
+		UserID:
+		<input id="userIdForQuery" type="text" style="width:40px">
+		<input id="getUserRECFileInfoList" type="button" style="width:120px" value="GetRECFile" onclick="GetUserRECFileInfoList()">
+		<input id="queryUserRECFileInfoListXml" type="text" style="width:520px" value="<Content><RECQueryInfo><CallType>-1</CallType><Caller>-1</Caller><Callee>-1</Callee><ResourceID>8888</ResourceID><StartSec></StartSec><EndSec></EndSec></RECQueryInfo></Content>">
+		<br />
+		<br />
+		<textarea id="textArea" rows="3" cols="200" readonly="true"></textarea>
+		<br />
+		<hr />
+		<input id="sDSSendMessage" type="button" style="width:120px" value="SDSSendMessage" onclick="SDSSendMessage()">
+		收件人:
+		<input id="receiver" type="text" style="width:120px" value="8890;8892;4114">
+		附件:
+		<input id="attachMent" type="text" style="width:200px">
+		内容:
+		<input id="content" type="text" style="width:200px">
+		<br />
+		<hr />
+		<input id="gisSubscribe" type="button" style="width:120px" value="GISSubscribe" onclick="GISSubscribe()">
+		<input id="gisUnSubscribe" type="button" style="width:120px" value="GISUnSubscribe" onclick="GISUnSubscribe()">
+		ResId:
+		<input id="gisid" type="text" style="width:200px" value="8890;8892;8893">
+		<br />
+		<hr />
+		<input id="createDGNA" type="button" style="width:120px" value="CreateDGNA" onclick="CreateDGNA()">
+		<input id="cancelDGNA" type="button" style="width:120px" value="CancelDGNA" onclick="CancelDGNA()">
+		<input id="createTEMPGRP" type="button" style="width:120px" value="CreateTEMPGRP" onclick="CreateTEMPGRP()">
+		GroupId:
+		<input id="DgroupId" type="text" style="width:60px" >
+		Alias:
+		<input id="alias" type="text" style="width:60px" >
+		Priority:
+		<input id="priority" type="text" style="width:60px" value = "15">
+		MaxPeriod:
+		<input id="maxPeriod" type="text" style="width:60px" value = "60">
+		GroupList:
+		<input id="groupList" type="text" style="width:120px" value = "1001;1002">
+		UserList:
+		<input id="userList" type="text" style="width:120px" value = "4114;4115">
+		</form>
+	</div>
+	<hr />
+	<div class="ShowText">
+		<form>
+		LocalVideoPort:
+		<input id="localVideoPort" type="text" style="width:60px">
+		LocalAudioPort:
+		<input id="localAudioPort" type="text" style="width:60px">
+		RemoteVideoPort:
+		<input id="remoteVideoPort" type="text" style="width:60px">
+		RemoteAudioPort:
+		<input id="remoteAudioPort" type="text" style="width:60px">
+	</div>
+	<hr />
+	<div id="status" style="height: 26px; position: absolute; left: 0px; right:0px; bottom: 0px; overflow: hidden;">
+		<span id="result">调用接口结果</span>
+		<input id="resultcode" style="width: 300px;" title="调用接口返回码，调用接口成功，返回码为0">
+		<span id="result">事件上报信息</span>
+		<input id="eventType" style="width: 300px;" title="事件上报信息">
+	</div>
+	
+	<!-- ocx 事件处理 -->
+	<script language="javascript" for="eLTE_PlayerOCX" event="ELTE_OCX_Event(ulEventType,pEventDataXml)">
+		var msg = "EventType: ";
+		var isLogin = false;
+		msg +=    ulEventType;
+		if (ulEventType == 2)
+		{
+			var xmlDoc = $.parseXML(pEventDataXml);
+			xmlDoc = $(xmlDoc);
+			var type = xmlDoc.find("StatusType").text();
+			var value = xmlDoc.find("StatusValue").text();
+			var strResId = xmlDoc.find("ResourceID").text();
+			
+			if (type == 15 && value == 4011)
+			{
+				if(isLogin == false)
+				{
+					alert("登录成功");
+					isLogin = true;
+				}
+			}
+			else if (type == 15 && value != 4011 && value != 4017)
+			{
+				if(isLogin == true)
+				{
+					alert("登陆失败");
+				}
+			}
+			else if (type == 11)
+			{
+				var strOut;
+				if(value == 4003)
+				{
+					strOut = "群组[";
+					strOut += strResId;
+					strOut += "]订阅成功.";
+				}
+				else if(value == 4004)
+				{
+					strOut = "群组[";
+					strOut += strResId;
+					strOut += "]去订阅成功.";
+				}
+				alert(strOut);
+			}
+			else if (type == 21)
+			{
+				var cause = xmlDoc.find("Cause").text();
+				var group = xmlDoc.find("AttachingGroup").text();
+				var strOut;
+				if(value == 4025)
+				{
+					strOut = "动态重组[";
+					strOut += group;
+					strOut += "]创建失败.失败原因=";
+					strOut += cause;
+				}
+				else if(value == 4024)
+				{
+					strOut = "动态重组[";
+					strOut += group;
+					strOut += "]创建成功.";
+					$("#DgroupId").val(group);
+				}
+				alert(strOut);
+			}
+			
+			msg += " type:"
+			msg += type;
+			msg += " value:"
+			msg += value;
+		}
+		else if (ulEventType == 1)
+		{
+			var xmlDoc = $.parseXML(pEventDataXml);
+			xmlDoc = $(xmlDoc);
+			var type = xmlDoc.find("CallStatus").text();
+			if (type == 3003)
+			{
+				var localVideoPort = xmlDoc.find("LocalVideoPort").text();
+				var localAudioPort = xmlDoc.find("LocalAudioPort").text();
+				var remoteVideoPort = xmlDoc.find("RemoteVideoPort").text();
+				var remoteAudioPort = xmlDoc.find("RemoteAudioPort").text();
+				
+				$("#localVideoPort").val(localVideoPort);
+				$("#localAudioPort").val(localAudioPort);
+				$("#remoteVideoPort").val(remoteVideoPort);
+				$("#remoteAudioPort").val(remoteAudioPort);
+				//为了与界面按钮状态保持一致这里需要静音
+				var param = "<Content><MuteParam><CallType>2</CallType></MuteParam></Content>";
+		
+				resultXml = ocx.ELTE_OCX_VolMute(xmlDoc.find("Callee").text(), param);
+			}
+			else if (type == 3009)
+			{
+				$("#localVideoPort").val("");
+				$("#localAudioPort").val("");
+				$("#remoteVideoPort").val("");
+				$("#remoteAudioPort").val("");
+			}
+			else if (type == 3011)
+			{
+				var strResID = xmlDoc.find("Uri").text();
+				var strMuteType = xmlDoc.find("SoundMute").text();
+				$("#resourceId").val(strResID);
+				$("#muteType").val(strMuteType);
+				if(confirm(strResID + " 视频来电提示"))
+				{
+					RecvVideoPlay();
+				}
+				else
+				{
+					StopRealPlay();
+				}
+			}
+			else if (type == 3006)
+			{
+				//为了与界面按钮状态保持一致这里需要静音
+				var param = "<Content><MuteParam><CallType>2</CallType></MuteParam></Content>";
+		
+				resultXml = ocx.ELTE_OCX_VolMute(xmlDoc.find("Callee").text(), param);
+			}
+			
+			if (3021 == type || 3013 == type || 3008 == type)
+			{
+				//alert(type);
+				var strResID = xmlDoc.find("Uri").text();
+				if(3008 == type)
+				{
+					strResID = xmlDoc.find("Uri").text();
+				}
+				StopCurrentRealPlay(strResID);
+			}
+			
+			msg += " type:"
+			msg += type;
+		}
+		else if (ulEventType == 4)
+		{
+			<!-- GetDcUsers();	TriggerStatusReport();	-->
+		}
+		else if (ulEventType == 5)
+		{
+			var xmlDoc = $.parseXML(pEventDataXml);
+			xmlDoc = $(xmlDoc);
+			var status = xmlDoc.find("P2pcallStatus").text();
+			var caller = xmlDoc.find("Caller").text();
+			var callee = xmlDoc.find("Callee").text();
+			
+			if (status == 2002)
+			{
+				$("#p2pResId").val(caller);
+				alert("来电请求:" + caller);
+			}
+			else if (status == 2003)
+			{
+				alert("点呼已接听");
+			}
+			else if (status == 2009 || status == 2010)
+			{
+				alert("点呼已挂断");
+			}
+			else if (status == 2011)
+			{
+				alert("点呼已取消");
+			}
+			else if (status == 2013)
+			{
+				alert("点呼用户正忙");
+			}
+			else if (status == 2017)
+			{
+				alert("点呼无应答");
+			}
+			else if (status == 2020)
+			{
+				alert("点呼失败");
+			}
+		}
+		else if (ulEventType == 6)
+		{
+			var xmlDoc = $.parseXML(pEventDataXml);
+			xmlDoc = $(xmlDoc);
+			var grpId = xmlDoc.find("GroupID").text();
+			var status = xmlDoc.find("GroupCallStatus").text();
+			var speaker = xmlDoc.find("Speaker").text();
+			
+			$("#groupId").val(grpId);
+			$("#speakerId").val(speaker);
+		}
+		else if (ulEventType ==0 || ulEventType == 8 || ulEventType == 9 || ulEventType == 10 || ulEventType == 11)
+		{
+			msg += pEventDataXml;
+		}
+		$("#eventType").val(msg);
+	</script>
+	
+	<!-- ocx 加载 -->
+	<div class="ocxDiv">
+		<OBJECT id="eLTE_PlayerOCX" classid="CLSID:6AB35B6F-D5D4-4DA3-9503-1AD4E5E1E589"/>
+	</div>
+</body> 
+</html>

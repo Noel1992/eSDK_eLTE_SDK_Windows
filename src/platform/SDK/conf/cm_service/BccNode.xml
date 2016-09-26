@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="BccNode" MOC_NAME_C="BCC节点" Module="BCC" ACCESS_CONTROL="modify,read" DEST_SVC="custom:ubp_bccnode:CreateModule:before" Group="" Relation="">
+		<Parameter name="BccNodeIndex" desc="配置索引" type="int" range="[0,2147483647]" constrain="PRI" mode="display" />
+		<Parameter name="BccNodeID" desc="BCC节点ID" type="int" range="[0,2147483647]" constrain="NOT NULL" mode="update" />
+		<Parameter name="AddrIPV4" desc="IPV4地址" type="string" range="[0,15]" constrain="NOT NULL" c_type="ipv4" mode="update" />
+		<Parameter name="SipPort" desc="SIP端口号" type="int" range="[1024,65535]" constrain="NOT NULL" mode="update" default="5060" />
+		<Parameter name="WorkMode" desc="工作模式" type="enum" range="0,1" vlist="0:独立模式,1:互联模式" default="1" />
+		<Parameter name="OuterAddrIPV4" desc="外部IPV4地址" type="string" range="[0,15]" c_type="ipv4" mode="update" />
+		<Parameter name="OuterSipPort" desc="外部SIP端口号" type="int" range="[1024,65535]" mode="update" />
+		<Parameter name="SipTlsPort" desc="内网SIP加密端口" type="int" range="[1024,65535]" default="5061" />
+		<Parameter name="OuterSipTlsPort" desc="外网SIP加密端口" type="int" range="[1024,65535]" default="5061" />
+		<Parameter name="OuterZmqSubPort" desc="外网ZMQ订阅发布接口" type="int" range="[1,65535]" mode="update" />
+		<Parameter name="OuterZmqPort" desc="外网ZMQ异步消息接口" type="int" range="[1,65535]" mode="update" />
+	</MOC>
+</Moc-Config>

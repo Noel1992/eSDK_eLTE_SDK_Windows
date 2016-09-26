@@ -1,0 +1,155 @@
+
+package ubp.platform;
+
+//////////////////////////////////////////////////////////////////////////
+// 消息头定义
+/////////////////////////////////////////////////////////////////////////
+message IMessageHeader
+{
+  required string msg_id = 1;//待发送消息的ID，全局唯一，类似"ubp.platform.ScaMessage"的字符串
+  required string dest_svc_id = 2; //目标方的svc_key,用于唯一标识目标方
+  optional string src_svc_id = 3; //发送方的svc_key,用于唯一标识发起方
+  optional uint32 operator_code = 4; //全局操作码，有规划的区段
+  optional uint64 sequence = 5; //消息流水号
+  optional uint32 msgType = 6;//1:同步消息;2:异步消息(接收响应);2:异步消息(不接收响应);4:广播消息
+  optional string topic = 7; //广播消息的topic
+  optional string reserved_1 = 8; //预留字段1
+  optional bytes sid = 9; //deal socket的socketID 
+  optional uint32 netype_id = 10; //网元类型id，eOMC下发时必须填充。各类型的netype_id定义如下：eMDC--1800;eMRS--1850;eUDC--1860
+  optional sint32 syncNo = 11;  //UDC 同步号
+}
+
+message IMessageHello
+{
+  required string content = 1;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// 用于内部消息的消息格式
+/////////////////////////////////////////////////////////////////////////
+message IMessageData
+{
+   required IMessageHeader header = 1;
+   required bytes data = 2;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// 请求eApp的信息，和外系统对接时使用
+/////////////////////////////////////////////////////////////////////////
+message ReqUbpInfo{
+	required uint32 opType = 1 [default=0];  //0:请求eApp版本和接口 1：请求DC版本和接口
+}   
+
+//////////////////////////////////////////////////////////////////////////
+// eApp版本和接口的信息
+/////////////////////////////////////////////////////////////////////////
+message UbpVerInfo{
+	required string verId = 1;  //eAPP版本号
+	required string itfId = 2;  //eAPP版本使用的接口ID
+}   
+
+//////////////////////////////////////////////////////////////////////////
+// login消息和外系统对接时使用
+/////////////////////////////////////////////////////////////////////////
+message ReqLogin{
+	required string userName = 1;  //登陆eAPP的用户名
+	required string password = 2;  //登陆eAPP的密码，需加密
+	optional string ipAddress = 3; //客户端终端IP地址
+	optional uint32 clientType = 4;  //客户端类型，0:SDK; 1:eOMC; 2:网关; 3:MDC系列; 4:MRS系列
+	optional bool tlsMode = 5 [default=false];  
+}   
+
+message LoginResult{
+  required sint32 Result = 1;  //0：成功；-1：失败
+	optional uint32 sessionId	= 2;  //会话号
+	
+	optional string failcause	= 3;  //失败原因
+}   
+
+//////////////////////////////////////////////////////////////////////////
+// 安全进程鉴权接口
+/////////////////////////////////////////////////////////////////////////
+
+message AccountValidate{
+	required string ISDN = 1;  //
+	required uint32 AppType = 2;  //0：AAServer，1：SIP，2：XMPP，3：ZMQ业务，4：远程SDK
+	required string pwd = 3; //
+	required uint32 accounttype = 4;  //0:PTTUSER,1:FIXEDUSER,2:OM USER
+	optional uint32 result = 5;//sip 认证结果
+}   
+
+message AccountValidateResponse{
+  required string ISDN = 1;  //
+  required uint32 result = 2;  //0：成功；1：失败
+  required uint32 errcode = 3;
+  optional uint32 loginretyrtime = 4;
+  optional uint32 loginunlocktime = 5;
+} 
+
+message  UnlockAccount
+{
+	required string ISDN = 1;
+}
+
+message  UnlockAccountResponse
+{
+  required  uint32 result = 1;
+  required  string  ISDN = 2;
+  optional  int32  errcode = 3;          //失败原因值
+}
+
+message ProcessStartMsg{
+  required string groupname = 1;
+  required string processname = 2;
+  required uint32 processid = 3;
+} 
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+// 握手消息（和外系统对接时使用）
+/////////////////////////////////////////////////////////////////////////
+message ReqHandShaking{
+	required int32 optype = 1; //枚举值,操作名(SHK)
+	required string moc = 2; //操作对象名称(EAPP)
+	required int32 id = 3; 
+}
+
+message Handshaking{
+	required uint32 id = 1;  //流水ID
+}   
+
+//////////////////////////////////////////////////////////////////////////
+// MQ Query Message
+/////////////////////////////////////////////////////////////////////////
+message MqQueryMsg
+{
+	required string mocname = 1;
+	optional string condition = 2;
+	optional uint32 checkpoint = 3 [default=0];
+	optional uint32 limit = 4 [default=0]; 
+}
+
+// 22999通道握手消息客户端发req（保持长链接DTS2016061506728）
+message ReqHBForMqChannel{
+	required uint32 id = 1; // 流水ID
+}
+
+// 22999通道握手消息服务端回rsp（保持长链接DTS2016061506728）
+message RspHBForMqChannel{
+	required uint32 id = 1; // 流水ID
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Test only
+/////////////////////////////////////////////////////////////////////////
+
+message TestPBMessage
+{  
+    required sint64 timeStamp = 1;
+	required uint64 sequence = 2;
+	optional bytes  buffer = 3;
+}
+
+//////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="web_login_failure" MOC_NAME_C="" Module="WEB" ACCESS_CONTROL="" DEST_SVC="" Group="" Relation="">
+		<Parameter name="id" desc="" type="string" range="" constrain="PRI" />
+		<Parameter name="create_date" desc="" type="datetime" range="" />
+		<Parameter name="modify_date" desc="" type="datetime" range="" />
+		<Parameter name="is_account_locked" desc="" type="int" range="" />
+		<Parameter name="locked_date" desc="" type="datetime" range="" />
+		<Parameter name="login_failure_count" desc="" type="int" range="" />
+		<Parameter name="username" desc="" type="string" range="" />
+	</MOC>
+</Moc-Config>

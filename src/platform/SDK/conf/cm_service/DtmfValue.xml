@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="DtmfValue" MOC_NAME_C=" 键值配置表" Module="BCC" ACCESS_CONTROL="modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ID" desc="索引" type="int" range="[1,2147483647]" constrain="PRI" default="1" />
+		<Parameter name="DtmfRequestValue" desc="抢权键值" type="string" range="[1,1]" constrain="NOT NULL" mode="update" default="1" />
+		<Parameter name="DtmfReleaseValue" desc="放权键值" type="string" range="[1,1]" constrain="NOT NULL" mode="update" default="2" />
+	</MOC>
+</Moc-Config>

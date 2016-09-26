@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+file      : \code\conf\ubp_db_cfgdef.xsd
+install   : \install\conf\ubp_db_cfgdef.xsd
+author    : XiaoLongguang
+created   : 2012/12/10 11:05
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dao="http://www.td-tech.com/ubp/platform/dao"
+            targetNamespace="http://www.td-tech.com/ubp/platform/dao">
+
+  <xsd:complexType name="dbcfg">
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
+    <xsd:attribute name="value" type="xsd:string" use="required"/>
+  </xsd:complexType>
+  
+
+  <xsd:complexType name="DAO">
+    <xsd:sequence>
+      <xsd:element name="dbcfg" type="dao:dbcfg" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    
+    <xsd:attribute name="name" type="xsd:string" use="required"/>    
+    <xsd:attribute name="active" type="xsd:boolean" use="required"/>    
+    <xsd:attribute name="DefaultDAO" type="xsd:boolean" default="false"/>   
+  </xsd:complexType>
+
+  <xsd:complexType name="DAOCfgs">
+    <xsd:sequence>
+      <xsd:element name="DAO" type="dao:DAO" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:element name="DAOCfgs" type="dao:DAOCfgs"/>
+</xsd:schema>
+  

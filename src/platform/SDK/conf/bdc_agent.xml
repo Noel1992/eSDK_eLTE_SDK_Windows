@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sca:svcagent xmlns:sca="http://www.td-tech.com/ubp/platform/sca/xml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.td-tech.com/ubp/platform/sca/xml svc_agent_4.0.xsd"
+         name="svc_agent">
+         <!-- tcmalloc_trigger="on" ： open tcmalloc -->
+         <!-- valgrind_trigger="on" ： open valgrind -->
+    <ServiceInfo svc_type="bdc_agent" code_type="cplus" user="ubp" team="BDC" tcmalloc_trigger="off" valgrind_trigger="off">
+      <SvcParams>
+        <Param name="dllvalue" value="ubp_bdc"/>
+        <Param name="dbenable" value="True"/>
+        <Param name="dependsvc" value="cm_agent"/>
+        <Param name="adaptive_transcoding_switch" value="0"/>
+        <Param name="sendrate_calculate_interval" value="5"/>
+        <Param name="bitrate_downshift_interval" value="15"/>
+        <Param name="bitrate_upshift_interval" value="60"/>
+        <Param name="bitrate_downshift_factor" value="5"/>
+        <Param name="bitrate_upshift_factor" value="10"/>
+        <Param name="sendrate_filter_factor" value="20"/>
+        <Param name="lossrate_filter_factor" value="20"/>
+        <Param name="jitter_filter_factor" value="20"/>
+        <Param name="lossrate_threshold" value="10"/>
+        <Param name="jitter_threshold" value="3600"/>
+        <Param name="min_bitrate_QCIF" value="64"/>
+        <Param name="min_bitrate_CIF" value="128"/>
+        <Param name="min_bitrate_D1" value="256"/>
+        <Param name="min_bitrate_720p" value="512"/>
+        <Param name="min_bitrate_1080p" value="1024"/>
+        <Param name="max_bitrate_QCIF" value="256"/>
+        <Param name="max_bitrate_CIF" value="1024"/>
+        <Param name="max_bitrate_D1" value="2048"/>
+        <Param name="max_bitrate_720p" value="4096"/>
+        <Param name="max_bitrate_1080p" value="8192"/>
+        <Param name="default_bitrate_QCIF" value="128"/>
+        <Param name="default_bitrate_CIF" value="256"/>
+        <Param name="default_bitrate_D1" value="1024"/>
+        <Param name="default_bitrate_720p" value="2048"/>
+        <Param name="default_bitrate_1080p" value="4096"/>
+        <Param name="x264_tune" value="zerolatency"/>
+        <Param name="x264_profile" value="baseline"/>
+        <Param name="x264_keyint_max" value="25"/>
+        <Param name="x264_keyint_min" value="25"/>
+        <Param name="x264_qcomp" value="6"/>
+        <Param name="video_jitt" value="80"/>
+        <Param name="source_filter" value="0"/>
+        <Param name="rtp_loss_thd" value="40"/>
+        <Param name="congest_timer" value="200"/>
+        <Param name="congest_rel_timer" value="100"/>
+        <Param name="congest_pre_thd" value="300"/>
+        <Param name="congest_rel_hys" value="50"/>
+        <Param name="jitter_filter" value=".001"/>
+      </SvcParams>
+      <LoadModules>
+        <Module lib="ubp_sca" entry="CreateCfgMgr" />
+        <Module lib="ubp_svcmgr" />
+        <Module lib="ubp_error" />
+        <Module lib="ubp_threadpool" />
+        <Module lib="ubp_timer" />
+        <Module lib="ubp_encryption" />
+        <Module lib="ubp_dao" />
+        <Module lib="ubp_mq" />
+        <Module lib="ubp_fmproxy" />
+        <Module lib="ubp_lmproxy" />
+      </LoadModules>
+      <LoadPB>
+      </LoadPB>
+      <DependSvcs>
+        <Svc name="cm_agent" />
+      </DependSvcs>
+    </ServiceInfo>
+</sca:svcagent>

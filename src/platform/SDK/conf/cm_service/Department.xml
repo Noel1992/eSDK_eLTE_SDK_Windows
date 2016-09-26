@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="Department" MOC_NAME_C="部门" Module="OMC,MDC,MRS" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="DepartmentId" desc="部门ID" type="int" range="[0,65535]" constrain="PRI" mode="display" />
+		<Parameter name="DepartmentName" desc="部门名称" type="string" range="[0,64]" mode="display" />
+	</MOC>
+</Moc-Config>

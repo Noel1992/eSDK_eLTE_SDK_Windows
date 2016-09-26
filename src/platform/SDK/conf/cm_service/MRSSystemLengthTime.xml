@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="MRSSystemLengthTime" MOC_NAME_C="MRS定时参数设置" Module="MRS" ACCESS_CONTROL="modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="ID" desc="ID" type="int" range="[1,2147483647]" constrain="PRI" default="1" />
+		<Parameter name="IpcRegTimeoutLength" desc="摄像头注册的超时长度(毫秒)" type="int" range="[300,75000]" constrain="NOT NULL" mode="update" default="2000" />
+	</MOC>
+</Moc-Config>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="FleetConfig" MOC_NAME_C="Fleet参数配置" Module="OMC,UDC,MDC" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="FleetID" desc="Fleet节点ID" type="int" range="[1,2147483647]" constrain="PRI" mode="display" />
+		<Parameter name="SharedPstnGwZoneID" desc="共享PSTN网关所在的ZoneID" type="int" range="[0,2147483647]" mode="display" />
+	</MOC>
+</Moc-Config>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+///////////////////////////////////////////////////////////////////////
+// eAPP全局错误码定义范围如下：
+// Common  : 0     ~ -999
+// Platform:-1000  ~ -9999   
+// OM      :-10000 ~ -19999   
+// BCC     :-20000 ~ -29999
+// BDC     :-30000 ~ -34999
+// BDC_FRAMEWORDK :-35000 ~ -39999
+// DC      :-40000 ~ -49999
+// MRS     :-50000 ~ -64999
+// VGW     :-65000 ~ -69999
+// UDC     :-70000 ~ -79999
+///////////////////////////////////////////////////////////////////////
+-->
+
+<Errors xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+       xsd:noNamespaceSchemaLocation="error_number.xsd">
+
+<!--
+//////////////////////////////////////////////////////////////////////////
+//ErrorInfo for UBP common : 0 ~ - 9999
+//////////////////////////////////////////////////////////////////////////
+-->
+  <Error>
+		<code>0</code>
+		<detail message="Success. " suggestion=""/>
+	</Error>
+  
+	<Error>
+		<code>-1</code>
+		<detail message="Failed. " suggestion=""/>
+	</Error>
+   
+</Errors>

@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{ebd939df-070c-475a-b1d8-70025e652382}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SSLSocket">
+      <UniqueIdentifier>{7a05b600-d171-40bb-bcd0-732862ed042e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{34d5cad5-fc83-49e5-b9b8-f9cece37758a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service">
+      <UniqueIdentifier>{94cb5b38-303e-42c8-8182-fd75dc9f3e42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\UserMgr">
+      <UniqueIdentifier>{a6a04ae7-79d0-414e-8409-3c9ffe35cafe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\LoginMgr">
+      <UniqueIdentifier>{a4aab8c0-a8a7-4f7e-b573-a937fa0f9e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\ProvisionMgr">
+      <UniqueIdentifier>{5142d6f5-9b77-4b8d-9079-357ca416ac6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\ConfigMgr">
+      <UniqueIdentifier>{d6f51907-a29d-45c0-8e0a-bb21ecc1554c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\ServerMgr">
+      <UniqueIdentifier>{8fd07b52-10a3-4698-a536-e099c3aa27be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\OperationMgr">
+      <UniqueIdentifier>{a29ee702-2d86-466e-83ff-d939b04d0d71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\MediaMgr">
+      <UniqueIdentifier>{136ed685-6380-41be-abcb-78603cf59767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service\EventMgr">
+      <UniqueIdentifier>{e1c0e2f9-8a15-4ed0-8b28-fe93bc534bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\crypto">
+      <UniqueIdentifier>{8bb8ea8f-2b89-43d4-b5d1-a32ba2386974}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SharedMemory">
+      <UniqueIdentifier>{55672faf-0b63-4728-8c91-83cbcb0342cd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SSL_Socket.h">
+      <Filter>SSLSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenSSL_Mgr.h">
+      <Filter>SSLSocket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Error.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Log.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Message.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Tool.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="eLTE_SDK.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="UserMgr.h">
+      <Filter>Service\UserMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="eLTE_Types.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginMgr.h">
+      <Filter>Service\LoginMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ProvisionMgr.h">
+      <Filter>Service\ProvisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\eLTE_Xml.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigMgr.h">
+      <Filter>Service\ConfigMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerMgr.h">
+      <Filter>Service\ServerMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationMgr.h">
+      <Filter>Service\OperationMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaMgr.h">
+      <Filter>Service\MediaMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="EventMgr.h">
+      <Filter>Service\EventMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_aes.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_api.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_base64.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crypto\crypto_sha.h">
+      <Filter>Common\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="eLTE_Timer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\mutex_locker.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemory.h">
+      <Filter>SharedMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedMemoryMgr.h">
+      <Filter>SharedMemory</Filter>
+    </ClInclude>
+    <ClInclude Include="MediaPlayer.h">
+      <Filter>SharedMemory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="OpenSSL_Mgr.cpp">
+      <Filter>SSLSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="SSL_Socket.cpp">
+      <Filter>SSLSocket</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\eLTE_Log.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\eLTE_Tool.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="eLTE_SDK.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="UserMgr.cpp">
+      <Filter>Service\UserMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginMgr.cpp">
+      <Filter>Service\LoginMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ProvisionMgr.cpp">
+      <Filter>Service\ProvisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\eLTE_Xml.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigMgr.cpp">
+      <Filter>Service\ConfigMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerMgr.cpp">
+      <Filter>Service\ServerMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="OperationMgr.cpp">
+      <Filter>Service\OperationMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaMgr.cpp">
+      <Filter>Service\MediaMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="EventMgr.cpp">
+      <Filter>Service\EventMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_aes.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_api.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_base64.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crypto\crypto_sha.cpp">
+      <Filter>Common\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="eLTE_Timer.cpp">
+      <Filter>SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemory.cpp">
+      <Filter>SharedMemory</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedMemoryMgr.cpp">
+      <Filter>SharedMemory</Filter>
+    </ClCompile>
+    <ClCompile Include="MediaPlayer.cpp">
+      <Filter>SharedMemory</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="eLTE_SDK.rc" />
+  </ItemGroup>
+</Project>
