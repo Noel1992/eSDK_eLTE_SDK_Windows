@@ -10,8 +10,6 @@ See the License for the specific language governing permissions and
 limitations under the License.*/
 
 // eLTE_PlayerCtrl.cpp : Implementation of the CeLTE_PlayerCtrl ActiveX Control class.
-// lint -e200
-// lint -e309
 #include "stdafx.h"
 #include "eLTE_Player.h"
 #include "eLTE_PlayerCtrl.h"
@@ -21,12 +19,13 @@ limitations under the License.*/
 #include "eLTE_Log.h"
 #include "XMLProcess.h"
 #include "eLTE_Xml.h"
-#include "mq/p2pvideocallstatus_indicator.h"
 
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+#define ELTE_SDK        "\\elte_sdk"
 
 //lint -e1788 -e666
 IMPLEMENT_DYNCREATE(CeLTE_PlayerCtrl, COleControl)
@@ -64,15 +63,15 @@ BEGIN_DISPATCH_MAP(CeLTE_PlayerCtrl, COleControl)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_Login", dispidELTE_OCX_Login, ELTE_OCX_Login, VT_BSTR, VTS_BSTR VTS_BSTR VTS_BSTR VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_Logout", dispidELTE_OCX_Logout, ELTE_OCX_Logout, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TriggerStatusReport", dispidELTE_OCX_TriggerStatusReport, ELTE_OCX_TriggerStatusReport, VT_BSTR, VTS_UI4)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ProvisionManagerInit", dispidELTE_OCX_ProvisionManagerInit, ELTE_OCX_ProvisionManagerInit, VT_BSTR, VTS_BSTR VTS_BSTR)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ProvisionManagerExit", dispidELTE_OCX_ProvisionManagerExit, ELTE_OCX_ProvisionManagerExit, VT_BSTR, VTS_NONE)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ProvisionManagerInit", dispidELTE_OCX_ProvisionManagerInit, ELTE_OCX_ProvisionManagerInit, VT_BSTR, VTS_BSTR VTS_BSTR)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ProvisionManagerExit", dispidELTE_OCX_ProvisionManagerExit, ELTE_OCX_ProvisionManagerExit, VT_BSTR, VTS_NONE)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetDcGroups", dispidELTE_OCX_GetDcGroups, ELTE_OCX_GetDcGroups, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetDcUsers", dispidELTE_OCX_GetDcUsers, ELTE_OCX_GetDcUsers, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetGroupUsers", dispidELTE_OCX_GetGroupUsers, ELTE_OCX_GetGroupUsers, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetGroupInfo", dispidELTE_OCX_GetGroupInfo, ELTE_OCX_GetGroupInfo, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetUserInfo", dispidELTE_OCX_GetUserInfo, ELTE_OCX_GetUserInfo, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetDcInfo", dispidELTE_OCX_GetDcInfo, ELTE_OCX_GetDcInfo, VT_BSTR, VTS_BSTR)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_SubscribeGroup", dispidELTE_OCX_SubscribeGroup, ELTE_OCX_SubscribeGroup, VT_BSTR, VTS_BSTR VTS_UI4)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_UnSubscribeGroup", dispidELTE_OCX_UnSubscribeGroup, ELTE_OCX_UnSubscribeGroup, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetUserRECFileInfoList", dispidELTE_OCX_GetUserRECFileInfoList, ELTE_OCX_GetUserRECFileInfoList, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartRealPlay", dispidELTE_OCX_StartRealPlay, ELTE_OCX_StartRealPlay, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ReverseRealPlay", dispidELTE_OCX_ReverseRealPlay, ELTE_OCX_ReverseRealPlay, VT_BSTR, VTS_BSTR VTS_BSTR)
@@ -94,7 +93,7 @@ BEGIN_DISPATCH_MAP(CeLTE_PlayerCtrl, COleControl)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PRecv", dispidELTE_OCX_P2PRecv, ELTE_OCX_P2PRecv, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PReject", dispidELTE_OCX_P2PReject, ELTE_OCX_P2PReject, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHangup", dispidELTE_OCX_P2PHangup, ELTE_OCX_P2PHangup, VT_BSTR, VTS_BSTR)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_JoinGroup", dispidELTE_OCX_JoinGroup, ELTE_OCX_JoinGroup, VT_BSTR, VTS_BSTR)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_JoinGroup", dispidELTE_OCX_JoinGroup, ELTE_OCX_JoinGroup, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_SubJoinGroup", dispidELTE_OCX_SubJoinGroup, ELTE_OCX_SubJoinGroup, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_PTTDial", dispidELTE_OCX_PTTDial, ELTE_OCX_PTTDial, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_PTTRelease", dispidELTE_OCX_PTTRelease, ELTE_OCX_PTTRelease, VT_BSTR, VTS_BSTR)
@@ -105,11 +104,42 @@ BEGIN_DISPATCH_MAP(CeLTE_PlayerCtrl, COleControl)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PBreakoff", dispidELTE_OCX_P2PBreakoff, ELTE_OCX_P2PBreakoff, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_VolMute", dispidELTE_OCX_VolMute, ELTE_OCX_VolMute, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_VolUnMute", dispidELTE_OCX_VolUnMute, ELTE_OCX_VolUnMute, VT_BSTR, VTS_BSTR VTS_BSTR)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_MuteControl", dispidELTE_OCX_MuteControl, ELTE_OCX_MuteControl, VT_BSTR, VTS_BSTR VTS_BSTR)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_MuteControl", dispidELTE_OCX_MuteControl, ELTE_OCX_MuteControl, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GISSubscribe", dispidELTE_OCX_GISSubscribe, ELTE_OCX_GISSubscribe, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_SetBypassBuildMedia", dispidELTE_OCX_SetBypassBuildMedia, ELTE_OCX_SetBypassBuildMedia, VT_BSTR, VTS_UI4)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ProvisionManagerInitMRS", dispidELTE_OCX_ProvisionManagerInitMRS, ELTE_OCX_ProvisionManagerInitMRS, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_SDSSendMessage", dispidELTE_OCX_SDSSendMessage, ELTE_OCX_SDSSendMessage, VT_BSTR, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartVideoDispatch", dispidELTE_OCX_StartVideoDispatch, ELTE_OCX_StartVideoDispatch, VT_BSTR, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StopVideoDispatch", dispidELTE_OCX_StopVideoDispatch, ELTE_OCX_StopVideoDispatch, VT_BSTR, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_RecvVideoPlay", dispidELTE_OCX_RecvVideoPlay, ELTE_OCX_RecvVideoPlay, VT_BSTR, VTS_BSTR VTS_BSTR)
+
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetDcVWallIDList", dispidELTE_OCX_GetDcVWallIDList, ELTE_OCX_GetDcVWallIDList, VT_BSTR, VTS_NONE)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_VWallStart", dispidELTE_OCX_VWallStart, ELTE_OCX_VWallStart, VT_BSTR, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_VWallStop", dispidELTE_OCX_VWallStop, ELTE_OCX_VWallStop, VT_BSTR, VTS_BSTR VTS_BSTR)
+
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TelephoneDial", dispidELTE_OCX_TelephoneDial, ELTE_OCX_TelephoneDial, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TelephoneHangup", dispidELTE_OCX_TelephoneHangup, ELTE_OCX_TelephoneHangup, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartDiscreetListen", dispidELTE_OCX_StartDiscreetListen, ELTE_OCX_StartDiscreetListen, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StopDiscreetListen", dispidELTE_OCX_StopDiscreetListen, ELTE_OCX_StopDiscreetListen, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartEnvironmentListen", dispidELTE_OCX_StartEnvironmentListen, ELTE_OCX_StartEnvironmentListen, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PTransfer", dispidELTE_OCX_P2PTransfer, ELTE_OCX_P2PTransfer, VT_BSTR, VTS_BSTR VTS_BSTR)
+
+
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_CreatePatchGroup", dispidELTE_OCX_CreatePatchGroup, ELTE_OCX_CreatePatchGroup, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_CancelPatchGroup", dispidELTE_OCX_CancelPatchGroup, ELTE_OCX_CancelPatchGroup, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_AddPatchGroupMember", dispidELTE_OCX_AddPatchGroupMember, ELTE_OCX_AddPatchGroupMember, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_DeletePatchGroupMember", dispidELTE_OCX_DeletePatchGroupMember, ELTE_OCX_DeletePatchGroupMember, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetPatchGroups", dispidELTE_OCX_GetPatchGroups, ELTE_OCX_GetPatchGroups, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetGroupMemberByPatchId", dispidELTE_OCX_GetGroupMemberByPatchId, ELTE_OCX_GetGroupMemberByPatchId, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetPatchGroupInfo", dispidELTE_OCX_GetPatchGroupInfo, ELTE_OCX_GetPatchGroupInfo, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_PTZControl", dispidELTE_OCX_PTZControl, ELTE_OCX_PTZControl, VT_BSTR, VTS_BSTR VTS_UI4 VTS_UI4)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetUserSpecificGISCfg", dispidELTE_OCX_GetUserSpecificGISCfg, ELTE_OCX_GetUserSpecificGISCfg, VT_BSTR, VTS_BSTR)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_SetGisParam", dispidELTE_OCX_SetGisParam, ELTE_OCX_SetGisParam, VT_BSTR, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_GetGisSubscription", dispidELTE_OCX_GetGisSubscription, ELTE_OCX_GetGisSubscription, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ModifyDynamicGroup", dispidELTE_OCX_ModifyDynamicGroup, ELTE_OCX_ModifyDynamicGroup, VT_BSTR, VTS_BSTR VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHalfDpxDial", dispidELTE_OCX_P2PHalfDpxDial, ELTE_OCX_P2PHalfDpxDial, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHalfDpxRelease", dispidELTE_OCX_P2PHalfDpxRelease, ELTE_OCX_P2PHalfDpxRelease, VT_BSTR, VTS_BSTR)
+	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TempUserJoinGroup", dispidELTE_OCX_TempUserJoinGroup, ELTE_OCX_TempUserJoinGroup, VT_BSTR, VTS_BSTR VTS_BSTR)
 END_DISPATCH_MAP()//lint -e786
 
 
@@ -196,7 +226,6 @@ HHOOK CeLTE_PlayerCtrl::s_KeyboardHook = NULL;
 HHOOK CeLTE_PlayerCtrl::s_MouseHook = NULL;
 std::set<CeLTE_PlayerCtrl*> CeLTE_PlayerCtrl::m_eLTE_PlayerList;
 std::map<int, CeLTE_PlayerCtrl*> CeLTE_PlayerCtrl::m_WaitPlayVideoList;
-ULONG CeLTE_PlayerCtrl::m_ulBypass = 1;
 BOOL CeLTE_PlayerCtrl::m_bLogInited = FALSE;
 // CeLTE_PlayerCtrl::CeLTE_PlayerCtrl - Constructor
 
@@ -371,59 +400,92 @@ LRESULT CeLTE_PlayerCtrl::OnMsgExitFullScreen(WPARAM wparam, LPARAM lparam)
 	return 0L;
 }
 
+ELTE_VOID __SDK_CALL CeLTE_PlayerCtrl::ELTE_EventCallBack(ELTE_INT32 iEventType, ELTE_VOID* pEventBuf, ELTE_UINT32 uiBufSize, ELTE_VOID* pUserData)
+{
+	LOG_TRACE();
+
+	if (NULL == pEventBuf && EVENT_NOTIFY_PROVISION_ALLRESYNC != iEventType)
+	{
+		LOG_RUN_DEBUG("pEventBuf is null.");
+		return;
+	}
+
+	if(NULL != pUserData)
+	{	
+		CeLTE_PlayerCtrl* pCtrl = (CeLTE_PlayerCtrl*)pUserData;
+		char* pBuf = NULL;
+		if(EVENT_NOTIFY_PROVISION_ALLRESYNC != iEventType)
+		{
+			pBuf = new char[uiBufSize + 1];
+			if(NULL == pBuf)
+			{
+				return;
+			}
+			memcpy(pBuf, (char*)pEventBuf, uiBufSize);
+			pBuf[uiBufSize] = '\0';
+		}
+		pCtrl->PostMessage(WM_ELTE_POST_EVENT,(WPARAM)iEventType, (LPARAM)pBuf);
+	}
+}//lint !e818
+
 LRESULT CeLTE_PlayerCtrl::OnMsgPostEvent(WPARAM wparam, LPARAM lparam)
 {
 	LOG_TRACE();
+	char* pBuf = (char*)lparam;
 	int iEventId = (int)wparam;
 	INFO_PARAM1(iEventId);
+	if (NULL == pBuf && EVENT_NOTIFY_PROVISION_ALLRESYNC != iEventId)
+	{
+		return -1L;
+	}
+	
+	//目前只有EVENT_NOTIFY_PROVISION_ALLRESYNC == iEventId，字符串才会为空。
+	std::string strXml = "";
+	if(pBuf)
+	{
+		strXml = pBuf;
+		delete [] pBuf;
+		pBuf = NULL;
+	}
 
-	CString xmlStr("");
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	CString xmlStr;
+
 	switch (iEventId)
 	{
 	case EVENT_NOTIFY_USER_STATUS:				// 设备状态变化事件通知
 		{
-			NotifyUserStatusInfo* pInfo = (NotifyUserStatusInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}			
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyUserStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyUserStatus failed.");		
-				return -1L;
-			}
-			delete pInfo;
+			eLTE_Tool::SplitString(strXml, "<UserName>", "</UserName>", strStart, strCentre, strEnd, iSplitFlag);
 		}
 		break;
 	case EVENT_NOTIFY_P2P_VIDEO_CALL_STATUS:	// 开始实况事件通知
 		{
-			NotifyP2pvideocallStatusInfo* pInfo = (NotifyP2pvideocallStatusInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}			
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyP2pvideocallStatus(pInfo, xmlStr);
+			NotifyP2pvideocallStatusInfo pInfo;
+			eLTE_RET iRet = XMLProcess::ParseXmlStringEventNotifyP2pvideocallStatus(pInfo, strXml);
 			if (eLTE_ERR_SUCCESS != iRet)
 			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyP2pvideocallStatus failed.");
+				LOG_RUN_ERROR("ParseXmlStringEventNotifyP2pvideocallStatus failed.");
 				return -1L;
 			}
 
 			// 设置视频参数，用于工具栏操作
-			if (P2Pvideocall_IND_STATUS_ANSWERED == pInfo->iCallStatus
-				|| P2Pvideocall_IND_STATUS_ACKED == pInfo->iCallStatus
-				|| P2Pvideocall_IND_STATUS_REMOTE_NOTSUPPORTED == pInfo->iCallStatus)
+			if (P2Pvideocall_IND_STATUS_ANSWERED == pInfo.iCallStatus
+				|| P2Pvideocall_IND_STATUS_ACKED == pInfo.iCallStatus
+				|| P2Pvideocall_IND_STATUS_REMOTE_NOTSUPPORTED == pInfo.iCallStatus)
 			{
+				if (eLTE_ERR_SUCCESS != iRet)
+				{
+					LOG_RUN_ERROR("Stop audio failed.");
+					return -1L;
+				}
 				// 正在等待播放视频，用于工具栏播放视频
-				std::map<int, CeLTE_PlayerCtrl*>::iterator itor = m_WaitPlayVideoList.find(pInfo->iCallee);
+				std::map<int, CeLTE_PlayerCtrl*>::iterator itor = m_WaitPlayVideoList.find(pInfo.iCallee);
 				if (m_WaitPlayVideoList.end() == itor)
 				{
-					itor = m_WaitPlayVideoList.find(pInfo->iCaller);
+					itor = m_WaitPlayVideoList.find(pInfo.iCaller);
 				}
 				if (m_WaitPlayVideoList.end() != itor)
 				{
@@ -433,33 +495,30 @@ LRESULT CeLTE_PlayerCtrl::OnMsgPostEvent(WPARAM wparam, LPARAM lparam)
 						MediaPlayer& mediaPlayer = pOCX->m_MediaPlayer;
 						CVideoPane& videoPane = pOCX->m_VideoPane;
 
-						if (P2Pvideocall_IND_STATUS_ANSWERED == pInfo->iCallStatus
-							|| P2Pvideocall_IND_STATUS_ACKED == pInfo->iCallStatus)
+						if (P2Pvideocall_IND_STATUS_ANSWERED == pInfo.iCallStatus
+							|| P2Pvideocall_IND_STATUS_ACKED == pInfo.iCallStatus)
 						{
 							// 设置播放参数
-							mediaPlayer.SetPlayerParam((unsigned int)pInfo->iLocalVideoPort, (unsigned int)pInfo->iLocalAudioPort, (unsigned int)pInfo->iRemoteVideoPort, (unsigned int)pInfo->iRemoteAudioPort);
+							mediaPlayer.SetPlayerParam((unsigned int)pInfo.iLocalVideoPort, (unsigned int)pInfo.iLocalAudioPort, (unsigned int)pInfo.iRemoteVideoPort, (unsigned int)pInfo.iRemoteAudioPort);
 
 							// 播放视频
 							(void)mediaPlayer.StartPlayer(videoPane.GetVideoStaticSafeHwnd());
 						}
 
 						// 激活工具栏按钮
-						if(m_ulBypass)
-						{
-							videoPane.EnableImageButton(TRUE);
-						}
+						videoPane.EnableImageButton(TRUE);
 					}
 					m_WaitPlayVideoList.erase(itor);
 				}
 			}
 			// 挂断等待
-			else if (P2Pvideocall_IND_STATUS_HANGUPED_ACTIVE == pInfo->iCallStatus
-				|| P2Pvideocall_IND_STATUS_HANGUPED == pInfo->iCallStatus)
+			else if (P2Pvideocall_IND_STATUS_HANGUPED_ACTIVE == pInfo.iCallStatus
+				|| P2Pvideocall_IND_STATUS_HANGUPED == pInfo.iCallStatus)
 			{
-				std::map<int, CeLTE_PlayerCtrl*>::iterator itor = m_WaitPlayVideoList.find(pInfo->iCallee);
+				std::map<int, CeLTE_PlayerCtrl*>::iterator itor = m_WaitPlayVideoList.find(pInfo.iCallee);
 				if (m_WaitPlayVideoList.end() == itor)
 				{
-					itor = m_WaitPlayVideoList.find(pInfo->iCaller);
+					itor = m_WaitPlayVideoList.find(pInfo.iCaller);
 				}
 				if (m_WaitPlayVideoList.end() != itor)
 				{
@@ -471,44 +530,22 @@ LRESULT CeLTE_PlayerCtrl::OnMsgPostEvent(WPARAM wparam, LPARAM lparam)
 					SetEvent(OperationMgr::m_hHangupEvent);
 				}				
 			}
-
-			delete pInfo;
 		}
 		break;
 	case EVENT_NOTIFY_RESOURCE_STATUS:			// 群组关系状态变化事件通知
 		{
-			NotifyResourceStatusInfo* pInfo = (NotifyResourceStatusInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}			
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyResourceStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyResourceStatus failed.");
-				return -1L;
-			}
-			delete pInfo;
+			eLTE_Tool::SplitString(strXml, "<ResourceName>", "</ResourceName>", strStart, strCentre, strEnd, iSplitFlag);
 		}
 		break;
 	case EVENT_NOTIFY_PROVISION_CHANGE:			// 设备属性配置变更通知事件
 		{
-			NotifyProvisionChangeInfo* pInfo = (NotifyProvisionChangeInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}			
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyProvisionChange(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyProvisionChange failed.");
-				return -1L;
-			}
-			delete pInfo;
+			//节点不会同时存在
+			eLTE_Tool::SplitString(strXml, "<UserName>", "</UserName>", strStart, strCentre, strEnd, iSplitFlag);
+			eLTE_Tool::SplitString(strXml, "<GroupName>", "</GroupName>", strStart, strCentre, strEnd, iSplitFlag);
+			eLTE_Tool::SplitString(strXml, "<Alias>", "</Alias>", strStart, strCentre, strEnd, iSplitFlag);
+			eLTE_Tool::SplitString(strXml, "<StMsg>", "</StMsg>", strStart, strCentre, strEnd, iSplitFlag);
+			eLTE_Tool::SplitString(strXml, "<PGName>", "</PGName>", strStart, strCentre, strEnd, iSplitFlag);
+			eLTE_Tool::SplitString(strXml, "<Address>", "</Address>", strStart, strCentre, strEnd, iSplitFlag);
 		}
 		break;
 	case EVENT_NOTIFY_PROVISION_ALLRESYNC:		// 自动下载配置数据通知事件
@@ -518,140 +555,62 @@ LRESULT CeLTE_PlayerCtrl::OnMsgPostEvent(WPARAM wparam, LPARAM lparam)
 		break;
 	case EVENT_NOTIFY_P2P_CALL_STATUS:			// 点呼状态变化事件
 		{
-			NotifyP2pcallStatusInfo* pInfo = (NotifyP2pcallStatusInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyP2pcallStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyP2pcallStatus failed.");
-				return -1L;
-			}
-			delete pInfo;
 		}
 		break;
 	case EVENT_NOTIFY_GROUP_STATUS:				// 组呼状态变化事件
 		{
-			NotifyGroupStatusInfo* pInfo = (NotifyGroupStatusInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyGroupStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyGroupStatus failed.");
-				return -1L;
-			}
-			delete pInfo;
+			eLTE_Tool::SplitString(strXml, "<SpeakerName>", "</SpeakerName>", strStart, strCentre, strEnd, iSplitFlag);
 		}
 		break;
 	case EVENT_NOTIFY_MODULE_STATUS:			// 模块组件状态事件
 		{
-			NotifyModuleStatusInfo* pInfo = (NotifyModuleStatusInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyModuleStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyModuleStatus failed.");
-				return -1L;
-			}
-			delete pInfo;
 		}
 		break;
 	case EVENT_NOTIFY_GIS_STATUS:               // 终端订阅状态上报事件
 		{
-			GisReportInfo* pInfo = (GisReportInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyGisStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyGisStatus failed.");
-				return -1L;
-			}
-			delete pInfo;
 		}
 		break;
 	case EVENT_NOTIFY_GIS_REPORT:               // 终端GIS信息上报事件
 		{
-			GisReportInfo* pInfo = (GisReportInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifyGisReport(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				LOG_RUN_ERROR("SetXmlStringEventNotifyGisReport failed.");
-				return -1L;
-			}
-			delete pInfo;
 		}
 		break;
 	case EVENT_NOTIFY_SDS_REPORT:  //短信信息上报事件
 		{
-			SdsMessageInfo* pInfo = (SdsMessageInfo*)lparam;
-			if (NULL == pInfo)
+			//Currently only sdscontent transcoding, need to confirm it
+			if(eLTE_ERR_SUCCESS != XMLProcess::SetXmlStringEventNotifySDSReport(strXml, xmlStr))
 			{
-				LOG_RUN_ERROR("pInfo is null.");
-				return -1L;
-			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifySDSReport(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				pInfo = NULL;
 				LOG_RUN_ERROR("SetXmlStringEventNotifySDSReport failed.");
-				return -1L;//lint !e438
-			}
-			delete pInfo;
-			pInfo = NULL;
-		}//lint !e438
-		break;
-	case EVENT_NOTIFY_SDS_RETCODE:  //短信发送状态上报事件
-		{
-			SdsMessageInfo* pInfo = (SdsMessageInfo*)lparam;
-			if (NULL == pInfo)
-			{
-				LOG_RUN_ERROR("pInfo is null.");
 				return -1L;
 			}
-			eLTE_RET iRet = XMLProcess::SetXmlStringEventNotifySDSStatus(pInfo, xmlStr);
-			if (eLTE_ERR_SUCCESS != iRet)
-			{
-				delete pInfo;
-				pInfo = NULL;
-				LOG_RUN_ERROR("SetXmlStringEventNotifySDSStatus failed.");
-				return -1L;//lint !e438
-			}
-			delete pInfo;
-			pInfo = NULL;
-		}//lint !e438
+		}
+		break;
+	case EVENT_NOTIFY_SDS_RETCODE:  //短信发送状态上报事件	
+		{
+		}
 		break;
 	default:
 		{
 			LOG_RUN_ERROR("Invalid eventId.");
-			return -1L;
 		}
-	}	
+	}
+
+	if(0 == xmlStr.GetLength())
+	{
+		if(0 == iSplitFlag) //ansi
+		{
+			xmlStr = eLTE_Tool::ANSIToUnicode(strXml).c_str();
+		}
+		else if(1 == iSplitFlag) //ansi and utf8
+		{
+			xmlStr.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+			if (!strCentre.empty())
+			{
+				xmlStr.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			}
+			xmlStr.Append(eLTE_Tool::ANSIToUnicode(strEnd).c_str());
+		}
+	}
+	
 	// fireEvent
 	ELTE_OCX_Event((ULONG)iEventId, xmlStr);
 	return 0L;
@@ -775,8 +734,18 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetLogPath(LPCTSTR pLogFilePath)
 		return strResult.AllocSysString();
 	}
 
-	eLTE_RET iRet = eLTE_Log::Instance().SetLogPath(eLTE_Tool::UnicodeToANSI(pLogFilePath));
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	// 设置日志路径
+	eLTE_RET iRet = ELTE_SDK_SetLogPath(eLTE_Tool::UnicodeToANSI(pLogFilePath).c_str());
+	if(eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		return strResult.AllocSysString();
+	}
+
+	{
+		iRet = eLTE_Log::Instance().SetLogPath(eLTE_Tool::UnicodeToANSI(pLogFilePath));
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+	}
 
 	return strResult.AllocSysString();
 }//lint !e1762
@@ -798,8 +767,18 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetLogLevel(ULONG ulLogLevel)
 		return strResult.AllocSysString();
 	}
 
-	eLTE_RET iRet = eLTE_Log::Instance().SetLogLevel(ulLogLevel);
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	// 设置日志级别
+	eLTE_RET iRet = ELTE_SDK_SetLogLevel(ulLogLevel);
+	if(eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		return strResult.AllocSysString();
+	}
+
+	{
+		iRet = eLTE_Log::Instance().SetLogLevel(ulLogLevel);
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+	}
 
 	return strResult.AllocSysString();
 }//lint !e1762
@@ -941,22 +920,21 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ShowToolbar(LONG ulToolbar)
 	{
 		m_VideoPane.ShowToolBar(TRUE);
 	}
+	eLTE_RET iRet = eLTE_ERR_SUCCESS;
 	// 更新播放窗口大小
-	if(!m_ulBypass)
+	if(!m_ulByMediaPass)
 	{
-		MediaMgr* pMediaMgr = AppContextMgr::Instance().GetMediaMgr();
-		if (NULL != pMediaMgr)
+		RECT wnd;
+		memset(&wnd, 0x0, sizeof(wnd));
+		m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
+		ELTE_INT32 iResId = m_MediaPlayer.GetMediaPlayerResID();
+		iRet = ELTE_SDK_SetPlayWindowSize(eLTE_Tool::Int2String(iResId).c_str(), (ELTE_ULONG)(wnd.right - wnd.left), (ELTE_ULONG)(wnd.bottom - wnd.top));
+		if(eLTE_ERR_SUCCESS != iRet)
 		{
-			VideoRender* pVideoRender = dynamic_cast<VideoRender*>(pMediaMgr->getRender(m_MediaPlayer.GetMediaPlayerResID()));
-			if (NULL != pVideoRender)
-			{
-				RECT wnd;
-				m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
-				pVideoRender->SetDstRect(0, 0, (int)(wnd.right - wnd.left), (int)(wnd.bottom - wnd.top));
-			}
+			LOG_RUN_ERROR("When show tool bar, call ELTE_SDK_SetPlayWindowSize failed, the res id is %d.", iResId);
 		}
 	}
-	GET_RETURN_CODE_XML(xml, eLTE_ERR_SUCCESS, strResult);
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	return strResult.AllocSysString();
 }
 
@@ -972,7 +950,6 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Load(ULONG ulType)
 	// 日志初始化
 	if (!m_bLogInited)
 	{
-		//Get current path
 		std::string strIniPath = eLTE_Tool::GetOcxPathA();
 		strIniPath.append(LOG_INI_FILE_NAME);
 		unsigned int logLevel[LOG_CATEGORY] = {eLTE_Log::Instance().m_logLevel,eLTE_Log::Instance().m_logLevel,eLTE_Log::Instance().m_logLevel};
@@ -984,19 +961,10 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Load(ULONG ulType)
 		}
 		m_bLogInited = TRUE;
 	}
-
+	
 	// 入参打印
 	LOG_INTERFACE_TRACE();
 	INFO_PARAM1(ulType);
-
-	// 不能重复加载
-	if (m_bHaveLoaded)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_FAILED, strResult);
-		LOG_RUN_ERROR("Can't load eLTE_Player.ocx multiple.");
-		LOG_INTERFACE_INFO(eLTE_ERR_FAILED, "Type:%d", ulType);
-		return strResult.AllocSysString();
-	}
 
 	//入参校验
 	if (eLTE_LOAD_OPERATE_MGR != ulType
@@ -1008,21 +976,75 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Load(ULONG ulType)
 		return strResult.AllocSysString();
 	}
 
+	// 不能重复加载
+	if (m_bHaveLoaded)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_FAILED, strResult);
+		LOG_RUN_ERROR("Can't load eLTE_Player.ocx multiple.");
+		LOG_INTERFACE_INFO(eLTE_ERR_FAILED, "Type:%d", ulType);
+		return strResult.AllocSysString();
+	}
+
+	// 需要加载插件执行管理操作
+	if (eLTE_LOAD_OPERATE_MGR == ulType)
+	{
+		m_ulType = ulType;
+		// 初始化eLTE SDK
+
+		// 设置工作路径
+		TCHAR srcWorkpath[MAX_PATH] = {0};
+		GetCurrentDirectory(MAX_PATH, srcWorkpath);
+		CString workpath = eLTE_Tool::GetOcxPath();
+		workpath += ELTE_SDK;
+		SetCurrentDirectory(workpath);
+
+		ELTE_INT32 iRet = ELTE_SDK_Init((ELTE_INT32)m_ulByMediaPass);
+
+		// 还原工作路径
+		SetCurrentDirectory(srcWorkpath);
+
+		if (eLTE_ERR_SUCCESS != iRet)
+		{
+			GET_RETURN_CODE_XML(xml, iRet, strResult);
+			LOG_RUN_ERROR("ELTE_SDK_Init failed.");
+			LOG_INTERFACE_INFO(iRet, "Type:%d", ulType);
+			return strResult.AllocSysString();
+		}
+		OperationMgr::Instance().m_pCeLTE_PlayerCtrl =  this;
+
+		// 设置回调函数
+		iRet = ELTE_SDK_SetEventCallBack(ELTE_EventCallBack, this);
+		if (eLTE_ERR_SUCCESS != iRet)
+		{
+			GET_RETURN_CODE_XML(xml, iRet, strResult);
+			LOG_RUN_ERROR("ELTE_SDK_SetEventCallBack failed.");
+			LOG_INTERFACE_INFO(iRet, "Type:%d", ulType);
+			return strResult.AllocSysString();
+		}
+	}
+
 	// GDI+
-	Gdiplus::GdiplusStartup(&m_GdiplusToken, &m_GdiplusStartupInput, NULL);
+	int iRet = (int)Gdiplus::GdiplusStartup(&m_GdiplusToken, &m_GdiplusStartupInput, NULL);
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GdiplusStartup failed.");
+		LOG_INTERFACE_INFO(iRet, "Type:%d", ulType);
+		return strResult.AllocSysString();
+	}
 
 	// 修改eLTE SDK 环境变量EASY_INSTALL
 	(void)eLTE_Tool::ChangeEnvironmentVariable();
 
 	// 初始化配置参数
-	int iRet = m_ConfigMgr.Start(m_MediaPlayer, m_VideoPane, OperationMgr::Instance());
-	if (eLTE_ERR_SUCCESS != iRet)
+	(void)m_ConfigMgr.Start(m_MediaPlayer, m_VideoPane, OperationMgr::Instance());
+	/*if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
 		LOG_RUN_ERROR("ConfigMgr start failed.");
 		LOG_INTERFACE_INFO(iRet, "Type:%d", ulType);
 		return strResult.AllocSysString();
-	}
+	}*/
 
 	// 创建视频窗口
 	if (NULL != m_VideoPane.GetSafeHwnd())
@@ -1032,29 +1054,14 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Load(ULONG ulType)
 	CRect rect;
 	GetClientRect(rect);
 	m_VideoPane.SetCeLTE_PlayerCtrl(this);
-	m_VideoPane.Create(CVideoPane::IDD, CWnd::GetDesktopWindow());
-	m_VideoPane.ShowWindow(SW_HIDE);
 
-	// 需要加载插件执行管理操作
-	if (eLTE_LOAD_OPERATE_MGR == ulType)
+	iRet = m_VideoPane.Create(CVideoPane::IDD, CWnd::GetDesktopWindow());
+	if(!iRet)
 	{
-		// 初始化sdl
-		if(SDL_Init(SDL_INIT_VIDEO)) 
-		{   
-			LOG_RUN_ERROR("Could not initialize SDL - %s\n", SDL_GetError()); 
-		}
-		// 初始化eLTE SDK		
-		iRet = AppContextMgr::Instance().Init();
-		if (eLTE_ERR_SUCCESS != iRet)
-		{
-			GET_RETURN_CODE_XML(xml, iRet, strResult);
-			LOG_RUN_ERROR("AppContextMgr Init failed.");
-			return strResult.AllocSysString();
-		}
-		AppContextMgr::Instance().SetCeLTE_PlayerCtrl(this);
-		m_ulType = ulType;
-		OperationMgr::Instance().m_pCeLTE_PlayerCtrl =  this;
+		LOG_RUN_ERROR("Create VideoPane failed %d.", GetLastError());
 	}
+	iRet = 0;
+	m_VideoPane.ShowWindow(SW_HIDE);
 
 	// eLTE_Player 列表
 	m_eLTE_PlayerList.insert(this);
@@ -1080,7 +1087,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_UnLoad(void)
 	if (eLTE_LOAD_OPERATE_MGR == m_ulType)
 	{
 		// 退出eLTE SDK
-		int iRet = AppContextMgr::Instance().Exit();
+		ELTE_INT32 iRet = ELTE_SDK_Cleanup();
 		if (eLTE_ERR_SUCCESS != iRet)
 		{
 			GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1088,7 +1095,6 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_UnLoad(void)
 			LOG_INTERFACE_INFO(iRet, "");
 			return strResult.AllocSysString();
 		}
-		SDL_Quit();
 		m_ulType = 0;
 	}
 
@@ -1136,17 +1142,14 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_UnLoad(void)
 		m_eLTE_PlayerList.erase(itor);
 	}
 
-	// 设置返回值
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	
 	if (m_eLTE_PlayerList.empty())
 	{
 		// 媒体去初始化
 		(void)m_MediaPlayer.UninitPlayer();
-		LOG_INTERFACE_INFO(iRet, "");
 
 		// 日志结束
-		LOG_EXIT();
+		iRet = LOG_EXIT();
+		LOG_INTERFACE_INFO(iRet, "");
 		m_bLogInited = FALSE;
 		m_bHaveLoaded = FALSE;
 	}
@@ -1154,7 +1157,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_UnLoad(void)
 	{
 		LOG_INTERFACE_INFO(iRet, "");
 	}
-	
+	// 设置返回值
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	return strResult.AllocSysString();
 }
 
@@ -1171,6 +1175,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Login(LPCTSTR pUserID, LPCTSTR pPWD, LPCTSTR pSe
 
 	// load类型是否支持
 	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
 	// 入参检测
 	if (NULL == pUserID || NULL == pPWD || NULL == pServerIP || NULL == pLocalIP || NULL == pServerSIPPort)
 	{
@@ -1179,8 +1184,10 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Login(LPCTSTR pUserID, LPCTSTR pPWD, LPCTSTR pSe
 		return strResult.AllocSysString();
 	}
 
-	int iRet = OperationMgr::Instance().DcLogin(eLTE_Tool::UnicodeToANSI(pUserID), eLTE_Tool::UnicodeToANSI(pPWD), 
-		eLTE_Tool::UnicodeToANSI(pServerIP), eLTE_Tool::UnicodeToANSI(pLocalIP), eLTE_Tool::UnicodeToANSI(pServerSIPPort));
+	ELTE_INT32 iRet = ELTE_SDK_Login(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), eLTE_Tool::UnicodeToANSI(pPWD).c_str(), 
+		                             eLTE_Tool::UnicodeToANSI(pServerIP).c_str(), eLTE_Tool::UnicodeToANSI(pLocalIP).c_str(), 
+									 eLTE_Tool::String2UInt(eLTE_Tool::UnicodeToANSI(pServerSIPPort)));
+
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	if (eLTE_ERR_SUCCESS != iRet)
@@ -1216,7 +1223,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Logout(LPCTSTR pUserID)
 		return strResult.AllocSysString();
 	}
 
-	int iRet = OperationMgr::Instance().DcLogout(eLTE_Tool::UnicodeToANSI(pUserID));
+	int iRet = ELTE_SDK_Logout(eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	if (eLTE_ERR_SUCCESS != iRet)
@@ -1244,11 +1251,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_TriggerStatusReport(ULONG ulEnableStatusReport)
 	// load类型是否支持
 	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
 
-	// 类型转换
-	bool bEnableStatusReport = (0 == ulEnableStatusReport) ? false : true;
-
 	// 触发状态上报
-	int iRet = OperationMgr::Instance().DcTriggerStatusReport(bEnableStatusReport);
+	ELTE_INT32 iRet = ELTE_SDK_TriggerStatusReport((ELTE_INT32)ulEnableStatusReport);
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	LOG_INTERFACE_INFO(iRet, "EnableStatusReport:%d", ulEnableStatusReport);
@@ -1256,54 +1260,54 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_TriggerStatusReport(ULONG ulEnableStatusReport)
 }//lint !e1762
 
 
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_ProvisionManagerInit(LPCTSTR pServerIP, LPCTSTR pUserID)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_ProvisionManagerInit(LPCTSTR pServerIP, LPCTSTR pUserID)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	// 入参检测
+//	if (NULL == pServerIP || NULL == pUserID)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	//int iRet = ProvisionMgr::Instance().Init(eLTE_Tool::UnicodeToANSI(pServerIP), eLTE_Tool::WString2Int(pUserID));
+//
+//	//GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	//LOG_INTERFACE_INFO(iRet, "ServerIP:%s, UserID:%s", eLTE_Tool::UnicodeToANSI(pServerIP).c_str(), eLTE_Tool::UnicodeToANSI(pUserID).c_str());
+//	return strResult.AllocSysString();
+//}//lint !e1762
 
-	CString strResult;
 
-	// TODO: Add your dispatch handler code here
-	LOG_INTERFACE_TRACE();
-	CXml xml;
-
-	// load类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-
-	// 入参检测
-	if (NULL == pServerIP || NULL == pUserID)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
-		return strResult.AllocSysString();
-	}
-
-	int iRet = ProvisionMgr::Instance().Init(eLTE_Tool::UnicodeToANSI(pServerIP), eLTE_Tool::WString2Int(pUserID));
-
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	LOG_INTERFACE_INFO(iRet, "ServerIP:%s, UserID:%s", eLTE_Tool::UnicodeToANSI(pServerIP).c_str(), eLTE_Tool::UnicodeToANSI(pUserID).c_str());
-	return strResult.AllocSysString();
-}//lint !e1762
-
-
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_ProvisionManagerExit(void)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-	CString strResult;
-
-	// TODO: Add your dispatch handler code here
-	LOG_INTERFACE_TRACE();
-	CXml xml;
-
-	// load类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-
-	int iRet = ProvisionMgr::Instance().Exit();
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-
-	LOG_INTERFACE_INFO(iRet, "");
-	return strResult.AllocSysString();
-}//lint !e1762
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_ProvisionManagerExit(void)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	//int iRet = ProvisionMgr::Instance().Exit();
+//	//GET_RETURN_CODE_XML(xml, iRet, strResult);
+//
+//	//LOG_INTERFACE_INFO(iRet, "");
+//	return strResult.AllocSysString();
+//}//lint !e1762
 
 
 BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcGroups(LPCTSTR pUserID)
@@ -1328,8 +1332,9 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcGroups(LPCTSTR pUserID)
 	}
 
 	// 获取群组列表
-	DcGroups* pDcGroups = NULL;
-	int iRet = ProvisionMgr::Instance().GetDcGroups(eLTE_Tool::WString2Int(pUserID), pDcGroups);
+	ELTE_CHAR* pDcGroups = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetDcGroups(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), &pDcGroups);
+
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1338,15 +1343,51 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcGroups(LPCTSTR pUserID)
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringDcGroups(pDcGroups, strResult);
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	std::string strSrc = pDcGroups;
+	int iExistElement = 0;
+	//字符转码
+	for (;;)
+	{
+		iSplitFlag = 0;
+		eLTE_Tool::SplitString(strSrc, "<GroupName>", "</GroupName>", strStart, strCentre, strEnd, iSplitFlag);
+		if(1 == iSplitFlag)
+		{
+			strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+			strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			//strResult.Append(eLTE_Tool::ANSIToUnicode("</GroupName><GroupName>").c_str());
+			iExistElement = 1;
+		}
+		else
+		{
+			break;
+		}
+		strSrc = strEnd;
+	}
+
+	if(1 == iExistElement)
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode("</GroupName></GroupInfo></GroupInfoList></Content>").c_str());
+	}
+	else
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pDcGroups).c_str();
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pDcGroups);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringDcGroups failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 		return strResult.AllocSysString();
 	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<GroupInfoList>"));
 
 	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 	return strResult.AllocSysString();
@@ -1375,8 +1416,9 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcUsers(LPCTSTR pUserID)
 	}
 
 	// 获取用户列表
-	DcUsers* pDcUsers = NULL;
-	int iRet = ProvisionMgr::Instance().GetDcUsers(eLTE_Tool::WString2Int(pUserID), pDcUsers);
+	ELTE_CHAR* pDcUsers = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetDcUsers(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), &pDcUsers);
+
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1385,15 +1427,51 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcUsers(LPCTSTR pUserID)
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringDcUsers(pDcUsers, strResult);
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	std::string strSrc = pDcUsers;
+	int iExistElement = 0;
+	//字符转码
+	for (;;)
+	{
+		iSplitFlag = 0;
+		eLTE_Tool::SplitString(strSrc, "<UserName>", "</UserName>", strStart, strCentre, strEnd, iSplitFlag);
+		if(1 == iSplitFlag)
+		{
+			strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+			strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			//strResult.Append(eLTE_Tool::ANSIToUnicode("</UserName><UserName>").c_str());
+			iExistElement = 1;
+		}
+		else
+		{
+			break;
+		}
+		strSrc = strEnd;
+	}
+
+	if(1 == iExistElement)
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode("</UserName></UserInfo></UserInfoList></Content>").c_str());
+	}
+	else
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pDcUsers).c_str();
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pDcUsers);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringDcUsers failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 		return strResult.AllocSysString();
 	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<UserInfoList>"));
 
 	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 	return strResult.AllocSysString();
@@ -1422,8 +1500,9 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetGroupUsers(LPCTSTR pGroupID)
 	}
 
 	// 获取一个群组的成员列表
-	GrpUserList* pGrpUserList = NULL;
-	int iRet = ProvisionMgr::Instance().GetGroupUsers(eLTE_Tool::WString2Int(pGroupID), pGrpUserList);
+	ELTE_CHAR* pGrpUserList = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetGroupUsers(eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), &pGrpUserList);
+
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1432,15 +1511,18 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetGroupUsers(LPCTSTR pGroupID)
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringGrpUserList(pGrpUserList, strResult);
+	strResult = eLTE_Tool::ANSIToUnicode(pGrpUserList).c_str();
+	iRet = ELTE_SDK_ReleaseBuffer(pGrpUserList);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringGrpUserList failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 		return strResult.AllocSysString();
 	}
+	
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<GroupUserInfoList>"));
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	return strResult.AllocSysString();
@@ -1469,8 +1551,9 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetGroupInfo(LPCTSTR pGroupID)
 	}
 
 	// 获取群组详细配置信息
-	GroupInfo* pGroupInfo = NULL;
-	int iRet = ProvisionMgr::Instance().GetGroupInfo(eLTE_Tool::WString2Int(pGroupID), pGroupInfo);
+	ELTE_CHAR* pGroupInfo = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetGroupInfo(eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), &pGroupInfo);
+
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1479,15 +1562,34 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetGroupInfo(LPCTSTR pGroupID)
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringGroupInfo(pGroupInfo, strResult);
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	eLTE_Tool::SplitString(pGroupInfo, "<GroupName>", "</GroupName>", strStart, strCentre, strEnd, iSplitFlag);
+
+	if(0 == iSplitFlag)
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pGroupInfo).c_str();
+	}
+	else
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+		strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strEnd).c_str());
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pGroupInfo);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringGroupInfo failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 		return strResult.AllocSysString();
 	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<GroupInfo>"));
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	return strResult.AllocSysString();
@@ -1516,8 +1618,9 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetUserInfo(LPCTSTR pUserID)
 	}
 
 	// 获取用户详细信息
-	UserInfo* pUserInfo = NULL;
-	int iRet = ProvisionMgr::Instance().GetUserInfo(eLTE_Tool::WString2Int(pUserID), pUserInfo);
+	ELTE_CHAR* pUserInfo = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetUserInfo(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), &pUserInfo);
+
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1526,15 +1629,34 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetUserInfo(LPCTSTR pUserID)
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringUserInfo(pUserInfo, strResult);
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	eLTE_Tool::SplitString(pUserInfo, "<UserName>", "</UserName>", strStart, strCentre, strEnd, iSplitFlag);
+
+	if(0 == iSplitFlag)
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pUserInfo).c_str();
+	}
+	else
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+		strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strEnd).c_str());
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pUserInfo);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringUserInfo failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 		return strResult.AllocSysString();
 	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<UserInfo>"));
 
 	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 	return strResult.AllocSysString();
@@ -1563,8 +1685,9 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcInfo(LPCTSTR pUserID)
 	}
 
 	// 获取DC详细信息
-	DcProperty* pDcProperty = NULL;
-	int iRet = ProvisionMgr::Instance().GetDcInfo(eLTE_Tool::WString2Int(pUserID), pDcProperty);
+	ELTE_CHAR* pDcProperty = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetDcInfo(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), &pDcProperty);
+
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1573,22 +1696,41 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcInfo(LPCTSTR pUserID)
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringDcProperty(pDcProperty, strResult);
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	eLTE_Tool::SplitString(pDcProperty, "<Alias>", "</Alias>", strStart, strCentre, strEnd, iSplitFlag);
+
+	if(0 == iSplitFlag)
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pDcProperty).c_str();
+	}
+	else
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+		strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strEnd).c_str());
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pDcProperty);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringDcProperty failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 		return strResult.AllocSysString();
 	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<DcInfo>"));
 
 	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 	return strResult.AllocSysString();
 }//lint !e1762
 
 
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_SubscribeGroup(LPCTSTR pGroupID, ULONG ulEnableSubscribeGroup)
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_UnSubscribeGroup(LPCTSTR pGroupID)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -1609,11 +1751,11 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SubscribeGroup(LPCTSTR pGroupID, ULONG ulEnableS
 		return strResult.AllocSysString();
 	}
 
-	// 订阅群组\去订阅群组
-	int iRet = OperationMgr::Instance().DcSubscribeGroup(eLTE_Tool::UnicodeToANSI(pGroupID), ulEnableSubscribeGroup);
+	// 去订阅群组
+	ELTE_INT32 iRet = ELTE_SDK_UnSubscribeGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
-	LOG_INTERFACE_INFO(iRet, "GroupID:%s, EnableSubscribe:%d", eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), ulEnableSubscribeGroup);
+	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	return strResult.AllocSysString();
 }//lint !e1762
 
@@ -1639,37 +1781,96 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetUserRECFileInfoList(LPCTSTR pQueryXml)
 		return strResult.AllocSysString();
 	}
 
-	// 解析入参
-	RECQueryInfo condition;
-	int iRet = XMLProcess::XmlParseRECQueryInfo(eLTE_Tool::UnicodeToANSI(pQueryXml), condition);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("XmlParseRECQueryInfo failed.");
-		LOG_INTERFACE_INFO(iRet, "QueryXml:%s", eLTE_Tool::UnicodeToANSI(pQueryXml).c_str());
-		return strResult.AllocSysString();
-	}
-
 	// 查询录音文件信息
-	UserRecFileInfoList* pInfoList = NULL;
-	iRet = ProvisionMgr::Instance().GetUserRECFileInfoList(&condition, pInfoList);
+	ELTE_CHAR* pInfoList = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetUserRECFileInfoList(eLTE_Tool::UnicodeToANSI(pQueryXml).c_str(), &pInfoList);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
 		LOG_RUN_ERROR("GetUserRECFileInfoList failed.");
 		LOG_INTERFACE_INFO(iRet, "QueryXml:%s", eLTE_Tool::UnicodeToANSI(pQueryXml).c_str());
+		if(pInfoList)
+		{
+			(void)ELTE_SDK_ReleaseBuffer(pInfoList);
+		}
 		return strResult.AllocSysString();
 	}
 
-	// 获取返回XML
-	iRet = XMLProcess::SetXmlStringRecFileInfoList(pInfoList, strResult);
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	std::string strSrc = pInfoList;
+	int iExistElement = 0;
+	/************************************************************************
+	--- XML 格式 ---
+	<Content>
+		<ResultCode></ResultCode>
+		<RECFileInfoList>
+			<RECFileInfo>
+				<CallType></CallType>
+				<Caller></Caller>
+				<Callee></Callee>
+				<ResourceID></ResourceID>
+				<StartSec></StartSec>
+				<EndSec></EndSec>
+				<UrlFTP></UrlFTP>
+				<UrlRTSP></UrlRTSP>
+			</RECFileInfo>
+		<RECFileInfoList>
+	</Content>
+	************************************************************************/
+	//字符转码
+	for (;;)
+	{
+		iSplitFlag = 0;
+		eLTE_Tool::SplitString(strSrc, "<UrlFTP>", "</UrlFTP>", strStart, strCentre, strEnd, iSplitFlag);
+		if(1 == iSplitFlag)
+		{
+			strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+			strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			strResult.Append(eLTE_Tool::ANSIToUnicode("</UrlFTP><UrlRTSP>").c_str());
+			iExistElement = 1;
+		}
+		else
+		{
+			break;
+		}
+		//strSrc = strEnd;
+		iSplitFlag = 0;
+		eLTE_Tool::SplitString(strSrc, "<UrlRTSP>", "</UrlRTSP>", strStart, strCentre, strEnd, iSplitFlag);
+		if(1 == iSplitFlag)
+		{
+			strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			//strResult.Append(eLTE_Tool::ANSIToUnicode("</UrlRTSP></RECFileInfo>").c_str());
+		}
+		else
+		{
+			break;
+		}
+		strSrc = strEnd;
+	}
+
+	if(1 == iExistElement)
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode("</UrlRTSP></RECFileInfo></RECFileInfoList></Content>").c_str());
+	}
+	else
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pInfoList).c_str();
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pInfoList);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("SetXmlStringDcProperty failed.");
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
 		LOG_INTERFACE_INFO(iRet, "QueryXml:%s", eLTE_Tool::UnicodeToANSI(pQueryXml).c_str());
 		return strResult.AllocSysString();
 	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<RECFileInfoList>"));
 
 	LOG_INTERFACE_INFO(iRet, "QueryXml:%s", eLTE_Tool::UnicodeToANSI(pQueryXml).c_str());
 	return strResult.AllocSysString();
@@ -1712,14 +1913,18 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_StartRealPlay(LPCTSTR pResourceID, LPCTSTR pVide
 	}
 
 	// 构建视频参数
-	Video_UL_parameter param;
-	param.fmtvalue = (char*)strVideoFormat.c_str();//lint !e1773
-	param.cameratype = (char*)strCameraType.c_str();//lint !e1773
-	param.user_confirm_type = (char*)strUserConfirmType.c_str();//lint !e1773
-	param.mutetype = (char*)strMuteType.c_str();//lint !e1773
-
+	STVideoParam param;
+	param.strFmtValue = strVideoFormat;
+	param.strCameraType = strCameraType;
+	param.strUserCfmType = strUserConfirmType;
+	param.strMuteType = strMuteType;
+	param.strVideoType = "0";//0为调度台发起视频回传
 	// 开启视频回传
-	iRet = OperationMgr::Instance().DcVideoMonitor(eLTE_Tool::WString2Int(pResourceID), param);
+	iRet = ELTE_SDK_StartRealPlay(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoParam).c_str());
+	if (eLTE_ERR_SUCCESS == iRet)
+	{
+		iRet = OperationMgr::Instance().DcVideoMonitor(eLTE_Tool::WString2Int(pResourceID), param);
+	}
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoParam).c_str());
@@ -1748,30 +1953,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ReverseRealPlay(LPCTSTR pResourceID, LPCTSTR pVi
 		return strResult.AllocSysString();
 	}
 
-	// 解析视频参数
-	std::string strVideoFormat("");
-	std::string strCameraType("");
-	std::string strUserConfirmType("");
-	std::string strMuteType("");
-	int iRet = XMLProcess::XmlParseVideoULParameter(eLTE_Tool::UnicodeToANSI(pVideoParam),
-		strVideoFormat, strCameraType, strUserConfirmType, strMuteType);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("XmlParseVideoULParameter failed.");
-		LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoParam).c_str());
-		return strResult.AllocSysString();
-	}
-
-	// 构建视频参数
-	Video_UL_parameter param;
-	param.fmtvalue = (char*)strVideoFormat.c_str();//lint !e1773
-	param.cameratype = (char*)strCameraType.c_str();//lint !e1773
-	param.user_confirm_type = (char*)strUserConfirmType.c_str();//lint !e1773
-	param.mutetype = (char*)strMuteType.c_str();//lint !e1773
-
 	// 关闭视频回传
-	iRet = OperationMgr::Instance().DcVideoHangup(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = OperationMgr::Instance().DcVideoHangup(eLTE_Tool::WString2Int(pResourceID), false);
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -1783,9 +1966,10 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ReverseRealPlay(LPCTSTR pResourceID, LPCTSTR pVi
 	// 查找播放器
 	std::set<CeLTE_PlayerCtrl*>::iterator itor_b = m_eLTE_PlayerList.begin();
 	std::set<CeLTE_PlayerCtrl*>::iterator itor_e = m_eLTE_PlayerList.end();
+	CeLTE_PlayerCtrl* pOCX = NULL;
 	for (; itor_e != itor_b; itor_b++)
 	{
-		CeLTE_PlayerCtrl* pOCX = *itor_b;
+		pOCX = *itor_b;
 		if (NULL != pOCX)
 		{
 			int iResId = pOCX->m_MediaPlayer.GetMediaPlayerResID();
@@ -1802,10 +1986,35 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ReverseRealPlay(LPCTSTR pResourceID, LPCTSTR pVi
 	}
 
 	// 开启视频回传
-	iRet = OperationMgr::Instance().DcVideoMonitor(eLTE_Tool::WString2Int(pResourceID), param);
+	iRet = ELTE_SDK_StartRealPlay(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoParam).c_str());
 
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	/*if(eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		return strResult.AllocSysString();
+	}*/
+
+	std::map<int, CeLTE_PlayerCtrl*>::iterator itor = m_WaitPlayVideoList.find(eLTE_Tool::String2Int(eLTE_Tool::UnicodeToANSI(pResourceID).c_str()));
+	if (m_WaitPlayVideoList.end() == itor && pOCX)
+	{
+		(void)m_WaitPlayVideoList.insert(std::make_pair(eLTE_Tool::String2Int(eLTE_Tool::UnicodeToANSI(pResourceID).c_str()), this));
+	}
+
+	//if(!m_ulByMediaPass)
+	//{
+	//	iRet = ELTE_SDK_SetPlayWindow(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), (ELTE_VOID*)m_VideoPane.GetVideoStaticSafeHwnd());
+	//	if(eLTE_ERR_SUCCESS != iRet)
+	//	{
+	//		GET_RETURN_CODE_XML(xml, iRet, strResult);
+	//		LOG_RUN_ERROR("ELTE_SDK_SetPlayWindow failed. (%d)", iRet);
+	//		return strResult.AllocSysString();
+	//	}
+	//	// 激活工具栏按钮
+	//	//m_VideoPane.EnableImageButton(TRUE);
+	//}
+
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoParam).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	return strResult.AllocSysString();
 }//lint !e1762
 
@@ -1855,7 +2064,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_StopRealPlay(LPCTSTR pResourceID)
 				// 停止播放视频
 				(void)pOCX->m_MediaPlayer.StopAudio();
 				iRet = pOCX->m_MediaPlayer.StopPlayer();
-				GET_RETURN_CODE_XML(xml, iRet, strResult);
+				//GET_RETURN_CODE_XML(xml, iRet, strResult);
 				// 关闭播放器窗口
 				pOCX->m_VideoPane.PostMessage(WM_CLOSE);
 				break;
@@ -1864,6 +2073,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_StopRealPlay(LPCTSTR pResourceID)
 	}
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	return strResult.AllocSysString();
 }//lint !e1762
 
@@ -1920,7 +2130,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ShowRealPlay(LPCTSTR pResourceID, LPCTSTR pLocal
 
 	// 初始化播放器
 
-	if(CeLTE_PlayerCtrl::m_ulBypass)
+	if(m_ulByMediaPass)
 	{
 		iRet = m_MediaPlayer.InitPlayerParam((IVS_CHAR*)strLocalIP.c_str(),//lint !e1773
 			uiLocalVideoPort, uiLocalAudioPort);
@@ -1957,15 +2167,28 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ShowRealPlay(LPCTSTR pResourceID, LPCTSTR pLocal
 		m_VideoPane.EnableAudio(FALSE);
 	}
 
+	// 是否切换摄像头的判断。m_VideoType=0:调度台请求视频，m_VideoType=1:终端上传视频或视频分发
+	std::string strVideoType = OperationMgr::Instance().GetVideoType(eLTE_Tool::WString2Int(pResourceID));
+	if ("0" == strVideoType)
+	{
+		// 调度台发起视频
+		m_VideoPane.EnableReversePlay(TRUE);
+	}
+	else if ("1" == strVideoType)
+	{
+		// 终端上传视频或者视频分发
+		m_VideoPane.EnableReversePlay(FALSE);
+	}
+
 	// 显示播放窗口
 	m_VideoPane.ShowWindow(SW_SHOW);
 	m_VideoPane.Invalidate(TRUE);
 
 	// 激活工具栏按钮
-	if(m_ulBypass)
-	{
+	//if(m_ulByMediaPass)
+	//{
 		m_VideoPane.EnableImageButton(TRUE);
-	}
+	//}
 
 	// 播放器窗体显示事件
 	PostMessage(WM_ELTE_POST_PLAYER_EVENT, (WPARAM)eLTE_PLAYER_SHOW, NULL);
@@ -2054,11 +2277,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_HideRealPlay(void)
 	// 播放器窗体隐藏事件
 	//PostMessage(WM_ELTE_POST_PLAYER_EVENT, (WPARAM)eLTE_PLAYER_HIDE, NULL);
 
-	if (m_ulBypass)
-	{
-		LOG_INTERFACE_INFO(iRet, "");
-	}
-
+	
+	LOG_INTERFACE_INFO(iRet, "");
 	return strResult.AllocSysString();
 }
 
@@ -2158,24 +2378,23 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetVideoWindowPos(ULONG ulLeft, ULONG ulTop, ULO
 
 	m_VideoPane.SetWindowPos(NULL, (int)ulLeft, (int)ulTop, (int)ulWidth, (int)ulHeight, SWP_DRAWFRAME);
 	m_VideoPane.Invalidate(TRUE);
+	int iRet = eLTE_ERR_SUCCESS;
 	// 更新播放窗口大小
-	if(!m_ulBypass)
+	if(!m_ulByMediaPass)
 	{
-		MediaMgr* pMediaMgr = AppContextMgr::Instance().GetMediaMgr();
-		if (NULL != pMediaMgr)
+		RECT wnd;
+		memset(&wnd, 0x0, sizeof(wnd));
+		m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
+		ELTE_INT32 iResId = m_MediaPlayer.GetMediaPlayerResID();
+		iRet = ELTE_SDK_SetPlayWindowSize(eLTE_Tool::Int2String(iResId).c_str(), (ELTE_ULONG)(wnd.right - wnd.left), (ELTE_ULONG)(wnd.bottom - wnd.top));
+		if(eLTE_ERR_SUCCESS != iRet)
 		{
-			VideoRender* pVideoRender = dynamic_cast<VideoRender*>(pMediaMgr->getRender(m_MediaPlayer.GetMediaPlayerResID()));
-			if (NULL != pVideoRender)
-			{
-				RECT wnd;
-				m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
-				pVideoRender->SetDstRect(0, 0, (int)(wnd.right - wnd.left), (int)(wnd.bottom - wnd.top));
-			}
+			LOG_RUN_ERROR("When set video window pos, call ELTE_SDK_SetPlayWindowSize failed, the res id is %d.", iResId);
 		}
 	}
-	GET_RETURN_CODE_XML(xml, eLTE_ERR_SUCCESS, strResult);
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
-	LOG_INTERFACE_INFO(eLTE_ERR_SUCCESS, "Left:%d, Top:%d, Width:%d, Height:%d", ulLeft, ulTop, ulWidth, ulHeight);
+	LOG_INTERFACE_INFO(iRet, "Left:%d, Top:%d, Width:%d, Height:%d", ulLeft, ulTop, ulWidth, ulHeight);
 	return strResult.AllocSysString();
 }
 
@@ -2281,7 +2500,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetTitleText(LPCTSTR pTitleText)
 	PlayerEventParamInfo* pInfo = new PlayerEventParamInfo;
 	if (NULL != pInfo)
 	{
-		pInfo->strTitle = eLTE_Tool::UnicodeToANSI(pTitleText).c_str();
+		pInfo->strTitle = eLTE_Tool::UnicodeToANSI(pTitleText);
 		PostMessage(WM_ELTE_POST_PLAYER_EVENT, (WPARAM)eLTE_PLAYER_TITLE, (LPARAM)pInfo);
 	}
 
@@ -2312,19 +2531,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_CreateDynamicGroup(LPCTSTR pDGNAParam)
 		return strResult.AllocSysString();
 	}
 
-	// 入参解析
-	DGNA_parameter paramDGNA;
-	int iRet = XMLProcess::XmlParseDGNAParam(eLTE_Tool::UnicodeToANSI(pDGNAParam), paramDGNA);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_RUN_ERROR("XmlParseDGNAParam failed.");
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "DGNAParam:%s", eLTE_Tool::UnicodeToANSI(pDGNAParam).c_str());
-		return strResult.AllocSysString();
-	}
-
 	// 创建动态重组
-	iRet = OperationMgr::Instance().DcCreateDGNA(paramDGNA);
+	ELTE_INT32 iRet = ELTE_SDK_CreateDynamicGroup(eLTE_Tool::UnicodeToANSI(pDGNAParam).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "DGNAParam:%s", eLTE_Tool::UnicodeToANSI(pDGNAParam).c_str());
@@ -2355,7 +2563,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_CancelDynamicGroup(LPCTSTR pResourceID)
 	}
 
 	// 删除动态重组
-	int iRet = OperationMgr::Instance().DcCancelDGNA(eLTE_Tool::WString2Int(pResourceID));
+	ELTE_INT32 iRet = ELTE_SDK_CancelDynamicGroup(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2385,19 +2593,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_CreateTempGroup(LPCTSTR pTEMPGParam)
 		return strResult.AllocSysString();
 	}
 
-	// 入参解析
-	DGNA_parameter paramDGNA;
-	int iRet = XMLProcess::XmlParseDGNAParam(eLTE_Tool::UnicodeToANSI(pTEMPGParam), paramDGNA);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_RUN_ERROR("XmlParseDGNAParam failed.");
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "TEMPGParam:%s", eLTE_Tool::UnicodeToANSI(pTEMPGParam).c_str());
-		return strResult.AllocSysString();
-	}
-
 	// 创建临时组
-	iRet = OperationMgr::Instance().DcCreateTEMPG(paramDGNA);
+	ELTE_INT32 iRet = ELTE_SDK_CreateTempGroup(eLTE_Tool::UnicodeToANSI(pTEMPGParam).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "TEMPGParam:%s", eLTE_Tool::UnicodeToANSI(pTEMPGParam).c_str());
@@ -2419,7 +2616,14 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetNextTempGroupID(void)
 	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
 
 	// 申请一个临时组号
-	int iGroupID = OperationMgr::Instance().DcGetNextTempGroupID();
+	ELTE_INT32 iGroupID = 0; 
+	ELTE_INT32 iRet	= ELTE_SDK_GetTempGroupID(&iGroupID);
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GetTempGroupID failed.");
+		return strResult.AllocSysString();
+	}
 
 	// 获取返回XML
 	GET_NEXT_TEMP_GROUPID_XML(xml, iGroupID, strResult);
@@ -2452,7 +2656,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PDial(LPCTSTR pResourceID)
 	}
 
 	// 发起语音点呼
-	int iRet = OperationMgr::Instance().DcP2PDial(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = ELTE_SDK_P2PDial(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2483,7 +2687,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PRecv(LPCTSTR pResourceID)
 	}
 
 	// 接收语音点呼
-	int iRet = OperationMgr::Instance().DcP2PRecv(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = ELTE_SDK_P2PRecv(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2514,7 +2718,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PReject(LPCTSTR pResourceID)
 	}
 
 	// 拒接语音点呼
-	int iRet = OperationMgr::Instance().DcP2PReject(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = ELTE_SDK_P2PReject(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2545,7 +2749,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PHangup(LPCTSTR pResourceID)
 	}
 
 	// 挂断语音点呼
-	int iRet = OperationMgr::Instance().DcP2PHangup(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = ELTE_SDK_P2PHangup(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2553,35 +2757,35 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PHangup(LPCTSTR pResourceID)
 }//lint !e1762
 
 
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_JoinGroup(LPCTSTR pGroupID)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-	CString strResult;
-
-	// TODO: Add your dispatch handler code here
-	LOG_INTERFACE_TRACE();
-	CXml xml;
-
-	// load类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-
-	// 入参检测
-	if (NULL == pGroupID)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_RUN_ERROR("pGroupID is null.");
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
-		return strResult.AllocSysString();
-	}
-
-	// 加入群组
-	int iRet = OperationMgr::Instance().DcJoinGroup(eLTE_Tool::WString2Int(pGroupID));
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-
-	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
-	return strResult.AllocSysString();
-}//lint !e1762
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_JoinGroup(LPCTSTR pGroupID)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	// 入参检测
+//	if (NULL == pGroupID)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_RUN_ERROR("pGroupID is null.");
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	// 加入群组
+//	int iRet = ELTE_SDK_SubJoinGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//
+//	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
+//	return strResult.AllocSysString();
+//}//lint !e1762
 
 
 BSTR CeLTE_PlayerCtrl::ELTE_OCX_SubJoinGroup(LPCTSTR pGroupID)
@@ -2607,7 +2811,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SubJoinGroup(LPCTSTR pGroupID)
 	}
 
 	// 订阅并自动加入群组
-	int iRet = OperationMgr::Instance().DcSubJoinGroup(eLTE_Tool::WString2Int(pGroupID));
+	int iRet = ELTE_SDK_SubJoinGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
@@ -2638,7 +2842,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_PTTDial(LPCTSTR pGroupID)
 	}
 
 	// 发起组呼（固定和临时组呼）或抢权
-	int iRet = OperationMgr::Instance().DcPTTDial(eLTE_Tool::WString2Int(pGroupID));
+	int iRet = ELTE_SDK_PTTDial(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
@@ -2669,7 +2873,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_PTTRelease(LPCTSTR pGroupID)
 	}
 
 	// 释放话权
-	int iRet = OperationMgr::Instance().DcPTTRelease(eLTE_Tool::WString2Int(pGroupID));
+	int iRet = ELTE_SDK_PTTRelease(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
@@ -2700,7 +2904,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_PTTHangup(LPCTSTR pGroupID)
 	}
 
 	// 退出组呼
-	int iRet = OperationMgr::Instance().DcPTTHangup(eLTE_Tool::WString2Int(pGroupID));
+	int iRet = ELTE_SDK_PTTHangup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
@@ -2731,7 +2935,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_PTTEmergency(LPCTSTR pGroupID)
 	}
 
 	// 发起紧急组呼
-	int iRet = OperationMgr::Instance().DcPTTEmergency(eLTE_Tool::WString2Int(pGroupID));
+	int iRet = ELTE_SDK_PTTEmergency(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
@@ -2762,7 +2966,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GroupBreakoff(LPCTSTR pGroupID)
 	}
 
 	// 强拆组呼
-	int iRet = OperationMgr::Instance().GroupBreakoff(eLTE_Tool::WString2Int(pGroupID));
+	int iRet = ELTE_SDK_GroupBreakoff(eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
@@ -2794,7 +2998,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PBreakin(LPCTSTR pResourceID)
 	}
 
 	// 抢话（强拆点呼+发起新点呼）
-	int iRet = OperationMgr::Instance().P2PBreakin(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = ELTE_SDK_P2PBreakin(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2825,7 +3029,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PBreakoff(LPCTSTR pResourceID)
 	}
 
 	// 强拆点呼
-	int iRet = OperationMgr::Instance().P2PBreakoff(eLTE_Tool::WString2Int(pResourceID));
+	int iRet = ELTE_SDK_P2PBreakoff(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
@@ -2851,24 +3055,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_VolMute(LPCTSTR pResourceID, LPCTSTR pMuteParam)
 		return strResult.AllocSysString();
 	}
 
-	// 解析静音参数
-	std::string strCallType("");
-	int iRet = XMLProcess::XmlParseMuteULParameter(eLTE_Tool::UnicodeToANSI(pMuteParam), strCallType);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("XmlParseMuteULParameter failed.");
-		LOG_INTERFACE_INFO(iRet, "ResourceID:%s, MuteParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteParam).c_str());
-		return strResult.AllocSysString();
-	}
-
-	// 构建静音参数
-	Mute_parameter param;
-	param.task_type = true;
-	param.call_type = eLTE_Tool::String2Int(strCallType);
-
-	// 执行静音
-	iRet = OperationMgr::Instance().DcVolMute(eLTE_Tool::WString2Int(pResourceID), param);
+	//执行静音
+	ELTE_INT32 iRet = ELTE_SDK_VolMute(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteParam).c_str());
 
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
@@ -2906,24 +3094,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_VolUnMute(LPCTSTR pResourceID, LPCTSTR pMutePara
 		return strResult.AllocSysString();
 	}
 
-	// 解析静音参数
-	std::string strCallType("");
-	int iRet = XMLProcess::XmlParseMuteULParameter(eLTE_Tool::UnicodeToANSI(pMuteParam), strCallType);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("XmlParseMuteULParameter failed.");
-		LOG_INTERFACE_INFO(iRet, "ResourceID:%s, MuteParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteParam).c_str());
-		return strResult.AllocSysString();
-	}
-
-	// 构建静音参数
-	Mute_parameter param;
-	param.task_type = false;
-	param.call_type = eLTE_Tool::String2Int(strCallType);
-
 	// 取消静音
-	iRet = OperationMgr::Instance().DcVolUnMute(eLTE_Tool::WString2Int(pResourceID), param);
+	ELTE_INT32 iRet = ELTE_SDK_VolUnMute(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteParam).c_str());
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, MuteParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteParam).c_str());
@@ -2940,34 +3112,35 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_VolUnMute(LPCTSTR pResourceID, LPCTSTR pMutePara
 }
 
 
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_MuteControl(LPCTSTR pResourceID, LPCTSTR pMuteType)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-	CString strResult;
-
-	// TODO: Add your dispatch handler code here
-	LOG_INTERFACE_TRACE();
-	CXml xml;
-
-	// load类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-
-	// 入参检测
-	if (NULL == pResourceID || NULL == pMuteType)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
-		return strResult.AllocSysString();
-	}
-
-	// 执行静音控制
-	int iRet = OperationMgr::Instance().MuteControl(eLTE_Tool::WString2Int(pResourceID), eLTE_Tool::WString2Int(pMuteType));
-
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, MuteParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteType).c_str());
-	return strResult.AllocSysString();
-}//lint !e1762
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_MuteControl(LPCTSTR pResourceID, LPCTSTR pMuteType)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	// 入参检测
+//	if (NULL == pResourceID || NULL == pMuteType)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	// 执行静音控制
+//	//int iRet = OperationMgr::Instance().MuteControl(eLTE_Tool::WString2Int(pResourceID), eLTE_Tool::WString2Int(pMuteType));
+//	int iRet = 0;
+//
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, MuteParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteType).c_str());
+//	return strResult.AllocSysString();
+//}//lint !e1762
 
 
 BSTR CeLTE_PlayerCtrl::ELTE_OCX_GISSubscribe(LPCTSTR pResourceID, LPCTSTR pGISParam)
@@ -2991,28 +3164,8 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_GISSubscribe(LPCTSTR pResourceID, LPCTSTR pGISPa
 		return strResult.AllocSysString();
 	}
 
-	// 解析订阅/去订阅GIS终端
-	std::string strSubType("");
-	std::string strResourceList("");
-	std::string strSubscriber("");
-	int iRet = XMLProcess::XmlParseGISSubscribeParameter(eLTE_Tool::UnicodeToANSI(pGISParam),
-		strSubType, strResourceList, strSubscriber);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("XmlParseGISSubscribeParameter failed.");
-		LOG_INTERFACE_INFO(iRet, "ResourceID:%s, GISParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pGISParam).c_str());
-		return strResult.AllocSysString();
-	}
-
-	// 构建GIS参数
-	GIS_parameter param;
-	param.subtype = (SDSMSG_TYPE_t)eLTE_Tool::String2Int(strSubType);
-	param.msg_body = strResourceList;
-	param.subscriber = strSubscriber;
-
-	// 取消静音
-	iRet = OperationMgr::Instance().GISSubscribe(eLTE_Tool::WString2Int(pResourceID), param);
+	// GIS订阅/去订阅
+	ELTE_INT32 iRet = ELTE_SDK_GISSubscribe(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pGISParam).c_str());
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, GISParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pGISParam).c_str());
@@ -3043,33 +3196,11 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SDSSendMessage(LPCTSTR pResourceID, LPCTSTR pSDS
 		return strResult.AllocSysString();
 	}
 
-	//构建SDS参数
-	SDS_parameter paramSDS;
-
-	// 解析发送短消息xml，赋值结构体
-	int iRet = XMLProcess::XmlParseSDSParam(eLTE_Tool::UnicodeToANSI(pSDSParam), paramSDS);
-	if (eLTE_ERR_SUCCESS != iRet)
-	{
-		GET_RETURN_CODE_XML(xml, iRet, strResult);
-		LOG_RUN_ERROR("XmlParseSDSParam failed.");
-		LOG_INTERFACE_INFO(iRet, "ResourceID:%s, SDSParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pSDSParam).c_str());
-		return strResult.AllocSysString();
-	}
-
-	// 设置工作路径
-	TCHAR srcWorkpath[MAX_PATH] = {0};
-	GetCurrentDirectory(MAX_PATH, srcWorkpath);
-	CString workpath = eLTE_Tool::GetOcxPath();
-	SetCurrentDirectory(workpath);
-
-	//调用鼎桥发短信API
-	iRet = OperationMgr::Instance().SDSSendMessage(eLTE_Tool::WString2Int(pResourceID), paramSDS);
+	// 发送短彩信
+	ELTE_INT32 iRet = ELTE_SDK_SDSSendMessage(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pSDSParam).c_str());
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, SDSParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pSDSParam).c_str());
-
-	// 还原工作路径
-	SetCurrentDirectory(srcWorkpath);
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
 
 	return strResult.AllocSysString();
 }//lint !e1762
@@ -3082,14 +3213,14 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetBypassBuildMedia(ULONG ulBypass)
 	CString strResult;
 
 	// TODO: Add your dispatch handler code here
-	LOG_INTERFACE_TRACE();
+	//LOG_INTERFACE_TRACE();
 	
 	CXml xml;
 
-	m_ulBypass = ulBypass;
+	m_ulByMediaPass = ulBypass;
 
 	GET_RETURN_CODE_XML(xml, eLTE_ERR_SUCCESS, strResult);
-	LOG_INTERFACE_INFO(eLTE_ERR_SUCCESS, "Bypass:%d", ulBypass);
+	//LOG_INTERFACE_INFO(eLTE_ERR_SUCCESS, "Bypass:%d", ulBypass);
 	return strResult.AllocSysString();
 }//lint !e1762
 
@@ -3115,7 +3246,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ProvisionManagerInitMRS(LPCTSTR pServerIP)
 		return strResult.AllocSysString();
 	}
 
-	int iRet = ProvisionMgr::Instance().InitMRS(eLTE_Tool::UnicodeToANSI(pServerIP));
+	ELTE_INT32 iRet = ELTE_SDK_ProvisionManagerInitMRS(eLTE_Tool::UnicodeToANSI(pServerIP).c_str());
 
 	GET_RETURN_CODE_XML(xml, iRet, strResult);
 	LOG_INTERFACE_INFO(iRet, "ServerIP:%s", eLTE_Tool::UnicodeToANSI(pServerIP).c_str());
@@ -3201,3 +3332,1033 @@ int CeLTE_PlayerCtrl::ToolBarPlayAudio(BOOL bEnable)
 	return iRet;
 }
 
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_StartVideoDispatch(LPCTSTR pResourceID, LPCTSTR pVideoDispatchParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pResourceID || NULL == pVideoDispatchParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 开始视频分发
+	ELTE_INT32 iRet = ELTE_SDK_StartVideoDispatch(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoDispatchParam).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoDispatchParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoDispatchParam).c_str());
+
+
+	return strResult.AllocSysString();
+}//lint !e1762
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_StopVideoDispatch(LPCTSTR pResourceID, LPCTSTR pVideoDispatchParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pResourceID || NULL == pVideoDispatchParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 开始视频分发
+	ELTE_INT32 iRet = ELTE_SDK_StopVideoDispatch(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoDispatchParam).c_str());
+		
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoDispatchParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pVideoDispatchParam).c_str());
+
+	return strResult.AllocSysString();
+}//lint !e1762
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_RecvVideoPlay(LPCTSTR pResourceID, LPCTSTR pMuteType)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pResourceID || NULL == pMuteType)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 解析视频参数
+	std::string strVideoFormat("-1");
+	std::string strCameraType("-1");
+	std::string strUserConfirmType("-1");
+	std::string strMuteType(eLTE_Tool::UnicodeToANSI(pMuteType));
+	std::string strVideoType("1");//0:调度台请求视频；1：终端上传视频、调度台视频分发
+
+	// 构建视频参数
+	STVideoParam param;
+	param.strFmtValue = strVideoFormat;
+	param.strCameraType = strCameraType;
+	param.strUserCfmType = strUserConfirmType;
+	param.strMuteType = strMuteType;
+	param.strVideoType = strVideoType;
+	// 接收终端视频上传请求
+	ELTE_INT32 iRet = ELTE_SDK_RecvVideoPlay(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	if (eLTE_ERR_SUCCESS == iRet)
+	{
+		iRet = OperationMgr::Instance().DcVideoMonitor(eLTE_Tool::WString2Int(pResourceID), param);
+	}
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pMuteType).c_str());
+
+	return strResult.AllocSysString();
+}//lint !e1762
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetDcVWallIDList(void)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+	
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	
+	//获取ID列表
+	ELTE_CHAR* pIDList = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetDcVWallIDList(&pIDList);
+	
+	if(NULL != pIDList)
+	{
+		strResult = pIDList;
+		LOG_RUN_DEBUG("ELTE_SDK_GetDcVWallIDList return value:%s", pIDList);
+
+		ELTE_INT32 iResult = ELTE_SDK_ReleaseBuffer(pIDList);
+		if (eLTE_ERR_SUCCESS != iResult)
+		{
+			GET_RETURN_CODE_XML(xml, iResult, strResult);
+			LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
+			LOG_INTERFACE_INFO(iResult, "");
+			return strResult.AllocSysString();
+		}
+	}
+
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GetDcVWallIDList failed.");
+		LOG_INTERFACE_INFO(iRet, "");
+		return strResult.AllocSysString();
+	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<VWallIDList>"));
+	LOG_INTERFACE_INFO(iRet, "");
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_VWallStart(LPCTSTR pResVWallID, LPCTSTR pVWallStartParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+
+	CXml xml;
+	LOG_INTERFACE_TRACE();
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	// 入参检测
+	if (NULL == pResVWallID || NULL == pVWallStartParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	
+	ELTE_INT32 iRet = ELTE_SDK_VWallStart(eLTE_Tool::UnicodeToANSI(pResVWallID).c_str(), eLTE_Tool::UnicodeToANSI(pVWallStartParam).c_str());
+	
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VWallParam:%s", eLTE_Tool::UnicodeToANSI(pResVWallID).c_str(), eLTE_Tool::UnicodeToANSI(pVWallStartParam).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_VWallStop(LPCTSTR pResVWallID, LPCTSTR pVWallStopParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+	
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	
+	// 入参检测
+	if (NULL == pResVWallID || NULL == pVWallStopParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	
+	// 接收终端视频上传请求
+	ELTE_INT32 iRet = ELTE_SDK_VWallStop(eLTE_Tool::UnicodeToANSI(pResVWallID).c_str(), eLTE_Tool::UnicodeToANSI(pVWallStopParam).c_str());
+	
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VideoParam:%s", eLTE_Tool::UnicodeToANSI(pResVWallID).c_str(), eLTE_Tool::UnicodeToANSI(pVWallStopParam).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_TelephoneDial(LPCTSTR pTelNumber)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	LOG_INTERFACE_TRACE();
+	CString strResult;
+	CXml xml;
+	//load 类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	//入参检测
+	if (NULL == pTelNumber)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	//发起PSTN/PLMN电话呼叫
+	ELTE_INT32 iRet = ELTE_SDK_TelephoneDial(eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_TelephoneHangup(LPCTSTR pTelNumber)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	LOG_INTERFACE_TRACE();
+	CString strResult;
+	CXml xml;
+	//load 类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	//入参检测
+	if (NULL == pTelNumber)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	//挂断PSTN/PLMN电话呼叫
+	ELTE_INT32 iRet = ELTE_SDK_TelephoneHangup(eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_StartDiscreetListen(LPCTSTR pResourceID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	LOG_INTERFACE_TRACE();
+	CString strResult;
+	CXml xml;
+	//load 类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	//入参检测
+	if (NULL == pResourceID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	//发起缜密侦听
+	ELTE_INT32 iRet = ELTE_SDK_StartDiscreetListen(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_StopDiscreetListen(LPCTSTR pResourceID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	LOG_INTERFACE_TRACE();
+	CString strResult;
+	CXml xml;
+	//load 类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	//入参检测
+	if (NULL == pResourceID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	//停止缜密侦听
+	ELTE_INT32 iRet = ELTE_SDK_StopDiscreetListen(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_StartEnvironmentListen(LPCTSTR pResourceID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	LOG_INTERFACE_TRACE();
+	
+	CString strResult;
+	CXml xml;
+	//load 类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	//入参检测
+	if (NULL == pResourceID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	//发起环境侦听
+	ELTE_INT32 iRet = ELTE_SDK_StartEnvironmentListen(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PTransfer(LPCTSTR pResourceID, LPCTSTR pP2PTransferParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	LOG_INTERFACE_TRACE();
+	CString strResult;
+
+	CXml xml;
+	//load 类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	//入参检测
+	if (NULL == pResourceID || NULL == pP2PTransferParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+	//转接
+	ELTE_INT32 iRet = ELTE_SDK_P2PTransfer(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pP2PTransferParam).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "pResourceID:%s  pP2PTransferParam:%s",\
+		eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), \
+		eLTE_Tool::UnicodeToANSI(pP2PTransferParam).c_str() \
+		);
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_CreatePatchGroup(LPCTSTR pPatchGroupParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+	
+	// 入参检测
+	if (NULL == pPatchGroupParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_RUN_ERROR("pPatchGroupParam is null.");
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 创建派接组
+	ELTE_INT32 iRet = ELTE_SDK_CreatePatchGroup(eLTE_Tool::UnicodeToANSI(pPatchGroupParam).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "PatchGroupParam:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupParam).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_CancelPatchGroup(BSTR pPatchGroupID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pPatchGroupID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_RUN_ERROR("pPatchGroupID is null.");
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 删除动态重组
+	ELTE_INT32 iRet = ELTE_SDK_CancelPatchGroup(eLTE_Tool::UnicodeToANSI(pPatchGroupID).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "PatchGroupID:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupID).c_str());
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_AddPatchGroupMember(LPCTSTR pPatchGroupParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pPatchGroupParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_RUN_ERROR("pPatchGroupParam is null.");
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 增加派接组成员
+	ELTE_INT32 iRet = ELTE_SDK_AddPatchGroupMember(eLTE_Tool::UnicodeToANSI(pPatchGroupParam).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "PatchGroupParam:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupParam).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_DeletePatchGroupMember(LPCTSTR pPatchGroupParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pPatchGroupParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_RUN_ERROR("pPatchGroupParam is null.");
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 删除派接组成员
+	ELTE_INT32 iRet = ELTE_SDK_DeletePatchGroupMember(eLTE_Tool::UnicodeToANSI(pPatchGroupParam).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "PatchGroupParam:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupParam).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetPatchGroups(LPCTSTR pDcUser)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pDcUser)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 获取派接组列表
+	ELTE_CHAR* pPatchGroups = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetPatchGroups(eLTE_Tool::UnicodeToANSI(pDcUser).c_str(), &pPatchGroups);
+
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GetPatchGroups failed.");
+		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pDcUser).c_str());
+		(void)ELTE_SDK_ReleaseBuffer(pPatchGroups);
+		return strResult.AllocSysString();
+	}
+
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	std::string strSrc = pPatchGroups;
+	int iExistElement = 0;
+	//字符转码
+	for (;;)
+	{
+		iSplitFlag = 0;
+		eLTE_Tool::SplitString(strSrc, "<PGName>", "</PGName>", strStart, strCentre, strEnd, iSplitFlag);
+		if(1 == iSplitFlag)
+		{
+			strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+			strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			//strResult.Append(eLTE_Tool::ANSIToUnicode("</GroupName><GroupName>").c_str());
+			iExistElement = 1;
+		}
+		else
+		{
+			break;
+		}
+		strSrc = strEnd;
+	}
+
+	if(1 == iExistElement)
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode("</PGName></PatchGroupInfo></PatchGroupInfoList></Content>").c_str());
+	}
+	else
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pPatchGroups).c_str();
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pPatchGroups);
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
+		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pDcUser).c_str());
+		return strResult.AllocSysString();
+	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<PatchGroupInfoList>"));
+
+	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pDcUser).c_str());
+
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetGroupMemberByPatchId(LPCTSTR pPatchGroupId)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pPatchGroupId)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 获取派接组列表
+	ELTE_CHAR* pPatchGroupMembers = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetGroupMemberByPatchId(eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str(), &pPatchGroupMembers);
+
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GetGroupMemberByPatchId failed.");
+		LOG_INTERFACE_INFO(iRet, "PatchGroupId:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str());
+		(void)ELTE_SDK_ReleaseBuffer(pPatchGroupMembers);
+		return strResult.AllocSysString();
+	}
+	
+	strResult = eLTE_Tool::ANSIToUnicode(pPatchGroupMembers).c_str();
+
+	iRet = ELTE_SDK_ReleaseBuffer(pPatchGroupMembers);
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
+		LOG_INTERFACE_INFO(iRet, "PatchGroupId:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str());
+		return strResult.AllocSysString();
+	}
+
+	//add ResultCodep
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<PatchGroupMemberList>"));
+
+	LOG_INTERFACE_INFO(iRet, "PatchGroupId:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetPatchGroupInfo(LPCTSTR pPatchGroupId)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pPatchGroupId)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 获取群组详细配置信息
+	ELTE_CHAR* pGroupInfo = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetPatchGroupInfo(eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str(), &pGroupInfo);
+
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GetPatchGroupInfo failed.");
+		LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str());
+		(void)ELTE_SDK_ReleaseBuffer(pGroupInfo);
+		return strResult.AllocSysString();
+	}
+
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	eLTE_Tool::SplitString(pGroupInfo, "<PGName>", "</PGName>", strStart, strCentre, strEnd, iSplitFlag);
+
+	if(0 == iSplitFlag)
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pGroupInfo).c_str();
+	}
+	else
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+		strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+		strResult.Append(eLTE_Tool::ANSIToUnicode(strEnd).c_str());
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pGroupInfo);
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
+		LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str());
+		return strResult.AllocSysString();
+	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<PatchGroupInfo>"));
+
+	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pPatchGroupId).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_PTZControl(LPCTSTR pResourceID, ULONG ulPTZControlCode, ULONG ulPTZControlValue)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pResourceID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	ELTE_INT32 iRet = ELTE_SDK_PTZControl(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), ulPTZControlCode, ulPTZControlValue);
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	return strResult.AllocSysString();
+}
+
+
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetUserSpecificGISCfg(LPCTSTR pResourceID)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	// 入参检测
+//	if (NULL == pResourceID)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	// 获取GIS配置信息
+//	ELTE_CHAR* pGisCfgInfo = NULL;
+//	ELTE_INT32 iRet = ELTE_SDK_GetUserSpecificGISCfg(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), &pGisCfgInfo);
+//
+//	if (eLTE_ERR_SUCCESS != iRet)
+//	{
+//		GET_RETURN_CODE_XML(xml, iRet, strResult);
+//		LOG_RUN_ERROR("GetUserSpecificGISCfg failed.");
+//		LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+//		return strResult.AllocSysString();
+//	}
+//
+//	strResult = pGisCfgInfo;
+//
+//	iRet = ELTE_SDK_ReleaseBuffer(pGisCfgInfo);
+//	if (eLTE_ERR_SUCCESS != iRet)
+//	{
+//		GET_RETURN_CODE_XML(xml, iRet, strResult);
+//		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
+//		LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+//		return strResult.AllocSysString();
+//	}
+//
+//	//add ResultCode
+//	eLTE_Tool::AddResultCodeNode(strResult, _T("<UeGisCfgInfo>"));
+//
+//	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+//
+//	return strResult.AllocSysString();
+//}
+//
+//
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetGisParam(LPCTSTR pResourceID, LPCTSTR pUeGisCfg)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	// 入参检测
+//	if (NULL == pResourceID || NULL == pUeGisCfg)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	// set gis cfg
+//	ELTE_INT32 iRet = ELTE_SDK_SetGisParam(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pUeGisCfg).c_str());
+//
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+//
+//	return strResult.AllocSysString();
+//}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_GetGisSubscription(LPCTSTR pUserID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pUserID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 获取调度台订阅GIS上报的终端列表
+	ELTE_CHAR* pGisQuerySubList = NULL;
+	ELTE_INT32 iRet = ELTE_SDK_GetGisSubscription(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), &pGisQuerySubList);
+
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("GetGisSubscription failed.");
+		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
+		return strResult.AllocSysString();
+	}
+
+	std::string strStart;
+	std::string strCentre;
+	std::string strEnd;
+	int iSplitFlag = 0;
+	std::string strSrc = pGisQuerySubList;
+	int iExistElement = 0;
+	//字符转码
+	for (;;)
+	{
+		iSplitFlag = 0;
+		eLTE_Tool::SplitString(strSrc, "<UserName>", "</UserName>", strStart, strCentre, strEnd, iSplitFlag);
+		if(1 == iSplitFlag)
+		{
+			strResult.Append(eLTE_Tool::ANSIToUnicode(strStart).c_str());
+			strResult.Append(eLTE_Tool::UTF8ToUnicode(strCentre).c_str());
+			//strResult.Append(eLTE_Tool::ANSIToUnicode("</UserName><UserName>").c_str());
+			iExistElement = 1;
+		}
+		else
+		{
+			break;
+		}
+		strSrc = strEnd;
+	}
+
+	if(1 == iExistElement)
+	{
+		strResult.Append(eLTE_Tool::ANSIToUnicode("</UserName></GisQuerySubscription></GisQuerySubList></Content>").c_str());
+	}
+	else
+	{
+		strResult = eLTE_Tool::ANSIToUnicode(pGisQuerySubList).c_str();
+	}
+
+	iRet = ELTE_SDK_ReleaseBuffer(pGisQuerySubList);
+	if (eLTE_ERR_SUCCESS != iRet)
+	{
+		GET_RETURN_CODE_XML(xml, iRet, strResult);
+		LOG_RUN_ERROR("ELTE_SDK_ReleaseBuffer failed.");
+		LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
+		return strResult.AllocSysString();
+	}
+
+	//add ResultCode
+	eLTE_Tool::AddResultCodeNode(strResult, _T("<GisQuerySubList>"));
+
+	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_ModifyDynamicGroup(LPCTSTR pUserID, LPCTSTR pDynamicGroupInfo)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pDynamicGroupInfo || NULL == pUserID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// modify dynamic group
+	ELTE_INT32 iRet = ELTE_SDK_ModifyDynamicGroup(eLTE_Tool::UnicodeToANSI(pUserID).c_str(), eLTE_Tool::UnicodeToANSI(pDynamicGroupInfo).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "UserID:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PHalfDpxDial(LPCTSTR pResourceID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pResourceID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_RUN_ERROR("pResourceID is null.");
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 发起半双工点呼
+	int iRet = ELTE_SDK_P2PHalfDpxDial(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PHalfDpxRelease(LPCTSTR pResourceID)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pResourceID)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_RUN_ERROR("pResourceID is null.");
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// 释放半双工点呼
+	int iRet = ELTE_SDK_P2PHalfDpxRelease(eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+
+	LOG_INTERFACE_INFO(iRet, "ResourceID:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str());
+
+	return strResult.AllocSysString();
+}
+
+
+BSTR CeLTE_PlayerCtrl::ELTE_OCX_TempUserJoinGroup(LPCTSTR pGroupID, LPCTSTR pPhonePatchParam)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CString strResult;
+
+	// TODO: Add your dispatch handler code here
+	LOG_INTERFACE_TRACE();
+	CXml xml;
+
+	// load类型是否支持
+	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+
+	// 入参检测
+	if (NULL == pGroupID || NULL == pPhonePatchParam)
+	{
+		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+		return strResult.AllocSysString();
+	}
+
+	// join call 
+	ELTE_INT32 iRet = ELTE_SDK_TempUserJoinGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), eLTE_Tool::UnicodeToANSI(pPhonePatchParam).c_str());
+
+	GET_RETURN_CODE_XML(xml, iRet, strResult);
+	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
+
+	return strResult.AllocSysString();
+}
