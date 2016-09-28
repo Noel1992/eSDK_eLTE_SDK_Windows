@@ -2,7 +2,7 @@
 @echo off
 
 ::工程所在路径（sln路径），根据该脚本所在目录进行修改
-set ProjectPath=%cd%\..\..\source\eLTE_Player
+set ProjectPath=%cd%\..\..\src\source\eLTE_Player
 
 ::拷贝依赖库
 ::--------------------------------------------------------------------------------
@@ -10,8 +10,8 @@ set eLTE_SDK_PATH=%ProjectPath%\..\..\platform\eDC610_TD V100R004C10B185
 set IVS_Player_PATH=%ProjectPath%\..\..\platform\IVS_Player
 set IVS_NetSource_PATH=%ProjectPath%\..\..\self_dev\IVS_NetSource
 set eSDKClientLogAPI_PATH=%ProjectPath%\..\..\platform\eSDKClientLogAPI
-set SDL2_PATH=%ProjectPath%\..\..\open_src\sdl2-2.0.3\release\x86
-set Microsoft_DLL_PATH=%ProjectPath%\..\..\third_party\Microsoft Visual Studio 10.0
+set SDL2_PATH=%ProjectPath%\..\..\..\third_party\open_src\sdl2-2.0.3\release\x86
+set Microsoft_DLL_PATH=%ProjectPath%\..\..\..\third_party\Microsoft Visual Studio 10.0
 set OutPut_Debug_PATH=%ProjectPath%\output\debug
 set OutPut_Release_PATH=%ProjectPath%\output\release
 
@@ -94,10 +94,10 @@ set DateTime=%Year%-%Month%-%Day%-%Hour%-%Minute%
 set DateOnly=%Year%-%Month%-%Day%
 
 ::工程所在路径（sln路径），根据该脚本所在目录进行修改
-set ProjectPath=%cd%\..\..\source\eLTE_Player
+set ProjectPath=%cd%\..\..\src\source\eLTE_Player
 
 ::生成的压缩包路径，根据要求进行修改
-set ZipPath=%ProjectPath%\..\..\..\00.Release\%DateOnly%
+set ZipPath=%ProjectPath%\..\..\..\..\00.Release\%DateOnly%
 set ZipName=%ZipPath%\eSDK_eLTE_OCX_V1.5.30.zip
 
 ::打包
