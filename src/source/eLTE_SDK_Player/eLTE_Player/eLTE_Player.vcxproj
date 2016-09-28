@@ -57,7 +57,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\platform\eDC610_TD V100R003C00SPC300B048\include\sdk\include;..\..\..\platform\eDC610_TD V100R003C00SPC300B048\include;..\..\..\platform\IVS_Player\include;..\..\..\self_dev\IVS_NetSource\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\platform\eSDKClientLogAPI\include;..\..\eLTE_SDK\eLTE_SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\platform\IVS_Player\include;..\..\..\self_dev\IVS_NetSource\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\platform\eSDKClientLogAPI\include;..\..\eLTE_SDK\eLTE_SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -66,7 +66,7 @@
       <ModuleDefinitionFile>.\eLTE_Player.def</ModuleDefinitionFile>
       <OutputFile>$(OutDir)$(ProjectName).ocx</OutputFile>
       <RegisterOutput>false</RegisterOutput>
-      <AdditionalLibraryDirectories>..\..\..\platform\IVS_Player\lib;..\..\..\self_dev\IVS_NetSource\lib;..\..\..\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\platform\IVS_Player\lib;..\..\..\self_dev\IVS_NetSource\lib;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>IVS_NetSource.lib;IVS_Player.lib;tinyxml.lib;eSDKLogAPI.lib;eLTE_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib</IgnoreSpecificDefaultLibraries>
       <PerUserRedirection>true</PerUserRedirection>
@@ -92,7 +92,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\platform\IVS_Player\include;..\..\..\self_dev\IVS_NetSource\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\platform\eSDKClientLogAPI\include;..\..\eLTE_SDK\eLTE_SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\platform\IVS_Player\include;..\..\..\self_dev\IVS_NetSource\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\platform\eSDKClientLogAPI\include;..\..\eLTE_SDK\eLTE_SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,8 +101,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ModuleDefinitionFile>.\eLTE_Player.def</ModuleDefinitionFile>
       <OutputFile>$(OutDir)$(ProjectName).ocx</OutputFile>
-      <RegisterOutput>true</RegisterOutput>
-      <AdditionalLibraryDirectories>..\..\..\platform\IVS_Player\lib;..\..\..\self_dev\IVS_NetSource\lib;..\..\..\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\release;..\..\..\source\eLTE_SDK\output\release\eLTE_SDK;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <RegisterOutput>false</RegisterOutput>
+      <AdditionalLibraryDirectories>..\..\..\platform\IVS_Player\lib;..\..\..\self_dev\IVS_NetSource\lib;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\release;..\..\..\source\eLTE_SDK\output\release\eLTE_SDK;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>IVS_NetSource.lib;IVS_Player.lib;tinyxml.lib;eSDKLogAPI.lib;eLTE_SDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>

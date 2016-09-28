@@ -54,28 +54,28 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\..\third_party\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\open_src\openssl-1.0.1t\lib\windows;..\..\..\open_src\tinyxml\lib;..\..\..\open_src\sdl2-2.0.3\release\x86\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\..\third_party\open_src\openssl-1.0.1t\lib\windows;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\..\third_party\open_src\sdl2-2.0.3\release\x86\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>eSDKLogAPI.lib;libeay32.lib;ssleay32.lib;tinyxml.lib;SDL2.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;LIBCMT.lib</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_SDK.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
-xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_Types.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.lib ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.pdb ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\pdb\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
-xcopy /y ..\..\..\platform\eSDKClientLogAPI\debug\eSDKLogAPI.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
-xcopy /y ..\..\..\platform\eSDKClientLogAPI\debug\eSDKClientLogCfg.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
-xcopy /y ..\..\..\open_src\sdl2-2.0.3\release\x86\dll\SDL2.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
-xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\</Command>
+      <Command>xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_SDK.h ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_Types.h ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.lib ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.pdb ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\pdb\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\debug\eLTE_SDK\eLTE_SDK.ini ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\debug\eSDKLogAPI.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\debug\eSDKClientLogCfg.ini ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\..\third_party\open_src\sdl2-2.0.3\release\x86\dll\SDL2.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\
+xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -86,27 +86,27 @@ xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\test\e
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ELTE_SDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\open_src\tinyxml\tinyxml;..\..\..\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\..\third_party\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\release;..\..\..\open_src\openssl-1.0.1t\lib\windows;..\..\..\open_src\tinyxml\lib;..\..\..\open_src\sdl2-2.0.3\release\x86\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\release;..\..\..\..\third_party\open_src\openssl-1.0.1t\lib\windows;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\..\third_party\open_src\sdl2-2.0.3\release\x86\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>eSDKLogAPI.lib;libeay32.lib;ssleay32.lib;tinyxml.lib;SDL2.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_SDK.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
-xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_Types.h ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.lib ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.pdb ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\pdb\
-xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
-xcopy /y ..\..\..\platform\eSDKClientLogAPI\release\eSDKLogAPI.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
-xcopy /y ..\..\..\platform\eSDKClientLogAPI\release\eSDKClientLogCfg.ini ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
-xcopy /y ..\..\..\open_src\sdl2-2.0.3\release\x86\dll\SDL2.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
-xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\test\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\</Command>
+      <Command>xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_SDK.h ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\eLTE_SDK\eLTE_Types.h ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\include\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.lib ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.pdb ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\pdb\
+xcopy /Y ..\..\..\source\eLTE_SDK\output\release\eLTE_SDK\eLTE_SDK.ini ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\release\eSDKLogAPI.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\platform\eSDKClientLogAPI\release\eSDKClientLogCfg.ini ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\..\third_party\open_src\sdl2-2.0.3\release\x86\dll\SDL2.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\
+xcopy /y ..\..\..\self_dev\eSDKSecurec\windows\eSDK_Secure_C.dll ..\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

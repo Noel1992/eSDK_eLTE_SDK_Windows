@@ -2,18 +2,18 @@
 @echo off
 
 ::工程所在路径（sln路径），根据该脚本所在目录进行修改
-set ProjectPath=%cd%\..\..\source\eLTE_SDK
+set ProjectPath=%cd%\..\..\src\source\eLTE_SDK
 
 ::拷贝依赖库
 ::--------------------------------------------------------------------------------
 set eLTE_Product_SDK_PATH=%ProjectPath%\..\..\platform\SDK
 set eSDKClientLogAPI_PATH=%ProjectPath%\..\..\platform\eSDKClientLogAPI
-set SDL2_PATH=%ProjectPath%\..\..\open_src\sdl2-2.0.3\release\x86
+set SDL2_PATH=%ProjectPath%\..\..\..\third_party\open_src\sdl2-2.0.3\release\x86
 set Srv_OutPut_Debug_PATH=%ProjectPath%\output\debug\eLTE_NativeService
 set Srv_OutPut_Release_PATH=%ProjectPath%\output\release\eLTE_NativeService
 set Cli_OutPut_Debug_PATH=%ProjectPath%\output\debug\eLTE_SDK
 set Cli_OutPut_Release_PATH=%ProjectPath%\output\release\eLTE_SDK
-set ESDK_OCX_PROJECT_PATH=%cd%\..\..\source\eLTE_SDK_Player
+set ESDK_OCX_PROJECT_PATH=%cd%\..\..\src\source\eLTE_SDK_Player
 set ESDK_OCX_OutPut_Debug_PATH=%ESDK_OCX_PROJECT_PATH%\output\debug
 set ESDK_OCX_OutPut_Release_PATH=%ESDK_OCX_PROJECT_PATH%\output\release
 set IVS_Player_PATH=%ProjectPath%\..\..\platform\IVS_Player
@@ -178,16 +178,20 @@ set DateTime=%Year%-%Month%-%Day%-%Hour%-%Minute%
 set DateOnly=%Year%-%Month%-%Day%
 
 ::工程所在路径（sln路径），根据该脚本所在目录进行修改
-set ProjectPath=%cd%\..\..\source\eLTE_SDK
+set ProjectPath=%cd%\..\..\src\source\eLTE_SDK
 
 ::生成的压缩包路径，根据要求进行修改
-set ZipPath=%ProjectPath%\..\..\..\00.Release\%DateOnly%
+set ZipPath=%ProjectPath%\..\..\..\..\00.Release\%DateOnly%
 set ZipName=%ZipPath%\eSDK_eLTE_OCX_V1.5.70.zip
 
 ::打包
 ::--------------------------------------------------------------------------------
 ::设置各变量名
-set	WinRarRoot=C:\Program Files\WinRAR
+if exist "C:\Program Files\WinRAR" (
+set WinRarRoot=C:\Program Files\WinRAR
+)else (
+set WinRarRoot=C:\Program Files\WinRAR
+)
 
 ::创建目录
 mkdir "%ZipPath%\"
