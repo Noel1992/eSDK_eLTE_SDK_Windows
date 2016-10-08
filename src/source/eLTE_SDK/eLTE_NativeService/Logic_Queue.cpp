@@ -812,19 +812,19 @@ void Logic_Queue::Connect(const QUEUE_DATA& data) const
 		// 校验密码是否正确，不正确就断客户端连接
 		std::string strIniFile = eLTE_Tool::GetServicePath();
 		strIniFile.append(CONFIG_FILE_NAME);
-		std::string strSvcPwd = eLTE_Tool::GetEncryptPassword(strIniFile);
-		if (strSvcPwd != connectpasswd)
-		{
-			LOG_RUN_ERROR("Error connect password.");
-			head.RspCode = eLTE_SVC_ERR_CONNECT_PASSWD;
-			eSDK_MEMSET(head.SessionID, 0, SESSIONID_LENGTH);
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+		//std::string strSvcPwd = eLTE_Tool::GetEncryptPassword(strIniFile);
+		//if (strSvcPwd != connectpasswd)
+		//{
+		//	LOG_RUN_ERROR("Error connect password.");
+		//	head.RspCode = eLTE_SVC_ERR_CONNECT_PASSWD;
+		//	eSDK_MEMSET(head.SessionID, 0, SESSIONID_LENGTH);
+		//	// 发送消息头
+		//	SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
 
-			// 踢出客户端连接
-			SSL_Socket::Instance().KickOutClient(_ssl);
-			return;
-		}
+		//	// 踢出客户端连接
+		//	SSL_Socket::Instance().KickOutClient(_ssl);
+		//	return;
+		//}
 
 		// 业务处理
 		char sessId[SESSIONID_LENGTH+1] = {0};

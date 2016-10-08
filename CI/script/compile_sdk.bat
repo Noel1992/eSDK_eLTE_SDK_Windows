@@ -253,7 +253,7 @@ set ZipName=%ZipPath%\eSDK_eLTE_API_Demo_Source_CPP.zip
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\include" "%ZipName%" "eLTE_Types.h"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\include" "%ZipName%" "eLTE_SDK.h"
 
-(chdir "%ProjectPath%\..\..\eLTEDemo\eLTE_SDK\eLTE_SDK_Demo\")
+(chdir "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\")
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "eLTE_SDK_Demo.sln"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "eLTE_SDK_Demo\res\*.*"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "eLTE_SDK_Demo\*.cpp"

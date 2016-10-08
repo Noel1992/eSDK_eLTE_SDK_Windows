@@ -88,7 +88,7 @@ ELTE_INT32 CConfigMgr::LoadConfigFile()
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_uiServerPort = eLTE_Tool::String2UInt(val);
 
-	m_strPassword = eLTE_Tool::GetEncryptPassword(strPath);
+	//m_strPassword = eLTE_Tool::GetEncryptPassword(strPath);
 
 	return eLTE_SDK_ERR_SUCCESS;
 }

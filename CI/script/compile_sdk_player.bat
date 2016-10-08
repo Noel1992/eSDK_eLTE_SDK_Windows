@@ -279,7 +279,7 @@ echo "--------- 打包 eLTE SDK Release  end  ---------"
 
 echo "--------- 打包 eLTE OCX Demo Source  start  ---------"
 set ZipName=%ZipPath%\eSDK_eLTE_OCX_Demo_Source_CPP.zip
-(chdir "%ProjectPath%\..\..\eLTEDemo\eLTE_Player\eLTE_PlayerDemo\")
+(chdir "%ProjectPath%\..\..\..\sample\eLTE_Player\eLTE_PlayerDemo\")
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "eLTE_PlayerDemo.sln"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "eLTE_PlayerDemo\res\*.*"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "eLTE_PlayerDemo\*.cpp"

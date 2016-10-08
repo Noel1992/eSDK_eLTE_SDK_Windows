@@ -672,25 +672,6 @@ extern "C"
 	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_GetPatchGroupInfo(const ELTE_CHAR* pPatchGroupId, ELTE_CHAR** pPatchGroupInfo);
 
 	/**************************************************************************
-	* name			: ELTE_SDK_GetUserSpecificGISCfg
-	* description   : 查询终端的GIS配置信息
-	* input			: pResourceID 终端ID	
-	* output		: pUeGisCfg GIS配置信息
-	* return		: 成功返回0，失败返回错误码
-	**************************************************************************/
-	//ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_GetUserSpecificGISCfg(const ELTE_CHAR* pResourceID, ELTE_CHAR** pUeGisCfg);
-
-	/**************************************************************************
-	* name			: ELTE_SDK_SetGisParam
-	* description   : 设置终端的GIS配置信息
-	* input			: pResourceID 终端ID
-					  pUeGisCfg GIS配置信息
-	* output		: N/A
-	* return		: 成功返回0，失败返回错误码
-	**************************************************************************/
-	//ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_SetGisParam(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pUeGisCfg);
-
-	/**************************************************************************
 	* name			: ELTE_SDK_GetGisSubscription
 	* description   : 获取调度台订阅GIS上报的终端列表
 	* input			: pResourceID 调度台ID	
