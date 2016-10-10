@@ -21,7 +21,7 @@ set JSON_DLL=%cd%\jsoncpp-src-0.6.0-rc2\bin\win32_x86_msvc\release
 @echo .
 call %VCVARS32%
 cd %OPENSSL_PATH%
-perl Configure VC-WIN32
+perl Configure VC-WIN32 no-asm
 call "ms/do_ms.bat"
 nmake -f ms/nt.mak
 
