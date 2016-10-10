@@ -53,7 +53,17 @@ BOOL DispatchParamDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	GetDlgItem(IDC_EDIT_FORMAT)->SetWindowText(m_pDispatchParamInfo->strFormat);
+	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_VIDEOFORMAT);
+	if (NULL != pCComboBox)
+	{
+		pCComboBox->InsertString(0, _T("NO"));
+
+		pCComboBox->InsertString(0, _T("CIF"));
+
+		pCComboBox->SetCurSel(0);
+	}
+
+	//GetDlgItem(IDC_EDIT_FORMAT)->SetWindowText(m_pDispatchParamInfo->strFormat);
 	GetDlgItem(IDC_EDIT_RESOURCE_ID)->SetWindowText(m_pDispatchParamInfo->strResourceId);
 	
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -64,8 +74,19 @@ BOOL DispatchParamDlg::OnInitDialog()
 void DispatchParamDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
+	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_VIDEOFORMAT);
+	int iSel = pCComboBox->GetCurSel();
+	if (0 == iSel)
+	{
+		m_pDispatchParamInfo->strFormat = _T("NO");
+	}
+	else if (1 == iSel)
+	{
+		m_pDispatchParamInfo->strFormat = _T("CIF");
+	}
+
 	CString strDstViewers;
-	((CEdit*)GetDlgItem(IDC_EDIT_FORMAT))->GetWindowText(m_pDispatchParamInfo->strFormat);
+	//((CEdit*)GetDlgItem(IDC_EDIT_FORMAT))->GetWindowText(m_pDispatchParamInfo->strFormat);
 	((CEdit*)GetDlgItem(IDC_EDIT_DSTVIEWER))->GetWindowText(strDstViewers);
 	((CEdit*)GetDlgItem(IDC_EDIT_RESOURCE_ID))->GetWindowText(m_pDispatchParamInfo->strResourceId);
 	int pos = strDstViewers.Find(_T(";"));

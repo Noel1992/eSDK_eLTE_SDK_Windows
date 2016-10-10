@@ -53,12 +53,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\platform\SDK\include;..\..\..\platform\SDK\include\sdk\include;..\..\..\platform\SDK\include\ACE_wrappers\include;..\..\..\platform\SDK\include\log4cxx\include;..\..\..\platform\SDK\include\platform;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.1u\openssl-1.0.1u\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\platform\SDK\include;..\..\..\platform\SDK\include\sdk\include;..\..\..\platform\SDK\include\ACE_wrappers\include;..\..\..\platform\SDK\include\log4cxx\include;..\..\..\platform\SDK\include\platform;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\..\third_party\open_src\openssl-1.0.1t\lib\windows;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\SDK;..\..\..\platform\SDK\include\ACE_wrappers\lib;..\..\..\platform\SDK\include\log4cxx\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\..\third_party\open_src\openssl-1.0.1u\lib\windows;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\SDK;..\..\..\platform\SDK\include\ACE_wrappers\lib;..\..\..\platform\SDK\include\log4cxx\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>eSDKLogAPI.lib;libeay32.lib;ssleay32.lib;tinyxml.lib;ace.lib;sdk.lib;log4cxx.lib;ubp_trace.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -70,7 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.1t\openssl-1.0.1t\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\platform\SDK\include;..\..\..\platform\SDK\include\sdk\include;..\..\..\platform\SDK\include\ACE_wrappers\include;..\..\..\platform\SDK\include\log4cxx\include;..\..\..\platform\SDK\include\platform;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.1u\openssl-1.0.1u\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\platform\SDK\include;..\..\..\platform\SDK\include\sdk\include;..\..\..\platform\SDK\include\ACE_wrappers\include;..\..\..\platform\SDK\include\log4cxx\include;..\..\..\platform\SDK\include\platform;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,7 +78,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>eSDKLogAPI.lib;libeay32.lib;ssleay32.lib;tinyxml.lib;ace.lib;sdk.lib;log4cxx.lib;ubp_trace.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\release;..\..\..\..\third_party\open_src\openssl-1.0.1t\lib\windows;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\SDK;..\..\..\platform\SDK\include\ACE_wrappers\lib;..\..\..\platform\SDK\include\log4cxx\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\release;..\..\..\..\third_party\open_src\openssl-1.0.1u\lib\windows;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\SDK;..\..\..\platform\SDK\include\ACE_wrappers\lib;..\..\..\platform\SDK\include\log4cxx\lib;..\..\..\self_dev\eSDKSecurec\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -51,6 +51,18 @@ END_MESSAGE_MAP()
 void DispatchParamDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
+	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_VIDEOFORMAT);
+	int iSel = pCComboBox->GetCurSel();
+	if (0 == iSel)
+	{
+		m_pDispatchParamInfo->strFormat = _T("NO");
+	}
+	else if (1 == iSel)
+	{
+		m_pDispatchParamInfo->strFormat = _T("CIF");
+	}
+
+
 	CString strDstViewers;
 	((CEdit*)GetDlgItem(IDC_EDIT_DSTVIEWER))->GetWindowText(strDstViewers);
 
@@ -81,8 +93,16 @@ BOOL DispatchParamDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	GetDlgItem(IDC_EDIT_FORMAT)->SetWindowText(m_pDispatchParamInfo->strFormat);
+	//GetDlgItem(IDC_EDIT_FORMAT)->SetWindowText(m_pDispatchParamInfo->strFormat);
+	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_VIDEOFORMAT);
+	if (NULL != pCComboBox)
+	{
+		pCComboBox->InsertString(0, _T("NO"));
 
+		pCComboBox->InsertString(0, _T("CIF"));
+
+		pCComboBox->SetCurSel(0);
+	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }

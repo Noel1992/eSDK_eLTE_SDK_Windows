@@ -1,4 +1,11 @@
 华为eSDK eLTE解决方案是对eLTE宽带集群产品eAPP SDK接口进行标准化封装，为合作伙伴提供集群用户管理、群组管理、语音点呼、语音组呼、人工转接、缜密监听、环境监听、实时视频回传与分发、视频上墙、短彩信发送与接收以及集群终端GIS订阅与地理位置信息上报等管理调度功能。
+V2.1.00
+适配产品eAPP610V100R004C10SPC100B252版本
+增加新功能：
+无
+修改功能：
+1、删除eLTE_SDK.ini 和 eLTE_NativeService.ini配置文件中NeedEncrypt和Password两个字段。
+
 V1.5.70
 增加新功能：
 1、在eLTE_SDK.dll同目录下添加日志声明文件Log Collection Statement.txt
