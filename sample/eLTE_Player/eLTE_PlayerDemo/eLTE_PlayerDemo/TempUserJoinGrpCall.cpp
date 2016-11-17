@@ -50,7 +50,7 @@ END_MESSAGE_MAP()
 
 void CTempUserJoinGrpCall::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strDstNum = _T("");
 	((CEdit*)GetDlgItem(IDC_EDIT_USERID))->GetWindowText(strDstNum);
 
@@ -76,7 +76,7 @@ void CTempUserJoinGrpCall::OnBnClickedOk()
 
 void CTempUserJoinGrpCall::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }
 

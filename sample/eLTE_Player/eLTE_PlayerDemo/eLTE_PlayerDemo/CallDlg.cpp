@@ -54,7 +54,7 @@ END_MESSAGE_MAP()
 
 void CCallDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	if(!m_bUse)
 	{
 		CString strRst = m_peLTE_Player->ELTE_OCX_P2PRecv(m_strResId);
@@ -66,7 +66,7 @@ void CCallDlg::OnBnClickedOk()
 
 void CCallDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strRst = m_peLTE_Player->ELTE_OCX_P2PReject(m_strResId);
 	CHECK_RESULTE_CODE(strRst, _T("ELTE_OCX_P2PReject"));
 	CDialogEx::OnCancel();

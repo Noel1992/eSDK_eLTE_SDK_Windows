@@ -50,7 +50,7 @@ END_MESSAGE_MAP()
 
 void DispatchParamDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_VIDEOFORMAT);
 	int iSel = pCComboBox->GetCurSel();
 	if (0 == iSel)
@@ -83,7 +83,7 @@ void DispatchParamDlg::OnBnClickedOk()
 
 void DispatchParamDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }
 

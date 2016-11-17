@@ -41,7 +41,7 @@ END_MESSAGE_MAP()
 
 void P2PTransferDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strDstNum = _T("");
 	((CEdit*)GetDlgItem(IDC_EDIT_DSTNUMBER))->GetWindowText(strDstNum);
 
@@ -68,7 +68,7 @@ void P2PTransferDlg::OnBnClickedOk()
 
 void P2PTransferDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }
 

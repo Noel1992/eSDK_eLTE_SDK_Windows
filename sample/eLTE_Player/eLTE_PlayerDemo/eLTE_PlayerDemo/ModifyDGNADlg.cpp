@@ -52,7 +52,7 @@ END_MESSAGE_MAP()
 
 void CModifyDGNADlg::OnBnClickedButtonAddadduser()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strUserID;
 	GetDlgItemText(IDC_EDIT_ADD_USER_ID, strUserID);
 	if (strUserID.IsEmpty())
@@ -74,7 +74,7 @@ void CModifyDGNADlg::OnBnClickedButtonAddadduser()
 
 void CModifyDGNADlg::OnBnClickedButtonAdddeluser()
 {
-	// TODO: Add your control notification handler code here
+	
 	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_ADDUSERLIST);
 
 	int nMaxItems = pList->GetSelCount();
@@ -93,7 +93,7 @@ void CModifyDGNADlg::OnBnClickedButtonAdddeluser()
 
 void CModifyDGNADlg::OnBnClickedButtonDeladduser()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strUserID;
 	GetDlgItemText(IDC_EDIT_DEL_USER_ID, strUserID);
 	if (strUserID.IsEmpty())
@@ -114,7 +114,7 @@ void CModifyDGNADlg::OnBnClickedButtonDeladduser()
 
 void CModifyDGNADlg::OnBnClickedButtonDeldeluser()
 {
-	// TODO: Add your control notification handler code here
+	
 	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_DELUSERLIST);
 
 	int nMaxItems = pList->GetSelCount();
@@ -133,7 +133,7 @@ void CModifyDGNADlg::OnBnClickedButtonDeldeluser()
 
 void CModifyDGNADlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strGroupID,strDcID;
 	GetDlgItemText(IDC_EDIT_GROUPID, strGroupID);
 	GetDlgItemText(IDC_EDIT_DCID, strDcID);
@@ -175,7 +175,7 @@ void CModifyDGNADlg::OnBnClickedOk()
 
 void CModifyDGNADlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }
 

@@ -3,8 +3,8 @@ var isLoad = false;
 var isLogin = false;
 var localIP="";
 var serverIP="172.22.9.120";
-var userName = "4119";	//用户名
-var password = "4119";	//密码
+var userName = "4119";	//user name
+var password = "4119";	//password
 var resourceID = "8895";
 var arrayList;
 

@@ -40,7 +40,7 @@ END_MESSAGE_MAP()
 
 void CPTZCtrlDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	*m_pCode = GetDlgItemInt(IDC_EDIT_PTZCODE);
 	*m_pValue = GetDlgItemInt(IDC_EDIT_PTZVALUE);
 	CDialogEx::OnOK();
@@ -49,7 +49,7 @@ void CPTZCtrlDlg::OnBnClickedOk()
 
 void CPTZCtrlDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	m_pCode = NULL;
 	m_pValue = NULL;
 	CDialogEx::OnCancel();

@@ -23,7 +23,7 @@ public:
 	afx_msg void OnBnClickedCancel();
 
 public:
-	// 设置返回参数
+	// set return parameter
 	void SetParam(UINT* pCode, UINT* pValue)
 	{
 		m_pCode = pCode;
@@ -31,6 +31,6 @@ public:
 	}
 
 private:
-	UINT* m_pCode;		// 操作类型
-	UINT* m_pValue;		// 操作数值
+	UINT* m_pCode;		// operation type
+	UINT* m_pValue;		// operation value
 };

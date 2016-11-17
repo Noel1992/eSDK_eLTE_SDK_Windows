@@ -44,7 +44,7 @@ END_MESSAGE_MAP()
 
 void CCreatePatchGroupDlg::OnBnClickedButtonAddgroup()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strGroupID;
 	GetDlgItemText(IDC_EDIT_GROUP_ID, strGroupID);
 	if (strGroupID.IsEmpty())
@@ -65,7 +65,7 @@ void CCreatePatchGroupDlg::OnBnClickedButtonAddgroup()
 
 void CCreatePatchGroupDlg::OnBnClickedButtonDelgroup()
 {
-	// TODO: Add your control notification handler code here
+	
 	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_GROUPLIST);
 
 	int nMaxItems = pList->GetSelCount();
@@ -84,7 +84,7 @@ void CCreatePatchGroupDlg::OnBnClickedButtonDelgroup()
 
 void CCreatePatchGroupDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strDcID,strAlias;
 	GetDlgItemText(IDC_EDIT_DCID, strDcID);
 	GetDlgItemText(IDC_EDIT_ALIAS, strAlias);
@@ -107,7 +107,7 @@ void CCreatePatchGroupDlg::OnBnClickedOk()
 
 void CCreatePatchGroupDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }
 

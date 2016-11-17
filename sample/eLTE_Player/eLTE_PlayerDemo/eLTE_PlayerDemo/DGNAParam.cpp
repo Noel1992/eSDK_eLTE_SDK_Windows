@@ -63,7 +63,7 @@ void CDGNAParam::SetDGNAParamInfo(CString strDcId, DGNAParamInfo* pInfo, bool bD
 
 void CDGNAParam::OnBnClickedButtonAddgroup()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strGroupID;
 	GetDlgItemText(IDC_EDIT_GROUP_ID, strGroupID);
 	if (strGroupID.IsEmpty())
@@ -84,7 +84,7 @@ void CDGNAParam::OnBnClickedButtonAddgroup()
 
 void CDGNAParam::OnBnClickedButtonDelgroup()
 {
-	// TODO: Add your control notification handler code here
+	
 	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_GROUPLIST);
 
 	int nMaxItems = pList->GetSelCount();
@@ -103,7 +103,7 @@ void CDGNAParam::OnBnClickedButtonDelgroup()
 
 void CDGNAParam::OnBnClickedButtonAdduser()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strUserID;
 	GetDlgItemText(IDC_EDIT_USER_ID, strUserID);
 	if (strUserID.IsEmpty())
@@ -124,7 +124,7 @@ void CDGNAParam::OnBnClickedButtonAdduser()
 
 void CDGNAParam::OnBnClickedButtonDeluser()
 {
-	// TODO: Add your control notification handler code here
+	
 	CListBox* pList = (CListBox*)GetDlgItem(IDC_LIST_USERLIST);
 
 	int nMaxItems = pList->GetSelCount();
@@ -143,7 +143,7 @@ void CDGNAParam::OnBnClickedButtonDeluser()
 
 void CDGNAParam::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strGroupID,strDcID,strAlias,strPriority,strMaxPeriod;
 	GetDlgItemText(IDC_EDIT_GROUPID, strGroupID);
 	GetDlgItemText(IDC_EDIT_DCID, strDcID);
@@ -191,7 +191,7 @@ void CDGNAParam::OnBnClickedOk()
 
 void CDGNAParam::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 
 	CDialog::OnCancel();
 }

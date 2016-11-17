@@ -43,7 +43,7 @@
 		<input id="logout" type="button" style="width:120px" value="Logout" onclick="Logout()">
 		<br />
 		<hr />
-		<input id="triggerStatusReport" type="button" style="width:120px" value="TriggerStatusReport" onclick="TriggerStatusReport()">
+		<input id="triggerStatusReport" type="button" style="width:160px" value="TriggerStatusReport" onclick="TriggerStatusReport()">
 		<select id="triggerStatusReportSelect">
 			<option id="ONTriggerStatusReport" value="1">ON</option>
 			<option id="OFFTriggerStatusReport" value="0">OFF</option>
@@ -66,24 +66,24 @@
 		</select>
 		CameraType:
 		<select id="cameraType">
-			<option id="front" value="0">前置摄像头</option>
-			<option id="back" value="1">后置摄像头</option>
+			<option id="front" value="0">front camera</option>
+			<option id="back" value="1">back camera</option>
 		</select>
 		UserConfirm:
 		<select id="userConfirm">
-			<option id="unconfirm" value="0">无需确认</option>
-			<option id="confirm" value="1">需要确认</option>
+			<option id="unconfirm" value="0">unconfirm</option>
+			<option id="confirm" value="1">confirm</option>
 		</select>
 		MuteType:
 		<select id="muteType">
-			<option id="unmute" value="0">需要伴音</option>
-			<option id="mute" value="1">无需伴音</option>
+			<option id="unmute" value="0">unmute</option>
+			<option id="mute" value="1">mute</option>
 		</select>
 		<br/>
-		<input id="startVideoDispatch" type="button" style="width:120px" value="StartVideoDispatch" onclick="StartVideoDispatch()">
+		<input id="startVideoDispatch" type="button" style="width:160px" value="StartVideoDispatch" onclick="StartVideoDispatch()">
 		Dstviewerlist:
 		<input id="dstviewerlist" type="text" style="width:200px">
-		<input id="stopVideoDispatch" type="button" style="width:120px" value="StopVideoDispatch" onclick="StopVideoDispatch()">
+		<input id="stopVideoDispatch" type="button" style="width:160px" value="StopVideoDispatch" onclick="StopVideoDispatch()">
 		StopDispatchResId:
 		<input id="stopDispatchResId" type="text" style="width:120px">		
 		<br />
@@ -115,19 +115,19 @@
 		<br />
 		<hr />
 		<input id="setTitleText" type="button" style="width:120px" value="SetTitleText" onclick="SetTitleText()">
-		<input id="titleText" type="text" style="width:120px" value="实况播放">
+		<input id="titleText" type="text" style="width:120px" value="live play">
 		<br />
 		<hr />
-		工具栏:
+		tool:
 		<select id="toolBar" onchange="ShowToolBar()">
 			<option id="showToolBar" value="1">ShowToolBar</option>
 			<option id="hideToolBar" value="0">HideToolBar</option>
 		</select>
-		语言:
+		language:
 		<select id="language" onchange="SetLang()">
-			<option id="lang_zh_CN" value="1">中文</option>
+			<option id="lang_zh_CN" value="1">Chinese</option>
 			<option id="lang_en_US" value="2">English</option>
-			<option id="lang_es_ES" value="3">西班牙</option>
+			<option id="lang_es_ES" value="3">Spanish</option>
 		</select>
 		<br />
 		<hr />
@@ -139,12 +139,12 @@
 		<input id="p2pBreakoff" type="button" style="width:120px" value="P2PBreakoff" onclick="P2PBreakoff()">
 		<input id="p2pMute" type="button" style="width:120px" value="P2PMute" onclick="P2PMute()">
 		<input id="p2pUnMute" type="button" style="width:120px" value="P2PUnMute" onclick="P2PUnMute()">
-        <input id="EnvironmentListen" type="button" style="width:120px" value="EnvironmentListen" onclick="Environmentlisten()">
+        <input id="EnvironmentListen" type="button" style="width:160px" value="EnvironmentListen" onclick="Environmentlisten()">
 		ResourceID:
 		<input id="p2pResId" type="text" style="width:40px">
 		<br />
 		<hr />
-		<input id="unSubscribeGroup" type="button" style="width:120px" value="UnSubscribeGroup" onclick="UnSubscribeGroup()">
+		<input id="unSubscribeGroup" type="button" style="width:160px" value="UnSubscribeGroup" onclick="UnSubscribeGroup()">
 		<input id="subJoinGroup" type="button" style="width:120px" value="SubJoinGroup" onclick="SubJoinGroup()">
 		<input id="pttDial" type="button" style="width:120px" value="PTTDial" onclick="PTTDial()">
 		<input id="pttRelease" type="button" style="width:120px" value="PTTRelease" onclick="PTTRelease()">
@@ -177,12 +177,12 @@
 		<textarea id="textArea" rows="3" cols="200" readonly="true"></textarea>
 		<br />
 		<hr />
-		<input id="sDSSendMessage" type="button" style="width:120px" value="SDSSendMessage" onclick="SDSSendMessage()">
-		收件人:
+		<input id="sDSSendMessage" type="button" style="width:160px" value="SDSSendMessage" onclick="SDSSendMessage()">
+		receiver:
 		<input id="receiver" type="text" style="width:120px" value="8890;8892;4114">
-		附件:
+		attachment:
 		<input id="attachMent" type="text" style="width:200px">
-		内容:
+		content:
 		<input id="content" type="text" style="width:200px">
 		<br />
 		<hr />
@@ -223,10 +223,10 @@
 	</div>
 	<hr />
 	<div id="status" style="height: 26px; position: absolute; left: 0px; right:0px; bottom: 0px; overflow: hidden;">
-		<span id="result">调用接口结果</span>
-		<input id="resultcode" style="width: 300px;" title="调用接口返回码，调用接口成功，返回码为0">
-		<span id="result">事件上报信息</span>
-		<input id="eventType" style="width: 300px;" title="事件上报信息">
+		<span id="result">API return result</span>
+		<input id="resultcode" style="width: 300px;" title="Call interface to return code, call the interface successfully, the return code is0">
+		<span id="result">Event report result</span>
+		<input id="eventType" style="width: 300px;" title="Event report message">
 	</div>
 	
 	<!-- ocx 事件处理 -->
@@ -246,7 +246,7 @@
 			{
 				if(isLogin == false)
 				{
-					alert("登录成功");
+					alert("login success");
 					isLogin = true;
 				}
 			}
@@ -254,7 +254,7 @@
 			{
 				if(isLogin == true)
 				{
-					alert("登陆失败");
+					alert("login failed");
 				}
 			}
 			else if (type == 11)
@@ -262,15 +262,15 @@
 				var strOut;
 				if(value == 4003)
 				{
-					strOut = "群组[";
+					strOut = "group[";
 					strOut += strResId;
-					strOut += "]订阅成功.";
+					strOut += "]subscribe success.";
 				}
 				else if(value == 4004)
 				{
-					strOut = "群组[";
+					strOut = "group[";
 					strOut += strResId;
-					strOut += "]去订阅成功.";
+					strOut += "]unsubscribe success.";
 				}
 				alert(strOut);
 			}
@@ -281,16 +281,16 @@
 				var strOut;
 				if(value == 4025)
 				{
-					strOut = "动态重组[";
+					strOut = "dynamic group[";
 					strOut += group;
-					strOut += "]创建失败.失败原因=";
+					strOut += "]create failed.failture =";
 					strOut += cause;
 				}
 				else if(value == 4024)
 				{
-					strOut = "动态重组[";
+					strOut = "dynamic group[";
 					strOut += group;
-					strOut += "]创建成功.";
+					strOut += "]craete success.";
 					$("#DgroupId").val(group);
 				}
 				alert(strOut);
@@ -335,7 +335,7 @@
 				var strMuteType = xmlDoc.find("SoundMute").text();
 				$("#resourceId").val(strResID);
 				$("#muteType").val(strMuteType);
-				if(confirm(strResID + " 视频来电提示"))
+				if(confirm(strResID + " Video call prompt"))
 				{
 					RecvVideoPlay();
 				}
@@ -346,7 +346,7 @@
 			}
 			else if (type == 3006)
 			{
-				//为了与界面按钮状态保持一致这里需要静音
+				//In order to keep in line with the button state of the interface, there is a need for silence.
 				var param = "<Content><MuteParam><CallType>2</CallType></MuteParam></Content>";
 		
 				resultXml = ocx.ELTE_OCX_VolMute(xmlDoc.find("Callee").text(), param);
@@ -381,31 +381,31 @@
 			if (status == 2002)
 			{
 				$("#p2pResId").val(caller);
-				alert("来电请求:" + caller);
+				alert("Call request:" + caller);
 			}
 			else if (status == 2003)
 			{
-				alert("点呼已接听");
+				alert("P2P accepted");
 			}
 			else if (status == 2009 || status == 2010)
 			{
-				alert("点呼已挂断");
+				alert("P2P hangup");
 			}
 			else if (status == 2011)
 			{
-				alert("点呼已取消");
+				alert("P2P canceled");
 			}
 			else if (status == 2013)
 			{
-				alert("点呼用户正忙");
+				alert("P2P busy");
 			}
 			else if (status == 2017)
 			{
-				alert("点呼无应答");
+				alert("P2P no answer");
 			}
 			else if (status == 2020)
 			{
-				alert("点呼失败");
+				alert("P2P failed");
 			}
 		}
 		else if (ulEventType == 6)
