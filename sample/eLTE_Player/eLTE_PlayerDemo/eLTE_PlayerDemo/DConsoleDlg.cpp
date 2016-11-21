@@ -284,15 +284,15 @@ BOOL CDConsoleDlg::OnInitDialog()
 
 	// initialize data
 	CComboBox* pToorBar = (CComboBox*)GetDlgItem(IDC_COMBO_TOOLBAR);
-	pToorBar->InsertString(0, _T("隐藏"));
-	pToorBar->InsertString(0, _T("显示"));
+	pToorBar->InsertString(0, _T("hide"));
+	pToorBar->InsertString(0, _T("show"));
 	pToorBar->SetCurSel(0);
 	CComboBox* pLang = (CComboBox*)GetDlgItem(IDC_COMBO_LANG);
-	pLang->InsertString(0, _T("西班牙语"));
+	pLang->InsertString(0, _T("Spanish"));
 	pLang->InsertString(0, _T("English"));
-	pLang->InsertString(0, _T("中文"));
+	pLang->InsertString(0, _T("Chinese"));
 	pLang->SetCurSel(0);
-	SetDlgItemText(IDC_EDIT_TITLE, _T("实时视频"));
+	SetDlgItemText(IDC_EDIT_TITLE, _T("Live Video"));
 	SetDlgItemInt(IDC_EDIT_LEFT, 0);
 	SetDlgItemInt(IDC_EDIT_TOP, 0);
 	SetDlgItemInt(IDC_EDIT_WIDTH, 450);
@@ -1133,7 +1133,7 @@ void CDConsoleDlg::OnNMDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 
 	SetDlgItemText(IDC_EDIT_RESID, strResID);
 	SetDlgItemText(IDC_EDIT_RESOURCEID, strResID);
-	SetDlgItemText(IDC_EDIT_TITLE, _T("实时视频 ")+strResID);
+	SetDlgItemText(IDC_EDIT_TITLE, _T("Live Video ")+strResID);
 
 	// Set resource status
 	std::map<int, ST_REALPLAY_PARAM>::iterator itor = m_ResourceMap.find(StrToInt(strResID));
@@ -1815,11 +1815,11 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 			}
 			else if (iRet == -40001)
 			{
-				MessageBox(_T("没有订阅该动态组."));
+				MessageBox(_T("did not subscribe Dynamic group."));
 			}
 			else if (iRet == -40005)
 			{
-				MessageBox(_T("用户没有操作权限."));
+				MessageBox(_T("permission limit."));
 			}
 			else 
 			{
@@ -1955,7 +1955,7 @@ void CDConsoleDlg::ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml)
 	else if (eLTE_PLAYER_SNAPSHOT == ulEventId)
 	{
 		CString strMsg = GET_XML_ELEM_VALUE_STR(pXml, _T("SnapshotPath"));
-		strMsg.Insert(0, _T("抓图成功:\r\n"));
+		strMsg.Insert(0, _T("snapshot success:\r\n"));
 		MessageBox(strMsg);
 	}
 	else if (eLTE_PLAYER_MUTE == ulEventId)
@@ -2232,7 +2232,7 @@ void CDConsoleDlg::GetPatchGroups()
 		GroupInfo* &pInfo = *itor;
 		CString szItemroot(pInfo->GroupID);
 		szItemroot.Append(_T(" "));
-		szItemroot.Append(_T("[派接组]"));
+		szItemroot.Append(_T("[PatchGroup]"));
 		HTREEITEM itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 		m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
@@ -2253,7 +2253,7 @@ void CDConsoleDlg::GetPatchGroups()
 			GroupUserInfo* &pUserInfo = *it;
 			CString szItem(pUserInfo->MemberGroupId);
 			szItem.Append(_T(" "));
-			szItem.Append(_T("[普通组]"));
+			szItem.Append(_T("[CommonGroup]"));
 			HTREEITEM item = m_PatchGroups.InsertItem(szItem, -1, -1, itemroot);
 			m_PatchGroups.SetItemData(item, (DWORD_PTR)pUserInfo);
 		}
@@ -2323,7 +2323,7 @@ void CDConsoleDlg::AddPatchGroupMember(int groupId, int memberId)
 			pUserInfo->MemberGroupId = strMemberId;
 			CString szItem(pUserInfo->MemberGroupId);
 			szItem.Append(_T(" "));
-			szItem.Append(_T("[普通组]"));
+			szItem.Append(_T("[CommonGroup]"));
 			item = m_PatchGroups.InsertItem(szItem, -1, -1, itemroot);
 			m_PatchGroups.SetItemData(item, (DWORD_PTR)pUserInfo);
 			break;
@@ -2372,7 +2372,7 @@ void CDConsoleDlg::AddPatchGroup(int iGroupID)
 	// add group
 	CString szItemroot(pInfo->GroupID);
 	szItemroot.Append(_T(" "));
-	szItemroot.Append(_T("[派接组]"));
+	szItemroot.Append(_T("[PatchGroup]"));
 	itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 	m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
@@ -2390,7 +2390,7 @@ void CDConsoleDlg::AddPatchGroup(int iGroupID)
 		GroupUserInfo* &pUserInfo = *it;
 		CString szItem(pUserInfo->MemberGroupId);
 		szItem.Append(_T(" "));
-		szItem.Append(_T("[普通组]"));
+		szItem.Append(_T("[CommonGroup]"));
 		HTREEITEM item = m_PatchGroups.InsertItem(szItem, -1, -1, itemroot);
 		m_PatchGroups.SetItemData(item, (DWORD_PTR)pUserInfo);
 	}
@@ -2599,7 +2599,7 @@ void CDConsoleDlg::AddTempGroup(const CString& strGroupID)
 
 	// add group
 	CString szItemroot(pInfo->GroupID);
-	szItemroot.Append(_T(" [临时组]"));
+	szItemroot.Append(_T(" [TempGroup]"));
 	itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
 	m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
@@ -2676,32 +2676,32 @@ CString CDConsoleDlg::GetGroupCategoryString(const CString& strGroupCategory)
 	{
 	case 0:
 		{
-			strResult.Append(_T("[全网广播组]"));
+			strResult.Append(_T("[NetworkBroadcastGroup]"));
 		}
 		break;
 	case 1:
 		{
-			strResult.Append(_T("[普通组]"));
+			strResult.Append(_T("[CommonGroup]"));
 		}
 		break;
 	case 2:
 		{
-			strResult.Append(_T("[区域广播组]"));
+			strResult.Append(_T("[LocalBroadcastGroup]"));
 		}
 		break;
 	case 8:
 		{
-			strResult.Append(_T("[外部组]"));
+			strResult.Append(_T("[ExternalGroup]"));
 		}
 		break;
 	case 9:
 		{
-			strResult.Append(_T("[动态组]"));
+			strResult.Append(_T("[DynamicGroup]"));
 		}
 		break;
 	case 10:
 		{
-			strResult.Append(_T("[不分类型]"));
+			strResult.Append(_T("[NoType]"));
 		}
 		break;
 	}
@@ -2718,12 +2718,12 @@ CString CDConsoleDlg::GetGroupUserMemberTypeString(const CString& strMemberType)
 	{
 	case 0:
 		{
-			strResult.Append(_T("[动态重组中的组成员]"));
+			strResult.Append(_T("[DynamicGroupMember]"));
 		}
 		break;
 	case 1:
 		{
-			strResult.Append(_T("[普通用户成员]"));
+			strResult.Append(_T("[CommonGroupMember]"));
 		}
 		break;
 	}

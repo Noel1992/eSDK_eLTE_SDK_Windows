@@ -206,7 +206,7 @@ BOOL CDGNAParam::OnInitDialog()
 	pEdit->SetReadOnly(TRUE);
 	SetDlgItemText(IDC_EDIT_DCID, m_strDcId);
 	CEdit* pEditGroupID = (CEdit*)GetDlgItem(IDC_EDIT_GROUPID);
-	pEditGroupID->SetCueBanner(_T("×Ô¶¯·ÖÅä"));
+	pEditGroupID->SetCueBanner(_T("Auto distribution"));
 	if (m_bDGNA)
 	{		
 		SetDlgItemText(IDC_EDIT_PRIORITY, _T("15"));

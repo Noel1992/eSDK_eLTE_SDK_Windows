@@ -52,7 +52,7 @@ public:
 	BOOL m_bIsLogin;
 	BOOL m_bMax;
 	CElte_playerctrl1 m_eLTE_Player;
-	CString m_strKickOff;   // user ±»¼·µô
+	CString m_strKickOff;   // user kicked off
 
 	
 public:

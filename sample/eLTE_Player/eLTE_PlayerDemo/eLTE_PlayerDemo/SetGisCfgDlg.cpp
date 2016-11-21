@@ -19,7 +19,6 @@ limitations under the License.*/
 
 
 // CSetGisCfgDlg dialog
-
 IMPLEMENT_DYNAMIC(CSetGisCfgDlg, CDialogEx)
 
 CSetGisCfgDlg::CSetGisCfgDlg(CWnd* pParent /*=NULL*/)

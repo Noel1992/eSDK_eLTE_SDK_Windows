@@ -62,7 +62,7 @@ void CRECFileDlg::OnBnClickedOk()
 	GetDlgItemText(IDC_EDIT_ENDSEC, EndSec);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 		<Content>
 			<RECQueryInfo>
 				<CallType></CallType>
@@ -102,7 +102,7 @@ void CRECFileDlg::OnBnClickedOk()
 
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 		<ResultCode></ResultCode>
 		<RECFileInfoList>

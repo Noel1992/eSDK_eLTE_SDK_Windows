@@ -173,7 +173,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	//设置列表框为单选模式
+	//Set the list box for radio mode
 	m_DcUsers.ModifyStyle(0, LVS_SINGLESEL);
 	m_DcUsers.InsertColumn(DCUSERS_RESID, _T("ResourceID"), LVCFMT_LEFT, 70);
 	m_DcUsers.InsertColumn(DCUSERS_STATUS, _T("UserStatus"), LVCFMT_LEFT, 100);
@@ -181,7 +181,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcUsers.InsertColumn(DCUSERS_CATEGORY, _T("UserCategory"), LVCFMT_LEFT, 85);
 	m_DcUsers.InsertColumn(DCUSERS_PRIORITY, _T("UserPriority"), LVCFMT_LEFT, 85);
 
-	//图片列表
+	//List of pictures
 	m_ImageList.Create(30, 30, ILC_COLORDDB, 8, 1);
  	AddImage(m_ImageList, IDB_BITMAP_CAMERA_OFFLINE);
 	AddImage(m_ImageList, IDB_BITMAP_CAMERA_ONLINE);
@@ -194,10 +194,10 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcUsers.SetImageList(&m_ImageList, LVSIL_SMALL);
 	m_ImageList.Detach();
 
-	//设置List风格:全选、子列支持图片
+	//set List style:select all、child list support picture
 	m_DcUsers.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP | LVS_EX_SUBITEMIMAGES | LVS_EX_INFOTIP);
 
-	//设置坐标
+	//set coordinate
 	CRect rect;
 	GetDlgItem(IDC_STATIC_DC)->GetWindowRect(&rect);
 	ScreenToClient(&rect);
@@ -347,18 +347,15 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 
 void CDConsoleDlg::InitDlg()
 {
-	// 先清理
+	// clean
 	ClearProv();
-
-// 	GetDlgItem(IDC_BUTTON_PROVINIT)->EnableWindow(FALSE);
-// 	GetDlgItem(IDC_BUTTON_PROVEXIT)->EnableWindow(TRUE);
 
 	if(m_pCeLTE_GISDlg && !((CeLTE_GISDlg*)m_pCeLTE_GISDlg)->m_bClose)
 	{
-		// 获取user 列表
+		// get user list
 		GetUsers(_T(""),false);
 
-		// 触发状态上报
+		// trigger status report
 		m_peLTE_Player->ELTE_OCX_TriggerStatusReport(1);
 	}
 }
@@ -383,13 +380,13 @@ void CDConsoleDlg::UpdateUserStatus(const CString& strUserId, int iStatus)
 			m_DcUsers.SetItem(i, DCUSERS_RESID, LVIF_TEXT|LVIF_IMAGE, strUserId, imgId, 0, 0, 0);
 			if (iStatus == 4011)
 			{
-				//心跳机制不能覆盖原有状态为在线状态。begin
+				//Heartbeat mechanism can not cover the original state as an online state。begin
 				CString sStatus = m_DcUsers.GetItemText(i, DCUSERS_STATUS);
 				if (sStatus != _T("offline"))
 				{
 					return;
 				}
-				//心跳机制不能覆盖原有状态为在线状态。end
+				//Heartbeat mechanism can not cover the original state as an online state。end
 
 				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("online"));
 			}
@@ -456,29 +453,29 @@ int CDConsoleDlg::GetUserImageId(const CString& strCategory, bool bGray)
 	int iUserCategory = StrToInt(strCategory);
 	int iImgID = -1;
 
-	switch (iUserCategory) // user 种类
+	switch (iUserCategory) // user type
 	{
 	case 0:
 		{
-			// 调度台user 
+			// dispatcher user 
 			iImgID = bGray ? Img_dispatcher_offline : Img_dispatcher_online;
 		}
 		break;
 	case 1:
 		{
-			// 固定摄像头
+			// camera
 			iImgID = bGray ? Img_camera_offline : Img_camera_online;
 		}
 		break;
 	case 2:
 		{
-			// PSTNuser 
+			// PSTN user 
 			iImgID = bGray ? Img_gwuser_offline : Img_gwuser_online;
 		}
 		break;
 	case 9:
 		{
-			// PTTuser 
+			// PTT user 
 			iImgID = bGray ? Img_pttuser_offline : Img_pttuser_online;
 		}
 		break;
@@ -511,7 +508,7 @@ CString CDConsoleDlg::GetGroupUserMemberTypeString(const CString& strMemberType)
 	int iMeberType = StrToInt(strMemberType);
 	CString strResult;
 
-	switch (iMeberType) // user 类型
+	switch (iMeberType) // user type
 	{
 	case 0:
 		{
@@ -570,7 +567,7 @@ void CDConsoleDlg::OnOK()
 
 void CDConsoleDlg::OnBnClickedButtonSearch()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	bool bFlag = true;
 	UpdateData(TRUE);
 	if ("" == m_strSearch)
@@ -584,23 +581,23 @@ void CDConsoleDlg::OnBnClickedButtonSearch()
 	
 	//clear DcUsers List
 	m_DcUsers.DeleteAllItems();
-	// 获取user 列表
+	// get user list
 	GetUsers(m_strSearch, bFlag);
-	// 触发状态上报
+	// trigger status report
 	m_peLTE_Player->ELTE_OCX_TriggerStatusReport(1);
 }
 
 
 void CDConsoleDlg::OnBnClickedButtonEvent8()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent8);
 }
 
 
 void CDConsoleDlg::OnBnClickedButtonEvent9()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent9);
 }
 
@@ -619,7 +616,7 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 	}
 
-	//弹出菜单
+	//pop-up menu
 	CMenu menu;
 	menu.CreatePopupMenu();
 	menu.AppendMenu(MF_STRING, ID_MENU_DCUSERINFO, _T("Info"));
@@ -642,7 +639,6 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 
 BOOL CDConsoleDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: 在此添加专用代码和/或调用基类
 	if(WM_KEYDOWN == pMsg->message && VK_RETURN == pMsg->wParam && GetFocus() == GetDlgItem(IDC_EDIT_RESSEARCH))   
 	{   
 		OnBnClickedButtonSearch();

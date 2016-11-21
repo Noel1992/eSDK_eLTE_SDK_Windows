@@ -21,7 +21,6 @@ limitations under the License.*/
 
 
 // CVWall dialog
-
 IMPLEMENT_DYNAMIC(CVWall, CDialogEx)
 
 CVWall::CVWall(CWnd* pParent /*=NULL*/)
@@ -32,8 +31,6 @@ CVWall::CVWall(CWnd* pParent /*=NULL*/)
 
 CVWall::~CVWall()
 {
-	//delete StringList;
-	//StringList = nullptr;
 }
 
 void CVWall::DoDataExchange(CDataExchange* pDX)
@@ -51,15 +48,9 @@ BEGIN_MESSAGE_MAP(CVWall, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CVWall message handlers
-
-
 BOOL CVWall::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
-	// TODO:  Add extra initialization here
-
 	if (StringList != NULL)
 	{
 		VideoChannelList::iterator it;
@@ -69,9 +60,6 @@ BOOL CVWall::OnInitDialog()
 		}
 		//comboBox.SetCurSel(0);
 	}
-
-//	GetDlgItem(IDC_BUTTON_START)->EnableWindow(FALSE);
-//	GetDlgItem(IDC_BUTTON_STOP)->EnableWindow(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -84,17 +72,13 @@ void CVWall::OnCbnSelchangeCombo1()
 	int iSel;
 	iSel = comboBox.GetCurSel();
 	comboBox.GetLBText(iSel,videoChannel);
-
 	CString strResult;
-
 	//Refresh list and status
 	strResult = m_peLTE_Player->ELTE_OCX_GetDcVWallIDList();
 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_GetDcVWallIDList"));
 	VideoChannelList* pStringList = getVideoChannelListPointer();
 	CXml::Instance().XmlParseVWallIDList(strResult, (*pStringList));
-
-	CString StrIDState = (*pStringList)[videoChannel];	
-
+	CString StrIDState = (*pStringList)[videoChannel];
 	if ("1" == StrIDState || "4023" == StrIDState)
 	{
 		GetDlgItem(IDC_STATIC_VIDSTATE)->SetWindowText(_T("Available"));
@@ -132,16 +116,14 @@ void CVWall::OnBnClickedButtonStart()
 	</Content>
 	*/
 	/************************************************************************/
-
 	//Judge the wall information
 	VideoChannelList* pVCL = getVideoChannelListPointer();
 
 	if ("1" != (*pVCL)[videoChannel] && "4023" != (*pVCL)[videoChannel])
 	{
-		MessageBox(_T("当前状态不可用"));
+		MessageBox(_T("status unavailable"));
 		return;
 	}
-
 	
 	CString strVideoChannelStart;
 	//construct Video wall XML
@@ -164,8 +146,7 @@ void CVWall::OnBnClickedButtonStart()
 
 
 void CVWall::OnBnClickedButtonStop()
-{
-	
+{	
 	/************************************************************************
 	--- XML format ---
 	<Content>
@@ -173,7 +154,6 @@ void CVWall::OnBnClickedButtonStop()
 	</Content>
 	************************************************************************/
 	VideoChannelList* pVCL = getVideoChannelListPointer();
-
 	if ("4022" != (*pVCL)[videoChannel])
 	{
 		MessageBox(_T("Please wait a moment. The current decorder can not close."));

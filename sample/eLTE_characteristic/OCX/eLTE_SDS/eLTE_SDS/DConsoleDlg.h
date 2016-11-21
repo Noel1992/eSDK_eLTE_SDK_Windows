@@ -98,7 +98,6 @@ public:
 	afx_msg void OnBnClickedButtonDcgroups();
 	afx_msg void OnBnClickedButtonDcinfo();
 	afx_msg void OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult);
-//	afx_msg void OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult);
 	afx_msg void OnClickTreeMenuItem(UINT uID);
 
 	afx_msg void OnBnClickedButtonEvent0();
@@ -131,9 +130,9 @@ private:
 	CString GetGroupCategoryString(const CString& strGroupCategory);
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void ClearDcGroupsTree();
-	// Patch Group列表数据清理
+	// Patch Group list data clean
 	void ClearPatchGroupsTree();
-	// 获取当前控件选中的组信息
+	// Gets the group information selected by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
 
 private:
@@ -181,7 +180,6 @@ public:
 	virtual void OnOK();
 	CComboBox m_cmbObjSel;
 	afx_msg void OnSelchangeComboObjsel();
-//	afx_msg void OnChangeEditRessearch();
 	CString m_strSearch;
 	afx_msg void OnBnClickedButtonSds();
 	afx_msg void OnBnClickedButton2();

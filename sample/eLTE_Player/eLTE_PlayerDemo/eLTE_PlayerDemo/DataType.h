@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    DataType.h
 author      :    yubinbin wx200189
 created     :    2014/07/01
-description :    data type define class。Enumeration and structure including internal use.
+description :    Data type definition class. Enumeration and structure including internal use
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2014/07/01 initial version
+history     :    2014/07/01 Initial version
 *********************************************************************/
 
 #ifndef __ELTE_OCX_DATA_TYPE_H__
@@ -26,7 +26,7 @@ history     :    2014/07/01 initial version
 typedef int eLTE_RET;
 
 // eLTE_Player return code definition
-// 213 is eSDK mark, 5101 is eLTE_Player mark， 51xx is eLTE SDK mark
+// 213 is eSDK mark, 5101 is eLTE_Player mark, 51xx is eLTE SDK mark
 typedef enum
 {
 	eLTE_ERR_SUCCESS = 0,					// success
@@ -39,7 +39,7 @@ typedef enum
 	eLTE_ERR_WAIT_LOGIN_RESULT,				// waiting for login result or login failed
 
 	//2135101201 - 2135101300 player error
-	eLTE_ERR_VIDEO_STATE = 2135101201,		// video play status error（如：playing，play failed）
+	eLTE_ERR_VIDEO_STATE = 2135101201,		// video play status error,(EX:playing or play failed)
 	eLTE_ERR_AUDIO_OPEN,					// audio play device open failed
 	eLTE_ERR_AUDIO_CLOSE,					// audio play device close failed
 	eLTE_ERR_AUDIO_RESET,					// audio play device reset failed
@@ -73,7 +73,7 @@ typedef enum
 } eLTE_VERSION_TYPE_E;
 
 //////////////////////////////////////////////////////////////////////////
-// 语言类型
+// language type
 typedef enum
 {
 	eLTE_LANG_INVALID = 0,			// illegal language
@@ -83,7 +83,7 @@ typedef enum
 } eLTE_LANG_CATEGORY_E;
 
 //////////////////////////////////////////////////////////////////////////
-// eLTE_Player 加载模式
+// eLTE_Player load mode
 typedef enum
 {
 	eLTE_LOAD_INVALID = 0,
@@ -139,34 +139,34 @@ typedef enum
 
 typedef enum
 {
-	/*-------------------The following information elements are used to point to call，include video call；see p2pcallstatus_indicator.cpp-----------*/
+	/*-------------------The following information elements are used to point to call(include video call)see p2pcallstatus_indicator.cpp-----------*/
 	CALLSTATUS =0, //call status
 	CALLERINFO =1, // caller
 	CALLEEINFO =2, // callee
 
-	/*--------------------The following information elements are used for group call，see grpcallstatus_indicator.cpp----------------*/
+	/*--------------------The following information elements are used for group call,see grpcallstatus_indicator.cpp----------------*/
 	GRPCALLSTATUS =3, // group call status
 	GRPCALLSPERKER =4, // group call speaker
 	FLOORSTATUS =5,    //Power status indicator
 
-	/*--------------------The following information elements are used for emergency calls， see emergency_indicator.cpp----------------*/
+	/*--------------------The following information elements are used for emergency calls,see emergency_indicator.cpp----------------*/
 	EMERGENCYCALL =6,  //emergency call status
 	EMERGENCYCALLER =7,  //emergency caller
 
 	/*--------------------The following information elements are used for resource status management,see resourcestatus_indicator.cpp----------------*/
 	RESORCEID =8,              // resource ID
 	DEVICEID =9,               //the window ID of Video column
-	RESSELECTSTATUS =10,        //Resource selected status indicator， For multi GUI linkage
+	RESSELECTSTATUS =10,        //Resource selected status indicator, For multi GUI linkage
 	RESASSIGNSTATUS =11,        //Resource assignment status indicator, that is, whether or not the dispatching station joins the resource group
 	RESTXSTATUS =12,            //Resource occupancy status indicator
 	RESLOGGINGSTATUS =13,       //Resource logging status indicator
 	RESDLSTATUS =14,            //Resource monitor status indicator
-	RESREGSTATUS_PROXY =15,     //Resource register status indicator, Agent registration(All cable users，Terminal cluster registry)
-	RESREGSTATUS_DIRECT =16,    //Resource register status indicator, Direct registration(Terminal business registration，like video)
+	RESREGSTATUS_PROXY =15,     //Resource register status indicator, Agent registration(All cable users,Terminal cluster registry)
+	RESREGSTATUS_DIRECT =16,    //Resource register status indicator, Direct registration(Terminal business registration,like video)
 	ATTACHINGGROUP =17,         //Join the group of resources
 
 	/*--------------------The following information elements are used for user status management;see userstatus_indicator.cpp----------------*/
-	USERSTATUS =18,		//User status indicator， normally notified by BCC
+	USERSTATUS =18,		//User status indicator, normally notified by BCC
 	USERGPSSTATUS =19,       //user GPS status indicator
 	USERDLSTATUS =20,            //User monitoring status indicator
 	USERDGNASTATUS =21,      //User dynamic state
@@ -333,7 +333,7 @@ typedef enum {
 	SDS_SEND_FAIL, //message send failed
 	FOLDER_IS_EMPTY,  //export folder is empty
 	GIS_LICESNCE_UPDATE,  //GIS License update
-	GIS_LICENSCE_EXPIREDAY, //license imminent expiration remind，
+	GIS_LICENSCE_EXPIREDAY, //license imminent expiration remind,
 							//Notice there are only 7 days left for n days, positive, negative for n days has expired
 	SIP_DISCONNECT,       //DC disconnected with BCC
 	SIP_RECONNECT,       //DC reconnect with BCC

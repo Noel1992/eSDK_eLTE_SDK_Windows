@@ -8,7 +8,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
-// eLTE_SDSDlg.cpp : 实现文件
+// eLTE_SDSDlg.cpp : Implementation file
 //
 
 #include "stdafx.h"
@@ -23,20 +23,20 @@ limitations under the License.*/
 #endif
 
 
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
+// CAboutDlg dialog box for application "on" menu item
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// 对话框数据
+// dialog data
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV supported
 
-// 实现
+// Realization
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -54,7 +54,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_SDSDlg 对话框
+// CeLTE_SDSDlg dialog
 
 
 int CeLTE_SDSDlg::m_iBypass = 1;
@@ -96,7 +96,7 @@ BEGIN_MESSAGE_MAP(CeLTE_SDSDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_SDSDlg 消息处理程序
+// CeLTE_SDSDlg message handle program
 
 BOOL CeLTE_SDSDlg::OnInitDialog()
 {
@@ -127,23 +127,6 @@ BOOL CeLTE_SDSDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
-
-	// 坐标设置
-	/*GetWindowRect(&m_RectMax);
-	m_RectMin = m_RectMax;
-	CRect rt;
-	GetDlgItem(IDC_STATIC_MORESETTING)->GetWindowRect(&rt);
-	m_RectMin.right = rt.left;
-	SetWindowPos(NULL,0,0,m_RectMin.Width(),m_RectMin.Height(),SWP_NOMOVE);	*/
-
-	//// 设置工作目录
-	//TCHAR tchPath[MAX_PATH] = {0};
-	//GetModuleFileName(NULL, tchPath, MAX_PATH);
-	//CString szPath(tchPath);
-	//szPath = szPath.Left(szPath.ReverseFind(_T('\\'))+1);
-	//SetCurrentDirectory(szPath);
-
 	m_cmbMediaPass.InsertString(0, _T("1"));
 	m_cmbMediaPass.InsertString(1, _T("0"));
 	m_cmbMediaPass.SetCurSel(1);
@@ -154,7 +137,7 @@ BOOL CeLTE_SDSDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// initial login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -165,11 +148,11 @@ BOOL CeLTE_SDSDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// initial log information
 	m_strLogSavePath = _T(".\\log");
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_SDSDlg(this);
 	m_DcDlg.SetELtePlayer(&m_eLTE_Player);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
@@ -190,19 +173,16 @@ void CeLTE_SDSDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// 如果向对话框添加最小化按钮，则需要下面的代码
-//  来绘制该图标。对于使用文档/视图模型的 MFC 应用程序，
-//  这将由框架自动完成。
 
 void CeLTE_SDSDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // 用于绘制的设备上下文
+		CPaintDC dc(this); // Device context for rendering
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// 使图标在工作区矩形中居中
+		// Center the icon in the rectangle of the workspace
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -210,7 +190,7 @@ void CeLTE_SDSDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// 绘制图标
+		// draw icon
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -219,8 +199,8 @@ void CeLTE_SDSDlg::OnPaint()
 	}
 }
 
-//当user 拖动最小化窗口时系统调用此函数取得光标
-//显示。
+// The system calls this function to obtain the cursor display 
+// when the user drag minimization window is minimized.
 HCURSOR CeLTE_SDSDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -230,8 +210,8 @@ HCURSOR CeLTE_SDSDlg::OnQueryDragIcon()
 
 void CeLTE_SDSDlg::OnBnClickedButtonLogin()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	//登陆前其他非必须参数设置
+	
+	//Other non essential parameter settings before login
 	MoreSetting();
 	UpdateData(TRUE);
 
@@ -249,7 +229,6 @@ void CeLTE_SDSDlg::OnBnClickedButtonLogin()
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_Load"));
 
 	GetDlgItem(IDC_BUTTON_LOGIN)->EnableWindow(FALSE);
-	//EnableWindow(FALSE);
 
 	strResult = m_eLTE_Player.ELTE_OCX_Login(m_strName, m_strPasswd, m_strServerIP, m_strLocalIP, m_strSipPort);
 	iRet = GET_XML_RESULTE_CODE(strResult);
@@ -272,7 +251,7 @@ END_EVENTSINK_MAP()
 
 void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCTSTR pEventDataXml)
 {
-	// TODO: 在此处添加消息处理程序代码
+	
 	switch (ulEventType)
 	{
 	case EVENT_NOTIFY_USER_STATUS:	// notifyUserStatus
@@ -283,7 +262,7 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 
 			m_DcDlg.UpdateUserStatus(strUserID, iStatusValue);
 
-			// 显示视频回传当前状态
+			// current video backhaul status display
 			CString strEventMsg;
 			strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
 			if (iStatusValue == 4011)
@@ -321,7 +300,7 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 			int iType = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusType"));
 			int iValue = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusValue"));
 
-			// 回调事件消息显示
+			// Callback event message display
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
 			strEventMsg.Insert(0,GetTimeString());
@@ -346,13 +325,8 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 							strEventMsg.Append(_T("Login success(heartbeat check)."));
 						}
 					}
-				/*	else
-					{
-						MessageBox(_T("logout success."));
-						strEventMsg.Append(_T("logout success."));
-					}*/
 				}
-				// 登陆失败
+				// login fail
 				else if (STATUS_REGFAIL == iValue)
 				{
 					if (!m_bIsLogin)
@@ -362,7 +336,6 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 					}
 					else
 					{
-						//MessageBox(_T("logout success."));
 						strEventMsg.Append(_T("logout success."));
 						//logout
 						m_bIsLogin = FALSE;
@@ -375,7 +348,7 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 					MessageBox(_T("resource unauthorized."));
 					strEventMsg.Append(_T("resource unauthorized."));
 				}
-				// 账号错误
+				// account error
 				else if (STATUS_NOT_FOUND == iValue)
 				{
 					MessageBox(_T("name or password error."));
@@ -411,15 +384,8 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 					MessageBox(_T("License limited."));
 					strEventMsg.Append(_T("License limited."));
 				}
-				// 安全红线
-				//// 密码错误
-				//else if (STATUS_PASSWORD_WRONG == iValue)
-				//{
-				//	MessageBox(_T("密码错误."));
-				//	strEventMsg.Append(_T("密码错误."));
-				//}
 
-				// 登陆失败则退出MFC程序
+				// login fail then exit MFC program
 				if (STATUS_REGOK != iValue && STATUS_UNAUTHORIZED != iValue)
 				{
 					ShowWindow(SW_HIDE);
@@ -429,16 +395,16 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 
 			if(GRPCALLSTATUS == iType)
 			{
-				// 组活动状态
+				// group active state
 				if (STATUS_GROUP_ACTIVATED == iValue)
 				{
-					//MessageBox(_T("组活动状态."));
+					//MessageBox(_T("group active."));
 					strEventMsg.Append(_T("Group call active state."));
 				}
-				//  组非活动状态
+				//  group deactive state
 				else if (STATUS_GROUP_DEACTIVATED == iValue)
 				{
-					//MessageBox(_T("组非活动状态."));
+					//MessageBox(_T("group deactive."));
 					strEventMsg.Append(_T("Group call inactive state."));
 				}
 			}
@@ -461,14 +427,14 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 		break;
 	case EVENT_NOTIFY_PROVISION_ALLRESYNC: // notifyProvisionAllResync
 		{
-			//开始初始化ProvMgr
+			//start initial ProvMgr
 			m_DcDlg.InitDlg();
 
 			CString strEventMsg = GetTimeString();
 			strEventMsg.Append(_T("notifyProvisionAllResync\r\n"));
 			m_DcDlg.m_strEvent4.Append(strEventMsg);
 
-			// 初始化MRS
+			// initial MRS
 			if(!m_bClose)
 			{
 				CString strResult = m_eLTE_Player.ELTE_OCX_ProvisionManagerInitMRS(m_strMRSIP);
@@ -532,26 +498,17 @@ void CeLTE_SDSDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 
 void CeLTE_SDSDlg::MoreSetting()
 {
-	//if (!m_bMax)
-	//	return;
-
 	UpdateData(TRUE);
-	// 设置日志参数
+	// set log parameter
 	m_eLTE_Player.ELTE_OCX_SetLogLevel(0);
 	m_eLTE_Player.ELTE_OCX_SetLogPath(m_strLogSavePath);
 
-	// 设置logo路径
-/*	if (!m_strBGLogoPath.IsEmpty())
-	{
-		m_eLTE_Player.ELTE_OCX_UploadLogo(m_strBGLogoPath);
-	}
-*/
-	// 获取版本
+	// get version
 	CString strResult = m_eLTE_Player.ELTE_OCX_GetVersion(eLTE_VERSION_OCX);//1 ocx, 2 SDK
 	CString strVersion = GET_XML_ELEM_VALUE_STR(strResult, _T("Version"));
 	CString strText;
 	strText.Format(_T("DConsole    [%s]"), strVersion);
-	m_DcDlg.SetWindowText(strText);
+	//m_DcDlg.SetWindowText(strText);
 }
 
 

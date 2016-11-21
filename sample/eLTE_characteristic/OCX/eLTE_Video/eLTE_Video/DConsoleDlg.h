@@ -145,11 +145,11 @@ private:
 	CString GetGroupCategoryString(const CString& strGroupCategory);
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void ClearDcGroupsTree();
-	// Patch Group列表数据清理
+	// Patch Group list data clean
 	void ClearPatchGroupsTree();
-	// 操作Patch Group
+	// operate Patch Group
 	void OperatePatchGroup(const CString& strDcID, const CString& strGroupID, const int& iOperateType, const CString& strGroupName = _T(""));
-	// 获取当前控件选中的组信息
+	// get current Item selected group information
 	void GetSelGroupInfo(GroupInfo** pInfo);
 
 protected:
@@ -219,7 +219,6 @@ public:
 	afx_msg void OnBnClickedButtonUnmute();
 	afx_msg void OnBnClickedButtonFullscreen();
 	afx_msg void OnBnClickedButtonNormalscreen();
-//	afx_msg void OnSelchangeComboToolbar();
 	afx_msg void OnBnClickedButtonTitletext();
 	afx_msg void OnBnClickedButtonWinpos();
 	afx_msg void OnBnClickedButtonEvent1();

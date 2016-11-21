@@ -43,15 +43,12 @@ public:
 private:
 	VideoChannelList *StringList ;
 	CString videoChannel;
-	CDConsoleDlg* pDcDlg; 
-	// OCX object pointer
+	CDConsoleDlg* pDcDlg;
 	CElte_playerctrl1* m_peLTE_Player;
-	//video resource ID
 	CString strResourceId;
 
 public:
 	afx_msg void OnCbnSelchangeCombo1();
 	afx_msg void OnBnClickedButtonStart();
 	afx_msg void OnBnClickedButtonStop();
-//	afx_msg void OnBnClickedOk();
 };

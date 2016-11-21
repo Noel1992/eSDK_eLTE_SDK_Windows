@@ -205,7 +205,6 @@ BOOL CDConsoleDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	//设置列表框为单选模式
 	m_DcUsers.ModifyStyle(0, LVS_SINGLESEL);
 	m_DcUsers.InsertColumn(DCUSERS_RESID, _T("ResourceID"), LVCFMT_LEFT, 70);
 	m_DcUsers.InsertColumn(DCUSERS_STATUS, _T("UserStatus"), LVCFMT_LEFT, 100);
@@ -213,7 +212,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcUsers.InsertColumn(DCUSERS_CATEGORY, _T("UserCategory"), LVCFMT_LEFT, 85);
 	m_DcUsers.InsertColumn(DCUSERS_PRIORITY, _T("UserPriority"), LVCFMT_LEFT, 85);
 
-	//图片列表
+	//picture list
 	m_ImageList.Create(30, 30, ILC_COLORDDB, 8, 1);
  	AddImage(m_ImageList, IDB_BITMAP_CAMERA_OFFLINE);
 	AddImage(m_ImageList, IDB_BITMAP_CAMERA_ONLINE);
@@ -227,10 +226,10 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcGroups.SetImageList(&m_ImageList, LVSIL_SMALL);
 	m_ImageList.Detach();
 
-	//设置List风格:全选、子列支持图片
+	//set List style:select all、child list support picture
 	m_DcUsers.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP | LVS_EX_SUBITEMIMAGES | LVS_EX_INFOTIP);
 
-	//设置坐标
+	//set coordinate
 	CRect rect;
 	GetDlgItem(IDC_STATIC_DC)->GetWindowRect(&rect);
 	ScreenToClient(&rect);
@@ -245,7 +244,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcGroups.ShowWindow(SW_HIDE);
 	m_PatchGroups.ShowWindow(SW_HIDE);
 
-	// 初始化数据
+	// initial data
 	CComboBox* pToorBar = (CComboBox*)GetDlgItem(IDC_COMBO_TOOLBAR);
 	pToorBar->InsertString(0, _T("hide"));
 	pToorBar->InsertString(0, _T("show"));
@@ -263,8 +262,6 @@ BOOL CDConsoleDlg::OnInitDialog()
 
 	//initial User Type comboBox
 	m_cmbObjSel.InsertString(0, _T("DcUsers"));
-	//m_cmbObjSel.InsertString(1, _T("DcGroups"));
-	//m_cmbObjSel.InsertString(2, _T("PatchGroups"));
 	m_cmbObjSel.SetCurSel(0);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -364,31 +361,20 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	if (m_DcGroups.GetParentItem(hSelectedItem) == NULL)
 	{
 		GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(hSelectedItem);
-		//用户节点
+		//user node
 		CMenu menu;
-		menu.CreatePopupMenu();	
-		//menu.AppendMenu(MF_STRING, ID_MENU_DCGROUPINFO, _T("Info"));
-		//menu.AppendMenu(MF_STRING, ID_MENU_SUB_DCGROUP, _T("Sub"));
+		menu.CreatePopupMenu();
 		if (pInfo->GroupCategory != "-1")
 		{
 			menu.AppendMenu(MF_STRING, ID_MENU_UNSUB_DCGROUP, _T("UnSub"));
 			menu.AppendMenu(MF_STRING, ID_MENU_SUB_JOIN_DCGROUP, _T("SubJoin"));
 		}
-	
-		/*menu.AppendMenu(MF_STRING, ID_MENU_JOIN_DCGROUP, _T("JoinGroup"));*/
-		
-		//tempGroup
-		/*if (pInfo->GroupCategory == "-1")
-		{	
-			menu.EnableMenuItem(ID_MENU_DCGROUPINFO, MF_GRAYED);
-		}
-		*/
 
 		menu.TrackPopupMenu(0, pmenu.x, pmenu.y, this);
 	}
 	else
 	{
-		//用户节点
+		//user node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		//menu.AppendMenu(MF_STRING, ID_MENU_DCGROUPUSERINFO, _T("Info"));
@@ -407,8 +393,6 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 			HTREEITEM selectedItem = m_DcGroups.GetSelectedItem();
 			GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(selectedItem);
 
-			//CString strResult = m_peLTE_Player->ELTE_OCX_SubscribeGroup(pInfo->GroupID, 1);
-			//CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_SubscribeGroup"));
 		}
 		break;
 	case ID_MENU_UNSUB_DCGROUP:
@@ -487,9 +471,6 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 		{
 			HTREEITEM selectedItem = m_DcGroups.GetSelectedItem();
 			GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(selectedItem);
-
-			//CString strResult = m_peLTE_Player->ELTE_OCX_JoinGroup(pInfo->GroupID);
-			//CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_JoinGroup"));
 		}
 		break;
 	case ID_MENU_RM_DGNA:
@@ -505,11 +486,11 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 			}
 			else if (iRet == -40001)
 			{
-				MessageBox(_T("没有订阅该动态组."));
+				MessageBox(_T("No subscription to this dynamic group."));
 			}
 			else if (iRet == -40005)
 			{
-				MessageBox(_T("用户没有操作权限."));
+				MessageBox(_T("user permission limit."));
 			}
 			else 
 			{
@@ -581,22 +562,19 @@ HTREEITEM CDConsoleDlg::FindStrGroupInfo(CString strname, GroupInfo** pInfo)
 
 void CDConsoleDlg::InitDlg()
 {
-	// 先清理
+	// clean first
 	ClearProv();
-
-// 	GetDlgItem(IDC_BUTTON_PROVINIT)->EnableWindow(FALSE);
-// 	GetDlgItem(IDC_BUTTON_PROVEXIT)->EnableWindow(TRUE);
 
 	if(m_pCeLTE_VideoDlg && !((CeLTE_VideoDlg*)m_pCeLTE_VideoDlg)->m_bClose)
 	{
-		// 获取用户列表
+		// get user list
 		GetUsers(_T(""),false);
-		// 获取群组列表
+		// get group list
 		GetGroups(_T(""),false);
-		// 获取Patch Group列表
+		// get Patch Group list
 		GetPatchGroups(_T(""),false);
 
-		// 触发状态上报
+		// Trigger status report
 		m_peLTE_Player->ELTE_OCX_TriggerStatusReport(1);
 	}
 }
@@ -659,13 +637,13 @@ void CDConsoleDlg::UpdateUserStatus(const CString& strUserId, int iStatus)
 			m_DcUsers.SetItem(i, DCUSERS_RESID, LVIF_TEXT|LVIF_IMAGE, strUserId, imgId, 0, 0, 0);
 			if (iStatus == 4011)
 			{
-				//心跳机制不能覆盖原有状态为在线状态。begin
+				//Heartbeat mechanism can not cover the original state as an online state。start
 				CString sStatus = m_DcUsers.GetItemText(i, DCUSERS_STATUS);
 				if (sStatus != _T("offline"))
 				{
 					return;
 				}
-				//心跳机制不能覆盖原有状态为在线状态。end
+				//Heartbeat mechanism can not cover the original state as an online state。end
 
 				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("online"));
 			}
@@ -724,7 +702,7 @@ void CDConsoleDlg::GetGroups(const CString strSearch, bool bFlag)
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetDcGroups(m_strUserID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetDcGroups"));
 
-	// 获取群组列表
+	// get group list
 	GroupInfoList groups;
 	CXml::Instance().XmlParseDcGroups(strResult, groups);
 
@@ -740,11 +718,11 @@ void CDConsoleDlg::GetGroups(const CString strSearch, bool bFlag)
 			HTREEITEM itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
 			m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-			// 组内用户列表
+			// group member list
 			strResult = m_peLTE_Player->ELTE_OCX_GetGroupUsers(pInfo->GroupID);
 			//CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetGroupUsers"));
 
-			// 获取用户列表
+			// get user list
 			GroupUserInfoList groupUsers;
 			CXml::Instance().XmlParseGroupUsers(strResult, groupUsers);
 			GroupUserInfoList::iterator it = groupUsers.begin();
@@ -770,7 +748,7 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetPatchGroups(m_strUserID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetPatchGroups"));
 
-	// 获取群组列表
+	// get group list
 	GroupInfoList groups;
 	CXml::Instance().XmlParsePatchGroups(strResult, groups);
 
@@ -786,14 +764,10 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 			HTREEITEM itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 			m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-			// 组内用户列表
+			// group member list
 			strResult = m_peLTE_Player->ELTE_OCX_GetGroupMemberByPatchId(pInfo->GroupID);
-			/*if (0 != iRet)
-			{
-			continue;
-			}*/
 
-			// 获取用户列表
+			// get user list
 			GroupUserInfoList groupUsers;
 			CXml::Instance().XmlParsePatchGroupUsers(strResult, groupUsers);
 
@@ -819,7 +793,7 @@ void CDConsoleDlg::RemoveGroup(int iGroupID)
 	CString strGroupID;
 	strGroupID.Format(_T("%d"), iGroupID);
 
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -855,29 +829,29 @@ int CDConsoleDlg::GetUserImageId(const CString& strCategory, bool bGray)
 	int iUserCategory = StrToInt(strCategory);
 	int iImgID = -1;
 
-	switch (iUserCategory) // 用户种类
+	switch (iUserCategory) // user type
 	{
 	case 0:
 		{
-			// 调度台用户
+			// dispatcher
 			iImgID = bGray ? Img_dispatcher_offline : Img_dispatcher_online;
 		}
 		break;
 	case 1:
 		{
-			// 固定摄像头
+			// camera
 			iImgID = bGray ? Img_camera_offline : Img_camera_online;
 		}
 		break;
 	case 2:
 		{
-			// PSTN用户
+			// PSTN user
 			iImgID = bGray ? Img_gwuser_offline : Img_gwuser_online;
 		}
 		break;
 	case 9:
 		{
-			// PTT用户
+			// PTT user
 			iImgID = bGray ? Img_pttuser_offline : Img_pttuser_online;
 		}
 		break;
@@ -909,7 +883,7 @@ CString CDConsoleDlg::GetGroupCategoryString(const CString& strGroupCategory)
 	int iGroupCategory = StrToInt(strGroupCategory);
 	CString strResult;
 
-	switch (iGroupCategory) // 群组种类
+	switch (iGroupCategory) // group type
 	{
 	case 0:
 		{
@@ -951,7 +925,7 @@ CString CDConsoleDlg::GetGroupUserMemberTypeString(const CString& strMemberType)
 	int iMeberType = StrToInt(strMemberType);
 	CString strResult;
 
-	switch (iMeberType) // 用户类型
+	switch (iMeberType) // user type
 	{
 	case 0:
 		{
@@ -1054,7 +1028,7 @@ void CDConsoleDlg::OnRclickTreePatchgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	{
 		GroupInfo* pInfo = (GroupInfo*)m_PatchGroups.GetItemData(hSelectedItem);
 
-		//组节点
+		//group node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		//menu.AppendMenu(MF_STRING, ID_MENU_SUBGROUP, _T("SubscribeGroup"));
@@ -1078,7 +1052,7 @@ void CDConsoleDlg::OnOK()
 
 void CDConsoleDlg::OnSelchangeComboObjsel()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	switch (m_cmbObjSel.GetCurSel())
 	{
 	case 0:
@@ -1108,24 +1082,9 @@ void CDConsoleDlg::OnSelchangeComboObjsel()
 	
 }
 
-
-//void CDConsoleDlg::OnChangeEditRessearch()
-//{
-//	// TODO:  如果该控件是 RICHEDIT 控件，它将不
-//	// 发送此通知，除非重写 CDialog::OnInitDialog()
-//	// 函数并调用 CRichEditCtrl().SetEventMask()，
-//	// 同时将 ENM_CHANGE 标志“或”运算到掩码中。
-//
-//	// 响应搜索框输入变更事件
-//	
-//	
-//}
-
-
-
 void CDConsoleDlg::OnBnClickedButtonSearch()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	bool bFlag = true;
 	UpdateData(TRUE);
 	if ("" == m_strSearch)
@@ -1150,7 +1109,7 @@ void CDConsoleDlg::OnBnClickedButtonSearch()
 		{
 			//clear DcGroups List
 			m_DcGroups.DeleteAllItems();
-			// 获取群组列表
+			// get group list
 			GetGroups(m_strSearch, bFlag);
 		}
 		break;
@@ -1158,14 +1117,14 @@ void CDConsoleDlg::OnBnClickedButtonSearch()
 		{
 			//clear PatchGroup List
 			m_PatchGroups.DeleteAllItems();
-			// 获取Patch Group列表
+			// get Patch Group list
 			GetPatchGroups(m_strSearch, bFlag);
 		}
 		break;
 	default:
 		;
 	}
-	// 触发状态上报
+	// trigger status report
 	m_peLTE_Player->ELTE_OCX_TriggerStatusReport(1);
 }
 
@@ -1218,7 +1177,6 @@ void CDConsoleDlg::ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml)
 
 	if (eLTE_PLAYER_HIDE == ulEventId)
 	{
-		// 释放资源
 		std::vector<CElte_playerctrl1*>::iterator itor = std::find(m_ActiveOcxList.begin(), m_ActiveOcxList.end(), pOcx);
 		if (itor != m_ActiveOcxList.end())
 		{
@@ -1226,7 +1184,7 @@ void CDConsoleDlg::ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml)
 			m_FreeOcxList.push_back(pOcx);
 		}
 
-		// 释放资源
+		// release resource
 		int iResId = 0;
 		std::map<int, ST_REALPLAY_PARAM>::iterator it = m_ResourceMap.begin();
 		for (; m_ResourceMap.end() != it; it++)
@@ -1243,7 +1201,7 @@ void CDConsoleDlg::ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml)
 
 		if (GetDlgItemInt(IDC_EDIT_RESID) == iResId)
 		{
-			// 按钮状态
+			// button status
 			GetDlgItem(IDC_BUTTON_REALPLAY)->EnableWindow(TRUE);
 			GetDlgItem(IDC_BUTTON_REVERSEPLAY)->EnableWindow(FALSE);
 			GetDlgItem(IDC_BUTTON_DISPATCHVIDEO)->EnableWindow(FALSE);
@@ -1337,7 +1295,7 @@ void CDConsoleDlg::RealPlayNotConnected(INT iResID, INT iCallStatus)
 		SetDlgItemText(IDC_EDIT_RESID, strResId);
 		OnBnClickedButtonStopplay();
 	}
-	// 释放资源
+	// release resource
 	std::map<int, ST_REALPLAY_PARAM>::iterator it = m_ResourceMap.find(iResID);
 	if (it == m_ResourceMap.end())
 	{
@@ -1349,7 +1307,7 @@ void CDConsoleDlg::RealPlayNotConnected(INT iResID, INT iCallStatus)
 	param.Reset();
 	m_ResourceMap.erase(it);
 
-	// 释放资源
+	// release resource
 	std::vector<CElte_playerctrl1*>::iterator itor = std::find(m_ActiveOcxList.begin(), m_ActiveOcxList.end(), pOcx);
 	if (itor != m_ActiveOcxList.end())
 	{
@@ -1359,7 +1317,7 @@ void CDConsoleDlg::RealPlayNotConnected(INT iResID, INT iCallStatus)
 
 	if (GetDlgItemInt(IDC_EDIT_RESID) == iResID)
 	{
-		// 按钮状态
+		// button status
 		GetDlgItem(IDC_BUTTON_REALPLAY)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_REVERSEPLAY)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_DISPATCHVIDEO)->EnableWindow(FALSE);
@@ -1375,7 +1333,7 @@ void CDConsoleDlg::RealPlayNotConnected(INT iResID, INT iCallStatus)
 
 void CDConsoleDlg::OnBnClickedButtonStopplay()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE();
 
 	std::map<int, ST_REALPLAY_PARAM>::iterator itor = m_ResourceMap.find(StrToInt(strResID));
@@ -1401,7 +1359,7 @@ void CDConsoleDlg::OnBnClickedButtonStopplay()
 	CString strResult = m_peLTE_Player->ELTE_OCX_StopRealPlay(strResID);
 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_StopRealPlay"));
 
-	// 释放资源
+	// release resource
 	CElte_playerctrl1* pOcx = param.pOCX;
 	param.Reset();
 	m_ResourceMap.erase(itor);
@@ -1413,7 +1371,7 @@ void CDConsoleDlg::OnBnClickedButtonStopplay()
 		m_FreeOcxList.push_back(pOcx);
 	}
 
-	// 按钮状态
+	// button status
 	GetDlgItem(IDC_BUTTON_REALPLAY)->EnableWindow(TRUE);
 	GetDlgItem(IDC_BUTTON_REVERSEPLAY)->EnableWindow(FALSE);
 	GetDlgItem(IDC_BUTTON_DISPATCHVIDEO)->EnableWindow(FALSE);
@@ -1476,7 +1434,7 @@ void CDConsoleDlg::OnBnClickedButtonRealplay()
 		return;
 	}
 
-	// 构造参数
+	// construct reference
 	CString strVideoParam;
 	strVideoParam.Append(_T("<Content>"));
 	strVideoParam.Append(_T("<VideoParam>"));
@@ -1536,7 +1494,7 @@ void CDConsoleDlg::OnBnClickedButtonRealplay()
 		param.videoParam = info;
 	}
 
-	// 按钮状态
+	// button status
 	GetDlgItem(IDC_BUTTON_REALPLAY)->EnableWindow(FALSE);
 	GetDlgItem(IDC_BUTTON_REVERSEPLAY)->EnableWindow(FALSE);
 	GetDlgItem(IDC_BUTTON_STOPPLAY)->EnableWindow(TRUE);
@@ -1551,7 +1509,7 @@ void CDConsoleDlg::OnBnClickedButtonRealplay()
 
 void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE();
 
 	DispatchParamInfo info;
@@ -1564,15 +1522,15 @@ void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 	//UpdateData(TRUE);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-		<ResourceID>资源ID</ResourceID>
-		<Fmtvalue></Fmtvalue>//D1、CIF、QCIF、720P或1080P
-		<DispatchNum></DispatchNum>//视频源用户号，填写视频源终端ID号。
-		<Dstviewerlist>//视频分发的目的终端ID列表
-			<Dstviewer></Dstviewer>//视频分发的目的终端或调度台，填写目的终端ID号或者目的调度台ID号
+		<ResourceID>resource ID</ResourceID>
+		<Fmtvalue></Fmtvalue>//D1、CIF、QCIF、720P or 1080P
+		<DispatchNum></DispatchNum>//Video source user number, fill in the video source terminal ID.
+		<Dstviewerlist>//Video distribution destination terminal ID list
+			<Dstviewer></Dstviewer>//the target of video distribute, terminal ID or distributer ID
 		</Dstviewerlist>
-		<Channel></Channel>//Reserved，内容可以不填；
+		<Channel></Channel>//Reserved；
 	</Content>
 	************************************************************************/
 	CString strDispatchParam;
@@ -1584,11 +1542,9 @@ void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 	strDispatchParam.Append(strResID);
 	strDispatchParam.Append(_T("</DispatchNum>"));
 	strDispatchParam.Append(_T("<Dstviewerlist>"));
-	std::list<CString>::iterator it;/* = info.files.begin();*/
+	std::list<CString>::iterator it;
 	for (it = info.strDstViewerList.begin(); it != info.strDstViewerList.end(); ++it)
 	{
-		//if((*it).IsEmpty())
-		//	break;
 		strDispatchParam.Append(_T("<Dstviewer>"));
 		strDispatchParam.Append(*it);
 		strDispatchParam.Append(_T("</Dstviewer>"));
@@ -1609,7 +1565,7 @@ void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 
 void CDConsoleDlg::OnBnClickedButtonReverseplay()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE();
 
 	std::map<int, ST_REALPLAY_PARAM>::iterator itor = m_ResourceMap.find(StrToInt(strResID));
@@ -1634,7 +1590,7 @@ void CDConsoleDlg::OnBnClickedButtonReverseplay()
 
 	param.videoParam.strCamera = param.videoParam.strCamera == "0" ? "1" : "0";
 
-	// 构造参数
+	// construct reference
 	CString strVideoParam;
 	strVideoParam.Append(_T("<Content>"));
 	strVideoParam.Append(_T("<VideoParam>"));
@@ -1671,7 +1627,7 @@ void CDConsoleDlg::OnBnClickedButtonReverseplay()
 
 void CDConsoleDlg::OnBnClickedButtonUndispatch()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE();
 
 	UnDispatchParamInfo info;
@@ -1681,13 +1637,12 @@ void CDConsoleDlg::OnBnClickedButtonUndispatch()
 	nRes = dlg.DoModal();
 	if (IDOK!=nRes)
 		return;
-	//UpdateData(TRUE);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-		<ResourceID>发起视频回传的调度员的ID号</ResourceID>
-		<UserId>需要挂断的正在分发中的用户的ID号</UserId>
+		<ResourceID>Launch video backhaul dispatcher ID</ResourceID>
+		<UserId>the number of users in the distribution of the ID which need to hang up</UserId>
 	</Content>
 	************************************************************************/
 	CString strDispatchParam;
@@ -1705,7 +1660,7 @@ void CDConsoleDlg::OnBnClickedButtonUndispatch()
 
 void CDConsoleDlg::OnBnClickedButtonSnapshot()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	CString strResult = param.pOCX->ELTE_OCX_Snapshot(strResID);
@@ -1715,10 +1670,10 @@ void CDConsoleDlg::OnBnClickedButtonSnapshot()
 
 void CDConsoleDlg::OnBnClickedButtonShow()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
-	//参数构造
+	//reference construct
 	CString strLocalParam;
 	strLocalParam.Append(_T("<Content>"));
 	strLocalParam.Append(_T("<LocalMediaAddr>"));
@@ -1766,7 +1721,7 @@ void CDConsoleDlg::OnBnClickedButtonShow()
 
 void CDConsoleDlg::OnBnClickedButtonVwall()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE();
 	CString strResult = _T("");
 	strResult = m_peLTE_Player->ELTE_OCX_GetDcVWallIDList();
@@ -1791,7 +1746,7 @@ void CDConsoleDlg::OnBnClickedButtonVwall()
 
 void CDConsoleDlg::OnBnClickedButtonHide()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	CString strResult = param.pOCX->ELTE_OCX_HideRealPlay();
@@ -1809,7 +1764,7 @@ void CDConsoleDlg::OnBnClickedButtonHide()
 
 void CDConsoleDlg::OnBnClickedButtonMute()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	CString strResult; 
@@ -1842,7 +1797,7 @@ void CDConsoleDlg::OnBnClickedButtonMute()
 
 void CDConsoleDlg::OnBnClickedButtonUnmute()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 	CString strResult;
 	if(CeLTE_VideoDlg::m_iBypass)
@@ -1876,7 +1831,7 @@ void CDConsoleDlg::OnBnClickedButtonUnmute()
 
 void CDConsoleDlg::OnBnClickedButtonFullscreen()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	int iLeft = GetDlgItemInt(IDC_EDIT_LEFT);
@@ -1891,7 +1846,7 @@ void CDConsoleDlg::OnBnClickedButtonFullscreen()
 
 void CDConsoleDlg::OnBnClickedButtonNormalscreen()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	int iLeft = GetDlgItemInt(IDC_EDIT_LEFT);
@@ -1930,7 +1885,7 @@ void CDConsoleDlg::OnCbnSelchangeComboLang()
 
 void CDConsoleDlg::OnBnClickedButtonTitletext()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	CString strText;
@@ -1942,7 +1897,7 @@ void CDConsoleDlg::OnBnClickedButtonTitletext()
 
 void CDConsoleDlg::OnBnClickedButtonWinpos()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CHECK_RESOURCE_EX();
 
 	int iLeft = GetDlgItemInt(IDC_EDIT_LEFT);
@@ -1957,21 +1912,18 @@ void CDConsoleDlg::OnBnClickedButtonWinpos()
 
 void CDConsoleDlg::OnBnClickedButtonEvent1()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent1);
 }
 
 
 void CDConsoleDlg::OnBnClickedButtonEvent7()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent7);
 }
 
 
 void CDConsoleDlg::OnBnClickedButtonEvent4()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent4);
 }
 
@@ -1994,7 +1946,7 @@ void CDConsoleDlg::OnNMDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 	int item = m_DcUsers.GetNextSelectedItem(pos);
 	CString strResID = m_DcUsers.GetItemText(item, DCUSERS_RESID);
 
-	// 判断是否为摄像头
+	// whether is a camera
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetUserInfo(strResID);
 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_GetUserInfo"));
 	CString strCategory = GET_XML_ELEM_VALUE_STR(strResult, _T("UserCategory"));
@@ -2019,11 +1971,11 @@ void CDConsoleDlg::OnNMDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 	SetDlgItemText(IDC_EDIT_RESID, strResID);
 	SetDlgItemText(IDC_EDIT_TITLE, _T("实时视频 ")+strResID);
 
-	// 设置资源对应状态
+	// Set resource status
 	std::map<int, ST_REALPLAY_PARAM>::iterator itor = m_ResourceMap.find(StrToInt(strResID));
 	if (m_ResourceMap.end() == itor)
 	{
-		// 按钮状态
+		// button status
 		GetDlgItem(IDC_BUTTON_REALPLAY)->EnableWindow(TRUE);
 		GetDlgItem(IDC_BUTTON_REVERSEPLAY)->EnableWindow(FALSE);
 		GetDlgItem(IDC_BUTTON_DISPATCHVIDEO)->EnableWindow(FALSE);
@@ -2039,7 +1991,7 @@ void CDConsoleDlg::OnNMDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 	else
 	{
 		ST_REALPLAY_PARAM& param = itor->second;
-		// 按钮状态
+		// button status
 		if (param.uiState & STATE_ISPLAY)
 		{
 			GetDlgItem(IDC_BUTTON_REALPLAY)->EnableWindow(FALSE);
@@ -2106,10 +2058,9 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 	}
 
-	//弹出菜单
+	//pop-up menu
 	CMenu menu;
 	menu.CreatePopupMenu();
-	//menu.AppendMenu(MF_STRING, ID_MENU_DCUSERINFO, _T("Info"));
 	CString sUserType = m_DcUsers.GetItemText(nItem, DCUSERS_CATEGORY);
 	
 	CPoint pmenu;
@@ -2172,8 +2123,7 @@ afx_msg LRESULT CDConsoleDlg::ShowForRecv(WPARAM wParam, LPARAM lParam)
 		strResult = pOcx->ELTE_OCX_Load(eLTE_LOAD_MEDIA_PLAYER);
 	}
 
-
-	//参数构造
+	//reference construct
 	CString strLocalParam;
 	strLocalParam.Append(_T("<Content>"));
 	strLocalParam.Append(_T("<LocalMediaAddr>"));
@@ -2207,8 +2157,6 @@ afx_msg LRESULT CDConsoleDlg::ShowForRecv(WPARAM wParam, LPARAM lParam)
 	int iResId = (int)wParam;
 	CString strResID = IntToStr(iResId);
 	strResult = pOcx->ELTE_OCX_ShowRealPlay(strResID, strLocalParam, strRemoteParam);
-	//CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_ShowRealPlay"));
-
 
 	std::map<int, ST_REALPLAY_PARAM>::iterator itor = m_ResourceMap.find(StrToInt(strResID));
 
@@ -2217,8 +2165,7 @@ afx_msg LRESULT CDConsoleDlg::ShowForRecv(WPARAM wParam, LPARAM lParam)
 		ST_REALPLAY_PARAM param;
 		param.uiState |= STATE_ISPLAY;
 		param.pOCX = pOcx;
-		//param.videoParam = info;
-		param.uiVideoType = 1;//<视频分发>或者<视频回传>请求这类视频类型
+		param.uiVideoType = 1;//<Video distribution> or <video backhaul>
 
 		param.uiState |= STATE_ISSHOW;
 		m_ResourceMap.insert(std::make_pair(StrToInt(strResID), param));
@@ -2227,11 +2174,10 @@ afx_msg LRESULT CDConsoleDlg::ShowForRecv(WPARAM wParam, LPARAM lParam)
 	{
 		ST_REALPLAY_PARAM& param = itor->second;
 		param.uiState = STATE_ISPLAY;
-		param.uiVideoType = 1;//<视频分发>或者<视频回传>请求这类视频类型
+		param.uiVideoType = 1;//<Video distribution> or <video backhaul>
 
 		param.uiState |= STATE_ISSHOW;
 		param.pOCX = pOcx;
-		//param.videoParam = info;
 	}
 
 	GetDlgItem(IDC_BUTTON_HIDE)->EnableWindow(TRUE);
@@ -2247,11 +2193,8 @@ afx_msg LRESULT CDConsoleDlg::ShowForRecv(WPARAM wParam, LPARAM lParam)
 }
 
 
-
-
 BOOL CDConsoleDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// TODO: 在此添加专用代码和/或调用基类
 	if(WM_KEYDOWN == pMsg->message && VK_RETURN == pMsg->wParam && GetFocus() == GetDlgItem(IDC_EDIT_RESSEARCH))   
 	{   
 		OnBnClickedButtonSearch();

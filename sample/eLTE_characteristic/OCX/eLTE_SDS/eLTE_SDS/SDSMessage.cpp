@@ -59,12 +59,6 @@ void SDSMessage::OnBnClickedButtonSend()
 	// TODO: Add your control notification handler code here
 	 UpdateData(TRUE);
 
-	 //std::list<CString>::iterator it = m_pSDSParamInfo->files.begin();
-	 //std::string strFilePath=m_filePath.GetBuffer(0);
-	 //std::string strFilePath = (const char*)(m_filePath.GetBuffer());
-	
-	 //m_filePath.ReleaseBuffer();
-	 //m_pSDSParamInfo->files.insert(it,m_filePath);
 	 m_pSDSParamInfo->msgBody=m_message;
 	 m_pSDSParamInfo->receiver=m_receiver;
 	 if (m_filePath=="")
@@ -104,6 +98,6 @@ void SDSMessage::SetSDSParamInfo(CString strDcId, SDSParamInfo* pInfo)
 
 void SDSMessage::OnBnClickedCancel()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	CDialogEx::OnCancel();
 }

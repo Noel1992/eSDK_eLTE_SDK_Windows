@@ -16,7 +16,6 @@ limitations under the License.*/
 #include "eLTE_PlayerDemo.h"
 #include "SDSMessage.h"
 #include "afxdialogex.h"
-
 // SDSMessage dialog
 
 IMPLEMENT_DYNAMIC(SDSMessage, CDialogEx)

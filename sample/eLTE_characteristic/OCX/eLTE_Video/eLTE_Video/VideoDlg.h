@@ -33,9 +33,9 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	// OCX对象指针
+	// OCX object pointer
 	CElte_playerctrl1* m_peLTE_Player;
-	// 资源ID
+	// resource ID
 	CString m_strResId;
 	CString m_strMuteType;
 	int m_bUse;

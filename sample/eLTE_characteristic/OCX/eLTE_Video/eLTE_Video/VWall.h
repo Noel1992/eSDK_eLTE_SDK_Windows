@@ -44,9 +44,9 @@ private:
 	VideoChannelList *StringList ;
 	CString videoChannel;
 	CDConsoleDlg* pDcDlg; 
-	// OCX对象指针
+	// OCX object pointer
 	CElte_playerctrl1* m_peLTE_Player;
-	//视频源ID
+	//Video source ID
 	CString strResourceId;
 
 public:

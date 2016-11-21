@@ -35,7 +35,6 @@ protected:
 public:
 	// OCX object pointer
 	CElte_playerctrl1* m_peLTE_Player;
-	// resource ID
 	CString m_strResId;
 	CString m_strMuteType;
 	int m_bUse;
