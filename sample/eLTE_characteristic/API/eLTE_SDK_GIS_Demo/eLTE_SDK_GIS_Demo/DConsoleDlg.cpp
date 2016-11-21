@@ -193,29 +193,29 @@ int CDConsoleDlg::GetUserImageId(const CString& strCategory, bool bGray)
 	int iUserCategory = StrToInt(strCategory);
 	int iImgID = -1;
 
-	switch (iUserCategory) // 用户种类
+	switch (iUserCategory) // user type
 	{
 	case 0:
 		{
-			// 调度台用户
+			// dc user
 			iImgID = bGray ? Img_dispatcher_offline : Img_dispatcher_online;
 		}
 		break;
 	case 1:
 		{
-			// 固定摄像头
+			// camera
 			iImgID = bGray ? Img_camera_offline : Img_camera_online;
 		}
 		break;
 	case 2:
 		{
-			// PSTN用户
+			// PSTN user
 			iImgID = bGray ? Img_gwuser_offline : Img_gwuser_online;
 		}
 		break;
 	case 9:
 		{
-			// PTT用户
+			// PTT user
 			iImgID = bGray ? Img_pttuser_offline : Img_pttuser_online;
 		}
 		break;

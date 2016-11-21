@@ -50,7 +50,7 @@ public:
 
 	BOOL m_bIsLogin;
 	BOOL m_bMax;
-	CString m_strKickOff;   // ”√ªß±ªº∑µÙ
+	CString m_strKickOff;   // kick off
 
 public:
 	static ELTE_VOID __SDK_CALL ELTE_EventCallBack(ELTE_INT32 iEventType, ELTE_VOID* pEventBuf, ELTE_UINT32 uiBufSize, ELTE_VOID* pUserData);

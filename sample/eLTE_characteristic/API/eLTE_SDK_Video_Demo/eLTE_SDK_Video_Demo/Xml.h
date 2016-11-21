@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    Xml.h
 author      :    zhangziqian zwx229156
 created     :    2016/05/30
-description :    使用CString简单封装的XML字符串解析类。
+description :    CString simple package using the XML string parsing class. Efficiency is very low
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2016/05/30 初始版本
+history     :    2016/05/30 initial version
 *********************************************************************/
 #include "DataType.h"
 

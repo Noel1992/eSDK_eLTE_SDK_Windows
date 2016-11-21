@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    CallDlg.h
 author      :    zhangrui z00233055
 created     :    2015/07/06
-description :    来电处理界面
+description :    Incoming call processing dlg
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/07/06 初始版本
+history     :    2015/07/06 Initial version
 *********************************************************************/
 
 #pragma once
@@ -41,7 +41,7 @@ protected:
 
 private:
 	CString m_Caller;
-	bool m_bUse;    //是否已经接听
+	bool m_bUse;    //Whether it has been answered
 
 public:
 	afx_msg void OnBnClickedOk();

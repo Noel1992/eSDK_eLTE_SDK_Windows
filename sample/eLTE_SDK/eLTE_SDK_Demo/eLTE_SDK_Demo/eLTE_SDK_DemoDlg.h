@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    eLTE_SDK_DemoDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    登录初始化对话框，负责设置回调，初始化业务和登录
+description :    Login initialization dialog, is responsible for setting the callback, initialization business and login
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 // eLTE_SDK_DemoDlg.h : header file
@@ -53,49 +53,49 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	// 窗口关闭
+	// Close window
 	afx_msg void OnClose();
-	// 鼠标左键双击，显示/隐藏日志设置界面
+	// Left mouse button, display / hide log settings interface
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	// 初始化、设置回调、登录
+	// Initialization, set callback function, login
 	afx_msg void OnBnClickedButtonLogin();
 
 public:
-	// 读取server.ini里面的登录信息
+	// Read the login information from the server.ini
 	BOOL ReadIniFile();
-	// 保存登录的信息，方便下次不用再次输入
+	// Save the login information, to facilitate the next time do not have to re-enter
 	BOOL WriteIniFile();
-	// 日志参数设置
+	// Log parameter setting
 	void MoreSetting();
-	// 获取时间字符串
+	// Get time string
 	CString GetTimeString();
-	// 获取用户名
+	// Get user name
 	CString GetName(){return m_strName;};
 
 public:
 	static CeLTE_SDK_DemoDlg& Instance();
-	// 事件回调函数
+	// event callbacks function
 	static ELTE_VOID __SDK_CALL ELTE_EventCallBack(ELTE_INT32 iEventType, ELTE_VOID* pEventBuf, ELTE_UINT32 uiBufSize, ELTE_VOID* pUserData);
 
 public:
-	CString m_strName;		// 用户名
-	CString m_strPasswd;	// 密码
-	CString m_strServerIP;	// 服务器IP
+	CString m_strName;		// User name
+	CString m_strPasswd;	// User password
+	CString m_strServerIP;	// Server ip
 private:	
-	CString m_strLocalIP;	// 本地IP
-	CString m_strSipPort;	// sip端口
-	CString m_strLogPath;	// 日志保存路径
-	int m_iLogLevel;		// 日志级别
+	CString m_strLocalIP;	// Local ip
+	CString m_strSipPort;	// sip port
+	CString m_strLogPath;	// Log save path
+	int m_iLogLevel;		// Log level
 
-	CRect m_RectMax;		// 大界面坐标
-	CRect m_RectMin;		// 小界面坐标
-	BOOL m_bMax;			// 界面大标志
-	BOOL m_bIsLogin;		// 登录标志
-	BOOL m_bIsInit;			// 初始化标志
-	CString m_strKickOff;   // 用户被挤掉
+	CRect m_RectMax;		// Large interface coordinates
+	CRect m_RectMin;		// Small interface coordinates
+	BOOL m_bMax;			// the flag of large interface
+	BOOL m_bIsLogin;		// the flag of logining
+	BOOL m_bIsInit;			// Initialization flag
+	CString m_strKickOff;   // The user is out
 
 public:
-	CDConsoleDlg m_DConsoleDlg;	// 业务主界面
+	CDConsoleDlg m_DConsoleDlg;	// Business main interface
 public:
 	CString m_strMRSIP;
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

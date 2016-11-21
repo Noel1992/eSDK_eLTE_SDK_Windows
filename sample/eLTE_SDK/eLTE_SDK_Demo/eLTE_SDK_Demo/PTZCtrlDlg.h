@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    PTZCtrlDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    云台控制参数设置对话框
+description :    PTZ control parameter settings dialog box
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #pragma once
@@ -40,13 +40,13 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	// 单击OK按键，返回设置参数进行云台控制
+	// Click the OK button, returns the set parameters for PTZ control
 	afx_msg void OnBnClickedOk();
-	// 单击Cancel按键，取消云台控制操作
+	// Click the Cancel button, cancel the PTZ control operation
 	afx_msg void OnBnClickedCancel();
 
 public:
-	// 设置返回参数
+	// Set return parameters
 	void SetParam(UINT* pCode, UINT* pValue)
 	{
 		m_pCode = pCode;
@@ -54,6 +54,6 @@ public:
 	}
 
 private:
-	UINT* m_pCode;		// 操作类型
-	UINT* m_pValue;		// 操作数值
+	UINT* m_pCode;		// Operation type
+	UINT* m_pValue;		// Operation value
 };

@@ -124,9 +124,9 @@ private:
 	CString GetGroupCategoryString(const CString& strGroupCategory);
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void ClearDcGroupsTree();
-	// 派接组列表数据清理
+	// Clean up patch group list data
 	void ClearPatchGroupsTree();
-	// 获取当前控件选中的组信息
+	// Get the selected group information by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
 
 private:

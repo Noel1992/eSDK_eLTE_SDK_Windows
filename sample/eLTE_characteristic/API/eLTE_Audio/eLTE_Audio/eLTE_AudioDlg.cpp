@@ -8,7 +8,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
-// eLTE_AudioDlg.cpp : 实现文件
+// eLTE_AudioDlg.cpp : Implementation file
 //
 
 #include "stdafx.h"
@@ -24,20 +24,20 @@ limitations under the License.*/
 #endif
 
 
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
+// CAboutDlg dialog box for application "on" menu item
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// 对话框数据
+// Dialog data
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-// 实现
+// Realization
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -55,7 +55,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_AudioDlg 对话框
+// CeLTE_AudioDlg dlg
 
 
 int CeLTE_AudioDlg::m_iBypass = 0;
@@ -99,15 +99,12 @@ BEGIN_MESSAGE_MAP(CeLTE_AudioDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_AudioDlg 消息处理程序
+// CeLTE_AudioDlg Message handler
 
 BOOL CeLTE_AudioDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// 将“关于...”菜单项添加到系统菜单中。
-
-	// IDM_ABOUTBOX 必须在系统命令范围内。
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -125,12 +122,11 @@ BOOL CeLTE_AudioDlg::OnInitDialog()
 		}
 	}
 
-	// 设置此对话框的图标。当应用程序主窗口不是对话框时，框架将自动
-	//  执行此操作
-	SetIcon(m_hIcon, TRUE);			// 设置大图标
-	SetIcon(m_hIcon, FALSE);		// 设置小图标
+	//  Perform this operation
+	SetIcon(m_hIcon, TRUE);			// Set big Icon
+	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: 在此添加额外的初始化代码
+	// TODO: Add extra initialization code
 	m_cmbMediaPass.InsertString(0, _T("1"));
 	m_cmbMediaPass.InsertString(1, _T("0"));
 	m_cmbMediaPass.SetCurSel(1);
@@ -141,7 +137,7 @@ BOOL CeLTE_AudioDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// Initialize login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -152,7 +148,7 @@ BOOL CeLTE_AudioDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// Initial log information
 	m_strLogSavePath = _T(".\\log");
 	/*m_cmbLogLevel.InsertString(0, _T("Error"));
 	m_cmbLogLevel.InsertString(0, _T("Warn"));
@@ -161,11 +157,11 @@ BOOL CeLTE_AudioDlg::OnInitDialog()
 	m_cmbLogLevel.SetCurSel(0);*/
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_AudioDlg(this);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
 
-	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+	return TRUE;  // Returns TRUE if the focus is set to the control.
 }
 
 void CeLTE_AudioDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -181,19 +177,15 @@ void CeLTE_AudioDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// 如果向对话框添加最小化按钮，则需要下面的代码
-//  来绘制该图标。对于使用文档/视图模型的 MFC 应用程序，
-//  这将由框架自动完成。
-
 void CeLTE_AudioDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // 用于绘制的设备上下文
+		CPaintDC dc(this); 
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// 使图标在工作区矩形中居中
+		
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -201,7 +193,7 @@ void CeLTE_AudioDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// 绘制图标
+		
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -210,8 +202,6 @@ void CeLTE_AudioDlg::OnPaint()
 	}
 }
 
-//当用户拖动最小化窗口时系统调用此函数取得光标
-//显示。
 HCURSOR CeLTE_AudioDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -266,9 +256,9 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		int iType = StrToInt(CXml::Instance().XmlParseElemValue(xmlStr, _T("StatusType")));
 		int iValue = StrToInt(CXml::Instance().XmlParseElemValue(xmlStr, _T("StatusValue")));
 
-		// 回调事件消息显示
+		// Callback event message display
 		CString strEventMsg;
-		strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
+		strEventMsg.Format(_T("Type:%d Value:%d ResId:%s ["), iType, iValue, strResId);
 		strEventMsg.Insert(0,pDlg->GetTimeString());
 
 		if (_ttoi(strResId) == _ttoi(pDlg->GetCurrentUserName()) && (RESREGSTATUS_PROXY == iType || RESREGSTATUS_DIRECT == iType))
@@ -322,13 +312,11 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 			// group active status
 			if (STATUS_GROUP_ACTIVATED == iValue)
 			{
-				//MessageBox(_T("组活动状态."));
 				strEventMsg.Append(_T("Group active status."));
 			}
-			//  组非活动状态
+			//  group unactive status
 			else if (STATUS_GROUP_DEACTIVATED == iValue)
 			{
-				//MessageBox(_T("组非活动状态."));
 				strEventMsg.Append(_T("Group not active status."));
 			}
 		}
@@ -347,7 +335,7 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 				strMsg.Format(_T("Group[%s]unsubscribe success."), strResId);					
 				//delete temporary group
 				//m_DcDlg.RemoveGroup(StrToInt(strResId));
-				//获取选中项信息
+				//Get selected item information
 				GroupInfo* pInfo = NULL;
 				//Instance().m_DConsoleDlg.GetSelGroupInfo(&pInfo);
 				CString szItemroot(strResId);
@@ -367,7 +355,7 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 			}
 		}
 		//show callback message
-		strEventMsg.Append(_T("】\r\n"));
+		strEventMsg.Append(_T("]\r\n"));
 		pDlg->GetDConsoleDlg().m_strEvent2.Append(strEventMsg);
 
 	}
@@ -378,9 +366,9 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		int iStatusValue = GET_XML_ELEM_VALUE_INT(xmlStr, _T("StatusValue"));
 		pDlg->GetDConsoleDlg().UpdateUserStatus(strUserID, iStatusValue);
 
-		// 显示视频回传当前状态
+		// Return the current state of video display
 		CString strEventMsg;
-		strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
+		strEventMsg.Format(_T("UserID:%s Type:%d Value:%d ["), strUserID, iStatusType, iStatusValue);
 		if (iStatusValue == 4011)
 		{
 			strEventMsg.Append(_T("online"));
@@ -405,7 +393,7 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		{
 			strEventMsg.Append(_T("free"));
 		}
-		strEventMsg.Append(_T("】\r\n"));
+		strEventMsg.Append(_T("]\r\n"));
 		strEventMsg.Insert(0, pDlg->GetTimeString());
 		pDlg->GetDConsoleDlg().m_strEvent0.Append(strEventMsg);
 	}
@@ -420,71 +408,71 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		strEventMsg.Insert(0,pDlg->GetTimeString());
 		if (P2P_IND_STATUS_EMERGENCY == iType)
 		{
-			// 紧急呼叫
-			strEventMsg.Append(_T(" 【emergency call】\r\n"));
+			// Emergency call
+			strEventMsg.Append(_T(" [emergency call]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_PROCEEDING == iType)
 		{
-			strEventMsg.Append(_T(" 【processing】\r\n"));
+			strEventMsg.Append(_T(" [processing]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_REMOTE_NOTCONNECTED == iType)
 		{
-			strEventMsg.Append(_T(" 【far-end not connected】\r\n"));
+			strEventMsg.Append(_T(" [far-end not connected]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_RINGING == iType)
 		{
-			strEventMsg.Append(_T(" 【ringing】\r\n"));
+			strEventMsg.Append(_T(" [ringing]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_ANSWERED == iType)
 		{
-			strEventMsg.Append(_T(" 【be answered】\r\n"));
+			strEventMsg.Append(_T(" [be answered]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_ACKED == iType)
 		{
-			strEventMsg.Append(_T(" 【Connected】\r\n"));
+			strEventMsg.Append(_T(" [Connected]\r\n"));
 			pDlg->GetDConsoleDlg().SetCaller(strCaller, 1);
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_PREMPTED == iType)
 		{
-			strEventMsg.Append(_T(" 【be breakin】\r\n"));
+			strEventMsg.Append(_T(" [be breakin]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_HANGUPED == iType)
 		{
-			strEventMsg.Append(_T(" 【be hangup】\r\n"));
+			strEventMsg.Append(_T(" [be hangup]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_PICKEDUP == iType)
 		{
-			strEventMsg.Append(_T(" 【The end has been picking up】\r\n"));
+			strEventMsg.Append(_T(" [The end has been picking up]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_RELEASED_BUSY == iType)
 		{
-			strEventMsg.Append(_T(" 【busy】\r\n"));
+			strEventMsg.Append(_T(" [busy]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_HANGUPED_ACTIVE == iType)
 		{
-			strEventMsg.Append(_T(" 【end calling】\r\n"));
+			strEventMsg.Append(_T(" [end calling]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else if (P2P_IND_STATUS_RECEIVED == iType)
 		{
-			strEventMsg.Append(_T(" 【coming call】\r\n"));
+			strEventMsg.Append(_T(" [coming call]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 			pDlg->GetDConsoleDlg().SetCaller(strCaller, 0);
 			pDlg->GetDConsoleDlg().PostMessage(WM_RECEIVED, 0, 0);
 		}
 		else if (P2P_IND_STATUS_REMOTE_NOANSWER == iType)
 		{
-			strEventMsg.Append(_T(" 【no answer】\r\n"));
+			strEventMsg.Append(_T(" [no answer]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
 		}
 		else
@@ -504,11 +492,11 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		CString strEventMsg;
 		strEventMsg.Format(_T("ResouceID:%s ModuleType:%d ModuleStatus:%d CallBackMsgType:%d ModulePara:%s"), strResourceID, iModuleType, iModuleStatus, iCallBackMsgType, strModulePara);
 		strEventMsg.Insert(0,pDlg->GetTimeString());
-		if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // 被踢下线
+		if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // kick off
 		{
 			CString strMsg;
-			strMsg.Format(_T("用户【%s】已经在别处登录\r\n%s"), pDlg->m_strName, strModulePara);
-			strEventMsg.Append(_T(" 【被踢下线】"));
+			strMsg.Format(_T("User[%s]already logged in elsewhere\r\n%s"), pDlg->m_strName, strModulePara);
+			strEventMsg.Append(_T(" [Kicked off]"));
 			pDlg->m_strKickOff = strMsg;
 			pDlg->PostMessage(WM_CLOSE);
 		}
@@ -526,54 +514,54 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		strEventMsg.Insert(0,pDlg->GetTimeString());
 		if (PTT_IND_STATUS_EMERGENCY_BEGIN == iType)
 		{
-			// 紧急呼叫
-			strEventMsg.Append(_T(" 【emergency call】\r\n"));
+			// Emergency call
+			strEventMsg.Append(_T(" [emergency call]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_SNATCH == iType)
 		{
-			strEventMsg.Append(_T(" 【group call built success】\r\n"));
+			strEventMsg.Append(_T(" [group call built success]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_TX_BEGIN == iType)
 		{
-			strEventMsg.Append(_T(" 【speech right changed】\r\n"));
+			strEventMsg.Append(_T(" [speech right changed]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_TX_IDLE == iType)
 		{
-			strEventMsg.Append(_T(" 【Right to speak】\r\n"));
+			strEventMsg.Append(_T(" [Right to speak]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_ACCEPT == iType)
 		{
-			strEventMsg.Append(_T(" 【Release the right to receive】\r\n"));
+			strEventMsg.Append(_T(" [Release the right to receive]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_REJECT == iType)
 		{
-			strEventMsg.Append(_T(" 【breakin reject】\r\n"));
+			strEventMsg.Append(_T(" [breakin reject]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_HANGUP_OK == iType)
 		{
-			strEventMsg.Append(_T(" 【exit group call success】\r\n"));
+			strEventMsg.Append(_T(" [exit group call success]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_CLOSE_OK == iType)
 		{
-			strEventMsg.Append(_T(" 【group call end】\r\n"));
+			strEventMsg.Append(_T(" [group call end]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_LICENSE_LIMIT == iType)
 		{
-			strEventMsg.Append(_T(" 【Not allowed】\r\n"));
+			strEventMsg.Append(_T(" [Not allowed]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else if (PTT_IND_STATUS_CANCEL_OK == iType)
 		{
-			// 紧急呼叫
-			strEventMsg.Append(_T(" 【build group call failed】\r\n"));
+			// Emergency call
+			strEventMsg.Append(_T(" [build group call failed]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent6.Append(strEventMsg);
 		}
 		else
@@ -650,7 +638,6 @@ END_EVENTSINK_MAP()
 
 void CeLTE_AudioDlg::OnClose()
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
 	CDialogEx::OnClose();
 }
@@ -752,17 +739,11 @@ void CeLTE_AudioDlg::MoreSetting()
 	//	return;
 
 	UpdateData(TRUE);
-	// 设置日志参数
+	// Set log parameters
 	ELTE_SDK_SetLogLevel(0);
 	ELTE_SDK_SetLogPath(eLTE_Tool::UnicodeToANSI(m_strLogSavePath).c_str());
 
-	// 设置logo路径
-/*	if (!m_strBGLogoPath.IsEmpty())
-	{
-		m_eLTE_Player.ELTE_OCX_UploadLogo(m_strBGLogoPath);
-	}
-*/
-	// 获取版本
+	// Get version
 	ELTE_CHAR* pVersion = NULL;
 	int iRet = ELTE_SDK_GetVersion(&pVersion);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetVersion"));

@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    CreateGroupDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    创建动态组临时组对话框，负责创建组时的参数设置
+description :    Create a dynamic group of temporary groups dialog box, is responsible for the creation of the set of parameters
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #pragma once
@@ -39,27 +39,26 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	// 对话框初始化
 	virtual BOOL OnInitDialog();
-	// 往群组列表中添加一个群组
+	// Add a group to the group list
 	afx_msg void OnBnClickedButtonAddgroup();
-	// 从群组列表中删除一个群组
+	// Delete a group from the group list
 	afx_msg void OnBnClickedButtonDelgroup();
-	// 往用户列表中添加一个用户
+	// Add a user to the user list
 	afx_msg void OnBnClickedButtonAdduser();
-	// 从用户列表中删除一个用户
+	// Delete a user from the user list
 	afx_msg void OnBnClickedButtonDeluser();
-	// 单击OK按钮，完成创建组时参数设置
+	// Click the OK button to complete the parameter settings
 	afx_msg void OnBnClickedOk();
-	// 单击Cancel按键，取消创建操作
+	// Click the Cancel button to cancel the creation of the operation
 	afx_msg void OnBnClickedCancel();
 
 public:
-	// 创建参数传递
+	// Create parameter transfer
 	void SetDGNAParamInfo(CString strDcId, DGNAParamInfo* pInfo, bool bDynamic);
 
 private:
-	DGNAParamInfo* m_pDGNAParamInfo;	// 创建参数
-	CString m_strDcId;					// DcID值
-	bool m_bDynamic;					// 创建动态组还是临时组标志
+	DGNAParamInfo* m_pDGNAParamInfo;	// Create parameter
+	CString m_strDcId;					// DcID
+	bool m_bDynamic;					// The flag of Create a dynamic group or temporary group
 };

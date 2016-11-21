@@ -38,12 +38,12 @@ public:
 	afx_msg void OnBnClickedCancel();
 
 public:
-	// 创建参数传递
+	// set dgna param info
 	void SetDGNAParamInfo(CString strDcId, CString strGroupId, ModifyDGNAParamInfo* pInfo);
 
 private:
-	ModifyDGNAParamInfo* m_pModifyDGNAParamInfo;	// 创建参数
-	CString m_strDcId;					            // DcID值
+	ModifyDGNAParamInfo* m_pModifyDGNAParamInfo;	// param
+	CString m_strDcId;					            // DcID value
 	CString m_strGroupId;
 public:
 	virtual BOOL OnInitDialog();

@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    CreatePatchGroupDlg.h
 author      :    zhangziqian wx229156
 created     :    2016/02/02
-description :    创建派接组对话框，负责创建组时的参数设置
+description :    Create a patch group dialog, is responsible for the creation of the set of parameters
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2016/02/02 初始版本
+history     :    2016/02/02 Initial version
 *********************************************************************/
 
 #pragma once
@@ -46,12 +46,12 @@ public:
 	virtual BOOL OnInitDialog();
 
 public:
-	// 创建参数传递
+	// Create parameter transfer
 	void SetPCHGRPParamInfo(CString strDcId, CString strGroupId, CString strGroupName, PCHGRPParamInfo* pInfo);
 
 private:
-	PCHGRPParamInfo* m_pPCHGRPParamInfo;	// 创建参数
-	CString m_strDcId;					    // DcID值
-	CString m_strGroupId;                   // 派接组号
-	CString m_strGroupName;                 // 派接组名称
+	PCHGRPParamInfo* m_pPCHGRPParamInfo;	// Create parameter
+	CString m_strDcId;					    // DcID
+	CString m_strGroupId;                   // Patch group id
+	CString m_strGroupName;                 // Patch group name
 };

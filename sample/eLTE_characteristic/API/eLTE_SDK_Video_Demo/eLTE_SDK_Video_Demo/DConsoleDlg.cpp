@@ -169,7 +169,7 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 			ELTE_INT32 iRet = ELTE_SDK_LocalSnapshot(eLTE_Tool::UnicodeToANSI(strResID).c_str(), strSavepath.c_str(), (ELTE_ULONG)1);
 			if(0 == iRet)
 			{
-				MessageBox(_T("截图已存 snapshot 目录下"));
+				MessageBox(_T("Screenshots have been stored under the snapshot directory"));
 			}
 		}
 		break;
@@ -211,7 +211,7 @@ std::string CDConsoleDlg::GetSnapshotPath(const std::string& strResId) const
 	GetModuleFileNameA(module, pFileName, MAX_PATH);
 
 	std::string strSnapshotPath = pFileName;
-	//去掉exe字串
+	//Remove the EXE string
 	size_t index = strSnapshotPath.find_last_of("\\");
 	std::string strSavePath;
 	if(std::string::npos != index)
@@ -627,7 +627,7 @@ void CDConsoleDlg::OnBnClickedBtnStopvwall()
 {
 	// TODO: Add your control notification handler code here
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 	<DstObjId>dst vall id </DstObjId>
 	</Content>

@@ -293,7 +293,7 @@ ELTE_VOID __SDK_CALL CeLTE_SDK_Video_DemoDlg::ELTE_EventCallBack(ELTE_INT32 iEve
 
 		// current status
 		CString strEventMsg;
-		strEventMsg.Format(_T("Type:%d Camera:%s ¡¾"), iCallStatus, strResID);
+		strEventMsg.Format(_T("Type:%d Camera:%s ["), iCallStatus, strResID);
 		if (P2Pvideocall_IND_STATUS_INITIATED == iCallStatus)
 		{
 			strEventMsg.Append(_T("Initiated."));
@@ -405,7 +405,7 @@ ELTE_VOID __SDK_CALL CeLTE_SDK_Video_DemoDlg::ELTE_EventCallBack(ELTE_INT32 iEve
 		}
 
 		// show call back msg
-		strEventMsg.Append(_T("¡¿\r\n"));
+		strEventMsg.Append(_T("]\r\n"));
 		strEventMsg.Insert(0,pDlg->GetTimeString());
 		//Instance().m_DConsoleDlg.m_VideoStatus.Append(strEventMsg);
 	}

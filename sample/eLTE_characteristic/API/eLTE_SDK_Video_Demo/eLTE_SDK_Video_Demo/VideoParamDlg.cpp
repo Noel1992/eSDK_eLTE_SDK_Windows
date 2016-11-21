@@ -67,24 +67,24 @@ BOOL CVideoParamDlg::OnInitDialog()
 	pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_CAMERA);
 	if (NULL != pCComboBox)
 	{
-		pCComboBox->InsertString(0, _T("后置摄像头"));
-		pCComboBox->InsertString(0, _T("前置摄像头"));
+		pCComboBox->InsertString(0, _T("Rear camera"));
+		pCComboBox->InsertString(0, _T("Front camera"));
 		pCComboBox->SetCurSel(0);
 	}
 
 	pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_CONFIRM);
 	if (NULL != pCComboBox)
 	{
-		pCComboBox->InsertString(0, _T("需要用户确认"));
-		pCComboBox->InsertString(0, _T("不需要用户确认"));
+		pCComboBox->InsertString(0, _T("Confirm"));
+		pCComboBox->InsertString(0, _T("Without Confirm"));
 		pCComboBox->SetCurSel(0);
 	}
 
 	pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_MUTE);
 	if (NULL != pCComboBox)
 	{
-		pCComboBox->InsertString(0, _T("无伴音"));
-		pCComboBox->InsertString(0, _T("需要伴音"));
+		pCComboBox->InsertString(0, _T("Mute"));
+		pCComboBox->InsertString(0, _T("UnMute"));
 		pCComboBox->SetCurSel(0);
 	}
 

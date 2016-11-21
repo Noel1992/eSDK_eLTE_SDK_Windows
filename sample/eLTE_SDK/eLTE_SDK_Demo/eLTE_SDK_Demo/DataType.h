@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    DataType.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    公共类型定义
+description :    Public type definition
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #ifndef __DEMO_DATA_TYPE_H__
@@ -239,92 +239,94 @@ struct SDSParamInfo
 //////////////////////////////////////////////////////////////////////////
 typedef enum
 {
-	/*-------------------以下信息元素用于点呼，包括视频点呼；见p2pcallstatus_indicator.cpp-----------*/
-	CALLSTATUS =0, //点呼状态
-	CALLERINFO =1, //主叫人
-	CALLEEINFO =2, //被叫人
+	/*-------------------The following information elements are used to point to call, include video call; see p2pcallstatus_indicator.cpp-----------*/
+	CALLSTATUS =0, //call status
+	CALLERINFO =1, // caller
+	CALLEEINFO =2, // callee
 
-	/*--------------------以下信息元素用于组呼，见grpcallstatus_indicator.cpp----------------*/
-	GRPCALLSTATUS =3, //组呼状态
-	GRPCALLSPERKER =4, //组呼主讲人
-	FLOORSTATUS =5,    //话权状态指示
+	/*--------------------The following information elements are used for group call, see grpcallstatus_indicator.cpp----------------*/
+	GRPCALLSTATUS =3, // group call status
+	GRPCALLSPERKER =4, // group call speaker
+	FLOORSTATUS =5,    //Power status indicator
 
-	/*--------------------以下信息元素用于紧急呼叫， 见emergency_indicator.cpp----------------*/
-	EMERGENCYCALL =6,  //紧急呼叫指示
-	EMERGENCYCALLER =7,  //紧急呼叫人
+	/*--------------------The following information elements are used for emergency calls, see emergency_indicator.cpp----------------*/
+	EMERGENCYCALL =6,  //emergency call status
+	EMERGENCYCALLER =7,  //emergency caller
 
-	/*--------------------以下信息元素用于资源状态管理,见resourcestatus_indicator.cpp----------------*/
-	RESORCEID =8,              //资源ID
-	DEVICEID =9,               //视频分栏时的窗口号
-	RESSELECTSTATUS =10,        //资源选中状态指示， 用于多GUI联动
-	RESASSIGNSTATUS =11,        //资源指派状态指示， 即调度台是否加入该资源组
-	RESTXSTATUS =12,            //资源占用状态指示
-	RESLOGGINGSTATUS =13,       //资源录音状态指示
-	RESDLSTATUS =14,            //资源监听状态指示
-	RESREGSTATUS_PROXY =15,     //资源注册状态指示, 代理注册(所有有线用户，终端集群注册)
-	RESREGSTATUS_DIRECT =16,    //资源注册状态指示, 直接注册(终端业务注册，如视频)
-	ATTACHINGGROUP =17,         //资源加入的组号
+	/*--------------------The following information elements are used for resource status management,see resourcestatus_indicator.cpp----------------*/
+	RESORCEID =8,              // resource ID
+	DEVICEID =9,               //the window ID of Video column
+	RESSELECTSTATUS =10,        //Resource selected status indicator,For multi GUI linkage
+	RESASSIGNSTATUS =11,        //Resource assignment status indicator, that is, whether or not the dispatching station joins the resource group
+	RESTXSTATUS =12,            //Resource occupancy status indicator
+	RESLOGGINGSTATUS =13,       //Resource logging status indicator
+	RESDLSTATUS =14,            //Resource monitor status indicator
+	RESREGSTATUS_PROXY =15,     //Resource register status indicator, Agent registration(All cable users,Terminal cluster registry)
+	RESREGSTATUS_DIRECT =16,    //Resource register status indicator, Direct registration(Terminal business registration,like video)
+	ATTACHINGGROUP =17,         //Join the group of resources
 
-	/*--------------------以下信息元素用于用户状态管理;见userstatus_indicator.cpp----------------*/
-	USERSTATUS =18,		//用户状态指示， 一般由BCC通知
-	USERGPSSTATUS =19,       //用户GPS状态指示
-	USERDLSTATUS =20,            //用户监听状态指示
-	USERDGNASTATUS =21,      //用户动态重组状态
-	VIDEODISPATCHSTATUS =22,     //视频分发状态
-	MUTESTATUS =23,          //静音状态
-	GRPPATCHSTATUS =24  //派接操作状态
+	/*--------------------The following information elements are used for user status management;see userstatus_indicator.cpp----------------*/
+	USERSTATUS =18,		//User status indicator,normally notified by BCC
+	USERGPSSTATUS =19,       //user GPS status indicator
+	USERDLSTATUS =20,            //User monitoring status indicator
+	USERDGNASTATUS =21,      //User dynamic state
+	VIDEODISPATCHSTATUS =22,     //Video distribution status
+	MUTESTATUS =23,          //mute status
+	GRPPATCHSTATUS =24  //group patch status
 }BundleKey;
 
 typedef enum {
 	RESOURCE_STATUS_UNKNOWN = 4000,
-	STATUS_SELECTED = 4001,    //资源选中状态
-	STATUS_UNSELECTED = 4002,  //资源去选中状态
+	STATUS_SELECTED = 4001,    //Resource selected state
+	STATUS_UNSELECTED = 4002,  //Resource unselected state
 
-	STATUS_ASSIGNED = 4003,    //资源指派状态-
-	STATUS_DEASSIGNED = 4004,  //资源去指派状态-
+	STATUS_ASSIGNED = 4003, // group is assigned in SDK
+	STATUS_DEASSIGNED = 4004, // group is deassigned in SDK
 
-	STATUS_LISTENING = 4005,   //资源监听中状态
-	STATUS_LISTENEND = 4006,   //资源监听结束状态
+	STATUS_LISTENING = 4005, // user is being listened 
+	STATUS_LISTENEND = 4006, // user is not being listened
 
-	STATUS_LOGGING = 4007,      //资源录音中状态
-	STATUS_NOLOGGING = 4008,    //资源未设置录音
+	STATUS_LOGGING = 4007, // reserved
+	STATUS_NOLOGGING = 4008, // reserved
 
-	STATUS_INPATCH = 4009,      //资源被派接
-	STATUS_OUTPATCH = 4010,     //资源解除派接
+	STATUS_INPATCH = 4009, // reserved
+	STATUS_OUTPATCH = 4010, // reserved
 
-	STATUS_REGOK = 4011,        //资源注册
-	STATUS_REGFAIL = 4012,      //资源去注册
-	STATUS_FORBIDEN = 4013,     //资源未授权 500
-	STATUS_NOT_FOUND = 4014,    //资源不存在 404
-	STATUS_TEMP_UNAVAILABLE = 4015, //资源暂时不可用 480
-	STATUS_RES_CONFILCT = 4016, //资源冲突 450
-	STATUS_UNAUTHORIZED = 4017, //未鉴权 401
-	STATUS_LICENSE_LIMIT = 4018, //License受限 503
-	STATUS_PASSWORD_WRONG = 4019, //密码错误 403
+	STATUS_REGOK = 4011, // user is registered
+	STATUS_REGFAIL = 4012, // user register fail or not registered 
+	STATUS_FORBIDEN = 4013, // user register fail, not allowed 
+	STATUS_NOT_FOUND = 4014, // user register fail, not found 
+	STATUS_TEMP_UNAVAILABLE = 4015, // user register fail, locked 
+	STATUS_RES_CONFILCT = 4016, // user register fail, conflict
+	STATUS_UNAUTHORIZED = 4017, // register is to be authenticated 
+	STATUS_LICENSE_LIMIT = 4018, // register fail, license limited 
+	STATUS_PASSWORD_WRONG = 4019, // register fail, wrong password 
 
-	//下面四个状态的顺序很重要， 因为 isValidTransition（）需要参考顺序
-	STATUS_INVITING = 4020,    //the resource is initializing a call
-	STATUS_RINGING = 4021,      //the resource is ringing
-	STATUS_TXMTING = 4022,     //the resource is talking/transimitting in a call
-	STATUS_TXMTIDLE = 4023,    //the resource is idle
+	STATUS_INVITING = 4020, // the resource is initializing a call
+	STATUS_RINGING = 4021, // the resource is ringing 
+	STATUS_TXMTING = 4022, // the resource is talking/transimitting in a call 
+	STATUS_TXMTIDLE = 4023, // the resource is idle 
 
-	STATUS_DGNAOK = 4024,       //dynamic regrouping OK
-	STATUS_DGNAFAIL = 4025,      //dynamic regrouping fail
-	STATUS_DGNA_UEFAIL = 4026,   //dynamic regrouping one UE fail
-	STATUS_GROUP_ACTIVATED = 4027,
-	STATUS_GROUP_DEACTIVATED = 4028,
-	STATUS_MUTE = 4029,        //sound mute
-	STATUS_UNMUTE = 4030,       //sound unmute
-	STATUS_GRPPATCH_CREATEOK = 4031,  //派接组创建OK
-	STATUS_GRPPATCH_CREATEFAIL = 4032, //派接组创建失败
-	STATUS_GRPPATCH_CANCELOK = 4033, //派接组取消OK
-	STATUS_GRPPATCH_CANCELFAIL = 4034, //派接组取消失败
-	STATUS_GRPPATCH_ADDOK = 4035, //派接组添加成员OK
-	STATUS_GRPPATCH_ADDFAIL = 4036, //派接组添加成员FAIL
-	STATUS_GRPPATCH_DELOK = 4037, //派接组删除成员OK
-	STATUS_GRPPATCH_DELFAIL = 4038,  //派接组删除成员FAIL
+	STATUS_DGNAOK = 4024, // dynamic regrouping OK 
+	STATUS_DGNAFAIL = 4025, // dynamic regrouping fail 
+	STATUS_DGNA_UEFAIL = 4026, // dynamic regrouping partial OK, with some UEs fail 
+	STATUS_GROUP_ACTIVATED = 4027, // group is activated, PTT is going on 
+	STATUS_GROUP_DEACTIVATED = 4028,// group is deactivated, PTT closed 
+	STATUS_MUTE = 4029, // the resource is muted 
+	STATUS_UNMUTE = 4030, // the resource is unmuted 
 
-	STATUS_ACCOUNT_LOCKED = 4060 // 账号被锁定
+	STATUS_GRPPATCH_CREATEOK = 4031, // create patch group OK 
+	STATUS_GRPPATCH_CREATEFAIL = 4032, // create patch group fail 
+	STATUS_GRPPATCH_CANCELOK = 4033, // cancel patch group OK 
+	STATUS_GRPPATCH_CANCELFAIL = 4034, // cancel patch group fail 
+	STATUS_GRPPATCH_ADDOK = 4035, // add member to patch group OK 
+	STATUS_GRPPATCH_ADDFAIL = 4036, // add member to patch group fail 
+	STATUS_GRPPATCH_DELOK = 4037, // delete member from patch group OK 
+	STATUS_GRPPATCH_DELFAIL = 4038, // delete member from patch group fail 
+	STATUS_VIDEO_CONTROL = 4039, // video control
+	STATUS_HALFVOICE_ACTIVATED = 4040, // the resource is active, Half Voice is going on 
+	STATUS_HALFVOICE_CLOSED = 4041, // the resource is deactive, Half Voice is closed 
+	STATUS_ACCOUNT_LOCKED = 4060 // DC account is locked 
 
 } res_status_value_t;
 
@@ -340,9 +342,9 @@ typedef enum {
 	PTT_IND_STATUS_CLOSE_OK,
 	PTT_IND_STATUS_CANCEL_OK,
 	PTT_IND_STATUS_PREMPTED,
-	/*--------媒体面变化的通知-------------*/
-	PTT_IND_STATUS_TX_BEGIN,        //组呼话权变化
-	PTT_IND_STATUS_TX_IDLE,         //组呼话权空闲
+	/*--------Notice of change in media-------------*/
+	PTT_IND_STATUS_TX_BEGIN,        //Group call right change
+	PTT_IND_STATUS_TX_IDLE,         //Group call right idle
 	PTT_IND_STATUS_MEDIAPLANE_ERROR,
 	PTT_IND_STATUS_EMERGENCY_BEGIN,
 	PTT_IND_STATUS_EMERGENCY_UPDATE,
@@ -351,7 +353,7 @@ typedef enum {
 
 typedef enum {
 	P2P_IND_STATUS_UNKNOWN=2000,
-	/*--------信令面状态--------*/
+	/*--------Signalling surface state--------*/
 	P2P_IND_STATUS_INITIATED,
 	P2P_IND_STATUS_RECEIVED,
 	P2P_IND_STATUS_ANSWERED,
@@ -371,7 +373,7 @@ typedef enum {
 	P2P_IND_STATUS_REMOTE_NOANSWER,
 	P2P_IND_STATUS_REMOTE_NOTFOUND,
 	P2P_IND_STATUS_LICENSE_LIMIT,
-	/*--------媒体面状态--------*/
+	/*--------Media surface state--------*/
 	P2P_IND_STATUS_MEDIAPLANE_ERROR,
 	P2P_IND_STATUS_MEDIAPLANE_MUTE,
 	P2P_IND_STATUS_MEDIAPLANE_UNMUTE,
@@ -387,7 +389,7 @@ typedef enum {
 
 typedef enum {
 	P2Pvideocall_IND_STATUS_UNKNOWN=3000,
-	/*------------信令面状态-----------*/
+	/*------------Signalling surface state-----------*/
 	P2Pvideocall_IND_STATUS_INITIATED,
 	P2Pvideocall_IND_STATUS_RECEIVED,
 	P2Pvideocall_IND_STATUS_ANSWERED,
@@ -406,49 +408,50 @@ typedef enum {
 	P2Pvideocall_IND_STATUS_REMOTE_NOTFOUND,
 	P2Pvideocall_IND_STATUS_LICENSE_LIMIT,
 	P2Pvideocall_IND_STATUS_EMERGENCY,
-	/*------------媒体面状态-----------*/
-	P2Pvideocall_IND_STATUS_ACKED_MEDIAPLANE_ERROR,  //视频RTP流建立失败
-	P2Pvideocall_IND_STATUS_ACKED_MEDIAPLANE_NOAUDIO, //视频伴音流建立失败
+	/*------------Media surface state-----------*/
+	P2Pvideocall_IND_STATUS_ACKED_MEDIAPLANE_ERROR,  //Video RTP stream build failed
+	P2Pvideocall_IND_STATUS_ACKED_MEDIAPLANE_NOAUDIO, //Video audio stream establishment failure
 	P2Pvideocall_IND_STATUS_REMOTE_NOTCONNECTED,
 	P2Pvideocall_IND_STATUS_REMOTE_NOTSUPPORTED
 } P2pvideocall_Status_t;
 
 typedef enum {
-	SDS_MODULE = 1,   //短信业务模块
-	SMS_MODULE,       //彩信业务模块
-	AUDIO_MODULE,    //语音业务模块
-	VIDEO_MODULE,  //视频业务模块
-	GIS_MODULE,  //GIS业务模块
-	SIP_MODULE,  //信令通道模块
-	RTP_MODULE,   //媒体通道模块
-	RING_MODULE,   //响铃 add by lwj
-	SVC_MODULE, //调度机进程
+	SDS_MODULE = 1,   //Short message service module
+	SMS_MODULE,       //SMS module
+	AUDIO_MODULE,    //Audio service module
+	VIDEO_MODULE,  //Video service module
+	GIS_MODULE,  //GIS service module
+	SIP_MODULE,  //Signaling channel module
+	RTP_MODULE,   //Media channel module
+	RING_MODULE,   //ring add by lwj
+	SVC_MODULE, //Scheduling machine process
 	UNKOWN_MODULE = 999
 } dc_module_t;
 
 typedef enum {
-	RESOURCE_STATUS_NORMAL = 0, //状态正常
-	SDS_OVERFLOW,    //短信满
-	SDS_DISCONNECT,  //DC和短信服务器断链
-	SDS_CONNECT,     //DC和短信服务器连接
-	SDS_SEND_SUCCESS, //短信发送成功
-	SDS_SEND_FAIL, //短信发送失败
-	FOLDER_IS_EMPTY,  //导出文件夹为空
-	GIS_LICESNCE_UPDATE,  //GIS License变更
-	GIS_LICENSCE_EXPIREDAY, //license 即将过期提醒，只剩7天时通知，正数为还剩n天，负数为已经过期n天
-	SIP_DISCONNECT,       //DC和BCC断链
-	SIP_RECONNECT,       //DC和BCC恢复
-	SIP_KEEPALIVE_REJECT, //BCC拒绝DC的心跳请求
-	ATTACH_UPLOAD_FAIL,   //附件上传失败
-	ATTACH_DOWNLOAD_FAIL,  //附件下载失败
-	SIP_START_RUNNING,     //BCC 启动
-	KICK_OFF,      //BCC 踢出调度台通知,因为有相同账号登录
-	ASYN_CALLBACK_RETURN,   //异步调用返回值
-	PASSWORD_CHANGE,    //调度员密码修改
+	RESOURCE_STATUS_NORMAL = 0, //status normal
+	SDS_OVERFLOW,    //message full
+	SDS_DISCONNECT,  //DC disconnect with message server
+	SDS_CONNECT,     //DC connected with message server
+	SDS_SEND_SUCCESS, //message send success
+	SDS_SEND_FAIL, //message send failed
+	FOLDER_IS_EMPTY,  //export folder is empty
+	GIS_LICESNCE_UPDATE,  //GIS License update
+	GIS_LICENSCE_EXPIREDAY, //license imminent expiration remind,
+	//Notice there are only 7 days left for n days, positive, negative for n days has expired
+	SIP_DISCONNECT,       //DC disconnected with BCC
+	SIP_RECONNECT,       //DC reconnect with BCC
+	SIP_KEEPALIVE_REJECT, //BCC reject keepalive request from DC
+	ATTACH_UPLOAD_FAIL,   //Attachment upload failed
+	ATTACH_DOWNLOAD_FAIL,  //Attachment download failed
+	SIP_START_RUNNING,     //BCC start running
+	KICK_OFF,      //BCC kick off notification,Because the same account login somewhere else
+	ASYN_CALLBACK_RETURN,   //Asynchronous call return value
+	PASSWORD_CHANGE,    //Dispatcher password change
 	MODULE_DISCONNECT,
 	MODULE_RECONNECT,
-	SIP_KA_FAILONCE,       //DC和BCC断链一次
-	SIP_KA_OKONCE,       //DC和BCC恢复一次
+	SIP_KA_FAILONCE,       //DC disconnect with BCC once
+	SIP_KA_OKONCE,       //DC reconnect with BCC once
 	USER_DELETE,
 	UNKOWN_STATUS = 999
 } module_status_t;

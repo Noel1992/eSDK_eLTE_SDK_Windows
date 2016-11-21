@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    VideoParamDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    视频回传参数设置对话框
+description :    Video parameter settings dialog
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #pragma once
@@ -39,18 +39,18 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	// 对话框初始化
+	// Dialog initialization
 	virtual BOOL OnInitDialog();
-	// 单击Cancel按键，取消视频回传操作
+	// Click the Cancel button to cancel the operation
 	afx_msg void OnBnClickedCancel();
-	// 单击OK按键，返回视频回传设置的参数
+	// Click the OK button, set the video back  parameter
 	afx_msg void OnBnClickedOk();
 
 public:
-	// 设置返回参数
+	// Set return parameters
 	void SetVideoParamInfo(VideoParamInfo* pVideoParamInfo)
 	{ m_pVideoParamInfo = pVideoParamInfo; }
 
 private:
-	VideoParamInfo* m_pVideoParamInfo;	// 视频回传参数
+	VideoParamInfo* m_pVideoParamInfo;	// Video feedback params
 };

@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    DataType.h
 author      :    zhangziqian zwx229156
 created     :    2016/05/30
-description :    公共类型定义
+description :    data type define class.Enumeration and structure including internal use.
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2016/05/30 初始版本
+history     :    2016/05/30 initial version
 *********************************************************************/
 
 #ifndef __DEMO_DATA_TYPE_H__

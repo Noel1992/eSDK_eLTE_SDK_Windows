@@ -120,13 +120,13 @@ public:
 	void RealPlayNotConnected(INT iResID, INT iCallStatus);
 	
 	void AddGroup(int iGroupID);
-	// 创建派接组成功后在群组列表中添加界面
+	// After creating a patch group, and add in the group list interface
 	void AddPatchGroup(int iGroupID);
-	// 删除派接组
+	// Delete patch group
 	void RemovePatchGroup(int iGroupID);
-	// 增加派接组成员
+	// Add group membership
 	void AddPatchGroupMember(int groupId, int memberId);
-	// 删除派接组成员
+	// Delete group members
 	void DelPatchGroupMember(int groupId, int memberId);
 	void RemoveGroup(int iGroupID);
 	void AddTempGroup(const CString& strGroupID);
@@ -146,11 +146,11 @@ private:
 	CString GetGroupCategoryString(const CString& strGroupCategory);
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void ClearDcGroupsTree();
-	// 派接组列表数据清理
+	// Clean up patch group list data
 	void ClearPatchGroupsTree();
-	// 操作派接组
+	// operate patch group
 	void OperatePatchGroup(const CString& strDcID, const CString& strGroupID, const int& iOperateType, const CString& strGroupName = _T(""));
-	// 获取当前控件选中的组信息
+	//  Get the selected group information by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
 
 private:

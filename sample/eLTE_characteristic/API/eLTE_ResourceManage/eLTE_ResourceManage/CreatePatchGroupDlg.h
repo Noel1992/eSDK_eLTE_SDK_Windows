@@ -27,12 +27,12 @@ public:
 	virtual BOOL OnInitDialog();
 
 public:
-	// 创建参数传递
+	// Create parameter transfer
 	void SetPCHGRPParamInfo(CString strDcId, CString strGroupId, CString strGroupName, PCHGRPParamInfo* pInfo);
 
 private:
-	PCHGRPParamInfo* m_pPCHGRPParamInfo;	// 创建参数
-	CString m_strDcId;					    // DcID值
-	CString m_strGroupId;                   // 派接组号
-	CString m_strGroupName;                 // 派接组名称
+	PCHGRPParamInfo* m_pPCHGRPParamInfo;	// Create parameter
+	CString m_strDcId;					    // DcID value
+	CString m_strGroupId;                   // Patch group id
+	CString m_strGroupName;                 // Patch group name
 };

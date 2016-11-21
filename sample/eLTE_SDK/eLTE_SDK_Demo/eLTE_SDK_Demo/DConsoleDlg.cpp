@@ -192,7 +192,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	//设置列表框为单选模式
+	//Set the list box for radio mode
 	m_DcUsers.ModifyStyle(0, LVS_SINGLESEL);
 	m_DcUsers.InsertColumn(DCUSERS_RESID, _T("ResourceID"), LVCFMT_LEFT, 70);
 	m_DcUsers.InsertColumn(DCUSERS_STATUS, _T("UserStatus"), LVCFMT_LEFT, 100);
@@ -200,7 +200,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcUsers.InsertColumn(DCUSERS_CATEGORY, _T("UserCategory"), LVCFMT_LEFT, 85);
 	m_DcUsers.InsertColumn(DCUSERS_PRIORITY, _T("UserPriority"), LVCFMT_LEFT, 85);
 
-	//图片列表
+	//image list
 	m_ImageList.Create(30, 30, ILC_COLORDDB, 8, 1);
 	AddImage(m_ImageList, IDB_BITMAP_CAMERA_OFFLINE);
 	AddImage(m_ImageList, IDB_BITMAP_CAMERA_ONLINE);
@@ -214,10 +214,10 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcGroups.SetImageList(&m_ImageList, LVSIL_SMALL);
 	m_ImageList.Detach();
 
-	//设置List风格:全选、子列支持图片
+	//Set the List style: select all, sub column support picture
 	m_DcUsers.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP | LVS_EX_SUBITEMIMAGES | LVS_EX_INFOTIP);
 
-	//设置坐标
+	//Set coordinate
 	/*GetWindowRect(&m_RectMax);
 	m_RectMin = m_RectMax;
 	CRect rtSplit;
@@ -225,7 +225,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_RectMin.right = rtSplit.left;
 	SetWindowPos(NULL,0,0,m_RectMin.Width(),m_RectMin.Height(),SWP_NOMOVE);*/
 
-	//设置坐标
+	//Set coordinate
 	CRect rect;
 	GetDlgItem(IDC_STATIC_DC)->GetWindowRect(&rect);
 	ScreenToClient(&rect);
@@ -311,7 +311,7 @@ void CDConsoleDlg::OnBnClickedButtonDcgroups()
 void CDConsoleDlg::OnBnClickedButtonTrigger()
 {
 	// TODO: Add your control notification handler code here
-	// 触发状态上报
+	// Trigger status report
 	ELTE_INT32 iRet = ELTE_SDK_TriggerStatusReport(1);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_TriggerStatusReport"));
 }
@@ -363,20 +363,20 @@ void CDConsoleDlg::AddImage(CImageList& imageList, UINT id)
 
 afx_msg LRESULT CDConsoleDlg::InitDlg(WPARAM wParam, LPARAM lParam)
 {
-	// 先清理
+	// clear
 	ClearProv();
 
 	//GetDlgItem(IDC_BUTTON_PROVINIT)->EnableWindow(FALSE);
 	//GetDlgItem(IDC_BUTTON_PROVEXIT)->EnableWindow(TRUE);
 
-	// 获取用户列表
+	// get users list
 	GetDcUsers(_T(""), false);
-	// 获取群组列表
+	// get group list
 	GetDcGroups(_T(""), false);
-	// 获取派接组列表
+	// get patch group list
 	GetPatchGroups(_T(""), false);
 
-	// 触发状态上报
+	// Trigger status report
 	int iRet = ELTE_SDK_TriggerStatusReport(1);
 	CHECK_API_RETURN(iRet, _T("ELTE_SDK_TriggerStatusReport"));
 
@@ -482,7 +482,7 @@ void CDConsoleDlg::GetDcUsers(const CString strSearch, bool bFlag)
 		{
 			int item = m_DcUsers.InsertItem(m_DcUsers.GetItemCount(), _T(""), GetUserImageId(pUserInfo->UserCategory, true));
 			m_DcUsers.SetItemText(item, DCUSERS_RESID, pUserInfo->UserID);
-			m_DcUsers.SetItemText(item, DCUSERS_STATUS, _T("不在线"));
+			m_DcUsers.SetItemText(item, DCUSERS_STATUS, _T("Offline"));
 			m_DcUsers.SetItemText(item, DCUSERS_NAME, pUserInfo->UserName);
 			m_DcUsers.SetItemText(item, DCUSERS_CATEGORY, pUserInfo->UserCategory);
 			m_DcUsers.SetItemText(item, DCUSERS_PRIORITY, pUserInfo->UserPriority);
@@ -497,7 +497,7 @@ void CDConsoleDlg::GetDcGroups(const CString strSearch, bool bFlag)
 	ELTE_INT32 iRet = ELTE_SDK_GetDcGroups(eLTE_Tool::UnicodeToANSI(CeLTE_SDK_DemoDlg::Instance().m_strName).c_str(), &pDcGroups);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetDcGroups"));
 
-	// 获取群组列表
+	// get group list
 	GroupInfoList groups;
 	CXml::Instance().XmlParseDcGroups(pDcGroups, groups);
 	ELTE_SDK_ReleaseBuffer(pDcGroups);
@@ -513,7 +513,7 @@ void CDConsoleDlg::GetDcGroups(const CString strSearch, bool bFlag)
 		HTREEITEM itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
 		m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-		// 组内用户列表
+		// List of users within the group
 		ELTE_CHAR* pGroupUsers = NULL;
 		iRet = ELTE_SDK_GetGroupUsers(eLTE_Tool::UnicodeToANSI(pInfo->GroupID).c_str(), &pGroupUsers);
 		if (0 != iRet)
@@ -521,7 +521,7 @@ void CDConsoleDlg::GetDcGroups(const CString strSearch, bool bFlag)
 			continue;
 		}
 
-		// 获取用户列表
+		// get users list
 		GroupUserInfoList groupUsers;
 		CXml::Instance().XmlParseGroupUsers(eLTE_Tool::ANSIToUnicode(pGroupUsers), groupUsers);
 		ELTE_SDK_ReleaseBuffer(pGroupUsers);
@@ -549,7 +549,7 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 	ELTE_INT32 iRet = ELTE_SDK_GetPatchGroups(eLTE_Tool::UnicodeToANSI(CeLTE_SDK_DemoDlg::Instance().m_strName).c_str(), &pDcGroups);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetPatchGroups"));
 
-	// 获取群组列表
+	// get group list
 	GroupInfoList groups;
 	CXml::Instance().XmlParsePatchGroups(pDcGroups, groups);
 	ELTE_SDK_ReleaseBuffer(pDcGroups);
@@ -561,11 +561,11 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 		GroupInfo* &pInfo = *itor;
 		CString szItemroot(pInfo->GroupID);
 		szItemroot.Append(_T(" "));
-		szItemroot.Append(_T("[派接组]"));
+		szItemroot.Append(_T("[Patch group]"));
 		HTREEITEM itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 		m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-		// 组内用户列表
+		// List of users within the group
 		ELTE_CHAR* pGroupUsers = NULL;
 		iRet = ELTE_SDK_GetGroupMemberByPatchId(eLTE_Tool::UnicodeToANSI(pInfo->GroupID).c_str(), &pGroupUsers);
 		if (0 != iRet)
@@ -573,7 +573,7 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 			continue;
 		}
 
-		// 获取用户列表
+		// get users list
 		GroupUserInfoList groupUsers;
 		CXml::Instance().XmlParsePatchGroupUsers(eLTE_Tool::ANSIToUnicode(pGroupUsers), groupUsers);
 		ELTE_SDK_ReleaseBuffer(pGroupUsers);
@@ -585,7 +585,7 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 			GroupUserInfo* &pUserInfo = *it;
 			CString szItem(pUserInfo->MemberGroupId);
 			szItem.Append(_T(" "));
-			szItem.Append(_T("[普通组]"));
+			szItem.Append(_T("[Common group]"));
 			HTREEITEM item = m_PatchGroups.InsertItem(szItem, -1, -1, itemroot);
 			m_PatchGroups.SetItemData(item, (DWORD_PTR)pUserInfo);
 		}
@@ -596,7 +596,7 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 
 void CDConsoleDlg::AddGroup(const char* groupId)
 {
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -608,7 +608,7 @@ void CDConsoleDlg::AddGroup(const char* groupId)
 		itemroot = m_DcGroups.GetNextSiblingItem(itemroot);
 	}
 
-	// 获取群组信息
+	// Get group information
 	ELTE_CHAR* pGroupInfo = NULL;
 	ELTE_INT32 iRet = ELTE_SDK_GetGroupInfo(groupId, &pGroupInfo);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetGroupInfo"));
@@ -626,19 +626,19 @@ void CDConsoleDlg::AddGroup(const char* groupId)
 	pInfo->GroupPriority = strGroupPriority;
 	pInfo->GroupName = strGroupName;
 
-	// 增加群组
+	// Add group
 	CString szItemroot(pInfo->GroupID);
 	szItemroot.Append(_T(" "));
 	szItemroot.Append(GetGroupCategoryString(pInfo->GroupCategory));
 	itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
 	m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-	// 获取群组用户列表
+	// Get group users list
 	ELTE_CHAR* pGroupUsers;
 	iRet = ELTE_SDK_GetGroupUsers(groupId, &pGroupUsers);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetGroupUsers"));
 
-	// 获取用户列表
+	// Get users list
 	GroupUserInfoList groupUsers;
 	CXml::Instance().XmlParseGroupUsers(eLTE_Tool::ANSIToUnicode(pGroupUsers), groupUsers);
 	ELTE_SDK_ReleaseBuffer(pGroupUsers);
@@ -660,7 +660,7 @@ void CDConsoleDlg::AddGroup(const char* groupId)
 
 void CDConsoleDlg::DelPatchGroupMember(const char* groupId, const char* memberId)
 {
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -687,7 +687,7 @@ void CDConsoleDlg::DelPatchGroupMember(const char* groupId, const char* memberId
 
 void CDConsoleDlg::AddPatchGroupMember(const char* groupId, const char* memberId)
 {
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -710,7 +710,7 @@ void CDConsoleDlg::AddPatchGroupMember(const char* groupId, const char* memberId
 			pUserInfo->MemberGroupId = eLTE_Tool::ANSIToUnicode(memberId);
 			CString szItem(pUserInfo->MemberGroupId);
 			szItem.Append(_T(" "));
-			szItem.Append(_T("[普通组]"));
+			szItem.Append(_T("[Common group]"));
 			item = m_PatchGroups.InsertItem(szItem, -1, -1, itemroot);
 			m_PatchGroups.SetItemData(item, (DWORD_PTR)pUserInfo);
 			break;
@@ -722,7 +722,7 @@ void CDConsoleDlg::AddPatchGroupMember(const char* groupId, const char* memberId
 
 void CDConsoleDlg::AddPatchGroup(const char* groupId)
 {
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -734,7 +734,7 @@ void CDConsoleDlg::AddPatchGroup(const char* groupId)
 		itemroot = m_PatchGroups.GetNextSiblingItem(itemroot);
 	}
 
-	// 获取群组信息
+	// get group info
 	ELTE_CHAR* pGroupInfo = NULL;
 	ELTE_INT32 iRet = ELTE_SDK_GetPatchGroupInfo(groupId, &pGroupInfo);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetPatchGroupInfo"));
@@ -756,19 +756,19 @@ void CDConsoleDlg::AddPatchGroup(const char* groupId)
 	pInfo->GroupIndex		= strGroupIndex;
 	pInfo->GroupVPNID		= strGroupVPNID;
 
-	// 增加群组
+	// add group
 	CString szItemroot(pInfo->GroupID);
 	szItemroot.Append(_T(" "));
-	szItemroot.Append(_T("[派接组]"));
+	szItemroot.Append(_T("[Patch group]"));
 	itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 	m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-	// 获取群组用户列表
+	// Get group user list
 	ELTE_CHAR* pGroupUsers;
 	iRet = ELTE_SDK_GetGroupMemberByPatchId(groupId, &pGroupUsers);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetGroupMemberByPatchId"));
 
-	// 获取用户列表
+	// Get user list
 	GroupUserInfoList groupUsers;
 	CXml::Instance().XmlParsePatchGroupUsers(eLTE_Tool::ANSIToUnicode(pGroupUsers), groupUsers);
 	ELTE_SDK_ReleaseBuffer(pGroupUsers);
@@ -780,7 +780,7 @@ void CDConsoleDlg::AddPatchGroup(const char* groupId)
 		GroupUserInfo* &pUserInfo = *it;
 		CString szItem(pUserInfo->MemberGroupId);
 		szItem.Append(_T(" "));
-		szItem.Append(_T("[普通组]"));
+		szItem.Append(_T("[Common group]"));
 		HTREEITEM item = m_PatchGroups.InsertItem(szItem, -1, -1, itemroot);
 		m_PatchGroups.SetItemData(item, (DWORD_PTR)pUserInfo);
 	}
@@ -800,36 +800,35 @@ void CDConsoleDlg::UpdateUserStatus(const CString& strUserId, int iStatus)
 			m_DcUsers.SetItem(i, DCUSERS_RESID, LVIF_TEXT|LVIF_IMAGE, strUserId, imgId, 0, 0, 0);
 			if (iStatus == 4011)
 			{
-				//心跳机制不能覆盖原有状态为在线状态。begin
+				//Heartbeat mechanism can not cover the original state as an online state.begin
 				CString sStatus = m_DcUsers.GetItemText(i, DCUSERS_STATUS);
-				if (sStatus != _T("不在线"))
+				if (sStatus != _T("Offline"))
 				{
 					return;
 				}
-				//心跳机制不能覆盖原有状态为在线状态。end
+				//Heartbeat mechanism can not cover the original state as an online state.end
 
-				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("在线"));
+				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("Online"));
 			}
 			else if (iStatus == 4012)
 			{
-				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("不在线"));
+				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("Offline"));
 			}
 			else if (iStatus == 4020)
 			{
-				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("正在发起呼叫"));
+				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("Calling"));
 			}
 			else if (iStatus == 4021)
 			{
-				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("正在振铃"));
+				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("Ringing"));
 			}
 			else if (iStatus == 4022)
 			{
-				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("使用中"));
+				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("Using"));
 			}
 			else if (iStatus == 4023)
 			{
-				//m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("空闲"));
-				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("在线"));
+				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("Online"));
 			}
 		}
 	}
@@ -841,36 +840,36 @@ CString CDConsoleDlg::GetGroupCategoryString(const CString& strGroupCategory)
 	int iGroupCategory = StrToInt(strGroupCategory);
 	CString strResult;
 
-	switch (iGroupCategory) // 群组种类
+	switch (iGroupCategory) // Group type
 	{
 	case 0:
 		{
-			strResult.Append(_T("[全网广播组]"));
+			strResult.Append(_T("[Whole network broadcasting group]"));
 		}
 		break;
 	case 1:
 		{
-			strResult.Append(_T("[普通组]"));
+			strResult.Append(_T("[Common group]"));
 		}
 		break;
 	case 2:
 		{
-			strResult.Append(_T("[区域广播组]"));
+			strResult.Append(_T("[Regional broadcasting group]"));
 		}
 		break;
 	case 8:
 		{
-			strResult.Append(_T("[外部组]"));
+			strResult.Append(_T("[External group]"));
 		}
 		break;
 	case 9:
 		{
-			strResult.Append(_T("[动态组]"));
+			strResult.Append(_T("[Dynamic group]"));
 		}
 		break;
 	case 10:
 		{
-			strResult.Append(_T("[不分类型]"));
+			strResult.Append(_T("[Regardless of type]"));
 		}
 		break;
 	}
@@ -884,16 +883,16 @@ CString CDConsoleDlg::GetGroupUserMemberTypeString(const CString& strMemberType)
 	int iMeberType = StrToInt(strMemberType);
 	CString strResult;
 
-	switch (iMeberType) // 用户类型
+	switch (iMeberType) // User type
 	{
 	case 0:
 		{
-			strResult.Append(_T("[动态重组中的组成员]"));
+			strResult.Append(_T("[The member of dynamic group]"));
 		}
 		break;
 	case 1:
 		{
-			strResult.Append(_T("[普通用户成员]"));
+			strResult.Append(_T("[Common user Member]"));
 		}
 		break;
 	}
@@ -907,29 +906,29 @@ int CDConsoleDlg::GetUserImageId(const CString& strCategory, bool bGray)
 	int iUserCategory = StrToInt(strCategory);
 	int iImgID = -1;
 
-	switch (iUserCategory) // 用户种类
+	switch (iUserCategory) // user type
 	{
 	case 0:
 		{
-			// 调度台用户
+			// dc user
 			iImgID = bGray ? Img_dispatcher_offline : Img_dispatcher_online;
 		}
 		break;
 	case 1:
 		{
-			// 固定摄像头
+			// camera
 			iImgID = bGray ? Img_camera_offline : Img_camera_online;
 		}
 		break;
 	case 2:
 		{
-			// PSTN用户
+			// PSTN user
 			iImgID = bGray ? Img_gwuser_offline : Img_gwuser_online;
 		}
 		break;
 	case 9:
 		{
-			// PTT用户
+			// PTT user
 			iImgID = bGray ? Img_pttuser_offline : Img_pttuser_online;
 		}
 		break;
@@ -943,7 +942,7 @@ void CDConsoleDlg::RemovePatchGroup(int iGroupID)
 	CString strGroupID;
 	strGroupID.Format(_T("%d"), iGroupID);
 
-	// 在派接组列表中查询该群组
+	// Query this group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -972,7 +971,7 @@ void CDConsoleDlg::RemoveGroup(int iGroupID)
 	CString strGroupID;
 	strGroupID.Format(_T("%d"), iGroupID);
 
-	// 在群组列表中查询该群组
+	// Query this group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -998,7 +997,7 @@ void CDConsoleDlg::RemoveGroup(int iGroupID)
 
 void CDConsoleDlg::AddTempGroup(const CString& strGroupID)
 {
-	// 在群组列表中查询该群组
+	// Query this group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -1010,16 +1009,16 @@ void CDConsoleDlg::AddTempGroup(const CString& strGroupID)
 		itemroot = m_DcGroups.GetNextSiblingItem(itemroot);
 	}
 
-	// 构造群组信息
+	// Construct group information
 	GroupInfo* pInfo = new GroupInfo;
 	pInfo->GroupID = strGroupID;
 	pInfo->GroupCategory = "-1";
 	pInfo->GroupPriority = "-1";
 	pInfo->GroupName = "-1";
 
-	// 增加群组
+	// add group
 	CString szItemroot(pInfo->GroupID);
-	szItemroot.Append(_T(" [临时组]"));
+	szItemroot.Append(_T(" [Temporary group]"));
 	itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
 	m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 	m_DcGroups.SelectItem(itemroot);
@@ -1065,7 +1064,7 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 	}
 
-	//弹出菜单
+	// Pop-up Menu
 	CMenu menu;
 	menu.CreatePopupMenu();
 	menu.AppendMenu(MF_STRING, ID_MENU_GETUSERINFO, _T("GetUserInfo"));
@@ -1074,7 +1073,7 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 	int item = m_DcUsers.GetNextSelectedItem(pos);
 	CString strResID = m_DcUsers.GetItemText(item, DCUSERS_RESID);
 
-	// 判断是否为摄像头
+	// To determine whether the camera
 	ELTE_CHAR* pUserInfo = NULL;
 	ELTE_INT32 iRet = ELTE_SDK_GetUserInfo(eLTE_Tool::UnicodeToANSI(strResID).c_str(), &pUserInfo);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetUserInfo"));
@@ -1116,7 +1115,7 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 		menu.AppendMenu(MF_POPUP, (UINT)p2pMenu.m_hMenu, _T("P2P"));
 	}
 	CString sStatus = m_DcUsers.GetItemText(nItem, DCUSERS_STATUS);
-	if (sStatus == _T("不在线"))
+	if (sStatus == _T("Offline"))
 	{
 		p2pMenu.EnableMenuItem(ID_MENU_P2PTRANSFER, MF_GRAYED);
 		p2pMenu.EnableMenuItem(ID_MENU_P2PDIAL, MF_GRAYED);
@@ -1182,14 +1181,14 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 		//pttMenu.AppendMenu(MF_STRING, ID_MENU_PTTSTARTENVLISTEN, _T("EnvListen_Start"));
 
 
-		//临时组
+		//Temporary group
 		if (pInfo->GroupCategory == "-1")
 		{
 			pttMenu.TrackPopupMenu(0, pmenu.x, pmenu.y, this);
 			return;
 		}
 		pttMenu.AppendMenu(MF_STRING, ID_MENU_PTTEMERGENCY, _T("Emergency"));
-		//组节点
+		//Group node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		menu.AppendMenu(MF_STRING, ID_MENU_GETGROUPINFO, _T("GetGroupInfo"));
@@ -1198,7 +1197,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 		menu.AppendMenu(MF_STRING, ID_MENU_SUBJOINGROUP, _T("SubJoinGroup"));
 		menu.AppendMenu(MF_STRING, ID_MENU_JOINCALL, _T("JoinCall"));
 
-		//动态组
+		//Dynamic group
 		if (pInfo->GroupCategory == "9")
 		{
 			menu.AppendMenu(MF_STRING, ID_MENU_RMDGROUP, _T("RemoveDynamicGroup"));
@@ -1210,7 +1209,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 	else
 	{
-		//用户节点
+		//User node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		menu.AppendMenu(MF_STRING, ID_MENU_GROUPUSERINFO, _T("GetGroupUserInfo"));
@@ -1264,7 +1263,7 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 			int item = m_DcUsers.GetNextSelectedItem(pos);
 			CString strResID = m_DcUsers.GetItemText(item, DCUSERS_RESID);
 
-			// 构造参数
+			// Structural parameters
 			CString strVideoParam;
 			strVideoParam.Append(_T("<Content>"));
 			strVideoParam.Append(_T("<VideoParam>"));
@@ -1537,11 +1536,11 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 			}
 			else if (iRet == -40001)
 			{
-				MessageBox(_T("没有订阅该动态组."));
+				MessageBox(_T("No subscription to this dynamic group."));
 			}
 			else if (iRet == -40005)
 			{
-				MessageBox(_T("用户没有操作权限."));
+				MessageBox(_T("The user does not have access."));
 			}
 			else 
 			{
@@ -1566,7 +1565,7 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 			}
 			
 			m_ModifyDGNAGroupId = pInfo->GroupID;
-			// 构造XML
+			// XML
 			CString strDGNAParam;
 			strDGNAParam.Append(_T("<Content>"));
 			strDGNAParam.Append(_T("<DynamicGroupInfo>"));
@@ -1750,7 +1749,7 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 	case ID_MENU_P2PSTARTDISLISTEN:
 	case ID_MENU_PTTSTARTDISLISTEN:
 		{
-			//发起缜密侦听
+			//Start Discreet Listen
 			POSITION pos = m_DcUsers.GetFirstSelectedItemPosition();
 			int item = m_DcUsers.GetNextSelectedItem(pos);
 			CString strResID;
@@ -1772,10 +1771,10 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 	case ID_MENU_P2PSTOPDISLISTEN:
 	case ID_MENU_PTTSTOPDISLISTEN:
 		{
-			//停止缜密监听
+			//Stop Discreet Listen
 			POSITION pos = m_DcUsers.GetFirstSelectedItemPosition();
 			int item = m_DcUsers.GetNextSelectedItem(pos);
-			//获取resourceID
+			//get resourceID
 			CString strResID;
 			if (ID_MENU_P2PSTOPDISLISTEN == uID)
 			{
@@ -1795,7 +1794,7 @@ void CDConsoleDlg::OnClickMenuItem(UINT uID)
 	case ID_MENU_P2PSTARTENVLISTEN:
 	case ID_MENU_PTTSTARTENVLISTEN:
 		{
-			//开始环境侦听
+			//Start Environment Listen
 			POSITION pos = m_DcUsers.GetFirstSelectedItemPosition();
 			int item = m_DcUsers.GetNextSelectedItem(pos);
 			CString strResID;
@@ -1973,7 +1972,7 @@ void CDConsoleDlg::OnBnClickedButtonCreatedg()
 		return;
 	}
 
-	// 构造XML
+	// construct XML
 	CString strDGNAParam;
 	strDGNAParam.Append(_T("<Content>"));
 	strDGNAParam.Append(_T("<GroupID>"));
@@ -2034,7 +2033,7 @@ void CDConsoleDlg::OnBnClickedButtonCreatetg()
 	ELTE_INT32 iRet = ELTE_SDK_GetTempGroupID(&groupId);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetTempGroupID"));
 
-	// 构造XML
+	// construct XML
 	CString strDGNAParam;
 	strDGNAParam.Append(_T("<Content>"));
 	strDGNAParam.Append(_T("<GroupID>"));
@@ -2222,15 +2221,15 @@ void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 	//UpdateData(TRUE);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-		<ResourceID>资源ID</ResourceID>
-		<Fmtvalue></Fmtvalue>//D1、CIF、QCIF、720P或1080P
-		<DispatchNum></DispatchNum>//视频源用户号，填写视频源终端ID号。
-		<Dstviewerlist>//视频分发的目的终端ID列表
-			<Dstviewer></Dstviewer>//视频分发的目的终端或调度台，填写目的终端ID号或者目的调度台ID号
+		<ResourceID>res ID</ResourceID>
+		<Fmtvalue></Fmtvalue>//D1、CIF、QCIF、720P or 1080P
+		<DispatchNum></DispatchNum>//Video source user number, fill in the video source terminal ID。
+		<Dstviewerlist>//Video distribution destination terminal ID list
+			<Dstviewer></Dstviewer>//Video distribution of the purpose of the terminal or terminal, fill out the purpose of terminal ID or the purpose of scheduling the station ID
 		</Dstviewerlist>
-		<Channel></Channel>//Reserved，内容可以不填；
+		<Channel></Channel>//Reserved；
 	</Content>
 	************************************************************************/
 	CString strDispatchParam;
@@ -2282,10 +2281,10 @@ void CDConsoleDlg::OnBnClickedButtonUndispatch()
 	//UpdateData(TRUE);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-		<ResourceID>当前分发的ID</ResourceID>
-		<UserId>需要停止某个之前分发的id</UserId>
+		<ResourceID>The id of current distribution</ResourceID>
+		<UserId>Need to stop a id of previous distribution</UserId>
 	</Content>
 	************************************************************************/
 	CString strDispatchParam;
@@ -2315,12 +2314,12 @@ void CDConsoleDlg::OnBnClickedButtonSds()
 	//UpdateData(TRUE);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-		<SDSType></SDSType>			//SDS短数据类型
-		<MsgBody></MsgBody>	    //SDS短数据内容
-		<Receiver></Receiver>	    //收件人，格式为“MSISDN@broadcast.SERVER_IP”的字符串，比如“1001@broadcast.10.1.1.1”；从2.1版本开始可以只填用户号，例如“1001”
-		<AttachFileList>			//附件地址列表
+		<SDSType></SDSType>			//SDS type
+		<MsgBody></MsgBody>	    //SDS body
+		<Receiver></Receiver>	    //for example“1001”
+		<AttachFileList>			//Annex address list
 			<AttachFile></AttachFile>
 			<AttachFile></AttachFile>
 		</AttachFileList>
@@ -2383,36 +2382,35 @@ void CDConsoleDlg::OnBnClickedButtonEvent11()
 }
 
 
-//发起视频上墙
+//start vwall
 void CDConsoleDlg::OnBnClickedBtnStartvwall()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	/************************************************************************/
 	/* 
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 	<VideoParam>
-	<DstObjId ></DstObjId >//视频上墙的目的地，为一个视频通道
-	<StrFmt ></StrFmt >//预留,2.0版本不使用
+	<DstObjId ></DstObjId >// a video channel
+	<StrFmt ></StrFmt >//Reserve
 	</VideoParam>
 	</Content>
 	*/
 	/************************************************************************/
 
-	//判断上墙信息
+	//Judge the wall information
 	VideoChannelList *pVCL = getVideoChannelListPointer();
 
 	if ("1" != (*pVCL)[m_VideoChannel] && "4023" != (*pVCL)[m_VideoChannel])
 	{
-		MessageBox(_T("当前状态不可用"));
+		MessageBox(_T("The current state is not available"));
 		return;
 	}
 
 	GetDlgItem(IDC_EDIT_RESOURCEID)->GetWindowText(m_ResourceID);
 	// TODO: Add your control notification handler code here
 	CString strVideoChannelStart;
-	//拼视频上墙xml消息
-	//参数构造
+	//Video wall XML
+	//Structure parameter
 	strVideoChannelStart.Append(_T("<Content>"));
 	strVideoChannelStart.Append(_T("<VideoParam>"));
 	strVideoChannelStart.Append(_T("<DstObjId>"));
@@ -2433,27 +2431,26 @@ void CDConsoleDlg::OnBnClickedBtnStartvwall()
 	OnSelchangeComboResource();
 }
 
-//终止视频上墙
+//stop vwall
 void CDConsoleDlg::OnBnClickedBtnStopvwall()
 {
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-	<DstObjId>视频上墙的目的地，为一个视频通道</DstObjId>
+	<DstObjId>a video channel</DstObjId>
 	</Content>
 	************************************************************************/
 	VideoChannelList* pVCL = getVideoChannelListPointer();
 
 	if ("4022" != (*pVCL)[m_VideoChannel])
 	{
-		MessageBox(_T("请稍等,当前状态不可关闭"));
+		MessageBox(_T("Please wait a moment. The current state is not closed."));
 		return;
 	}
 
 	GetDlgItem(IDC_EDIT_RESOURCEID)->GetWindowText(m_ResourceID);
 	CString strVideoChannelStop;
-	//拼视频下墙xml消息
-	//参数构造
+	//xml
 	strVideoChannelStop.Append(_T("<Content>"));
 	strVideoChannelStop.Append(_T("<DstObjId>"));
 	strVideoChannelStop.Append(m_VideoChannel);
@@ -2479,7 +2476,7 @@ void CDConsoleDlg::OnSelchangeComboResource()
 	iSel = m_ComboVWIDList.GetCurSel();
 	m_ComboVWIDList.GetLBText(iSel,m_VideoChannel);
 //	m_ComboVWIDList.ResetContent();
-	//刷新列表及状态
+	//Refresh list and status
 	CString strVWallStopParam = _T("");
 	ELTE_CHAR *pStr;
 	ELTE_INT32 iRet = ELTE_SDK_GetDcVWallIDList(&pStr);
@@ -2515,7 +2512,6 @@ void CDConsoleDlg::OnSelchangeComboResource()
 
 void CDConsoleDlg::OnBnClickedBtnRefreshlist()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	CString strVWallStopParam = _T("");
 	ELTE_CHAR *pStr = NULL;
 	ELTE_INT32 iRet = ELTE_SDK_GetDcVWallIDList(&pStr);
@@ -2543,7 +2539,6 @@ void CDConsoleDlg::OnDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
 
-	// TODO: 在此添加控件通知处理程序代码
 	POSITION pos = m_DcUsers.GetFirstSelectedItemPosition();
 	int item = m_DcUsers.GetNextSelectedItem(pos);
 	m_ResourceID = m_DcUsers.GetItemText(item, DCUSERS_RESID);
@@ -2559,7 +2554,7 @@ void CDConsoleDlg::OnDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 	}
 
-	// 构造参数
+	// xml
 	CString strVideoParam;
 	strVideoParam.Append(_T("<Content>"));
 	strVideoParam.Append(_T("<VideoParam>"));
@@ -2602,7 +2597,7 @@ void CDConsoleDlg::OperatePatchGroup(const CString& strDcID, const CString& strG
 		return;
 	}
 
-	// 构造XML
+	// XML
 	CString strPCHGRPParam;
 	strPCHGRPParam.Append(_T("<Content>"));
 	strPCHGRPParam.Append(_T("<DcID>"));
@@ -2626,19 +2621,19 @@ void CDConsoleDlg::OperatePatchGroup(const CString& strDcID, const CString& strG
 	strPCHGRPParam.Append(_T("</PatchGroupMemberList>"));
 	strPCHGRPParam.Append(_T("</Content>"));
 
-	// 创建派接组
+	// create patch group
 	if (0 == iOperateType)
 	{
 		ELTE_INT32 iRet = ELTE_SDK_CreatePatchGroup(eLTE_Tool::UnicodeToANSI(strPCHGRPParam).c_str());
 		CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_CreatePatchGroup"));
 	}
-	// 增加派接组成员
+	// add patch group member
 	if (1 == iOperateType)
 	{
 		ELTE_INT32 iRet = ELTE_SDK_AddPatchGroupMember(eLTE_Tool::UnicodeToANSI(strPCHGRPParam).c_str());
 		CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_AddPatchGroupMember"));
 	}
-	// 删除派接组成员
+	// del patch group member
 	if (2 == iOperateType)
 	{
 		ELTE_INT32 iRet = ELTE_SDK_DeletePatchGroupMember(eLTE_Tool::UnicodeToANSI(strPCHGRPParam).c_str());
@@ -2691,7 +2686,7 @@ void CDConsoleDlg::OnRclickTreePatchgroups(NMHDR *pNMHDR, LRESULT *pResult)
 		//pttMenu.AppendMenu(MF_STRING, ID_MENU_PTTSTOPDISLISTEN, _T("DisListen_Stop"));
 		//pttMenu.AppendMenu(MF_STRING, ID_MENU_PTTSTARTENVLISTEN, _T("EnvListen_Start"));
 
-		//组节点
+		//group node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		//menu.AppendMenu(MF_STRING, ID_MENU_SUBGROUP, _T("SubscribeGroup"));
@@ -2707,7 +2702,7 @@ void CDConsoleDlg::OnRclickTreePatchgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 	//else
 	//{
-	//	//用户节点
+	//	//user node
 	//	CMenu menu;
 	//	menu.CreatePopupMenu();
 	//	menu.AppendMenu(MF_STRING, ID_MENU_GETGROUPINFO, _T("GetGroupUserInfo"));
@@ -2727,10 +2722,9 @@ void CDConsoleDlg::OnOK()
 
 void CDConsoleDlg::OnBnClickedButtonSnapshot()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	std::string m_strSavepath = GetSnapshotPath(m_strResId);
 	ELTE_INT32 iRet = ELTE_SDK_LocalSnapshot(m_strResId.c_str(), m_strSavepath.c_str(), (ELTE_ULONG)1);
-	MessageBox(_T("截图已存 snapshot 目录下"));
+	MessageBox(_T("Screenshots have been stored under the snapshot directory"));
 }
 
 CString CDConsoleDlg::GetModuleDir()
@@ -2760,7 +2754,7 @@ std::string CDConsoleDlg::GetSnapshotPath(const std::string& strResId) const
 	GetModuleFileNameA(module, pFileName, MAX_PATH);
 
 	std::string strSnapshotPath = pFileName;
-	//去掉exe字串
+	//Remove the EXE string
 	size_t index = strSnapshotPath.find_last_of("\\");
 	std::string strSavePath;
 	if(std::string::npos != index)

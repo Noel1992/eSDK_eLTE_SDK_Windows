@@ -75,7 +75,7 @@ void CRECFileDlg::OnBnClickedOk()
 	GetDlgItemText(IDC_EDIT_ENDSEC, EndSec);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 		<Content>
 			<RECQueryInfo>
 				<CallType></CallType>
@@ -116,7 +116,7 @@ void CRECFileDlg::OnBnClickedOk()
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetUserRECFileInfoList"));
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 		<ResultCode></ResultCode>
 		<RECFileInfoList>

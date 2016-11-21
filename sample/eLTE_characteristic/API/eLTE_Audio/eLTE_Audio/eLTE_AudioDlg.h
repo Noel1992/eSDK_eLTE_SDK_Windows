@@ -1,5 +1,5 @@
 
-// eLTE_AudioDlg.h : 头文件
+// eLTE_AudioDlg.h : header file
 //
 
 #pragma once
@@ -7,18 +7,18 @@
 #include "afxwin.h"
 
 
-// CeLTE_AudioDlg 对话框
+// CeLTE_AudioDlg dlg
 class CeLTE_AudioDlg : public CDialogEx
 {
-// 构造
+// construct
 public:
-	CeLTE_AudioDlg(CWnd* pParent = NULL);	// 标准构造函数
+	CeLTE_AudioDlg(CWnd* pParent = NULL);	// Standard Constructors
 
-// 对话框数据
+// Dialog data
 	enum { IDD = IDD_ELTE_AUDIO_DIALOG };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 
 
 	// Implementation
@@ -28,7 +28,7 @@ private:
 protected:
 	HICON m_hIcon;
 
-	// 生成的消息映射函数
+	// Generated message mapping function
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
@@ -51,7 +51,7 @@ public:
 	BOOL m_bIsLogin;
 	BOOL m_bMax;
 	bool m_bClose;
-	CString m_strKickOff;   // 用户被挤掉
+	CString m_strKickOff;   // kick off
 	
 public:
 	static ELTE_VOID __SDK_CALL ELTE_EventCallBack(ELTE_INT32 iEventType, ELTE_VOID* pEventBuf, ELTE_UINT32 uiBufSize, ELTE_VOID* pUserData);

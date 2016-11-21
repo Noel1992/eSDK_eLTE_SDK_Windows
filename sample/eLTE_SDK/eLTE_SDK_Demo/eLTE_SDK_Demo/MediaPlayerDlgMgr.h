@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    MediaPlayerDlgMgr.h
 author      :    zhangziqian zWX229156
 created     :    2015/07/01
-description :    媒体播放窗口管理类
+description :    Media player window management class
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/07/01 初始版本
+history     :    2015/07/01 Initial version
 *********************************************************************/
 
 #include "MediaPlayerDlg.h"

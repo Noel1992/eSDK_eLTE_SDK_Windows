@@ -63,7 +63,7 @@ BOOL CCreateGroupDlg::OnInitDialog()
 	pEdit->SetReadOnly(TRUE);
 	SetDlgItemText(IDC_EDIT_DCID, m_strDcId);
 	CEdit* pEditGroupID = (CEdit*)GetDlgItem(IDC_EDIT_GROUPID);
-	pEditGroupID->SetCueBanner(L"×Ô¶¯·ÖÅä");
+	pEditGroupID->SetCueBanner(L"Auto distribute");
 	if (m_bDynamic)
 	{		
 		SetDlgItemText(IDC_EDIT_PRIORITY, _T("15"));

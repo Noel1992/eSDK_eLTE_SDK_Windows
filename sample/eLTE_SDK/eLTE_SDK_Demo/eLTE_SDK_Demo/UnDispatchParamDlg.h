@@ -30,6 +30,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	// set undispatch param
 	void SetUnDispatchParamInfo(UnDispatchParamInfo* pUnDispatchParamInfo)
 	{ m_pUnDispatchParamInfo = pUnDispatchParamInfo; }
 private:

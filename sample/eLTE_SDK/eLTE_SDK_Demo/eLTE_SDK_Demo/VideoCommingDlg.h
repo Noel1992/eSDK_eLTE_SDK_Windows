@@ -30,6 +30,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
+	// receive comming video
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 public:

@@ -189,7 +189,7 @@ void CXml::XmlParseDcUsers(const CString& xmlStr, UserInfoList& vecUsers)
 void CXml::XmlParseVWallIDList(const CString& xmlStr, VideoChannelList& vecUsers)
 {
 	/************************************************************************
-	--- XML ∏Ò Ω ---
+	--- XML format ---
 	<Content> 
 		<VWallIDList>
 			<VWallID>

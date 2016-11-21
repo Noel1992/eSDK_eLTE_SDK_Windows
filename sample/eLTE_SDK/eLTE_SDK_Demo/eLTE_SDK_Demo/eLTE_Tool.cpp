@@ -36,7 +36,7 @@ eLTE_Tool::~eLTE_Tool()
 
 }
 
-// int 转换为 std::string
+// int convert std::string
 std::string eLTE_Tool::Int2String(int iVar)
 {
 	char buf[STR_LENGTH_SIZE] = {0};
@@ -44,7 +44,7 @@ std::string eLTE_Tool::Int2String(int iVar)
 	return std::string(buf);
 }
 
-// unsigned int 转换为 std::string
+// unsigned int convert std::string
 std::string eLTE_Tool::UInt2String(unsigned int iVar)
 {
 	char _Buf[STR_LENGTH_SIZE];
@@ -52,7 +52,7 @@ std::string eLTE_Tool::UInt2String(unsigned int iVar)
 	return std::string(_Buf);
 }
 
-// double 装换为 std::string
+// double convert std::string
 std::string eLTE_Tool::Double2String(double dVar)
 {
 	char _Buf[DOUBLE_STR_SIZE];
@@ -60,7 +60,7 @@ std::string eLTE_Tool::Double2String(double dVar)
 	return std::string(_Buf);
 }
 
-// std::string 转换为 int
+// std::string convert int
 int eLTE_Tool::String2Int(const std::string& str)
 {
 	int iRet = 0;
@@ -77,7 +77,7 @@ int eLTE_Tool::String2Int(const std::string& str)
 	return iRet;
 }
 
-// std::string 转换为 unsigned int
+// std::string convert unsigned int
 unsigned int eLTE_Tool::String2UInt(const std::string& str)
 {
 	unsigned int uiRet = 0;
@@ -94,7 +94,7 @@ unsigned int eLTE_Tool::String2UInt(const std::string& str)
 	return uiRet;
 }
 
-// std::wstring 转换为 int
+// std::wstring convert int
 int eLTE_Tool::WString2Int(const std::wstring& wstr)
 {
 	int iRet = 0;
@@ -111,7 +111,7 @@ int eLTE_Tool::WString2Int(const std::wstring& wstr)
 	return iRet;
 }
 
-// std::wstring 转换为 unsigned int
+// std::wstring convert unsigned int
 unsigned int eLTE_Tool::WString2UInt(const std::wstring& wstr)
 {
 	unsigned int uiRet = 0;

@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    eLTE_SDK_DemoDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    业务主对话框，登录成功后显示。用户业务操作和管理
+description :    Business main dialog, after the success of the login display. User business operation and management
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #pragma once
@@ -44,169 +44,169 @@ protected:
 	virtual BOOL OnInitDialog();
 	DECLARE_MESSAGE_MAP()
 	afx_msg LRESULT OnIncommingCall(WPARAM wParam, LPARAM lParam);
-	// 创建窗口并进行播放
+	// Create a window and play
 	afx_msg LRESULT StartRealPlay(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT InitDlg(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnIncommingVideo(WPARAM wParam, LPARAM lParam);
 
 public:
-	// 窗口关闭
+	// Close window
 	afx_msg void OnClose();
-	// 鼠标左键双击，显示/隐藏回调事件
+	// Left mouse button, show / hide callback events
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
-	// 显示用户列表
+	// Display user list
 	afx_msg void OnBnClickedButtonDcusers();
-	// 显示群组列表
+	// Display group list
 	afx_msg void OnBnClickedButtonDcgroups();
-	// 触发状态上报
+	// Trigger status report
 	afx_msg void OnBnClickedButtonTrigger();
-	// 配置管理初始化
+	// Configuration management initialization
 	afx_msg void OnBnClickedButtonProvinit();
-	// 配置管理退出
+	// Configuration management exit
 	afx_msg void OnBnClickedButtonProvexit();
-	// 鼠标右键单击用户列表，对该用户或设备进行业务操作。查看用户信息/发起视频回传/停止视频回传/云台控制等
+	// Right click the user list, the user or device for business operations. View user information / call video / stop video / tilt control etc.
 	afx_msg void OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult);
-	// 鼠标右键单击群组列表，对该群组或组用户进行业务操作。查看组或者组内用户信息/订阅/去订阅群组/删除动态组等
+	// Right click the group list, the group or group of users to conduct business operations. View group or group user information / subscribe / subscribe to group / delete dynamic group, etc.
 	afx_msg void OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult);
-	// 对菜单选择进行业务操作
+	// Business operation on menu selection
 	afx_msg void OnClickMenuItem(UINT uID);
-	// 创建动态组
+	// Create dynamic group
 	afx_msg void OnBnClickedButtonCreatedg();
-	// 创建临时组
+	// Create temporary groups
 	afx_msg void OnBnClickedButtonCreatetg();
-	// 录像文件查询
+	// Video file query
 	afx_msg void OnBnClickedButtonGetrecflie();
-	// 调度员信息
+	// Dispatcher information
 	afx_msg void OnBnClickedButtonDcinfo();
 
 public:
-	// 回调消息显示 ELTE_Event_NotifyProvisionAllResync
+	// Callback message display ELTE_Event_NotifyProvisionAllResync
 	afx_msg void OnBnClickedButtonAllresync();
-	// 回调消息显示 ELTE_Event_NotifyResourceStatus
+	// Callback message display ELTE_Event_NotifyResourceStatus
 	afx_msg void OnBnClickedButtonResstatus();
-	// 回调消息显示 ELTE_Event_NotifyUserStatus
+	// Callback message display ELTE_Event_NotifyUserStatus
 	afx_msg void OnBnClickedButtonUserstatus();
-	// 回调消息显示 ELTE_Event_NotifyProvisionChange
+	// Callback message display ELTE_Event_NotifyProvisionChange
 	afx_msg void OnBnClickedButtonProvchange();
-	// 回调消息显示 ELTE_Event_NotifyModuleStatus
+	// Callback message display ELTE_Event_NotifyModuleStatus
 	afx_msg void OnBnClickedButtonModulestatus();
-	// 回调消息显示 ELTE_Event_NotifyP2pvideocallStatus
+	// Callback message display ELTE_Event_NotifyP2pvideocallStatus
 	afx_msg void OnBnClickedButtonVideostatus();
-	// 回调消息显示 ELTE_Event_NotifyP2pcallStatus
+	// Callback message display ELTE_Event_NotifyP2pcallStatus
 	afx_msg void OnBnClickedButtonCallstatus();
-	// 回调消息显示 ELTE_Event_NotifyGroupStatus
+	// Callback message display ELTE_Event_NotifyGroupStatus
 	afx_msg void OnBnClickedButtonGroupstatus();
-	// 回调消息显示 ELTE_Event_NotifyGISStatus
+	// Callback message display ELTE_Event_NotifyGISStatus
 	afx_msg void OnBnClickedButtonGisstatus();
-	// 回调消息显示 ELTE_Event_NotifyGISReport
+	// Callback message display ELTE_Event_NotifyGISReport
 	afx_msg void OnBnClickedButtonGisreport();
 
 public:
-	// 设置CELTE_SDK_DemoDlg窗口指针
+	// Set CELTE_SDK_DemoDlg window pointer
 	void SetELTE_SDK_DemoDlg(CDialogEx* pDlg) { m_pELTE_SDK_DemoDlg = pDlg; }
-	// 登录成功后初始化界面
+	// After login successful initialization interface
 	void InitDlg();
-	// 创建动态组/临时组成功后在群组列表中添加界面
+	// After creating a dynamic group / temporary group, and add in the group list interface
 	void AddGroup(const char* groupId);
-	// 创建派接组成功后在群组列表中添加界面
+	// After creating a patch group, and add in the group list interface
 	void AddPatchGroup(const char* groupId);
-	// 删除派接组
+	// Delete patch group
 	void RemovePatchGroup(int iGroupID);
-	// 增加派接组成员
+	// Add group membership
 	void AddPatchGroupMember(const char* groupId, const char* memberId);
-	// 删除派接组成员
+	// 
 	void DelPatchGroupMember(const char* groupId, const char* memberId);
-	// 刷新用户列表的用户状态
+	// Refresh the user status of the user list
 	void UpdateUserStatus(const CString& strUserId, int iStatus);
-	// 刷新来电主叫
+	// Refresh the incoming caller
 	void SetCaller(const CString& strCaller, const bool& bUse) {m_Caller = strCaller; m_CallDlg.SetUse(bUse);}
-	//设置视频分发参数
+	// Set video distribution parameters
 	void SetVideoParam(const CString& videoFormat, const CString& tarResID) {strVideoFormat = videoFormat; strTarResID = tarResID;}
-	//获取视频资源ID
+	// Get video resources ID
 	CString GetTarResID() {return strTarResID;}
-	//获取视频格式
+	// Get video format
 	CString GetVideoFormat() {return strVideoFormat;}
 
-	// 设置当前需要播放的resid
+	// Set the resource id of the current need to play 
 	void SetPlayResID(std::string strResId);
-	// 设置视频回传请求到来
+	// Set the video request coming back
 	void SetCommingVideo(const CString& strResId) {m_strCommingVideo = strResId;}
-	//设置视频上墙ID列表
+	// Set the wall id list of the video
 	void setVideoChannelList(VideoChannelList InStringList){this->StringList = InStringList;}
-	//获取视频上墙ID列表
+	// Get the wall id list of the video on 
 	VideoChannelList* getVideoChannelListPointer(){return &StringList;}
-	// 删除群组
+	// Delete Group
 	void RemoveGroup(int iGroupID);
-	// 获取当前控件选中的组信息
+	// Get the selected group information by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
-	// 获取指定组名的组信息
+	// Get the group information for the specified group name
 	HTREEITEM FindStrGroupInfo(CString strname, GroupInfo** pInfo);
 
 private:
-	// 增加图片资源
+	// Add image resources
 	void AddImage(CImageList& imageList, UINT id);
-	// 配置管理数据清理
+	// Cleanup the configuration management data 
 	void ClearProv();
-	// 群组列表数据清理
+	// Clean up group list data
 	void ClearDcGroupsTree();
-	// 派接组列表数据清理
+	// Clean up patch group list data
 	void ClearPatchGroupsTree();
-	// 获取调度台用户列表
+	// Get user list of current dispatch console
 	void GetDcUsers(const CString strSearch, bool bFlag);
-	// 获取调度台群组列表
+	// Get group list of current dispatch console
 	void GetDcGroups(const CString strSearch, bool bFlag);
-	// 获取派接组列表
+	// Get patch group list
 	void GetPatchGroups(const CString strSearch, bool bFlag);
-	// 获取群组种类
+	// Get group type
 	CString GetGroupCategoryString(const CString& strGroupCategory);
-	// 获取组内用户类型
+	// Gets the type of user within the group
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
-	// 根据用户类型获取资源图片
+	// Obtain image according to user type.
 	int GetUserImageId(const CString& strCategory, bool bGray);
-	// 根据用户状态获取资源图片
+	// Obtain image according to user status.
 	int GetUserImageId(const CString& strUserId, int iStatus);	
-	// 添加临时组
+	// Add temporary groups
 	void AddTempGroup(const CString& strGroupID);
-	// 操作派接组
+	// Operate patch group
 	void OperatePatchGroup(const CString& strDcID, const CString& strGroupID, const int& iOperateType, const CString& strGroupName = _T(""));
-	// 获取抓图名
+	// Get Snapshot path
 	std::string GetSnapshotPath(const std::string& strResId) const;
 	CString GetModuleDir();
 	
 
 private:
-	CListCtrl m_DcUsers;	    // 调度台用户列表
-	CTreeCtrl m_DcGroups;	    // 调度台群组列表
-	CImageList m_ImageList;	    // 图片资源列表
-	CString m_Caller;		    // 来电主叫
-	CString m_strCommingVideo;  // 视频回传请求到来
-	VideoChannelList StringList;//视频上墙列表
+	CListCtrl m_DcUsers;	    // dc users list
+	CTreeCtrl m_DcGroups;	    // dc group list 
+	CImageList m_ImageList;	    // image list
+	CString m_Caller;		    // caller
+	CString m_strCommingVideo;  // video request
+	VideoChannelList StringList;// video wall list
 	CString m_VideoChannel;
 	CString m_ResourceID;
 	CString strVideoFormat;
 	CString strTarResID;
 
 private:
-	CRect m_RectMax;		// 界面大坐标
-	CRect m_RectMin;		// 界面小坐标
+	CRect m_RectMax;		// The big coordinates of interface
+	CRect m_RectMin;		// The small coordinates of interface
 
 public:
-	CString m_AllResync;	// 回调消息拼接成的字符串 ELTE_Event_NotifyProvisionAllResync
-	CString m_ResStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifyResourceStatus
-	CString m_UserStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifyUserStatus
-	CString m_ProvChange;	// 回调消息拼接成的字符串 ELTE_Event_NotifyProvisionChange
-	CString m_ModuleStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifyModuleStatus
-	CString m_VideoStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifportyP2pvideocallStatus
-	CString m_CallStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifyP2pcallStatus
-	CString m_GroupStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifyGroupStatus
-	CString m_GISStatus;	// 回调消息拼接成的字符串 ELTE_Event_NotifyGISStatus
-	CString m_GISReport;	// 回调消息拼接成的字符串 ELTE_Event_NotifyGISReport
-	CString m_SDSReport;    // 回调消息拼接成的字符串 ELTE_Event_NotifySDSReport
-	CString m_SDSStatus;    // 回调消息拼接成的字符串 ELTE_Event_NotifySDSStatus
+	CString m_AllResync;	// String callback message ELTE_Event_NotifyProvisionAllResync
+	CString m_ResStatus;	// String callback message ELTE_Event_NotifyResourceStatus
+	CString m_UserStatus;	// String callback message ELTE_Event_NotifyUserStatus
+	CString m_ProvChange;	// String callback message ELTE_Event_NotifyProvisionChange
+	CString m_ModuleStatus;	// String callback message ELTE_Event_NotifyModuleStatus
+	CString m_VideoStatus;	// String callback message ELTE_Event_NotifportyP2pvideocallStatus
+	CString m_CallStatus;	// String callback message ELTE_Event_NotifyP2pcallStatus
+	CString m_GroupStatus;	// String callback message ELTE_Event_NotifyGroupStatus
+	CString m_GISStatus;	// String callback message ELTE_Event_NotifyGISStatus
+	CString m_GISReport;	// String callback message ELTE_Event_NotifyGISReport
+	CString m_SDSReport;    // String callback message ELTE_Event_NotifySDSReport
+	CString m_SDSStatus;    // String callback message ELTE_Event_NotifySDSStatus
 
 private:
-	CDialogEx* m_pELTE_SDK_DemoDlg;	// 登录窗口指针
-	CRECFileDlg m_RECFileDlg;		// 录像文件查询窗口
+	CDialogEx* m_pELTE_SDK_DemoDlg;	// Login window pointer
+	CRECFileDlg m_RECFileDlg;		// Video files query window
 	CallDlg m_CallDlg;
 	std::string m_strResId;
 	VideoCommingDlg m_VideoCommingDlg;

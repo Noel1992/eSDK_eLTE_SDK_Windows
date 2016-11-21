@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    RECFileDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    录像文件查询对话框，负责查询录像文件列表
+description :    Video file query dialog box, is responsible for the query video file list
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #pragma once
@@ -39,8 +39,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	// 单击OK按键，使用查询条件中设置的参数，查询录像文件列表
+	// Click the OK button to use the parameters set in the query condition, the query video file list
 	afx_msg void OnBnClickedOk();
-	// 单击Cancel按键，取消录像文件查询操作
+	// Click the Cancel button to cancel the video file query operation
 	afx_msg void OnBnClickedCancel();
 };

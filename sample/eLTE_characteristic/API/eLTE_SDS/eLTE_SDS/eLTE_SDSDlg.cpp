@@ -24,20 +24,18 @@ limitations under the License.*/
 #endif
 
 
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
-
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// 对话框数据
+
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
-// 实现
+
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -55,7 +53,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_SDSDlg 对话框
+// CeLTE_SDSDlg dlg
 
 
 int CeLTE_SDSDlg::m_iBypass = 1;
@@ -96,7 +94,7 @@ BEGIN_MESSAGE_MAP(CeLTE_SDSDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_SDSDlg 消息处理程序
+// CeLTE_SDSDlg Message handler
 
 BOOL CeLTE_SDSDlg::OnInitDialog()
 {
@@ -129,21 +127,6 @@ BOOL CeLTE_SDSDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
-	// 坐标设置
-	/*GetWindowRect(&m_RectMax);
-	m_RectMin = m_RectMax;
-	CRect rt;
-	GetDlgItem(IDC_STATIC_MORESETTING)->GetWindowRect(&rt);
-	m_RectMin.right = rt.left;
-	SetWindowPos(NULL,0,0,m_RectMin.Width(),m_RectMin.Height(),SWP_NOMOVE);	*/
-
-	//// 设置工作目录
-	//TCHAR tchPath[MAX_PATH] = {0};
-	//GetModuleFileName(NULL, tchPath, MAX_PATH);
-	//CString szPath(tchPath);
-	//szPath = szPath.Left(szPath.ReverseFind(_T('\\'))+1);
-	//SetCurrentDirectory(szPath);
-
 	m_cmbMediaPass.InsertString(0, _T("1"));
 	m_cmbMediaPass.InsertString(1, _T("0"));
 	m_cmbMediaPass.SetCurSel(1);
@@ -154,7 +137,7 @@ BOOL CeLTE_SDSDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// Initialize login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -165,11 +148,11 @@ BOOL CeLTE_SDSDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// Initial log information
 	m_strLogSavePath = _T(".\\log");
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_SDSDlg(this);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
 
@@ -189,19 +172,15 @@ void CeLTE_SDSDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// 如果向对话框添加最小化按钮，则需要下面的代码
-//  来绘制该图标。对于使用文档/视图模型的 MFC 应用程序，
-//  这将由框架自动完成。
-
 void CeLTE_SDSDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // 用于绘制的设备上下文
+		CPaintDC dc(this); // Device context for rendering
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// 使图标在工作区矩形中居中
+		// Center the icon in the rectangle of the workspace
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -209,7 +188,7 @@ void CeLTE_SDSDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// 绘制图标
+		// draw icon
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -218,8 +197,6 @@ void CeLTE_SDSDlg::OnPaint()
 	}
 }
 
-//当用户拖动最小化窗口时系统调用此函数取得光标
-//显示。
 HCURSOR CeLTE_SDSDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -229,8 +206,8 @@ HCURSOR CeLTE_SDSDlg::OnQueryDragIcon()
 
 void CeLTE_SDSDlg::OnBnClickedButtonLogin()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	//登陆前其他非必须参数设置
+	// TODO: 
+	//Other non essential parameter settings before landing
 	MoreSetting();
 	UpdateData(TRUE);
 
@@ -313,9 +290,9 @@ ELTE_VOID __SDK_CALL CeLTE_SDSDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, ELT
 		int iType = StrToInt(CXml::Instance().XmlParseElemValue(xmlStr, _T("StatusType")));
 		int iValue = StrToInt(CXml::Instance().XmlParseElemValue(xmlStr, _T("StatusValue")));
 
-		// 回调事件消息显示
+		// Callback event message display
 		CString strEventMsg;
-		strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
+		strEventMsg.Format(_T("Type:%d Value:%d ResId:%s ["), iType, iValue, strResId);
 		strEventMsg.Insert(0,pDlg->GetTimeString());
 
 		if (_ttoi(strResId) == _ttoi(pDlg->GetCurrentUserName()) && (RESREGSTATUS_PROXY == iType || RESREGSTATUS_DIRECT == iType))
@@ -366,22 +343,20 @@ ELTE_VOID __SDK_CALL CeLTE_SDSDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, ELT
 		}
 		if(GRPCALLSTATUS == iType)
 		{
-			// 组活动状态
+			// Group active state
 			if (STATUS_GROUP_ACTIVATED == iValue)
 			{
-				//MessageBox(_T("组活动状态."));
-				strEventMsg.Append(_T("组呼活动状态."));
+				strEventMsg.Append(_T("Group call active state."));
 			}
-			//  组非活动状态
+			//  Group call not active state
 			else if (STATUS_GROUP_DEACTIVATED == iValue)
 			{
-				//MessageBox(_T("组非活动状态."));
-				strEventMsg.Append(_T("组呼非活动状态."));
+				strEventMsg.Append(_T("Group call not active state."));
 			}
 		}
 
 		//show callback message
-		strEventMsg.Append(_T("】\r\n"));
+		strEventMsg.Append(_T("]\r\n"));
 		pDlg->GetDConsoleDlg().m_strEvent2.Append(strEventMsg);
 
 	}
@@ -392,9 +367,9 @@ ELTE_VOID __SDK_CALL CeLTE_SDSDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, ELT
 		int iStatusValue = GET_XML_ELEM_VALUE_INT(xmlStr, _T("StatusValue"));
 		pDlg->GetDConsoleDlg().UpdateUserStatus(strUserID, iStatusValue);
 
-		// 显示视频回传当前状态
+		// Return the current state of video display
 		CString strEventMsg;
-		strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
+		strEventMsg.Format(_T("UserID:%s Type:%d Value:%d ["), strUserID, iStatusType, iStatusValue);
 		if (iStatusValue == 4011)
 		{
 			strEventMsg.Append(_T("online"));
@@ -405,21 +380,21 @@ ELTE_VOID __SDK_CALL CeLTE_SDSDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, ELT
 		}
 		else if (iStatusValue == 4020)
 		{
-			strEventMsg.Append(_T("正在发起呼叫"));
+			strEventMsg.Append(_T("start calling"));
 		}
 		else if (iStatusValue == 4021)
 		{
-			strEventMsg.Append(_T("正在振铃"));
+			strEventMsg.Append(_T("Ringing"));
 		}
 		else if (iStatusValue == 4022)
 		{
-			strEventMsg.Append(_T("使用中"));
+			strEventMsg.Append(_T("under use"));
 		}
 		else if (iStatusValue == 4023)
 		{
-			strEventMsg.Append(_T("空闲"));
+			strEventMsg.Append(_T("free"));
 		}
-		strEventMsg.Append(_T("】\r\n"));
+		strEventMsg.Append(_T("]\r\n"));
 		strEventMsg.Insert(0, pDlg->GetTimeString());
 		pDlg->GetDConsoleDlg().m_strEvent0.Append(strEventMsg);
 	}
@@ -434,11 +409,11 @@ ELTE_VOID __SDK_CALL CeLTE_SDSDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, ELT
 		CString strEventMsg;
 		strEventMsg.Format(_T("ResouceID:%s ModuleType:%d ModuleStatus:%d CallBackMsgType:%d ModulePara:%s"), strResourceID, iModuleType, iModuleStatus, iCallBackMsgType, strModulePara);
 		strEventMsg.Insert(0,pDlg->GetTimeString());
-		if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // 被踢下线
+		if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // Kicked off
 		{
 			CString strMsg;
-			strMsg.Format(_T("用户【%s】已经在别处登录\r\n%s"), pDlg->m_strName, strModulePara);
-			strEventMsg.Append(_T(" 【被踢下线】"));
+			strMsg.Format(_T("User[%s]already logged in elsewhere\r\n%s"), pDlg->m_strName, strModulePara);
+			strEventMsg.Append(_T(" [Kicked off]"));
 			pDlg->m_strKickOff = strMsg;
 			pDlg->PostMessage(WM_CLOSE);
 		}
@@ -478,17 +453,11 @@ void CeLTE_SDSDlg::MoreSetting()
 	//	return;
 
 	UpdateData(TRUE);
-	// 设置日志参数
+	// Log parameter setting
 	ELTE_SDK_SetLogLevel(0);
 	ELTE_SDK_SetLogPath(eLTE_Tool::UnicodeToANSI(m_strLogSavePath).c_str());
 
-	// 设置logo路径
-/*	if (!m_strBGLogoPath.IsEmpty())
-	{
-		m_eLTE_Player.ELTE_OCX_UploadLogo(m_strBGLogoPath);
-	}
-*/
-	// 获取版本
+	// get version
 	ELTE_CHAR* pVersion = NULL;
 	int iRet = ELTE_SDK_GetVersion(&pVersion);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetVersion"));

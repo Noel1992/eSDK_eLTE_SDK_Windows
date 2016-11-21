@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    eLTE_Tool.h
 author      :    zhangziqian zwx229156
 created     :    2016/05/30
-description :    公共方法接口类，主要对一些公共方法进行统一封装
+description :    Common methods of interface class, the main public method of a unified package (server and client public documents)
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2016/05/30 初始版本
+history     :    2016/05/30 Initial version
 *********************************************************************/
 
 #ifndef __ELTE_TOOL_H__

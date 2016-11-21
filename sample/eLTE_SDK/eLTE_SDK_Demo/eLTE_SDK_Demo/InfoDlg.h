@@ -13,9 +13,9 @@ limitations under the License.*/
 filename    :    InfoDlg.h
 author      :    yubinbin wx200189
 created     :    2015/01/16
-description :    用户信息群组信息显示对话框
+description :    User information group information display dialog box
 copyright   :    Copyright (c) 2012-2016 Huawei Tech.Co.,Ltd
-history     :    2015/01/16 初始版本
+history     :    2015/01/16 Initial version
 *********************************************************************/
 
 #pragma once
@@ -39,20 +39,20 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	// 对话框初始化
+	// Dialog initialization
 	virtual BOOL OnInitDialog();
 
 public:
-	// 设置对话框显示参数值
+	// Set the dialog box to display the parameter values
 	void SetInfo(int iIndex, CString strTitle, CString strContent);
 
 private:
-	CString m_strTitle1;		// 第一行显示标题
-	CString m_strTitle2;		// 第二行显示标题
-	CString m_strTitle3;		// 第三行显示标题
-	CString m_strTitle4;		// 第四行显示标题
-	CString m_strContent1;		// 第一行显示文本
-	CString m_strContent2;		// 第二行显示文本
-	CString m_strContent3;		// 第三行显示文本
-	CString m_strContent4;		// 第四行显示文本
+	CString m_strTitle1;		// The first line shows the title.
+	CString m_strTitle2;		// Second line display the title
+	CString m_strTitle3;		// Third line display the title
+	CString m_strTitle4;		// Fourth line display the title
+	CString m_strContent1;		// The first line shows the text
+	CString m_strContent2;		// Second line display text
+	CString m_strContent3;		// Third line display text
+	CString m_strContent4;		// Fourth line display text
 };
