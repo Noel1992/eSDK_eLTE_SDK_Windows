@@ -54,7 +54,7 @@ function onLoad()
 { 
     //Initialization map object 
     map=new TMap("mapDiv"); 
-    //设置显示地图的中心点和级别 
+    //Set the center and level of the map
     map.centerAndZoom(new TLngLat(120.72628,31.26507),16); 
     //Set the center and level of the map 
     map.enableHandleMouseScroll(); 
@@ -464,7 +464,7 @@ function StopGetPos()
         alert("Unknown ResourceID:"+$("#gisid").val());
     }
 
-    //停止定位业务  
+    //Stop positioning 
     GISUnSubscribe();
     ocxMap[i].locateFlag = false;
 }

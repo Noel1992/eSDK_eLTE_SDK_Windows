@@ -142,9 +142,9 @@ private:
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void AddTempGroup(const CString& strGroupID);
 	void ClearDcGroupsTree();
-	// Patch Group列表数据清理
+	// clear Patch Group list
 	void ClearPatchGroupsTree();
-	// 获取当前控件选中的组信息
+	// Gets the group information selected by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
 	virtual void OnOK();
 	afx_msg void OnRclickTreePatchgroups(NMHDR *pNMHDR, LRESULT *pResult);
@@ -152,8 +152,6 @@ private:
 	afx_msg void OnSelchangeComboObjsel();
 	afx_msg void OnBnClickedButtonSearch();
 	afx_msg void OnBnClickedButtonEvent5();
-//	afx_msg void OnBnClickedBtnDiscreetlisten();
-//	afx_msg void OnBnClickedBtnStopdiscreenlisten();
 	afx_msg void OnBnClickedButtonRecflist();
 	afx_msg void OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult);
 
@@ -203,6 +201,5 @@ public:
 	afx_msg void OnBnClickedBtnCallphone();
 	afx_msg void OnBnClickedBtnHangup();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
-//	afx_msg void OnBnClickedBtnDiscreetlisten();
 	afx_msg void OnBnClickedButtonCreateTempg();
 };

@@ -8,7 +8,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
-// eLTE_VideoDlg.cpp : 实现文件
+// eLTE_VideoDlg.cpp : Implementation file
 //
 
 #include "stdafx.h"
@@ -23,20 +23,18 @@ limitations under the License.*/
 #endif
 
 
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
-
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// 对话框数据
+// Dialog data
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV supported
 
-// 实现
+// Realization
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -54,7 +52,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_VideoDlg 对话框
+// CeLTE_VideoDlg dialog 
 
 
 
@@ -79,15 +77,12 @@ void CeLTE_VideoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_ELTE_PLAYERCTRL1, m_eLTE_Player);
-	//  DDX_Control(pDX, IDC_COMBO_LOCALIP, m_strLocalIP);
 	DDX_CBString(pDX, IDC_COMBO_LOCALIP, m_strLocalIP);
 	DDX_Control(pDX, IDC_COMBO_LOCALIP, m_cmbLocalIP);
 	DDX_Control(pDX, IDC_COMBO_MEDIA_PASS, m_cmbMediaPass);
 	DDX_Text(pDX, IDC_EDIT_MRSIP, m_strMRSIP);
-	//  DDX_Control(pDX, IDC_EDIT_NAME, m_strName);
 	DDX_Text(pDX, IDC_EDIT_NAME, m_strName);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_strPasswd);
-	//  DDX_Control(pDX, IDC_EDIT_SERVERIP, m_strServerIP);
 	DDX_Text(pDX, IDC_EDIT_SERVERIP, m_strServerIP);
 	DDX_Text(pDX, IDC_EDIT_SIPPORT, m_strSipPort);
 }
@@ -101,15 +96,13 @@ BEGIN_MESSAGE_MAP(CeLTE_VideoDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_VideoDlg 消息处理程序
+// CeLTE_VideoDlg message handle program
 
 BOOL CeLTE_VideoDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// 将“关于...”菜单项添加到系统菜单中。
-
-	// IDM_ABOUTBOX 必须在系统命令范围内。
+	// IDM_ABOUTBOX Must be within the scope of the system command.
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -127,12 +120,12 @@ BOOL CeLTE_VideoDlg::OnInitDialog()
 		}
 	}
 
-	// 设置此对话框的图标。当应用程序主窗口不是对话框时，框架将自动
-	//  执行此操作
-	SetIcon(m_hIcon, TRUE);			// 设置大图标
-	SetIcon(m_hIcon, FALSE);		// 设置小图标
+	// Set the icon for this dialog, when the application main window is not dialog, 
+	// the framework will automatically perform this operation.
+	SetIcon(m_hIcon, TRUE);			// set big icon
+	SetIcon(m_hIcon, FALSE);		// set small icon
 
-	// TODO: 在此添加额外的初始化代码
+	
 	m_cmbMediaPass.InsertString(0, _T("1"));
 	m_cmbMediaPass.InsertString(1, _T("0"));
 	m_cmbMediaPass.SetCurSel(1);
@@ -143,7 +136,7 @@ BOOL CeLTE_VideoDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// initial login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -154,16 +147,16 @@ BOOL CeLTE_VideoDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// initial log information
 	m_strLogSavePath = _T(".\\log");
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_VideoDlg(this);
 	m_DcDlg.SetELtePlayer(&m_eLTE_Player);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
 
-	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
+	return TRUE;  // Unless you set the focus to the control，or return TRUE
 }
 
 void CeLTE_VideoDlg::OnSysCommand(UINT nID, LPARAM lParam)
@@ -179,19 +172,20 @@ void CeLTE_VideoDlg::OnSysCommand(UINT nID, LPARAM lParam)
 	}
 }
 
-// 如果向对话框添加最小化按钮，则需要下面的代码
-//  来绘制该图标。对于使用文档/视图模型的 MFC 应用程序，
-//  这将由框架自动完成。
+// If you add a minimize button to the dialog, you need
+// the following code to draw the icon. For MFC applications
+// that use the document / view model, this will be done
+// automatically by the framework.
 
 void CeLTE_VideoDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // 用于绘制的设备上下文
+		CPaintDC dc(this); // Device context for rendering
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// 使图标在工作区矩形中居中
+		// Center the icon in the rectangle of the workspace
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -199,7 +193,7 @@ void CeLTE_VideoDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// 绘制图标
+		// draw icon
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -208,8 +202,8 @@ void CeLTE_VideoDlg::OnPaint()
 	}
 }
 
-//当用户拖动最小化窗口时系统调用此函数取得光标
-//显示。
+// The system calls this function to obtain the cursor
+// display when the user drag the minimized window.
 HCURSOR CeLTE_VideoDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -219,7 +213,7 @@ HCURSOR CeLTE_VideoDlg::OnQueryDragIcon()
 
 void CeLTE_VideoDlg::OnBnClickedButtonLogin()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	MoreSetting();
 	UpdateData(TRUE);
 
@@ -235,9 +229,7 @@ void CeLTE_VideoDlg::OnBnClickedButtonLogin()
 
 	strResult = m_eLTE_Player.ELTE_OCX_Load(eLTE_LOAD_OPERATE_MGR);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_Load"));
-
 	GetDlgItem(IDC_BUTTON_LOGIN)->EnableWindow(FALSE);
-	//EnableWindow(FALSE);
 
 	strResult = m_eLTE_Player.ELTE_OCX_Login(m_strName, m_strPasswd, m_strServerIP, m_strLocalIP, m_strSipPort);
 	iRet = GET_XML_RESULTE_CODE(strResult);
@@ -261,7 +253,7 @@ END_EVENTSINK_MAP()
 
 void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCTSTR pEventDataXml)
 {
-	// TODO: 在此处添加消息处理程序代码
+	
 	switch (ulEventType)
 	{
 	case EVENT_NOTIFY_USER_STATUS:	// notifyUserStatus
@@ -272,7 +264,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 
 			m_DcDlg.UpdateUserStatus(strUserID, iStatusValue);
 
-			// 显示视频回传当前状态
+			// current status of video backhaul
 			CString strEventMsg;
 			strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
 			if (iStatusValue == 4011)
@@ -309,9 +301,9 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			int iCallStatus = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("CallStatus"));
 			INT iResID = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("Callee"));
 			
-			if (3003 == iCallStatus /*|| 3006 == iCallStatus*/)
+			if (3003 == iCallStatus )
 			{
-				//视频回传接听（或者镜头切换中间过程）				
+				//video backhaul answer（Or lens switching intermediate process）				
 				UINT uiLocalVideoPort = GET_XML_ELEM_VALUE_UINT(pEventDataXml, _T("LocalVideoPort"));
 				UINT uiLocalAudioPort = GET_XML_ELEM_VALUE_UINT(pEventDataXml, _T("LocalAudioPort"));
 				UINT uiRemoteVideoPort = GET_XML_ELEM_VALUE_UINT(pEventDataXml, _T("RemoteVideoPort"));
@@ -326,8 +318,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			}
 			else if (3011 == iCallStatus)
 			{
-				//终端视频上传或者视频分发
-
+				//Terminal video upload or video distribution
 				CString strResID = GET_XML_ELEM_VALUE_STR(pEventDataXml, _T("Uri"));
 				CString strMuteType = GET_XML_ELEM_VALUE_STR(pEventDataXml, _T("SoundMute"));
 
@@ -336,21 +327,22 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			}
 			else if (3009 == iCallStatus)
 			{
-				//视频回传挂断（或者镜头切换中间过程）
+				//Video back to hang up（Or lens switching intermediate process）
 				m_DcDlg.RealPlayHangup(iResID);
 			}
 			else if (3021 == iCallStatus || 3013 == iCallStatus || 3008 == iCallStatus)
 			{
-				//连接失败、对方忙、对方挂断
+				//connect fail、busy、hang up
 				if(3008 == iCallStatus)
 				{
-					//对于回传和视频分发给本调度台的视频，如果对方关闭的话，应该从Uri获取相应的视频resid
+					// For the distribution of return and video to the dispatching station video, 
+					// if the other party closed, should obtain the corresponding video from Uri resid
 					iResID = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("Uri"));
 				}
 				m_DcDlg.RealPlayNotConnected(iResID, iCallStatus);
 			}
 
-			// 显示视频回传当前状态
+			// show current status of video backhaul
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Camera:%d 【"), iCallStatus, iResID);
 			if (3001 == iCallStatus)
@@ -397,7 +389,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			{
 				strEventMsg.Append(_T("NotSupported."));
 			}
-			// 回调事件消息显示
+			// Callback event message display
 			strEventMsg.Append(_T("】\r\n"));
 			strEventMsg.Insert(0,GetTimeString());
 			m_DcDlg.m_strEvent1.Append(strEventMsg);
@@ -409,7 +401,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			int iType = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusType"));
 			int iValue = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusValue"));
 
-			// 回调事件消息显示
+			// Callback event message display
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
 			strEventMsg.Insert(0,GetTimeString());
@@ -435,7 +427,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 						}
 					}
 				}
-				// 登陆失败
+				// login fail
 				else if (STATUS_REGFAIL == iValue)
 				{
 					if (!m_bIsLogin)
@@ -445,7 +437,6 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 					}
 					else
 					{
-						//MessageBox(_T("login success."));
 						strEventMsg.Append(_T("login success."));
 						//logout
 						m_bIsLogin = FALSE;
@@ -458,7 +449,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 					MessageBox(_T("resource unauthority."));
 					strEventMsg.Append(_T("resource unauthority."));
 				}
-				// 账号错误
+				// account error
 				else if (STATUS_NOT_FOUND == iValue)
 				{
 					MessageBox(_T("account or password error."));
@@ -476,7 +467,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 					MessageBox(_T("resource conflict."));
 					strEventMsg.Append(_T("resource conflict."));
 				}
-				// 4017 STATUS_UNAUTHORIZED 未鉴权（login processing）
+				// 4017 STATUS_UNAUTHORIZED Without authentication（login processing）
 				else if (STATUS_UNAUTHORIZED == iValue)
 				{
 					if (!m_bIsLogin)
@@ -495,7 +486,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 					strEventMsg.Append(_T("License Limited."));
 				}
 
-				// 登陆失败则退出MFC程序
+				// login fail then exit MFC program
 				if (STATUS_REGOK != iValue && STATUS_UNAUTHORIZED != iValue)
 				{
 					ShowWindow(SW_HIDE);
@@ -505,38 +496,34 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 
 			if(GRPCALLSTATUS == iType)
 			{
-				// 组活动状态
+				// Group active state
 				if (STATUS_GROUP_ACTIVATED == iValue)
 				{
-					//MessageBox(_T("组活动状态."));
+					//MessageBox(_T("Group active."));
 					strEventMsg.Append(_T("Group Call Active."));
 				}
-				//  组非活动状态
+				//  Group deactive state
 				else if (STATUS_GROUP_DEACTIVATED == iValue)
 				{
-					//MessageBox(_T("组非活动状态."));
+					//MessageBox(_T("Group deactive."));
 					strEventMsg.Append(_T("Group Call Deactive."));
 				}
 			}
 
-			if (RESASSIGNSTATUS == iType)//群组订阅
+			if (RESASSIGNSTATUS == iType)//group subscribe
 			{
-				if (STATUS_ASSIGNED == iValue)//订阅成功
+				if (STATUS_ASSIGNED == iValue)//subscribe success
 				{
 					CString strMsg;
 					strMsg.Format(_T("Group [%s]Subscribe success."), strResId);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				else if (STATUS_DEASSIGNED == iValue)//去订阅成功
+				else if (STATUS_DEASSIGNED == iValue)//unsubscribe success
 				{
 					CString strMsg;
-					strMsg.Format(_T("Group[%s]Unsubscribe success."), strResId);					
-					//删除tempGroup
-					//m_DcDlg.RemoveGroup(StrToInt(strResId));
-					//获取选中项信息
-					GroupInfo* pInfo = NULL;
-					//Instance().m_DConsoleDlg.GetSelGroupInfo(&pInfo);
+					strMsg.Format(_T("Group[%s]Unsubscribe success."), strResId);
+					GroupInfo* pInfo = NULL;					
 					CString szItemroot(strResId);
 					szItemroot.Append(_T(" [tempGroup]"));
 					HTREEITEM htiRes = m_DcDlg.FindStrGroupInfo(szItemroot, &pInfo);
@@ -545,7 +532,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 					{
 						if ("-1" == pInfo->GroupCategory)
 						{
-							//删除tempGroup
+							//delete tempGroup
 							m_DcDlg.RemoveGroup(StrToInt(strResId));
 						}					
 					}
@@ -554,7 +541,7 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 				}
 			}
 
-			// 回调事件消息显示
+			// Callback event message display
 			strEventMsg.Append(_T("】\r\n"));
 			m_DcDlg.m_strEvent2.Append(strEventMsg);
 		}
@@ -572,14 +559,14 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 		break;
 	case EVENT_NOTIFY_PROVISION_ALLRESYNC: // notifyProvisionAllResync
 		{
-			//开始初始化ProvMgr
+			//start initial ProvMgr
 			m_DcDlg.InitDlg();
 
 			CString strEventMsg = GetTimeString();
 			strEventMsg.Append(_T("notifyProvisionAllResync\r\n"));
 			m_DcDlg.m_strEvent4.Append(strEventMsg);
 
-			// 初始化MRS
+			// initial MRS
 			if(!m_bClose)
 			{
 				CString strResult = m_eLTE_Player.ELTE_OCX_ProvisionManagerInitMRS(m_strMRSIP);
@@ -599,7 +586,8 @@ void CeLTE_VideoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			CString strEventMsg;
 			strEventMsg.Format(_T("ResouceID:%s ModuleType:%d ModuleStatus:%d CallBackMsgType:%d ModulePara:%s"), strResourceID, iModuleType, iModuleStatus, iCallBackMsgType, strModulePara);
 			strEventMsg.Insert(0,GetTimeString());
-			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // 被踢下线
+			 // kick off
+			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF)
 			{
 				CString strMsg;
 				strMsg.Format(_T("user【%s】login somewhere else\r\n%s"), m_strName, strModulePara);
@@ -621,22 +609,16 @@ void CeLTE_VideoDlg::MoreSetting()
 	//	return;
 
 	UpdateData(TRUE);
-	// 设置日志参数
+	// set log parameter
 	m_eLTE_Player.ELTE_OCX_SetLogLevel(0);
 	m_eLTE_Player.ELTE_OCX_SetLogPath(m_strLogSavePath);
 
-	// 设置logo路径
-/*	if (!m_strBGLogoPath.IsEmpty())
-	{
-		m_eLTE_Player.ELTE_OCX_UploadLogo(m_strBGLogoPath);
-	}
-*/
-	// 获取版本
+	// get version
 	CString strResult = m_eLTE_Player.ELTE_OCX_GetVersion(eLTE_VERSION_OCX);//1 ocx, 2 SDK
 	CString strVersion = GET_XML_ELEM_VALUE_STR(strResult, _T("Version"));
 	CString strText;
 	strText.Format(_T("DConsole    [%s]"), strVersion);
-	m_DcDlg.SetWindowText(strText);
+	//m_DcDlg.SetWindowText(strText);
 }
 
 BOOL CeLTE_VideoDlg::WriteIniFile()
@@ -733,7 +715,6 @@ BOOL CeLTE_VideoDlg::ReadIniFile()
 
 void CeLTE_VideoDlg::OnClose()
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	m_eLTE_Player.ELTE_OCX_Logout(m_strName);
 	static bool bShowKickOff = FALSE;
 
@@ -762,7 +743,7 @@ void CeLTE_VideoDlg::OnClose()
 
 BOOL CeLTE_VideoDlg::ELTE_OCX_PlayerEventEltePlayerctrl1(UINT CtlID, unsigned long ulEventType, LPCTSTR pEventDataXml)
 {
-	// TODO: 在此处添加消息处理程序代码
+	
 	m_DcDlg.ELTE_PlayerEvent(CtlID, ulEventType, pEventDataXml);
 
 	return TRUE;

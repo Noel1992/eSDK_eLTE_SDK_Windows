@@ -50,7 +50,7 @@ END_MESSAGE_MAP()
 
 void UnDispatchParamDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	((CEdit*)GetDlgItem(IDC_EDIT_USERORRESID))->GetWindowText(m_pUnDispatchParamInfo->strUsrId);
 
 	CDialogEx::OnOK();
@@ -70,6 +70,6 @@ BOOL UnDispatchParamDlg::OnInitDialog()
 
 void UnDispatchParamDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }

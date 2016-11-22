@@ -35,7 +35,6 @@ public:
 private:
 	CString m_filePath;
 	CString m_receiver;
-//	CString m_message;
 public:
 	CString m_message;
 private:

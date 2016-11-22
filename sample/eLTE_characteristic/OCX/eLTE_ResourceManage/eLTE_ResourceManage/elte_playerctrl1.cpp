@@ -1,9 +1,3 @@
-// 计算机生成了由 Microsoft Visual C++ 创建的 IDispatch 包装类
-
-// 注意: 不要修改此文件的内容。如果此类由
-//  Microsoft Visual C++ 重新生成，您的修改将被覆盖。
-
-
 #include "stdafx.h"
 #include "elte_playerctrl1.h"
 
@@ -13,7 +7,7 @@
 IMPLEMENT_DYNCREATE(CElte_playerctrl1, CWnd)
 
 /////////////////////////////////////////////////////////////////////////////
-// CElte_playerctrl1 属性
+// CElte_playerctrl1 properties
 
 /////////////////////////////////////////////////////////////////////////////
-// CElte_playerctrl1 操作
+// CElte_playerctrl1 operation

@@ -87,6 +87,6 @@ public:
 	static int m_iBypass;
 	CString m_strMRSIP;
 	bool m_bClose;
-	CString m_strKickOff;   // ”√ªß±ªº∑µÙ
+	CString m_strKickOff;   // user was kicked off
 	CComboBox m_comboLocalIP;
 };

@@ -87,8 +87,7 @@ void CVideoDlg::OnBnClickedOk()
 		
 		{
 			Sleep(200);
-			//进行静音操作，与按钮状态保持一致 
-
+			//mute
 			CString strMuteParam;
 			strMuteParam.Append(_T("<Content>"));
 			strMuteParam.Append(_T("<MuteParam>"));
@@ -98,7 +97,6 @@ void CVideoDlg::OnBnClickedOk()
 			strMuteParam.Append(_T("</MuteParam>"));
 			strMuteParam.Append(_T("</Content>"));
 
-			//param.uiState &= ~STATE_ISUNMUTE;
 			strRst = m_peLTE_Player->ELTE_OCX_VolMute(m_strResId, strMuteParam);
 			CHECK_RESULTE_CODE(strRst, _T("ELTE_OCX_VolMute"));
 

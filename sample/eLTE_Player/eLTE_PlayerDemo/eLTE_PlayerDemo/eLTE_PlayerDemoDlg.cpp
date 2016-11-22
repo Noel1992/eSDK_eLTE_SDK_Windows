@@ -140,7 +140,7 @@ BOOL CeLTE_PlayerDemoDlg::OnInitDialog()
 
 	// TODO: Add extra initialization here
 
-	// 坐标设置
+	// Coordinate setting
 	/*GetWindowRect(&m_RectMax);
 	m_RectMin = m_RectMax;
 	CRect rt;
@@ -148,7 +148,7 @@ BOOL CeLTE_PlayerDemoDlg::OnInitDialog()
 	m_RectMin.right = rt.left;
 	SetWindowPos(NULL,0,0,m_RectMin.Width(),m_RectMin.Height(),SWP_NOMOVE);	*/
 
-	//// 设置工作目录
+	//// Set working directory
 	//TCHAR tchPath[MAX_PATH] = {0};
 	//GetModuleFileName(NULL, tchPath, MAX_PATH);
 	//CString szPath(tchPath);
@@ -165,7 +165,7 @@ BOOL CeLTE_PlayerDemoDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// Initialize login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -176,7 +176,7 @@ BOOL CeLTE_PlayerDemoDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// Initial log information
 	m_strLogSavePath = _T(".\\log");
 	m_cmbLogLevel.InsertString(0, _T("Error"));
 	m_cmbLogLevel.InsertString(0, _T("Warn"));
@@ -185,7 +185,7 @@ BOOL CeLTE_PlayerDemoDlg::OnInitDialog()
 	m_cmbLogLevel.SetCurSel(0);
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_PlayerDemoDlg(this);
 	m_DcDlg.SetELtePlayer(&m_eLTE_Player);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
@@ -261,7 +261,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 
 			m_DcDlg.UpdateUserStatus(strUserID, iStatusValue);
 
-			// 显示视频回传当前状态
+			// Return the current state of video display
 			CString strEventMsg;
 			strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
 			if (iStatusValue == 4011)
@@ -300,7 +300,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			
 			if (3003 == iCallStatus /*|| 3006 == iCallStatus*/)
 			{
-				//视频回传接听（或者镜头切换中间过程）				
+				//Video return answer（Or lens switching intermediate process）				
 				UINT uiLocalVideoPort = GET_XML_ELEM_VALUE_UINT(pEventDataXml, _T("LocalVideoPort"));
 				UINT uiLocalAudioPort = GET_XML_ELEM_VALUE_UINT(pEventDataXml, _T("LocalAudioPort"));
 				UINT uiRemoteVideoPort = GET_XML_ELEM_VALUE_UINT(pEventDataXml, _T("RemoteVideoPort"));
@@ -347,7 +347,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			}
 			else if (3011 == iCallStatus)
 			{
-				//终端视频上传或者视频分发
+				//Terminal video upload or video distribution
 
 				CString strResID = GET_XML_ELEM_VALUE_STR(pEventDataXml, _T("Uri"));
 				CString strMuteType = GET_XML_ELEM_VALUE_STR(pEventDataXml, _T("SoundMute"));
@@ -357,21 +357,21 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			}
 			else if (3009 == iCallStatus)
 			{
-				//视频回传挂断（或者镜头切换中间过程）
+				//Video back to hang up（Or lens switching intermediate process）
 				m_DcDlg.RealPlayHangup(iResID);
 			}
 			else if (3021 == iCallStatus || 3013 == iCallStatus || 3008 == iCallStatus)
 			{
-				//连接失败、对方忙、对方挂断
+				//connect fail、busy、refused
 				if(3008 == iCallStatus)
 				{
-					//对于回传和视频分发给本调度台的视频，如果对方关闭的话，应该从Uri获取相应的视频resid
+					//if the other side refused the backhaul or dispatch video, We should get video resid from Uri
 					iResID = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("Uri"));
 				}
 				m_DcDlg.RealPlayNotConnected(iResID, iCallStatus);
 			}
 
-			// 显示视频回传当前状态
+			// Return the current state of video display
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Camera:%d 【"), iCallStatus, iResID);
 			if (3001 == iCallStatus)
@@ -418,7 +418,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			{
 				strEventMsg.Append(_T("NotSupported."));
 			}
-			// 回调事件消息显示
+			// Callback event message display
 			strEventMsg.Append(_T("】\r\n"));
 			strEventMsg.Insert(0,GetTimeString());
 			m_DcDlg.m_strEvent1.Append(strEventMsg);
@@ -430,7 +430,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			int iType = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusType"));
 			int iValue = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusValue"));
 
-			// 回调事件消息显示
+			// Callback event message display
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
 			strEventMsg.Insert(0,GetTimeString());
@@ -461,7 +461,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 						strEventMsg.Append(_T("login success."));
 					}*/
 				}
-				// 登陆失败
+				// login failed
 				else if (STATUS_REGFAIL == iValue)
 				{
 					if (!m_bIsLogin)
@@ -478,57 +478,57 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 					}
 					//return;
 				}
-				// 资源未授权
+				// Resource not authorized
 				else if (STATUS_FORBIDEN == iValue)
 				{
-					MessageBox(_T("资源未授权."));
-					strEventMsg.Append(_T("资源未授权."));
+					MessageBox(_T("Resource not authorized."));
+					strEventMsg.Append(_T("Resource not authorized."));
 				}
-				// 账号错误
+				// Account error
 				else if (STATUS_NOT_FOUND == iValue)
 				{
-					MessageBox(_T("账号或者密码错误."));
-					strEventMsg.Append(_T("账号或者密码错误."));
+					MessageBox(_T("User or password error."));
+					strEventMsg.Append(_T("User or password error."));
 				}
-				// 资源暂时不可用
+				// resource not available
 				else if (STATUS_TEMP_UNAVAILABLE == iValue)
 				{
-					MessageBox(_T("资源暂时不可用."));
-					strEventMsg.Append(_T("资源暂时不可用."));
+					MessageBox(_T("resource not available."));
+					strEventMsg.Append(_T("resource not available."));
 				}
-				// 资源冲突
+				// resource conflict
 				else if (STATUS_RES_CONFILCT == iValue)
 				{
-					MessageBox(_T("资源冲突."));
-					strEventMsg.Append(_T("资源冲突."));
+					MessageBox(_T("resource conflict."));
+					strEventMsg.Append(_T("resource conflict."));
 				}
-				// 4017 STATUS_UNAUTHORIZED 未鉴权（登陆中间状态）
+				// 4017 STATUS_UNAUTHORIZED not authorized（Landing intermediate state）
 				else if (STATUS_UNAUTHORIZED == iValue)
 				{
 					if (!m_bIsLogin)
 					{
-						strEventMsg.Append(_T("未鉴权（登陆中间状态）."));
+						strEventMsg.Append(_T("not authorized（Landing intermediate state）."));
 					}
 					else
 					{
-						strEventMsg.Append(_T("未鉴权（登陆中间状态）(Heartbeat check)."));
+						strEventMsg.Append(_T("not authorized（Landing intermediate state）(Heartbeat check)."));
 					}
 				}
-				// License限制
+				// License limit
 				else if (STATUS_LICENSE_LIMIT == iValue)
 				{
-					MessageBox(_T("License限制."));
-					strEventMsg.Append(_T("License限制."));
+					MessageBox(_T("License limit."));
+					strEventMsg.Append(_T("License limit."));
 				}
-				// 安全红线
-				//// 密码错误
+				// Safety red line
+				//// password error
 				//else if (STATUS_PASSWORD_WRONG == iValue)
 				//{
-				//	MessageBox(_T("密码错误."));
-				//	strEventMsg.Append(_T("密码错误."));
+				//	MessageBox(_T("password error."));
+				//	strEventMsg.Append(_T("password error."));
 				//}
 
-				// 登陆失败则退出MFC程序
+				// login failed then exit MFC program
 				if (STATUS_REGOK != iValue && STATUS_UNAUTHORIZED != iValue)
 				{
 					ShowWindow(SW_HIDE);
@@ -538,47 +538,47 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 
 			if(GRPCALLSTATUS == iType)
 			{
-				// 组活动状态
+				// Group actived
 				if (STATUS_GROUP_ACTIVATED == iValue)
 				{
-					//MessageBox(_T("组活动状态."));
-					strEventMsg.Append(_T("组呼活动状态."));
+					//MessageBox(_T("Group actived."));
+					strEventMsg.Append(_T("Group actived"));
 				}
-				//  组非活动状态
+				//  Group deactived
 				else if (STATUS_GROUP_DEACTIVATED == iValue)
 				{
-					//MessageBox(_T("组非活动状态."));
-					strEventMsg.Append(_T("组呼非活动状态."));
+					//MessageBox(_T("Group deactived."));
+					strEventMsg.Append(_T("Group deactived."));
 				}
 			}
 
-			if (RESASSIGNSTATUS == iType)//群组订阅
+			if (RESASSIGNSTATUS == iType)//Group subscription
 			{
-				if (STATUS_ASSIGNED == iValue)//订阅成功
+				if (STATUS_ASSIGNED == iValue)//Subscription success
 				{
 					CString strMsg;
-					strMsg.Format(_T("群组[%s]订阅成功."), strResId);
+					strMsg.Format(_T("group [%s]subscribe success."), strResId);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				else if (STATUS_DEASSIGNED == iValue)//去订阅成功
+				else if (STATUS_DEASSIGNED == iValue)//unsubscribe success
 				{
 					CString strMsg;
-					strMsg.Format(_T("群组[%s]去订阅成功."), strResId);					
-					//删除临时组
+					strMsg.Format(_T("group [%s]unsubscribe success."), strResId);					
+					//delete temporary group 
 					//m_DcDlg.RemoveGroup(StrToInt(strResId));
-					//获取选中项信息
+					//Get selected item information
 					GroupInfo* pInfo = NULL;
 					//Instance().m_DConsoleDlg.GetSelGroupInfo(&pInfo);
 					CString szItemroot(strResId);
-					szItemroot.Append(_T(" [临时组]"));
+					szItemroot.Append(_T(" [TempGroup]"));
 					HTREEITEM htiRes = m_DcDlg.FindStrGroupInfo(szItemroot, &pInfo);
 
 					if ( (NULL != pInfo)&& (NULL != htiRes))
 					{
 						if ("-1" == pInfo->GroupCategory)
 						{
-							//删除临时组
+							//delete temporary group
 							m_DcDlg.RemoveGroup(StrToInt(strResId));
 						}					
 					}
@@ -587,7 +587,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 				}
 			}
 
-			if (USERDGNASTATUS == iType)//动态重组
+			if (USERDGNASTATUS == iType)//dynamic group
 			{
 				int iCause = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("Cause"));
 				int iGroup = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("AttachingGroup"));
@@ -596,43 +596,42 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 					CString strtemp = m_DcDlg.m_ModifyDGNAGroupId;
 					iGroup = StrToInt(strtemp);
 				}
-				if (STATUS_DGNAFAIL == iValue)//创建失败
+				if (STATUS_DGNAFAIL == iValue)//create failed
 				{
 					CString strMsg;
-					strMsg.Format(_T("动态群组[%d]创建失败.失败原因=%d"), iGroup, iCause);
+					strMsg.Format(_T("Dynamic group [%d]create failed.errorCode=%d"), iGroup, iCause);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				else if (STATUS_DGNAOK == iValue)//创建成功
+				else if (STATUS_DGNAOK == iValue)//create success
 				{
 					CString strMsg;
-					strMsg.Format(_T("动态群组[%d]成功."), iGroup);
+					strMsg.Format(_T("Dynamic group [%d]success."), iGroup);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 					m_DcDlg.RemoveGroup(iGroup);
 					m_DcDlg.AddGroup(iGroup);
 				}
-				else if (STATUS_DGNA_UEFAIL == iValue)//动态组某些UE重组失败
+				else if (STATUS_DGNA_UEFAIL == iValue)//dynamic group UE reorganization failed
 				{
 					CString strMsg;
-					//strMsg.Format(_T("动态重组[%d]UE[%s]重组失败.失败原因=%d"), iGroup, strResId, iCause);
 					if (iCause == -20044)
 					{
 						strMsg.Append(_T("【"));
 						strMsg.Append(strResId);
-						strMsg.Append(_T("未注册】"));
+						strMsg.Append(_T("unregistered】"));
 						m_DcDlg.AddGroup(iGroup);
 					}
 					else if (iCause == -20042)
 					{
 						strMsg.Append(_T("【"));
 						strMsg.Append(strResId);
-						strMsg.Append(_T("超时】"));
+						strMsg.Append(_T("timeout】"));
 						m_DcDlg.AddGroup(iGroup);
 					}
 					else
 					{
-						strMsg.Format(_T("动态群组[%d]UE[%s]重组失败.失败原因=%d,请稍后再试"), iGroup, strResId, iCause);
+						strMsg.Format(_T("Dynamic group [%d]UE[%s]fail.errorCode=%d,please try it later"), iGroup, strResId, iCause);
 					}
 					m_DcDlg.RemoveGroup(iGroup);
 					Sleep(2000);
@@ -642,75 +641,75 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 				}
 			}
 
-			//派接组
+			//patch group
 			if (GRPPATCHSTATUS == iType)
 			{
 				int iCause = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("Cause"));
 				int iGroupID = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("ResourceID"));
 				int iMemberID = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("MemberID"));
-				if(STATUS_GRPPATCH_CREATEOK == iValue)//创建成功
+				if(STATUS_GRPPATCH_CREATEOK == iValue)//create success
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]创建成功."), iGroupID);
+					strMsg.Format(_T("PatchGroup[%d]create success."), iGroupID);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 					m_DcDlg.AddPatchGroup(iGroupID);
 				}
-				else if(STATUS_GRPPATCH_CREATEFAIL == iValue)//创建失败
+				else if(STATUS_GRPPATCH_CREATEFAIL == iValue)//create failed
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]创建失败.失败原因=%d"), iGroupID, iCause);
+					strMsg.Format(_T("PatchGroup[%d]create failed.errorCode=%d"), iGroupID, iCause);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				if(STATUS_GRPPATCH_CANCELOK == iValue)//删除成功
+				if(STATUS_GRPPATCH_CANCELOK == iValue)//delete success
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]删除成功."), iGroupID);
+					strMsg.Format(_T("PatchGroup[%d]delete success."), iGroupID);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 					m_DcDlg.RemovePatchGroup(iGroupID);
 				}
-				else if(STATUS_GRPPATCH_CANCELFAIL == iValue)//删除失败
+				else if(STATUS_GRPPATCH_CANCELFAIL == iValue)//delete failed
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]删除失败.失败原因=%d"), iGroupID, iCause);
+					strMsg.Format(_T("PatchGroup[%d]delete fail.errorCode=%d"), iGroupID, iCause);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				if(STATUS_GRPPATCH_ADDOK == iValue)//添加成员成功
+				if(STATUS_GRPPATCH_ADDOK == iValue)//add member success
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]添加成员成功."), iGroupID);
+					strMsg.Format(_T("PatchGroup[%d]add member success."), iGroupID);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 					m_DcDlg.AddPatchGroupMember(iGroupID, iMemberID);
 				}
-				else if(STATUS_GRPPATCH_ADDFAIL == iValue)//添加成员失败
+				else if(STATUS_GRPPATCH_ADDFAIL == iValue)//add member failed
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]添加成员失败.失败原因=%d"), iGroupID, iCause);
+					strMsg.Format(_T("PatchGroup[%d]add member fail.errorCode=%d"), iGroupID, iCause);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				if(STATUS_GRPPATCH_DELOK == iValue)//删除成员成功
+				if(STATUS_GRPPATCH_DELOK == iValue)//delete member success
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]删除成员成功."), iGroupID);
+					strMsg.Format(_T("PatchGroup[%d]delete mamber success."), iGroupID);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 					m_DcDlg.DelPatchGroupMember(iGroupID, iMemberID);
 				}
-				else if(STATUS_GRPPATCH_DELFAIL == iValue)//删除成员失败
+				else if(STATUS_GRPPATCH_DELFAIL == iValue)//delete member failed
 				{
 					CString strMsg;
-					strMsg.Format(_T("派接组[%d]删除成员失败.失败原因=%d"), iGroupID, iCause);
+					strMsg.Format(_T("PatchGroup[%d]delete member fail.errorCode=%d"), iGroupID, iCause);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
 			}
 
-			// 回调事件消息显示
+			// Callback event message display
 			strEventMsg.Append(_T("】\r\n"));
 			m_DcDlg.m_strEvent2.Append(strEventMsg);
 		}
@@ -728,14 +727,14 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 		break;
 	case EVENT_NOTIFY_PROVISION_ALLRESYNC: // notifyProvisionAllResync
 		{
-			//开始初始化ProvMgr
+			//start initialize ProvMgr
 			m_DcDlg.InitDlg();
 
 			CString strEventMsg = GetTimeString();
 			strEventMsg.Append(_T("notifyProvisionAllResync\r\n"));
 			m_DcDlg.m_strEvent4.Append(strEventMsg);
 
-			// 初始化MRS
+			// initialize MRS
 			if(!m_bClose)
 			{
 				CString strResult = m_eLTE_Player.ELTE_OCX_ProvisionManagerInitMRS(m_strMRSIP);
@@ -755,64 +754,64 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			strEventMsg.Insert(0,GetTimeString());
 			if (P2P_IND_STATUS_EMERGENCY == iType)
 			{
-				// 紧急呼叫
-				strEventMsg.Append(_T(" 【紧急呼叫】\r\n"));
+				// emergency call
+				strEventMsg.Append(_T(" 【emergency call】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_PROCEEDING == iType)
 			{
-				strEventMsg.Append(_T(" 【处理中】\r\n"));
+				strEventMsg.Append(_T(" 【proceeding】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_REMOTE_NOTCONNECTED == iType)
 			{
-				strEventMsg.Append(_T(" 【远端未连接】\r\n"));
+				strEventMsg.Append(_T(" 【remoteNotConnected】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_RINGING == iType)
 			{
-				strEventMsg.Append(_T(" 【响铃中】\r\n"));
+				strEventMsg.Append(_T(" 【Ringing】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_ANSWERED == iType)
 			{
-				strEventMsg.Append(_T(" 【对方已应答】\r\n"));
+				strEventMsg.Append(_T(" 【Answered】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_ACKED == iType)
 			{
-				strEventMsg.Append(_T(" 【已接通】\r\n"));
+				strEventMsg.Append(_T(" 【Acked】\r\n"));
 				m_DcDlg.SetCaller(strCaller, 1);
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_PREMPTED == iType)
 			{
-				strEventMsg.Append(_T(" 【被抢话】\r\n"));
+				strEventMsg.Append(_T(" 【Prempted】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_HANGUPED == iType)
 			{
-				strEventMsg.Append(_T(" 【对方已挂断】\r\n"));
+				strEventMsg.Append(_T(" 【Hanguped】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_PICKEDUP == iType)
 			{
-				strEventMsg.Append(_T(" 【本端已摘机】\r\n"));
+				strEventMsg.Append(_T(" 【Pickedup】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_RELEASED_BUSY == iType)
 			{
-				strEventMsg.Append(_T(" 【对方忙】\r\n"));
+				strEventMsg.Append(_T(" 【ReleasedBusy】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_HANGUPED_ACTIVE == iType)
 			{
-				strEventMsg.Append(_T(" 【结束通话】\r\n"));
+				strEventMsg.Append(_T(" 【HangupedActive】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else if (P2P_IND_STATUS_RECEIVED == iType)
 			{
-				strEventMsg.Append(_T(" 【有来电】\r\n"));
+				strEventMsg.Append(_T(" 【Received】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 
 				int iDiscreetListenee = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("DiscreetListenee"));
@@ -830,7 +829,7 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			}
 			else if (P2P_IND_STATUS_REMOTE_NOANSWER == iType)
 			{
-				strEventMsg.Append(_T(" 【对方无应答】\r\n"));
+				strEventMsg.Append(_T(" 【RemoteNoanswer】\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
 			}
 			else
@@ -851,54 +850,54 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			strEventMsg.Insert(0,GetTimeString());
 			if (PTT_IND_STATUS_EMERGENCY_BEGIN == iType)
 			{
-				// 紧急呼叫
-				strEventMsg.Append(_T(" 【紧急呼叫】\r\n"));
+				// emergency call
+				strEventMsg.Append(_T(" 【emergency call】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_SNATCH == iType)
 			{
-				strEventMsg.Append(_T(" 【组呼建立成功】\r\n"));
+				strEventMsg.Append(_T(" 【Group Call Build Success】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_TX_BEGIN == iType)
 			{
-				strEventMsg.Append(_T(" 【话权变更】\r\n"));
+				strEventMsg.Append(_T(" 【Speaker Change】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_TX_IDLE == iType)
 			{
-				strEventMsg.Append(_T(" 【话权空闲】\r\n"));
+				strEventMsg.Append(_T(" 【Speaker idle】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_ACCEPT == iType)
 			{
-				strEventMsg.Append(_T(" 【释放话权接受】\r\n"));
+				strEventMsg.Append(_T(" 【Release speaker】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_REJECT == iType)
 			{
-				strEventMsg.Append(_T(" 【抢权拒绝】\r\n"));
+				strEventMsg.Append(_T(" 【Reject】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_HANGUP_OK == iType)
 			{
-				strEventMsg.Append(_T(" 【退出组呼成功】\r\n"));
+				strEventMsg.Append(_T(" 【Hangup success】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_CLOSE_OK == iType)
 			{
-				strEventMsg.Append(_T(" 【组呼结束】\r\n"));
+				strEventMsg.Append(_T(" 【Close】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_LICENSE_LIMIT == iType)
 			{
-				strEventMsg.Append(_T(" 【不被许可】\r\n"));
+				strEventMsg.Append(_T(" 【LicanseLimit】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else if (PTT_IND_STATUS_CANCEL_OK == iType)
 			{
-				// 紧急呼叫
-				strEventMsg.Append(_T(" 【组呼建立失败】\r\n"));
+				// emergency call
+				strEventMsg.Append(_T(" 【CancelOK】\r\n"));
 				m_DcDlg.m_strEvent6.Append(strEventMsg);
 			}
 			else
@@ -919,11 +918,11 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			CString strEventMsg;
 			strEventMsg.Format(_T("ResouceID:%s ModuleType:%d ModuleStatus:%d CallBackMsgType:%d ModulePara:%s"), strResourceID, iModuleType, iModuleStatus, iCallBackMsgType, strModulePara);
 			strEventMsg.Insert(0,GetTimeString());
-			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // 被踢下线
+			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // kick off
 			{
 				CString strMsg;
-				strMsg.Format(_T("用户【%s】已经在别处登录\r\n%s"), m_strName, strModulePara);
-				strEventMsg.Append(_T(" 【被踢下线】"));
+				strMsg.Format(_T("User【%s】login somewhere else\r\n%s"), m_strName, strModulePara);
+				strEventMsg.Append(_T(" 【kick off】"));
 				m_strKickOff = strMsg;
 				PostMessage(WM_CLOSE);
 			}
@@ -955,26 +954,26 @@ void CeLTE_PlayerDemoDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventTyp
 			CString strTriggerCode;
 			if(0 == iTriggerCode)
 			{
-				strTriggerCode = _T("周期上报");
+				strTriggerCode = _T("Periodic reporting");
 			}
 			else if(1 == iTriggerCode)
 			{
-				strTriggerCode = _T("特定事件, 紧急呼叫");
+				strTriggerCode = _T("Specific event, emergency call");
 			}
 
 			int iReportStatus = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("ReportStatus"));
 			CString strReportStatus;
 			if(0 == iReportStatus)
 			{
-				strReportStatus = _T("GPS正常开启");
+				strReportStatus = _T("GPS start success");
 			}
 			else if(1 == iReportStatus)
 			{
-				strReportStatus = _T("GPS搜星失败");
+				strReportStatus = _T("GPS search fail");
 			}
 			else if(2 == iReportStatus)
 			{
-				strReportStatus = _T("其他异常");
+				strReportStatus = _T("other exception");
 			}
 
 			CString strEventMsg;
@@ -1051,9 +1050,9 @@ void CeLTE_PlayerDemoDlg::OnClose()
 
 void CeLTE_PlayerDemoDlg::OnBnClickedButtonLogin()
 {
-	// TODO: Add your control notification handler code here
 	
-	//登陆前其他非必须参数设置
+	
+	//Other non essential parameter settings before login
 	MoreSetting();
 	UpdateData(TRUE);
 
@@ -1210,22 +1209,22 @@ void CeLTE_PlayerDemoDlg::MoreSetting()
 	//	return;
 
 	UpdateData(TRUE);
-	// 设置日志参数
+	// set log parameter
 	m_eLTE_Player.ELTE_OCX_SetLogLevel(m_cmbLogLevel.GetCurSel());
 	m_eLTE_Player.ELTE_OCX_SetLogPath(m_strLogSavePath);
 
-	// 设置logo路径
+	// set logo path
 	if (!m_strBGLogoPath.IsEmpty())
 	{
 		m_eLTE_Player.ELTE_OCX_UploadLogo(m_strBGLogoPath);
 	}
 
-	// 获取版本
+	// get version
 	CString strResult = m_eLTE_Player.ELTE_OCX_GetVersion(eLTE_VERSION_OCX);//1 ocx, 2 SDK
 	CString strVersion = GET_XML_ELEM_VALUE_STR(strResult, _T("Version"));
 	CString strText;
 	strText.Format(_T("DConsole    [%s]"), strVersion);
-	m_DcDlg.SetWindowText(strText);
+	//m_DcDlg.SetWindowText(strText);
 }
 
 CString CeLTE_PlayerDemoDlg::GetTimeString()

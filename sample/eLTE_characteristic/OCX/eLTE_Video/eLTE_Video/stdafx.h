@@ -122,7 +122,6 @@ typedef std::vector<GroupInfo*> GroupInfoList;
 typedef std::vector<UserInfo*> UserInfoList;
 typedef std::vector<GroupUserInfo*> GroupUserInfoList;
 typedef std::list<CString> AttachFileList;	/** Attach file list */
-//typedef std::vector<CString> VideoChannelList;
 typedef std::map<CString, CString> VideoChannelList;
 
 struct DcInfo

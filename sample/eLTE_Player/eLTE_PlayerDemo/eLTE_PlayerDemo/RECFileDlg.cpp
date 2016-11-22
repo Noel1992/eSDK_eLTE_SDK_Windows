@@ -50,7 +50,7 @@ END_MESSAGE_MAP()
 
 void CRECFileDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	//CDialog::OnOK();
 
 	CString CallType, Caller, Callee, ResourceID, StartSec, EndSec;
@@ -62,7 +62,7 @@ void CRECFileDlg::OnBnClickedOk()
 	GetDlgItemText(IDC_EDIT_ENDSEC, EndSec);
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 		<Content>
 			<RECQueryInfo>
 				<CallType></CallType>
@@ -102,7 +102,7 @@ void CRECFileDlg::OnBnClickedOk()
 
 
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 		<ResultCode></ResultCode>
 		<RECFileInfoList>
@@ -125,7 +125,7 @@ void CRECFileDlg::OnBnClickedOk()
 
 void CRECFileDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	SetDlgItemText(IDC_EDIT_CALLTYPE, _T(""));
 	SetDlgItemText(IDC_EDIT_CALLER, _T(""));
 	SetDlgItemText(IDC_EDIT_CALLEE, _T(""));

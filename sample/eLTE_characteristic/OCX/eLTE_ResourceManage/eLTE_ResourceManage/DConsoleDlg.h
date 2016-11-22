@@ -111,9 +111,6 @@ public:
 	afx_msg void OnBnClickedButtonEvent6();
 
 public:
-	//void ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml);
-
-public:
 	void InitDlg();
 	void SetCeLTE_ResourceManageDlg(CDialog* pDlg)
 		{ m_pCeLTE_ResourceManageDlg = pDlg; }
@@ -127,11 +124,11 @@ public:
 	void RealPlayNotConnected(INT iResID, INT iCallStatus);
 	
 	void AddGroup(int iGroupID);
-	// 创建Patch Groupsuccess 后在群组列表中添加界面
+	// after create Patch Groupsuccess add interface
 	void AddPatchGroup(int iGroupID);
 	// delete Patch Group
 	void RemovePatchGroup(int iGroupID);
-	// 增加Patch Groupmember 
+	// add Patch Groupmember 
 	void AddPatchGroupMember(int groupId, int memberId);
 	// delete Patch Groupmember 
 	void DelPatchGroupMember(int groupId, int memberId);
@@ -153,11 +150,11 @@ private:
 	CString GetGroupCategoryString(const CString& strGroupCategory);
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void ClearDcGroupsTree();
-	// Patch Group列表数据清理
+	// clean Patch Group list data
 	void ClearPatchGroupsTree();
-	// 操作Patch Group
+	// opera Patch Group
 	void OperatePatchGroup(const CString& strDcID, const CString& strGroupID, const int& iOperateType, const CString& strGroupName = _T(""));
-	// 获取当前控件选中的组信息
+	// Gets the group information selected by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
 
 private:
@@ -212,6 +209,5 @@ public:
 	CComboBox m_cmbObjSel;
 	afx_msg void OnSelchangeComboObjsel();	
 	afx_msg void OnBnClickedButtonSearch();
-//	afx_msg void OnRclickListDcusers(NMHDR *pNMHDR, LRESULT *pResult);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

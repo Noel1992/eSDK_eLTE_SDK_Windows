@@ -1,18 +1,18 @@
 
-// eLTE_GIS.h : PROJECT_NAME 应用程序的主头文件
+// eLTE_GIS.h : PROJECT_NAME Main header file for the application
 //
 
 #pragma once
 
 #ifndef __AFXWIN_H__
-	#error "在包含此文件之前包含“stdafx.h”以生成 PCH 文件"
+	#error "Include "stdafx.h" in order to generate the PCH file before the file contains the file"
 #endif
 
-#include "resource.h"		// 主符号
+#include "resource.h"		// Main symbol
 
 
 // CeLTE_GISApp:
-// 有关此类的实现，请参阅 eLTE_GIS.cpp
+// The realization of such，see eLTE_GIS.cpp
 //
 
 class CeLTE_GISApp : public CWinApp
@@ -20,11 +20,11 @@ class CeLTE_GISApp : public CWinApp
 public:
 	CeLTE_GISApp();
 
-// 重写
+// rewrite
 public:
 	virtual BOOL InitInstance();
 
-// 实现
+// implement
 
 	DECLARE_MESSAGE_MAP()
 };

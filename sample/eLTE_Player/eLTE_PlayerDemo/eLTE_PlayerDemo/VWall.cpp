@@ -21,7 +21,6 @@ limitations under the License.*/
 
 
 // CVWall dialog
-
 IMPLEMENT_DYNAMIC(CVWall, CDialogEx)
 
 CVWall::CVWall(CWnd* pParent /*=NULL*/)
@@ -32,8 +31,6 @@ CVWall::CVWall(CWnd* pParent /*=NULL*/)
 
 CVWall::~CVWall()
 {
-	//delete StringList;
-	//StringList = nullptr;
 }
 
 void CVWall::DoDataExchange(CDataExchange* pDX)
@@ -51,15 +48,9 @@ BEGIN_MESSAGE_MAP(CVWall, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CVWall message handlers
-
-
 BOOL CVWall::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
-	// TODO:  Add extra initialization here
-
 	if (StringList != NULL)
 	{
 		VideoChannelList::iterator it;
@@ -70,9 +61,6 @@ BOOL CVWall::OnInitDialog()
 		//comboBox.SetCurSel(0);
 	}
 
-//	GetDlgItem(IDC_BUTTON_START)->EnableWindow(FALSE);
-//	GetDlgItem(IDC_BUTTON_STOP)->EnableWindow(FALSE);
-
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -80,21 +68,17 @@ BOOL CVWall::OnInitDialog()
 
 void CVWall::OnCbnSelchangeCombo1()
 {
-	// TODO: Add your control notification handler code here
+	
 	int iSel;
 	iSel = comboBox.GetCurSel();
 	comboBox.GetLBText(iSel,videoChannel);
-
 	CString strResult;
-
-	//刷新列表及状态
+	//Refresh list and status
 	strResult = m_peLTE_Player->ELTE_OCX_GetDcVWallIDList();
 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_GetDcVWallIDList"));
 	VideoChannelList* pStringList = getVideoChannelListPointer();
 	CXml::Instance().XmlParseVWallIDList(strResult, (*pStringList));
-
-	CString StrIDState = (*pStringList)[videoChannel];	
-
+	CString StrIDState = (*pStringList)[videoChannel];
 	if ("1" == StrIDState || "4023" == StrIDState)
 	{
 		GetDlgItem(IDC_STATIC_VIDSTATE)->SetWindowText(_T("Available"));
@@ -113,7 +97,7 @@ void CVWall::OnCbnSelchangeCombo1()
 		return;
 	}	
 
-	//资源回收
+	//Recycling
 	pStringList = NULL;	
 	
 }
@@ -123,29 +107,27 @@ void CVWall::OnBnClickedButtonStart()
 {
 	/************************************************************************/
 	/* 
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 	<VideoParam>
-	<DstObjId ></DstObjId >//视频上墙的目的地，为一个视频通道
-	<StrFmt ></StrFmt >//预留,2.0版本不使用
+	<DstObjId ></DstObjId >//Video on the wall, for a video channel
+	<StrFmt ></StrFmt >//reserved
 	</VideoParam>
 	</Content>
 	*/
 	/************************************************************************/
-
-	//判断上墙信息
+	//Judge the wall information
 	VideoChannelList* pVCL = getVideoChannelListPointer();
 
 	if ("1" != (*pVCL)[videoChannel] && "4023" != (*pVCL)[videoChannel])
 	{
-		MessageBox(_T("当前状态不可用"));
+		MessageBox(_T("status unavailable"));
 		return;
 	}
-
-	// TODO: Add your control notification handler code here
+	
 	CString strVideoChannelStart;
-	//拼视频上墙xml消息
-	//参数构造
+	//construct Video wall XML
+	// construct reference
 	strVideoChannelStart.Append(_T("<Content>"));
 	strVideoChannelStart.Append(_T("<VideoParam>"));
 	strVideoChannelStart.Append(_T("<DstObjId>"));
@@ -164,25 +146,22 @@ void CVWall::OnBnClickedButtonStart()
 
 
 void CVWall::OnBnClickedButtonStop()
-{
-	// TODO: Add your control notification handler code here
+{	
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-	<DstObjId>视频上墙的目的地，为一个视频通道</DstObjId>
+	<DstObjId>Video Wall decoder ID</DstObjId>
 	</Content>
 	************************************************************************/
 	VideoChannelList* pVCL = getVideoChannelListPointer();
-
 	if ("4022" != (*pVCL)[videoChannel])
 	{
-		MessageBox(_T("请稍等,当前状态不可关闭"));
+		MessageBox(_T("Please wait a moment. The current decorder can not close."));
 		return;
 	}
 
 	CString strVideoChannelStop;
-	//拼视频下墙xml消息
-	//参数构造
+	// construct reference
 	strVideoChannelStop.Append(_T("<Content>"));
 	strVideoChannelStop.Append(_T("<DstObjId>"));
 	strVideoChannelStop.Append(videoChannel);

@@ -82,9 +82,7 @@ void CeLTE_ResourceManageDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_CBString(pDX, IDC_COMBO_LOCALIP, m_strLocalIP);
 	DDX_Control(pDX, IDC_COMBO_LOCALIP, m_cmbLocalIP);
-	//DDX_Control(pDX, IDC_COMBO_LOGLV, m_cmbLogLevel);
 	DDX_Control(pDX, IDC_COMBO_MEDIA_PASS, m_cmbMediaPass);
-	//DDX_Text(pDX, IDC_EDIT_LOGPATH, m_strLogSavePath);
 	DDX_Text(pDX, IDC_EDIT_MRSIP, m_strMRSIP);
 	DDX_Text(pDX, IDC_EDIT_NAME, m_strName);
 	DDX_Text(pDX, IDC_EDIT_PASSWD, m_strPasswd);
@@ -144,7 +142,7 @@ BOOL CeLTE_ResourceManageDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// initial login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -155,16 +153,11 @@ BOOL CeLTE_ResourceManageDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// initial log information
 	m_strLogSavePath = _T(".\\log");
-	/*m_cmbLogLevel.InsertString(0, _T("Error"));
-	m_cmbLogLevel.InsertString(0, _T("Warn"));
-	m_cmbLogLevel.InsertString(0, _T("Info"));
-	m_cmbLogLevel.InsertString(0, _T("Debug"));
-	m_cmbLogLevel.SetCurSel(0);*/
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_ResourceManageDlg(this);
 	m_DcDlg.SetELtePlayer(&m_eLTE_Player);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
@@ -242,7 +235,7 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 
 			m_DcDlg.UpdateUserStatus(strUserID, iStatusValue);
 
-			// 显示视频回传当前状态
+			// show current video backhaul status
 			CString strEventMsg;
 			strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
 			if (iStatusValue == 4011)
@@ -280,7 +273,7 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 			int iType = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusType"));
 			int iValue = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusValue"));
 
-			// 回调事件消息显示
+			// Callback event message display
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
 			strEventMsg.Insert(0,GetTimeString());
@@ -305,13 +298,9 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 							strEventMsg.Append(_T("Login success(heartbeat check)."));
 						}
 					}
-				/*	else
-					{
-						MessageBox(_T("Logout success ."));
-						strEventMsg.Append(_T("Logout success ."));
-					}*/
+	
 				}
-				// 登陆fail 
+				// login fail 
 				else if (STATUS_REGFAIL == iValue)
 				{
 					if (!m_bIsLogin)
@@ -328,13 +317,13 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 					}
 					//return;
 				}
-				// 资源未授权
+				// resource authorized
 				else if (STATUS_FORBIDEN == iValue)
 				{
 					MessageBox(_T("resource Not authorized."));
 					strEventMsg.Append(_T("resource Not authorized."));
 				}
-				// 账号错误
+				// account error
 				else if (STATUS_NOT_FOUND == iValue)
 				{
 					MessageBox(_T("account or password error."));
@@ -370,15 +359,9 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 					MessageBox(_T("License Limited."));
 					strEventMsg.Append(_T("License Limited."));
 				}
-				// 安全红线
-				//// 密码错误
-				//else if (STATUS_PASSWORD_WRONG == iValue)
-				//{
-				//	MessageBox(_T("密码错误."));
-				//	strEventMsg.Append(_T("密码错误."));
-				//}
 
-				// 登陆fail 则退出MFC程序
+
+				// login fail then exit MFC program
 				if (STATUS_REGOK != iValue && STATUS_UNAUTHORIZED != iValue)
 				{
 					ShowWindow(SW_HIDE);
@@ -388,38 +371,34 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 
 			if(GRPCALLSTATUS == iType)
 			{
-				// 组活动状态
+				// group active
 				if (STATUS_GROUP_ACTIVATED == iValue)
 				{
-					//MessageBox(_T("组活动状态."));
+					//MessageBox(_T("group active."));
 					strEventMsg.Append(_T("group under active status."));
 				}
-				//  组非活动状态
+				//  group deactive
 				else if (STATUS_GROUP_DEACTIVATED == iValue)
 				{
-					//MessageBox(_T("组非活动状态."));
+					//MessageBox(_T("group deactive."));
 					strEventMsg.Append(_T("group under inactive status."));
 				}
 			}
 
-			if (RESASSIGNSTATUS == iType)//群组订阅
+			if (RESASSIGNSTATUS == iType)//group subscribe
 			{
-				if (STATUS_ASSIGNED == iValue)//订阅success 
+				if (STATUS_ASSIGNED == iValue)//subscribe success 
 				{
 					CString strMsg;
 					strMsg.Format(_T("group [%s] subscribe success."), strResId);
 					MessageBox(strMsg);
 					strEventMsg.Append(strMsg);
 				}
-				else if (STATUS_DEASSIGNED == iValue)//去订阅success 
+				else if (STATUS_DEASSIGNED == iValue)//unsubscribe success 
 				{
 					CString strMsg;
-					strMsg.Format(_T("Group [%s] unsubscribe success."), strResId);					
-					//delete temp Group
-					//m_DcDlg.RemoveGroup(StrToInt(strResId));
-					//获取选中项信息
+					strMsg.Format(_T("Group [%s] unsubscribe success."), strResId);
 					GroupInfo* pInfo = NULL;
-					//Instance().m_DConsoleDlg.GetSelGroupInfo(&pInfo);
 					CString szItemroot(strResId);
 					szItemroot.Append(_T(" [temp Group]"));
 					HTREEITEM htiRes = m_DcDlg.FindStrGroupInfo(szItemroot, &pInfo);
@@ -456,10 +435,10 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 					strEventMsg.Append(strMsg);
 					m_DcDlg.AddGroup(iGroup);
 				}
-				else if (STATUS_DGNA_UEFAIL == iValue)//Dynamic Group某些UE重组fail 
+				else if (STATUS_DGNA_UEFAIL == iValue)//Dynamic Group UE fail 
 				{
 					CString strMsg;
-					//strMsg.Format(_T("Dynamic reorganization[%d]UE[%s]重组fail .reason=%d"), iGroup, strResId, iCause);
+					//strMsg.Format(_T("Dynamic reorganization[%d]UE[%s] fail .reason=%d"), iGroup, strResId, iCause);
 					if (iCause == -20044)
 					{
 						strMsg.Append(_T("【"));
@@ -569,14 +548,14 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 		break;
 	case EVENT_NOTIFY_PROVISION_ALLRESYNC: // notifyProvisionAllResync
 		{
-			//开始初始化ProvMgr
+			//start initial ProvMgr
 			m_DcDlg.InitDlg();
 
 			CString strEventMsg = GetTimeString();
 			strEventMsg.Append(_T("notifyProvisionAllResync\r\n"));
 			m_DcDlg.m_strEvent4.Append(strEventMsg);
 
-			// 初始化MRS
+			// initial MRS
 			if(!m_bClose)
 			{
 				CString strResult = m_eLTE_Player.ELTE_OCX_ProvisionManagerInitMRS(m_strMRSIP);
@@ -596,7 +575,7 @@ void CeLTE_ResourceManageDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEven
 			CString strEventMsg;
 			strEventMsg.Format(_T("ResouceID:%s ModuleType:%d ModuleStatus:%d CallBackMsgType:%d ModulePara:%s"), strResourceID, iModuleType, iModuleStatus, iCallBackMsgType, strModulePara);
 			strEventMsg.Insert(0,GetTimeString());
-			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // 被踢下线
+			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // kick off
 			{
 				CString strMsg;
 				strMsg.Format(_T("user 【%s】login somewhere else\r\n%s"), m_strName, strModulePara);
@@ -643,8 +622,6 @@ void CeLTE_ResourceManageDlg::OnClose()
 
 void CeLTE_ResourceManageDlg::OnBnClickedButtonLogin()
 {
-	// TODO: 在此添加控件通知处理程序代码
-	//登陆前其他非必须参数设置
 	MoreSetting();
 	UpdateData(TRUE);
 
@@ -682,9 +659,6 @@ void CeLTE_ResourceManageDlg::OnBnClickedButtonLogin()
 BOOL CeLTE_ResourceManageDlg::ELTE_OCX_PlayerEventEltePlayerctrl1(UINT CtlID, unsigned long ulEventType, LPCTSTR pEventDataXml)
 {
 	// TODO: Add your message handler code here
-
-	//m_DcDlg.ELTE_PlayerEvent(CtlID, ulEventType, pEventDataXml);
-
 	return TRUE;
 }
 
@@ -780,26 +754,17 @@ BOOL CeLTE_ResourceManageDlg::WriteIniFile()
 
 void CeLTE_ResourceManageDlg::MoreSetting()
 {
-	//if (!m_bMax)
-	//	return;
-
 	UpdateData(TRUE);
-	// 设置日志参数
+	// set log parameter
 	m_eLTE_Player.ELTE_OCX_SetLogLevel(0);
 	m_eLTE_Player.ELTE_OCX_SetLogPath(m_strLogSavePath);
 
-	// 设置logo路径
-/*	if (!m_strBGLogoPath.IsEmpty())
-	{
-		m_eLTE_Player.ELTE_OCX_UploadLogo(m_strBGLogoPath);
-	}
-*/
-	// 获取版本
+	// get version
 	CString strResult = m_eLTE_Player.ELTE_OCX_GetVersion(eLTE_VERSION_OCX);//1 ocx, 2 SDK
 	CString strVersion = GET_XML_ELEM_VALUE_STR(strResult, _T("Version"));
 	CString strText;
 	strText.Format(_T("DConsole    [%s]"), strVersion);
-	m_DcDlg.SetWindowText(strText);
+	//m_DcDlg.SetWindowText(strText);
 }
 
 CString CeLTE_ResourceManageDlg::GetTimeString()

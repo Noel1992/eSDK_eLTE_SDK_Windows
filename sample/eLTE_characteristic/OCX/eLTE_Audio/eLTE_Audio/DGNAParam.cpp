@@ -151,16 +151,6 @@ void CDGNAParam::OnBnClickedOk()
 	GetDlgItemText(IDC_EDIT_PRIORITY, strPriority);
 	GetDlgItemText(IDC_EDIT_MAXPERIOD, strMaxPeriod);
 
-	//if (strGroupID.IsEmpty())
-	//{
-	//	MessageBox(_T("GroupID is empty."));
-	//	return;
-	//}
-	//if (strDcID.IsEmpty())
-	//{
-	//	MessageBox(_T("DcID is empty."));
-	//	return;
-	//}
 	m_pDGNAParamInfo->GroupID = strGroupID;
 	m_pDGNAParamInfo->DcID = strDcID;
 	m_pDGNAParamInfo->Alias = strAlias;

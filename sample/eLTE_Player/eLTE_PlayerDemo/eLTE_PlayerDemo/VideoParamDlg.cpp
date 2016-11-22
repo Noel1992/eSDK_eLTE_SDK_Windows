@@ -94,7 +94,7 @@ BOOL CVideoParamDlg::OnInitDialog()
 
 void CVideoParamDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_FORMAT);
 	int iSel = pCComboBox->GetCurSel();
 	if (0 == iSel)
@@ -158,6 +158,6 @@ void CVideoParamDlg::OnBnClickedOk()
 
 void CVideoParamDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialog::OnCancel();
 }

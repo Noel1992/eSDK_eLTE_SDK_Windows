@@ -19,7 +19,6 @@ limitations under the License.*/
 
 
 // CSetGisCfgDlg dialog
-
 IMPLEMENT_DYNAMIC(CSetGisCfgDlg, CDialogEx)
 
 CSetGisCfgDlg::CSetGisCfgDlg(CWnd* pParent /*=NULL*/)
@@ -50,7 +49,7 @@ END_MESSAGE_MAP()
 
 void CSetGisCfgDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strPeriod = _T("");
 	((CEdit*)GetDlgItem(IDC_EDIT_PERIOD))->GetWindowText(strPeriod);
 	CString strDistance = _T("");
@@ -77,7 +76,7 @@ void CSetGisCfgDlg::OnBnClickedOk()
 
 void CSetGisCfgDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CDialogEx::OnCancel();
 }
 

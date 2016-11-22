@@ -1,7 +1,7 @@
 
-// stdafx.cpp : 只包括标准包含文件的源文件
-// eLTE_SDS.pch 将作为预编译头
-// stdafx.obj 将包含预编译类型信息
+// stdafx.cpp : Includes only the source file containing the file
+// eLTE_SDS.pch As the precompiled header
+// stdafx.obj Will contain pre compiled type information
 
 #include "stdafx.h"
 

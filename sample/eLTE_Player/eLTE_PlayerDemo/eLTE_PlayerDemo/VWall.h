@@ -43,15 +43,12 @@ public:
 private:
 	VideoChannelList *StringList ;
 	CString videoChannel;
-	CDConsoleDlg* pDcDlg; 
-	// OCX对象指针
+	CDConsoleDlg* pDcDlg;
 	CElte_playerctrl1* m_peLTE_Player;
-	//视频源ID
 	CString strResourceId;
 
 public:
 	afx_msg void OnCbnSelchangeCombo1();
 	afx_msg void OnBnClickedButtonStart();
 	afx_msg void OnBnClickedButtonStop();
-//	afx_msg void OnBnClickedOk();
 };

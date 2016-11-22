@@ -79,7 +79,7 @@ void CVideoDlg::SetTile(void)
 
 void CVideoDlg::OnBnClickedOk()
 {
-	// TODO: Add your control notification handler code here
+	
 	if(!m_bUse)
 	{
 		CString strRst = m_peLTE_Player->ELTE_OCX_RecvVideoPlay(m_strResId,m_strMuteType);
@@ -87,7 +87,7 @@ void CVideoDlg::OnBnClickedOk()
 		
 		{
 			Sleep(200);
-			//进行静音操作，与按钮状态保持一致 
+			//Mute operation, and keep the button state
 
 			CString strMuteParam;
 			strMuteParam.Append(_T("<Content>"));
@@ -115,7 +115,7 @@ void CVideoDlg::OnBnClickedOk()
 
 void CVideoDlg::OnBnClickedCancel()
 {
-	// TODO: Add your control notification handler code here
+	
 	CString strRst = m_peLTE_Player->ELTE_OCX_StopRealPlay(m_strResId);
 	CHECK_RESULTE_CODE(strRst, _T("ELTE_OCX_StopRealPlay"));
 	CDialogEx::OnCancel();

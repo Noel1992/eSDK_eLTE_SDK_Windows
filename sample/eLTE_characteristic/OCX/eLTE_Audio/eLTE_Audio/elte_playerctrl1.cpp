@@ -16,4 +16,4 @@ IMPLEMENT_DYNCREATE(CElte_playerctrl1, CWnd)
 // CElte_playerctrl1 ÊôÐÔ
 
 /////////////////////////////////////////////////////////////////////////////
-// CElte_playerctrl1 ²Ù×÷
+// CElte_playerctrl1 opera

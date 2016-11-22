@@ -70,9 +70,6 @@ BOOL CVWall::OnInitDialog()
 		//comboBox.SetCurSel(0);
 	}
 
-//	GetDlgItem(IDC_BUTTON_START)->EnableWindow(FALSE);
-//	GetDlgItem(IDC_BUTTON_STOP)->EnableWindow(FALSE);
-
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -87,7 +84,7 @@ void CVWall::OnCbnSelchangeCombo1()
 
 	CString strResult;
 
-	//刷新列表及状态
+	// Refresh list and status
 	strResult = m_peLTE_Player->ELTE_OCX_GetDcVWallIDList();
 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_GetDcVWallIDList"));
 	VideoChannelList* pStringList = getVideoChannelListPointer();
@@ -113,7 +110,7 @@ void CVWall::OnCbnSelchangeCombo1()
 		return;
 	}	
 
-	//资源回收
+	// resource Recycling
 	pStringList = NULL;	
 	
 }
@@ -123,17 +120,17 @@ void CVWall::OnBnClickedButtonStart()
 {
 	/************************************************************************/
 	/* 
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
 	<VideoParam>
-	<DstObjId ></DstObjId >//视频上墙的目的地，为一个视频通道
-	<StrFmt ></StrFmt >//预留,2.0版本不使用
+	<DstObjId ></DstObjId >//decorder ID
+	<StrFmt ></StrFmt >//reserved
 	</VideoParam>
 	</Content>
 	*/
 	/************************************************************************/
 
-	//判断上墙信息
+	//Judge the wall information
 	VideoChannelList* pVCL = getVideoChannelListPointer();
 
 	if ("1" != (*pVCL)[videoChannel] && "4023" != (*pVCL)[videoChannel])
@@ -144,8 +141,8 @@ void CVWall::OnBnClickedButtonStart()
 
 	// TODO: Add your control notification handler code here
 	CString strVideoChannelStart;
-	//拼视频上墙xml消息
-	//参数构造
+	//format start video wall xml data
+	//reference construct
 	strVideoChannelStart.Append(_T("<Content>"));
 	strVideoChannelStart.Append(_T("<VideoParam>"));
 	strVideoChannelStart.Append(_T("<DstObjId>"));
@@ -167,9 +164,9 @@ void CVWall::OnBnClickedButtonStop()
 {
 	// TODO: Add your control notification handler code here
 	/************************************************************************
-	--- XML 格式 ---
+	--- XML format ---
 	<Content>
-	<DstObjId>视频上墙的目的地，为一个视频通道</DstObjId>
+	<DstObjId>decorder ID</DstObjId>
 	</Content>
 	************************************************************************/
 	VideoChannelList* pVCL = getVideoChannelListPointer();
@@ -181,8 +178,8 @@ void CVWall::OnBnClickedButtonStop()
 	}
 
 	CString strVideoChannelStop;
-	//拼视频下墙xml消息
-	//参数构造
+	//format stop video wall xml data
+	//reference construct
 	strVideoChannelStop.Append(_T("<Content>"));
 	strVideoChannelStop.Append(_T("<DstObjId>"));
 	strVideoChannelStop.Append(videoChannel);

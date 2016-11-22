@@ -8,7 +8,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.*/
-// eLTE_GISDlg.cpp : 实现文件
+// eLTE_GISDlg.cpp : Implementation file
 //
 
 #include "stdafx.h"
@@ -23,20 +23,19 @@ limitations under the License.*/
 #endif
 
 
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
 
 class CAboutDlg : public CDialogEx
 {
 public:
 	CAboutDlg();
 
-// 对话框数据
+// Dialog data
 	enum { IDD = IDD_ABOUTBOX };
 
 	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV supported
 
-// 实现
+// Realization
 protected:
 	DECLARE_MESSAGE_MAP()
 };
@@ -54,7 +53,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_GISDlg 对话框
+// CeLTE_GISDlg dialog
 
 
 
@@ -99,15 +98,12 @@ BEGIN_MESSAGE_MAP(CeLTE_GISDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CeLTE_GISDlg 消息处理程序
+// CeLTE_GISDlg Message handler
 
 BOOL CeLTE_GISDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// 将“关于...”菜单项添加到系统菜单中。
-
-	// IDM_ABOUTBOX 必须在系统命令范围内。
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -138,7 +134,7 @@ BOOL CeLTE_GISDlg::OnInitDialog()
 	}
 	
 
-	// 初始化登陆信息
+	// Initialize login information
 	if (!ReadIniFile())
 	{
 		m_strName = _T("4101");
@@ -148,11 +144,11 @@ BOOL CeLTE_GISDlg::OnInitDialog()
 		m_strSipPort = _T("5060");
 	}
 
-	// 初始日志信息
+	// Initial log information
 	m_strLogSavePath = _T(".\\log");
 	UpdateData(FALSE);
 
-	// 创建DConsoleDlg
+	// create DConsoleDlg
 	m_DcDlg.SetCeLTE_GISDlg(this);
 	m_DcDlg.SetELtePlayer(&m_eLTE_Player);
 	m_DcDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
@@ -181,11 +177,11 @@ void CeLTE_GISDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // 用于绘制的设备上下文
+		CPaintDC dc(this); // Device context for rendering
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// 使图标在工作区矩形中居中
+		// Center the icon in the rectangle of the workspace
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -193,7 +189,7 @@ void CeLTE_GISDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// 绘制图标
+		// draw icon
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -202,8 +198,6 @@ void CeLTE_GISDlg::OnPaint()
 	}
 }
 
-//当user 拖动最小化窗口时系统调用此函数取得光标
-//显示。
 HCURSOR CeLTE_GISDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
@@ -212,7 +206,7 @@ HCURSOR CeLTE_GISDlg::OnQueryDragIcon()
 
 void CeLTE_GISDlg::OnBnClickedButtonLogin()
 {
-	//登陆前其他非必须参数设置
+	//Other non essential parameter settings before landing
 	MoreSetting();
 	UpdateData(TRUE);
 
@@ -312,16 +306,16 @@ BOOL CeLTE_GISDlg::ReadIniFile()
 void CeLTE_GISDlg::MoreSetting()
 {
 	UpdateData(TRUE);
-	// 设置日志参数
+	// Set log parameters
 	m_eLTE_Player.ELTE_OCX_SetLogLevel(0);
 	m_eLTE_Player.ELTE_OCX_SetLogPath(m_strLogSavePath);
 
-	// 获取版本
+	// get versio
 	CString strResult = m_eLTE_Player.ELTE_OCX_GetVersion(eLTE_VERSION_OCX);//1 ocx, 2 SDK
 	CString strVersion = GET_XML_ELEM_VALUE_STR(strResult, _T("Version"));
 	CString strText;
 	strText.Format(_T("DConsole    [%s]"), strVersion);
-	m_DcDlg.SetWindowText(strText);
+	//m_DcDlg.SetWindowText(strText);
 }
 
 
@@ -350,7 +344,6 @@ BEGIN_EVENTSINK_MAP(CeLTE_GISDlg, CDialogEx)
 
 void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCTSTR pEventDataXml)
 {
-	// TODO: 在此处添加消息处理程序代码
 	switch (ulEventType)
 	{
 	case EVENT_NOTIFY_USER_STATUS:	// notifyUserStatus
@@ -361,7 +354,7 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 
 			m_DcDlg.UpdateUserStatus(strUserID, iStatusValue);
 
-			// 显示视频回传当前状态
+			// Return the current state of video display
 			CString strEventMsg;
 			strEventMsg.Format(_T("UserID:%s Type:%d Value:%d 【"), strUserID, iStatusType, iStatusValue);
 			if (iStatusValue == 4011)
@@ -399,7 +392,7 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 			int iType = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusType"));
 			int iValue = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("StatusValue"));
 
-			// 回调事件消息显示
+			// Callback event message display
 			CString strEventMsg;
 			strEventMsg.Format(_T("Type:%d Value:%d ResId:%s 【"), iType, iValue, strResId);
 			strEventMsg.Insert(0,GetTimeString());
@@ -424,13 +417,8 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 							strEventMsg.Append(_T("login success(Heartbeat check)."));
 						}
 					}
-				/*	else
-					{
-						MessageBox(_T("login success."));
-						strEventMsg.Append(_T("login success."));
-					}*/
 				}
-				// 登陆失败
+				// Landing failed
 				else if (STATUS_REGFAIL == iValue)
 				{
 					if (!m_bIsLogin)
@@ -440,20 +428,19 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 					}
 					else
 					{
-						//MessageBox(_T("login success."));
 						strEventMsg.Append(_T("login success."));
 						//logout
 						m_bIsLogin = FALSE;
 					}
 					//return;
 				}
-				// 资源未授权
+				// Resource not authorized
 				else if (STATUS_FORBIDEN == iValue)
 				{
 					MessageBox(_T("resource Not authorized."));
 					strEventMsg.Append(_T("resource Not authorized."));
 				}
-				// 账号错误
+				// Account error
 				else if (STATUS_NOT_FOUND == iValue)
 				{
 					MessageBox(_T("account or password error."));
@@ -471,7 +458,7 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 					MessageBox(_T("resource conflict."));
 					strEventMsg.Append(_T("resource conflict."));
 				}
-				// 4017 STATUS_UNAUTHORIZED 未鉴权（登陆中间状态）
+				// 4017 STATUS_UNAUTHORIZED Without authentication（Landing intermediate state）
 				else if (STATUS_UNAUTHORIZED == iValue)
 				{
 					if (!m_bIsLogin)
@@ -483,21 +470,15 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 						strEventMsg.Append(_T("Without authentication（Landing intermediate state）(Heartbeat Check)."));
 					}
 				}
-				// License限制
+				// License limit
 				else if (STATUS_LICENSE_LIMIT == iValue)
 				{
 					MessageBox(_T("License限制."));
 					strEventMsg.Append(_T("License限制."));
 				}
-				// 安全红线
-				//// 密码错误
-				//else if (STATUS_PASSWORD_WRONG == iValue)
-				//{
-				//	MessageBox(_T("密码错误."));
-				//	strEventMsg.Append(_T("密码错误."));
-				//}
+				
 
-				// 登陆失败则退出MFC程序
+				// login fail then exit MFC program
 				if (STATUS_REGOK != iValue && STATUS_UNAUTHORIZED != iValue)
 				{
 					ShowWindow(SW_HIDE);
@@ -505,7 +486,7 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 				}
 			}
 
-			// 回调事件消息显示
+			// show callback event message
 			strEventMsg.Append(_T("】\r\n"));
 			m_DcDlg.m_strEvent2.Append(strEventMsg);
 		}
@@ -523,14 +504,14 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 		break;
 	case EVENT_NOTIFY_PROVISION_ALLRESYNC: // notifyProvisionAllResync
 		{
-			//开始初始化ProvMgr
+			//start initializeProvMgr
 			m_DcDlg.InitDlg();
 
 			CString strEventMsg = GetTimeString();
 			strEventMsg.Append(_T("notifyProvisionAllResync\r\n"));
 			m_DcDlg.m_strEvent4.Append(strEventMsg);
 
-			// 初始化MRS
+			// initial MRS
 			if(!m_bClose)
 			{
 				CString strResult = m_eLTE_Player.ELTE_OCX_ProvisionManagerInitMRS(m_strServerIP);
@@ -618,7 +599,7 @@ void CeLTE_GISDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LPCT
 			CString strEventMsg;
 			strEventMsg.Format(_T("ResouceID:%s ModuleType:%d ModuleStatus:%d CallBackMsgType:%d ModulePara:%s"), strResourceID, iModuleType, iModuleStatus, iCallBackMsgType, strModulePara);
 			strEventMsg.Insert(0,GetTimeString());
-			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // 被踢下线
+			if (iModuleType == SIP_MODULE && iModuleStatus == KICK_OFF) // kick off
 			{
 				CString strMsg;
 				strMsg.Format(_T("user 【%s】 Login somewhere else\r\n%s"), m_strName, strModulePara);

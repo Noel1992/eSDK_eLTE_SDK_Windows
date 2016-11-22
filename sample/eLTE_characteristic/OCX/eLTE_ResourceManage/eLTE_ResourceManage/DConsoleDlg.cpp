@@ -188,7 +188,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	CDialog::OnInitDialog();
 
 	// TODO:  Add extra initialization here
-	//设置列表框为单选模式
+	//Set the list box for radio mode
 	m_DcUsers.ModifyStyle(0, LVS_SINGLESEL);
 	m_DcUsers.InsertColumn(DCUSERS_RESID, _T("ResourceID"), LVCFMT_LEFT, 70);
 	m_DcUsers.InsertColumn(DCUSERS_STATUS, _T("UserStatus"), LVCFMT_LEFT, 100);
@@ -196,7 +196,7 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcUsers.InsertColumn(DCUSERS_CATEGORY, _T("UserCategory"), LVCFMT_LEFT, 85);
 	m_DcUsers.InsertColumn(DCUSERS_PRIORITY, _T("UserPriority"), LVCFMT_LEFT, 85);
 
-	//图片列表
+	//picture list
 	m_ImageList.Create(30, 30, ILC_COLORDDB, 8, 1);
  	AddImage(m_ImageList, IDB_BITMAP_CAMERA_OFFLINE);
 	AddImage(m_ImageList, IDB_BITMAP_CAMERA_ONLINE);
@@ -210,10 +210,10 @@ BOOL CDConsoleDlg::OnInitDialog()
 	m_DcGroups.SetImageList(&m_ImageList, LVSIL_SMALL);
 	m_ImageList.Detach();
 
-	//设置List风格:全选、子列支持图片
+	//set List style :select all、child list support picture
 	m_DcUsers.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP | LVS_EX_SUBITEMIMAGES | LVS_EX_INFOTIP);
 
-	//设置坐标
+	//Set coordinate
 	CRect rect;
 	GetDlgItem(IDC_STATIC_DC)->GetWindowRect(&rect);
 	ScreenToClient(&rect);
@@ -322,7 +322,7 @@ void CDConsoleDlg::OnBnClickedButtonCreateDgna()
 		return;
 	}
 
-	// 构造XML
+	// construct XML
 	CString strDGNAParam;
 	strDGNAParam.Append(_T("<Content>"));
 	strDGNAParam.Append(_T("<GroupID>"));
@@ -382,7 +382,7 @@ void CDConsoleDlg::OnBnClickedButtonCreateTempg()
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetNextTempGroupID();
 	CString strGroupID = GET_XML_ELEM_VALUE_STR(strResult, _T("NextTempGroupID"));
 
-	// 构造XML
+	// construct XML
 	CString strDGNAParam;
 	strDGNAParam.Append(_T("<Content>"));
 	strDGNAParam.Append(_T("<GroupID>"));
@@ -458,7 +458,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	if (m_DcGroups.GetParentItem(hSelectedItem) == NULL)
 	{
 		GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(hSelectedItem);
-		//user 节点
+		//user node
 		CMenu menu;
 		menu.CreatePopupMenu();	
 		menu.AppendMenu(MF_STRING, ID_MENU_DCGROUPINFO, _T("Info"));
@@ -478,7 +478,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 		}
 
 		//Dynamic Group
-		if (pInfo->GroupCategory == "9")//怎么判断动态群组是谁创建的？
+		if (pInfo->GroupCategory == "9")
 		{
 			menu.AppendMenu(MF_STRING, ID_MENU_RM_DGNA, _T("Remove"));
 		}
@@ -487,7 +487,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 	else
 	{
-		//user 节点
+		//user node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		menu.AppendMenu(MF_STRING, ID_MENU_DCGROUPUSERINFO, _T("Info"));
@@ -510,7 +510,7 @@ void CDConsoleDlg::OnNMRClickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 		return;
 	}
 
-	//弹出菜单
+	//Pop-up Menu
 	CMenu menu;
 	menu.CreatePopupMenu();
 	menu.AppendMenu(MF_STRING, ID_MENU_DCUSERINFO, _T("Info"));
@@ -592,9 +592,6 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 		{
 			HTREEITEM selectedItem = m_DcGroups.GetSelectedItem();
 			GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(selectedItem);
-
-			//CString strResult = m_peLTE_Player->ELTE_OCX_SubscribeGroup(pInfo->GroupID, 1);
-			//CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_SubscribeGroup"));
 		}
 		break;
 	case ID_MENU_UNSUB_DCGROUP:
@@ -687,9 +684,6 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 		{
 			HTREEITEM selectedItem = m_DcGroups.GetSelectedItem();
 			GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(selectedItem);
-
-			//CString strResult = m_peLTE_Player->ELTE_OCX_JoinGroup(pInfo->GroupID);
-			//CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_JoinGroup"));
 		}
 		break;
 	case ID_MENU_RM_DGNA:
@@ -705,11 +699,11 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 			}
 			else if (iRet == -40001)
 			{
-				MessageBox(_T("没有订阅该Dynamic Group."));
+				MessageBox(_T("did not subscribeDynamic Group."));
 			}
 			else if (iRet == -40005)
 			{
-				MessageBox(_T("user 没有操作权限."));
+				MessageBox(_T("permission limit."));
 			}
 			else 
 			{
@@ -799,7 +793,7 @@ HTREEITEM CDConsoleDlg::FindStrGroupInfo(CString strname, GroupInfo** pInfo)
 
 void CDConsoleDlg::InitDlg()
 {
-	// 先清理
+	// clean
 	ClearProv();
 
 // 	GetDlgItem(IDC_BUTTON_PROVINIT)->EnableWindow(FALSE);
@@ -807,14 +801,14 @@ void CDConsoleDlg::InitDlg()
 
 	if(m_pCeLTE_ResourceManageDlg && !((CeLTE_ResourceManageDlg*)m_pCeLTE_ResourceManageDlg)->m_bClose)
 	{
-		// 获取user 列表
+		// get user list
 		GetUsers(_T(""),false);
-		// 获取群组列表
+		// get group list
 		GetGroups(_T(""),false);
-		// 获取Patch Group列表
+		// get Patch Group list
 		GetPatchGroups(_T(""),false);
 
-		// 触发状态上报
+		// Trigger status report
 		m_peLTE_Player->ELTE_OCX_TriggerStatusReport(1);
 	}
 }
@@ -877,13 +871,13 @@ void CDConsoleDlg::UpdateUserStatus(const CString& strUserId, int iStatus)
 			m_DcUsers.SetItem(i, DCUSERS_RESID, LVIF_TEXT|LVIF_IMAGE, strUserId, imgId, 0, 0, 0);
 			if (iStatus == 4011)
 			{
-				//心跳机制不能覆盖原有状态为在线状态。begin
+				//Heartbeat mechanism can not cover the original state as an online state。begin
 				CString sStatus = m_DcUsers.GetItemText(i, DCUSERS_STATUS);
 				if (sStatus != _T("offline"))
 				{
 					return;
 				}
-				//心跳机制不能覆盖原有状态为在线状态。end
+				//Heartbeat mechanism can not cover the original state as an online state。end
 
 				m_DcUsers.SetItemText(i, DCUSERS_STATUS, _T("online"));
 			}
@@ -918,7 +912,7 @@ void CDConsoleDlg::DelPatchGroupMember(int groupId, int memberId)
 	strGroupId.Format(L"%d", groupId);
 	CString strMemberId;
 	strMemberId.Format(L"%d", memberId);
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -950,7 +944,7 @@ void CDConsoleDlg::AddPatchGroupMember(int groupId, int memberId)
 	CString strMemberId;
 	strMemberId.Format(L"%d", memberId);
 
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -988,7 +982,7 @@ void CDConsoleDlg::AddPatchGroup(int iGroupID)
 	CString sGroupID;
 	sGroupID.Format(_T("%d"), iGroupID);
 
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -1000,7 +994,7 @@ void CDConsoleDlg::AddPatchGroup(int iGroupID)
 		itemroot = m_PatchGroups.GetNextSiblingItem(itemroot);
 	}
 
-	// 获取群组信息
+	// get group information
 	int iRet = 0;
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetPatchGroupInfo(sGroupID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetPatchGroupInfo"));
@@ -1019,18 +1013,18 @@ void CDConsoleDlg::AddPatchGroup(int iGroupID)
 	pInfo->GroupIndex		= strGroupIndex;
 	pInfo->GroupVPNID		= strGroupVPNID;
 
-	// 增加群组
+	// add group
 	CString szItemroot(pInfo->GroupID);
 	szItemroot.Append(_T(" "));
 	szItemroot.Append(_T("[Patch Group]"));
 	itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 	m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-	// 获取群组user 列表
+	// get group user list
 	strResult = m_peLTE_Player->ELTE_OCX_GetGroupMemberByPatchId(sGroupID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetGroupMemberByPatchId"));
 
-	// 获取user 列表
+	// get user list
 	GroupUserInfoList groupUsers;
 	CXml::Instance().XmlParsePatchGroupUsers(strResult, groupUsers);
 
@@ -1053,7 +1047,7 @@ void CDConsoleDlg::RemovePatchGroup(int iGroupID)
 	CString strGroupID;
 	strGroupID.Format(_T("%d"), iGroupID);
 
-	// 在Patch Group列表中查询该群组
+	// search this group from Patch Group list
 	HTREEITEM itemroot = m_PatchGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -1107,7 +1101,7 @@ void CDConsoleDlg::GetGroups(const CString strSearch, bool bFlag)
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetDcGroups(m_strUserID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetDcGroups"));
 
-	// 获取群组列表
+	// get group list
 	GroupInfoList groups;
 	CXml::Instance().XmlParseDcGroups(strResult, groups);
 
@@ -1122,12 +1116,9 @@ void CDConsoleDlg::GetGroups(const CString strSearch, bool bFlag)
 			szItemroot.Append(GetGroupCategoryString(pInfo->GroupCategory));
 			HTREEITEM itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
 			m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
-
-			// 组内user 列表
+			// group user list
 			strResult = m_peLTE_Player->ELTE_OCX_GetGroupUsers(pInfo->GroupID);
-			//CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetGroupUsers"));
-
-			// 获取user 列表
+			// get user list
 			GroupUserInfoList groupUsers;
 			CXml::Instance().XmlParseGroupUsers(strResult, groupUsers);
 			GroupUserInfoList::iterator it = groupUsers.begin();
@@ -1153,7 +1144,7 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetPatchGroups(m_strUserID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetPatchGroups"));
 
-	// 获取群组列表
+	// get group list
 	GroupInfoList groups;
 	CXml::Instance().XmlParsePatchGroups(strResult, groups);
 
@@ -1169,14 +1160,10 @@ void CDConsoleDlg::GetPatchGroups(const CString strSearch, bool bFlag)
 			HTREEITEM itemroot = m_PatchGroups.InsertItem(szItemroot, -1, -1, NULL);
 			m_PatchGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
-			// 组内user 列表
+			// group user list
 			strResult = m_peLTE_Player->ELTE_OCX_GetGroupMemberByPatchId(pInfo->GroupID);
-			/*if (0 != iRet)
-			{
-			continue;
-			}*/
 
-			// 获取user 列表
+			// get user list
 			GroupUserInfoList groupUsers;
 			CXml::Instance().XmlParsePatchGroupUsers(strResult, groupUsers);
 
@@ -1201,7 +1188,7 @@ void CDConsoleDlg::AddGroup(int iGroupID)
 	CString sGroupID;
 	sGroupID.Format(_T("%d"), iGroupID);
 
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -1213,7 +1200,7 @@ void CDConsoleDlg::AddGroup(int iGroupID)
 		itemroot = m_DcGroups.GetNextSiblingItem(itemroot);
 	}
 
-	// 获取群组信息
+	// get group information
 	int iRet = 0;
 	CString strResult = m_peLTE_Player->ELTE_OCX_GetGroupInfo(sGroupID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetGroupInfo"));
@@ -1227,7 +1214,7 @@ void CDConsoleDlg::AddGroup(int iGroupID)
 	pInfo->GroupPriority = strGroupPriority;
 	pInfo->GroupName = strGroupName;
 
-	// 增加群组
+	// add group
 	CString szItemroot(pInfo->GroupID);
 	szItemroot.Append(_T(" "));
 	szItemroot.Append(GetGroupCategoryString(pInfo->GroupCategory));
@@ -1237,7 +1224,7 @@ void CDConsoleDlg::AddGroup(int iGroupID)
 	strResult = m_peLTE_Player->ELTE_OCX_GetGroupUsers(sGroupID);
 	CHECK_RESULTE_CODE_M(strResult, iRet, _T("ELTE_OCX_GetGroupUsers"));
 
-	// 获取user 列表
+	// get user list
 	GroupUserInfoList groupUsers;
 	CXml::Instance().XmlParseGroupUsers(strResult, groupUsers);
 	GroupUserInfoList::iterator it = groupUsers.begin();
@@ -1259,7 +1246,7 @@ void CDConsoleDlg::RemoveGroup(int iGroupID)
 	CString strGroupID;
 	strGroupID.Format(_T("%d"), iGroupID);
 
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -1284,7 +1271,7 @@ void CDConsoleDlg::RemoveGroup(int iGroupID)
 
 void CDConsoleDlg::AddTempGroup(const CString& strGroupID)
 {
-	// 在群组列表中查询该群组
+	// Query the group in the group list
 	HTREEITEM itemroot = m_DcGroups.GetRootItem();
 	while (itemroot)
 	{
@@ -1296,14 +1283,14 @@ void CDConsoleDlg::AddTempGroup(const CString& strGroupID)
 		itemroot = m_DcGroups.GetNextSiblingItem(itemroot);
 	}
 
-	// 构造群组信息
+	// construct group information
 	GroupInfo* pInfo = new GroupInfo;
 	pInfo->GroupID = strGroupID;
 	pInfo->GroupCategory = "-1";
 	pInfo->GroupPriority = "-1";
 	pInfo->GroupName = "-1";
 
-	// 增加群组
+	// add group
 	CString szItemroot(pInfo->GroupID);
 	szItemroot.Append(_T(" [temp Group]"));
 	itemroot = m_DcGroups.InsertItem(szItemroot, -1, -1, NULL);
@@ -1324,17 +1311,17 @@ int CDConsoleDlg::GetUserImageId(const CString& strCategory, bool bGray)
 	int iUserCategory = StrToInt(strCategory);
 	int iImgID = -1;
 
-	switch (iUserCategory) // user 种类
+	switch (iUserCategory) // user type
 	{
 	case 0:
 		{
-			// 调度台user 
+			// dispatcher 
 			iImgID = bGray ? Img_dispatcher_offline : Img_dispatcher_online;
 		}
 		break;
 	case 1:
 		{
-			// 固定摄像头
+			// camera
 			iImgID = bGray ? Img_camera_offline : Img_camera_online;
 		}
 		break;
@@ -1378,11 +1365,11 @@ CString CDConsoleDlg::GetGroupCategoryString(const CString& strGroupCategory)
 	int iGroupCategory = StrToInt(strGroupCategory);
 	CString strResult;
 
-	switch (iGroupCategory) // 群组种类
+	switch (iGroupCategory) // group type
 	{
 	case 0:
 		{
-			strResult.Append(_T("[全网广播组]"));
+			strResult.Append(_T("[NetworkBoardcastGroup]"));
 		}
 		break;
 	case 1:
@@ -1392,12 +1379,12 @@ CString CDConsoleDlg::GetGroupCategoryString(const CString& strGroupCategory)
 		break;
 	case 2:
 		{
-			strResult.Append(_T("[区域广播组]"));
+			strResult.Append(_T("[LocalBoardcastGroup]"));
 		}
 		break;
 	case 8:
 		{
-			strResult.Append(_T("[外部组]"));
+			strResult.Append(_T("[ExternalGroup]"));
 		}
 		break;
 	case 9:
@@ -1407,7 +1394,7 @@ CString CDConsoleDlg::GetGroupCategoryString(const CString& strGroupCategory)
 		break;
 	case 10:
 		{
-			strResult.Append(_T("[不分类型]"));
+			strResult.Append(_T("[NoType]"));
 		}
 		break;
 	}
@@ -1420,16 +1407,16 @@ CString CDConsoleDlg::GetGroupUserMemberTypeString(const CString& strMemberType)
 	int iMeberType = StrToInt(strMemberType);
 	CString strResult;
 
-	switch (iMeberType) // user 类型
+	switch (iMeberType) // user type
 	{
 	case 0:
 		{
-			strResult.Append(_T("[Dynamic reorganization中的组member ]"));
+			strResult.Append(_T("[DynamicGroupMember ]"));
 		}
 		break;
 	case 1:
 		{
-			strResult.Append(_T("[Normal user member ]"));
+			strResult.Append(_T("[NormalGroupMember ]"));
 		}
 		break;
 	}
@@ -1521,7 +1508,7 @@ void CDConsoleDlg::OperatePatchGroup(const CString& strDcID, const CString& strG
 		return;
 	}
 
-	// 构造XML
+	// construct XML
 	CString strPCHGRPParam;
 	strPCHGRPParam.Append(_T("<Content>"));
 	strPCHGRPParam.Append(_T("<DcID>"));
@@ -1596,7 +1583,7 @@ void CDConsoleDlg::OnRclickTreePatchgroups(NMHDR *pNMHDR, LRESULT *pResult)
 	{
 		GroupInfo* pInfo = (GroupInfo*)m_PatchGroups.GetItemData(hSelectedItem);
 
-		//组节点
+		//group node
 		CMenu menu;
 		menu.CreatePopupMenu();
 		//menu.AppendMenu(MF_STRING, ID_MENU_SUBGROUP, _T("SubscribeGroup"));
@@ -1623,7 +1610,6 @@ void CDConsoleDlg::OnOK()
 
 void CDConsoleDlg::OnSelchangeComboObjsel()
 {
-	// TODO: 在此添加控件通知处理程序代码
 	switch (m_cmbObjSel.GetCurSel())
 	{
 	case 0:
@@ -1656,7 +1642,7 @@ void CDConsoleDlg::OnSelchangeComboObjsel()
 
 void CDConsoleDlg::OnBnClickedButtonSearch()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	
 	bool bFlag = true;
 	UpdateData(TRUE);
 	if ("" == m_strSearch)
@@ -1681,7 +1667,7 @@ void CDConsoleDlg::OnBnClickedButtonSearch()
 		{
 			//clear DcGroups List
 			m_DcGroups.DeleteAllItems();
-			// 获取群组列表
+			// get group list
 			GetGroups(m_strSearch, bFlag);
 		}
 		break;

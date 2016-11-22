@@ -154,23 +154,23 @@ public:
 	void RealPlayHangup(INT iResID);
 	void RealPlayNotConnected(INT iResID, INT iCallStatus);
 	void GetGroups();
-	// 获取派接组列表
+	// Get patch group list
 	void GetPatchGroups();
 	void AddGroup(int iGroupID);
-	// 创建派接组成功后在群组列表中添加界面
+	// after success create patch group add interface in group list
 	void AddPatchGroup(int iGroupID);
-	// 删除派接组
+	// delete patch group
 	void RemovePatchGroup(int iGroupID);
-	// 增加派接组成员
+	// add patch group member
 	void AddPatchGroupMember(int groupId, int memberId);
-	// 删除派接组成员
+	// delete patch group member
 	void DelPatchGroupMember(int groupId, int memberId);
 	void RemoveGroup(int iGroupID);
 	void AddTempGroup(const CString& strGroupID);
 	void DoMute(const int& resID);
 	void SetCaller(const CString& strCaller, const int& bUse){m_callDlg.SetResId(strCaller, bUse);}
 	void SetVideoCaller(const CString& strVideoCaller,const CString& strMuteType, const int& bUse){m_videoDlg.SetResId(strVideoCaller,strMuteType,bUse);}
-	//获取指定组信息
+	//get selected group information
 	HTREEITEM FindStrGroupInfo(CString strname, GroupInfo** pInfo);
 
 private:
@@ -182,11 +182,11 @@ private:
 	CString GetGroupCategoryString(const CString& strGroupCategory);
 	CString GetGroupUserMemberTypeString(const CString& strMemberType);
 	void ClearDcGroupsTree();
-	// 派接组列表数据清理
+	// patch group list data clean
 	void ClearPatchGroupsTree();
-	// 操作派接组
+	// opera patch group
 	void OperatePatchGroup(const CString& strDcID, const CString& strGroupID, const int& iOperateType, const CString& strGroupName = _T(""));
-	// 获取当前控件选中的组信息
+	// Gets the group information selected by the current control
 	void GetSelGroupInfo(GroupInfo** pInfo);
 	
 
