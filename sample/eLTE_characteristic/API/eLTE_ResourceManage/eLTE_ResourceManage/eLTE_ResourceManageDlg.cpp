@@ -725,7 +725,7 @@ void CeLTE_ResourceManageDlg::MoreSetting()
 	ELTE_SDK_SetLogPath(eLTE_Tool::UnicodeToANSI(m_strLogSavePath).c_str());
 
 	// Get version
-	ELTE_CHAR* pVersion = NULL;
+	/*ELTE_CHAR* pVersion = NULL;
 	int iRet = ELTE_SDK_GetVersion(&pVersion);
 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_GetVersion"));
 
@@ -734,7 +734,7 @@ void CeLTE_ResourceManageDlg::MoreSetting()
 	m_DcDlg.SetWindowText(strText);
 
 	ELTE_SDK_ReleaseBuffer(pVersion);
-	pVersion = NULL;
+	pVersion = NULL;*/
 }
 
 CString CeLTE_ResourceManageDlg::GetTimeString()
