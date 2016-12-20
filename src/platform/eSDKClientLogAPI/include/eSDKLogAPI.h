@@ -79,7 +79,6 @@ extern "C"
 	**/
 	eSDK_LOG_API int _STD_CALL_ LogFini(const char* sdkname);
 
-
 	/**
 	 *接口类日志info接口
 	 * 
@@ -276,7 +275,7 @@ extern "C"
 	 *@par			无
 	**/
 	eSDK_LOG_API void _STD_CALL_ Log_Run_Debug(const char* sdkname, const char* param);//运行类日志接口
-		/**
+	/**
 	 *运行类Info接口
 	 * 
 	 *该函数用于写run下的Info日志
@@ -285,9 +284,9 @@ extern "C"
 	 *@param[in]	param 
 	 *@attention	调用前先调用LogInit
 	 *@par			无
-	**/
+	 **/
 	eSDK_LOG_API void _STD_CALL_ Log_Run_Info(const char* sdkname, const char* param);//运行类日志接口
-		/**
+	/**
 	 *运行类Warn接口
 	 * 
 	 *该函数用于写run下的Warn日志
@@ -298,7 +297,7 @@ extern "C"
 	 *@par			无
 	**/
 	eSDK_LOG_API void _STD_CALL_ Log_Run_Warn(const char* sdkname, const char* param);//运行类日志接口
-		/**
+	/**
 	 *运行类Error接口
 	 * 
 	 *该函数用于写run下的Error日志
@@ -308,47 +307,10 @@ extern "C"
 	 *@attention	调用前先调用LogInit
 	 *@par			无
 	**/
-	eSDK_LOG_API void _STD_CALL_ Log_Run_Error(const char* sdkname, const char* param);//运行类日志接口               
+	eSDK_LOG_API void _STD_CALL_ Log_Run_Error(const char* sdkname, const char* param);//运行类日志接口
 
 // 移动端ISV初始化接口 modify by cwx298983 2015.12.16 Start
 #if defined(ANDROID) || defined(TARGET_MAC_OS) || defined(TARGET_OS_IPHONE)
-
-	/**
-	 *设置日志上报策略
-	 * 
-	 *ISV通过该方法设置日志上报策略
-	 *
-	 *@param[in] 	period				日志上报时间间隔，单位小时，0代表启动时上报
-	 *@param[in] 	wifiFlag			是否在wifi环境下发送，true：是；false：否
-	 *@param[in] 	serverPath			日志服务地址
-	 *@attention	调用前先调用LogInit
-	 *@par			无
-	**/
-	eSDK_LOG_API void _STD_CALL_ esdk_log_setSendLogStrategy(unsigned int period, unsigned int wifiFlag, const char* serverPath);
-
-	/**
-	 *设置查询wifi情况的回调函数
-	 * 
-	 *各业务模块实现wifi状态查询
-	 *
-	 *@param[in] 	method				回调函数，用于查询wifi是否已开启，wifi状态查询由各业务实现
-	 *@attention	调用前先调用LogInit
-	 *@par			无
-	**/
-	eSDK_LOG_API void _STD_CALL_ setCallBackMethod(WifiInfoCallBack method);
-
-	/**
-	 *启动日志上传功能
-	 * 
-	 *移动端通过该接口开启日志上传功能
-	 *
-	 *@param[in] 	sdkname		使用日志模块的产品名字，同进程中的唯一标示
-	 *@return		0	成功
-	 *@return		非0	失败（请参考错误返回码枚举类型RetCode）
-	 *@attention	调用前先调用LogInit
-	 *@par			无
-	**/
-	eSDK_LOG_API int _STD_CALL_ initMobileLog(const char* sdkname);
 
 	/**
 	 *设置日志属性
@@ -358,12 +320,10 @@ extern "C"
 	 *@param[in] 	sdkname				使用日志模块的产品名字，同进程中的唯一标示
 	 *@param[in] 	logSize				logSize[0]接口日志大小，logSize[1]操作日志大小，logSize[2]运行日志大小
 	 *@param[in] 	logNum				logNum[0]接口日志数量，logNum[1]操作日志数量，logNum[2]运行日志数量
-	 *@param[in]	serverPaht			日志服务IP或域名：端口（如esdk-log.huawei.com:80）
-	 *@param[in] 	logUploadUrl		上传URL（如/esdkom/log/upload）
 	 *@attention	调用前先调用LogInit
 	 *@par			无
 	**/
-	eSDK_LOG_API int _STD_CALL_ setLogPropertyEx(const char* sdkname, unsigned int logSize[LOG_CATEGORY], unsigned int logNum[LOG_CATEGORY], const char* serverPath, const char* logUploadUrl);
+	eSDK_LOG_API int _STD_CALL_ setLogPropertyEx(const char* sdkname, unsigned int logSize[LOG_CATEGORY], unsigned int logNum[LOG_CATEGORY]);
 
 #endif
 // 移动端ISV初始化接口 modify by cwx298983 2015.12.16 End
