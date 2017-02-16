@@ -29,7 +29,7 @@ CVideoStatic::CVideoStatic()
 	, m_skinType(0)
 	, m_pImage(NULL)
 {
-	memset(&m_struOldWndpl, 0, sizeof(m_struOldWndpl));
+	eSDK_MEMSET(&m_struOldWndpl, 0, sizeof(m_struOldWndpl));
 }
 
 CVideoStatic::~CVideoStatic()
@@ -222,6 +222,11 @@ eLTE_RET CVideoStatic::ResetFullScreen()
 				RECT wnd;
 				(dynamic_cast<CVideoPane*>(m_pParentWnd))->GetVideoStatic().GetWindowRect(&wnd);
 				pVideoRender->SetDstRect(0, 0, (int)(wnd.right - wnd.left), (int)(wnd.bottom - wnd.top));
+
+				if (NULL == m_pParentWnd)
+				{
+					LOG_RUN_ERROR("m_pParentWnd is null.");
+				}
 			}
 		}
 	}

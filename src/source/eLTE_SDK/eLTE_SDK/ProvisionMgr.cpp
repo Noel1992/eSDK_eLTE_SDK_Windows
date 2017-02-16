@@ -39,17 +39,8 @@ ELTE_INT32 CProvisionMgr::ProvisionManagerInit(const ELTE_CHAR* pServerIP,const 
 		return iRet;
 	}
 	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -77,17 +68,8 @@ ELTE_INT32 CProvisionMgr::ProvisionManagerInitMRS(const ELTE_CHAR* pServerIP) co
 		return iRet;
 	}
 	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -110,17 +92,8 @@ ELTE_INT32 CProvisionMgr::ProvisionManagerExit() const
 		return iRet;
 	}
 	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -140,16 +113,14 @@ ELTE_VOID CProvisionMgr::SetUserMgr(CUserMgr* pUserMgr)
 ELTE_INT32 CProvisionMgr::GetDcGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcGroups) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("UserID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pUserID);
+
+	CONSTRUCT_XML_HEAD("UserID",pUserID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -160,19 +131,10 @@ ELTE_INT32 CProvisionMgr::GetDcGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcG
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -197,16 +159,14 @@ ELTE_INT32 CProvisionMgr::GetDcGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcG
 ELTE_INT32 CProvisionMgr::GetPatchGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pPatchGroups) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("UserID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pUserID);
+
+	CONSTRUCT_XML_HEAD("UserID",pUserID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -217,19 +177,10 @@ ELTE_INT32 CProvisionMgr::GetPatchGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** p
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -254,16 +205,14 @@ ELTE_INT32 CProvisionMgr::GetPatchGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** p
 ELTE_INT32 CProvisionMgr::GetPatchGroupInfo(const ELTE_CHAR* pPatchGroupId, ELTE_CHAR** pPatchGroupInfo) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("GroupID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pPatchGroupId);
+
+	CONSTRUCT_XML_HEAD("GroupID",pPatchGroupId);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -274,19 +223,10 @@ ELTE_INT32 CProvisionMgr::GetPatchGroupInfo(const ELTE_CHAR* pPatchGroupId, ELTE
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -311,16 +251,14 @@ ELTE_INT32 CProvisionMgr::GetPatchGroupInfo(const ELTE_CHAR* pPatchGroupId, ELTE
 ELTE_INT32 CProvisionMgr::GetGroupMemberByPatchId(const ELTE_CHAR* pPatchGroupId, ELTE_CHAR** pPatchGroupMembers) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("GroupID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pPatchGroupId);
+
+	CONSTRUCT_XML_HEAD("GroupID",pPatchGroupId);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -331,19 +269,10 @@ ELTE_INT32 CProvisionMgr::GetGroupMemberByPatchId(const ELTE_CHAR* pPatchGroupId
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -368,16 +297,14 @@ ELTE_INT32 CProvisionMgr::GetGroupMemberByPatchId(const ELTE_CHAR* pPatchGroupId
 ELTE_INT32 CProvisionMgr::GetDcUsers(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcUsers) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("UserID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pUserID);
+
+	CONSTRUCT_XML_HEAD("UserID",pUserID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -388,19 +315,10 @@ ELTE_INT32 CProvisionMgr::GetDcUsers(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcUs
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -430,11 +348,7 @@ ELTE_INT32 CProvisionMgr::GetGroupUsers(const ELTE_CHAR* pGroupID, ELTE_CHAR** p
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("GroupID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pGroupID);
+	CONSTRUCT_XML_HEAD("GroupID",pGroupID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -445,19 +359,10 @@ ELTE_INT32 CProvisionMgr::GetGroupUsers(const ELTE_CHAR* pGroupID, ELTE_CHAR** p
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -487,11 +392,7 @@ ELTE_INT32 CProvisionMgr::GetGroupInfo(const ELTE_CHAR* pGroupID, ELTE_CHAR** pG
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("GroupID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pGroupID);
+	CONSTRUCT_XML_HEAD("GroupID",pGroupID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -502,19 +403,10 @@ ELTE_INT32 CProvisionMgr::GetGroupInfo(const ELTE_CHAR* pGroupID, ELTE_CHAR** pG
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -539,16 +431,14 @@ ELTE_INT32 CProvisionMgr::GetGroupInfo(const ELTE_CHAR* pGroupID, ELTE_CHAR** pG
 ELTE_INT32 CProvisionMgr::GetUserInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pUserInfo) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("UserID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pUserID);
+
+	CONSTRUCT_XML_HEAD("UserID",pUserID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -559,19 +449,10 @@ ELTE_INT32 CProvisionMgr::GetUserInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pUse
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -596,16 +477,14 @@ ELTE_INT32 CProvisionMgr::GetUserInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pUse
 ELTE_INT32 CProvisionMgr::GetDcInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcInfo) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("UserID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pUserID);
+
+	CONSTRUCT_XML_HEAD("UserID",pUserID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -616,19 +495,10 @@ ELTE_INT32 CProvisionMgr::GetDcInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcInf
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -672,20 +542,10 @@ ELTE_INT32 CProvisionMgr::GetDcVWallIDList(ELTE_CHAR** pVWallIDList) const
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -715,11 +575,7 @@ ELTE_INT32 CProvisionMgr::GetGisSubscription(const ELTE_CHAR* pResourceID, ELTE_
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("ResourceID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pResourceID);
+	CONSTRUCT_XML_HEAD("ResourceID",pResourceID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -730,19 +586,10 @@ ELTE_INT32 CProvisionMgr::GetGisSubscription(const ELTE_CHAR* pResourceID, ELTE_
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -772,11 +619,7 @@ ELTE_INT32 CProvisionMgr::GetUserSpecificGISCfg(const ELTE_CHAR* pResourceID, EL
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("ResourceID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pResourceID);
+	CONSTRUCT_XML_HEAD("ResourceID",pResourceID);
 
 	//发送消息
 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -787,19 +630,10 @@ ELTE_INT32 CProvisionMgr::GetUserSpecificGISCfg(const ELTE_CHAR* pResourceID, EL
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{

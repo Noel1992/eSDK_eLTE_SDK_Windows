@@ -39,7 +39,7 @@ SharedMemory::~SharedMemory()
 		{
 			return;
 		}
-		UnmapViewOfFile(m_pBuffer);
+		(void)UnmapViewOfFile(m_pBuffer);
 		m_pBuffer = NULL;
 		CloseHandle(m_hFileHandle);
 		m_hFileHandle = NULL;
@@ -119,19 +119,19 @@ ELTE_INT32 SharedMemory::StartRevMsg()
 	{
 		CloseHandle(m_revThread);
 		m_revThread = NULL;
-		LOG_RUN_DEBUG("Stop rev msg thread success, thread id[%d]", m_revThreadId);
+		LOG_RUN_DEBUG("SharedMemory::Stop rev msg thread success, thread id[%d]", m_revThreadId);
 	}
 
 	m_revThread = (HANDLE)_beginthreadex(NULL, 0, RevMsgThread, (void*)this, 0, &m_revThreadId);
 	if(NULL == m_revThread)
 	{
-		LOG_RUN_ERROR("Start rev msg thread failed");
+		LOG_RUN_ERROR("SharedMemory::Start rev msg thread failed");
 		return eLTE_SDK_ERR_CREATE_OBJECT;
 	}
 	else
 	{
 		m_bStopRevThtread = FALSE;
-		LOG_RUN_DEBUG("Start rev msg thread success, thread id[%d]", m_revThreadId);
+		LOG_RUN_DEBUG("SharedMemory::Start rev msg thread success, thread id[%d]", m_revThreadId);
 		return eLTE_SDK_ERR_SUCCESS;
 	}
 }
@@ -340,8 +340,7 @@ ELTE_INT32 SharedMemory::LocalSnapshot(const std::string& strSnapshotPath, const
 		ELTE_INT32 iRet = ConvertYUV420ToRGB(pRGBData);
 		if(eLTE_SDK_ERR_SUCCESS != iRet)
 		{
-			delete [] pRGBData;
-			pRGBData = NULL;
+			FREE_ARRAY(pRGBData);
 			return iRet;
 		}
 	}
@@ -362,6 +361,10 @@ ELTE_INT32 SharedMemory::LocalSnapshot(const std::string& strSnapshotPath, const
 	IStream *postStream = NULL;
 	HRESULT hr = S_FALSE;
 	HGLOBAL hBmpGlobal = GlobalAlloc(GMEM_MOVEABLE, bmFileHeader.bfSize);
+	if (NULL == hBmpGlobal)
+	{
+		LOG_RUN_ERROR("hBmpGlobal GlobalAlloc failed.");
+	}
 	hr = CreateStreamOnHGlobal(hBmpGlobal, true, &postStream);
 	if(S_OK != hr)
 	{
@@ -370,52 +373,33 @@ ELTE_INT32 SharedMemory::LocalSnapshot(const std::string& strSnapshotPath, const
 		hBmpGlobal = NULL;
 		delete [] pRGBData;
 		pRGBData = NULL;
+		if (NULL == hBmpGlobal && NULL == pRGBData){}
 		return eLTE_SDK_ERR_FAILED;
 	}
 	DWORD dwWrite = 0;
 	if(S_OK != postStream->Write(&bmFileHeader, sizeof(BITMAPFILEHEADER), &dwWrite))
 	{
 		LOG_RUN_ERROR("write bmFileHeader failed.");
-		postStream->Release();
-		postStream = NULL;
-		GlobalFree(hBmpGlobal);
-		hBmpGlobal = NULL;
-		delete [] pRGBData;
-		pRGBData = NULL;
+		RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 		return eLTE_SDK_ERR_FAILED;
 	}
 	if(S_OK != postStream->Write(&bmInfoHeader, sizeof(BITMAPINFOHEADER), &dwWrite))
 	{
 		LOG_RUN_ERROR("write bmInfoHeader failed.");
-		postStream->Release();
-		postStream = NULL;
-		GlobalFree(hBmpGlobal);
-		hBmpGlobal = NULL;
-		delete [] pRGBData;
-		pRGBData = NULL;
+		RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 		return eLTE_SDK_ERR_FAILED;
 	}
 	if(S_OK != postStream->Write(pRGBData, iRGBSize, &dwWrite))
 	{
 		LOG_RUN_ERROR("write bmData failed.");
-		postStream->Release();
-		postStream = NULL;
-		GlobalFree(hBmpGlobal);
-		hBmpGlobal = NULL;
-		delete [] pRGBData;
-		pRGBData = NULL;
+		RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 		return eLTE_SDK_ERR_FAILED;
 	}
 	ATL::CImage ima;
 	if(S_OK != ima.Load(postStream))
 	{
 		LOG_RUN_ERROR("ima load failed.");
-		postStream->Release();
-		postStream = NULL;
-		GlobalFree(hBmpGlobal);
-		hBmpGlobal = NULL;
-		delete [] pRGBData;
-		pRGBData = NULL;
+		RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 		return eLTE_SDK_ERR_FAILED;
 	}
 
@@ -437,12 +421,7 @@ ELTE_INT32 SharedMemory::LocalSnapshot(const std::string& strSnapshotPath, const
 		if(eLTE_SDK_ERR_SUCCESS != ima.Save(strSavePath.c_str(), Gdiplus::ImageFormatJPEG))//ImageFormatJPEG
 		{
 			LOG_RUN_ERROR("Save jpg failed,error code is %d.",GetLastError());
-			postStream->Release();
-			postStream = NULL;
-			GlobalFree(hBmpGlobal);
-			hBmpGlobal = NULL;
-			delete [] pRGBData;
-			pRGBData = NULL;
+			RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 			return eLTE_SDK_ERR_FAILED;
 		}
 	}
@@ -451,28 +430,24 @@ ELTE_INT32 SharedMemory::LocalSnapshot(const std::string& strSnapshotPath, const
 		if(eLTE_SDK_ERR_SUCCESS != ima.Save(strSavePath.c_str(), Gdiplus::ImageFormatBMP))//ImageFormatBMP
 		{
 			LOG_RUN_ERROR("Save bmp failed,error code is %d.",GetLastError());
-			postStream->Release();
-			postStream = NULL;
-			GlobalFree(hBmpGlobal);
-			hBmpGlobal = NULL;
-			delete [] pRGBData;
-			pRGBData = NULL;
+			RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 			return eLTE_SDK_ERR_FAILED;
 		}
 	}
 
-	postStream->Release();
-	postStream = NULL;
-	GlobalFree(hBmpGlobal);
-	hBmpGlobal = NULL;
-	delete [] pRGBData;
-	pRGBData = NULL;
+	RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData);
 
 	return eLTE_SDK_ERR_SUCCESS;
 }
 
 ELTE_INT32 SharedMemory::ConvertYUV420ToRGB(ELTE_UCHAR* pData)
 {
+	if (NULL == m_pCurrentYuvFrame)
+	{
+		LOG_RUN_ERROR("m_pCurrentYuvFrame or its planes is null.");
+		return eLTE_SDK_ERR_NULL_POINTER;
+	}
+
 	ELTE_UCHAR* pY = m_pCurrentYuvFrame->planes[0];
 	ELTE_UCHAR* pU = m_pCurrentYuvFrame->planes[1]; 
 	ELTE_UCHAR* pV = m_pCurrentYuvFrame->planes[2];
@@ -506,7 +481,6 @@ ELTE_INT32 SharedMemory::ConvertYUV420ToRGB(ELTE_UCHAR* pData)
 		for (ELTE_INT32 j = 0; j < iWidth; ++j)
 		{
 			iIndex = i * iWidth + j;
-			//iYUVIndex = iIndex;
 			iYUVIndex = (i >> 1) * (iWidth >> 1) + (j >> 1); 
 			/* r∑÷¡ø */  
 			iTemp = (ELTE_INT32)(pY[iIndex] + (pV[iYUVIndex] - 128) * 1.4022);
@@ -534,8 +508,7 @@ ELTE_INT32 SharedMemory::ConvertYUV420ToRGB(ELTE_UCHAR* pData)
 		}
 	}
 
-	delete [] pRGBData;
-	pRGBData = NULL;
+	FREE_ARRAY(pRGBData);
 
 	return eLTE_SDK_ERR_SUCCESS;
 }
@@ -546,17 +519,17 @@ int SharedMemory::StopRevMsg()
 	m_bStopRevThtread = TRUE;
 	if(NULL == m_revThread)
 	{
-		LOG_RUN_DEBUG("Stop rev msg thread success, no thread is running");
+		LOG_RUN_DEBUG("SharedMemory::Stop rev msg thread success, no thread is running");
 		return eLTE_SDK_ERR_SUCCESS;
 	}
 	ELTE_ULONG ulResult = ::WaitForSingleObject(m_revThread, WAIT_STOP_THREAD_TIME);//lint -e206
 	if(0 != ulResult)
 	{
-		LOG_RUN_ERROR("Wait for single object failed.");
+		LOG_RUN_ERROR("SharedMemory::Wait for single object failed.");
 	}
 	CloseHandle(m_revThread);
 	m_revThread = NULL;
-	LOG_RUN_DEBUG("Stop rev msg thread success, thread id[%d]", m_revThreadId);
+	LOG_RUN_DEBUG("SharedMemory::Stop rev msg thread success, thread id[%d]", m_revThreadId);
 	m_revThreadId = 0;
 	return eLTE_SDK_ERR_SUCCESS;
 }

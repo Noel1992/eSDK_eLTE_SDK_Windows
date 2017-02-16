@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 /********************************************************************
 filename    :    eLTE_Log.h
 author      :    zWX229156
@@ -21,6 +37,7 @@ history     :    2015/10/12 初始版本
 
 #define LOG_INI_FILE_NAME		"eSDKClientLogCfg.ini"
 #define LOG_DLL_NAME		    "eSDKLogAPI.dll"
+#define ENCRYP_INI_FILE_NAME		"eSDKClientEncypCfg.ini"
 
 //lint -e773 -e1788 -e1712 -e506 -e774
 //此处宏函数不能加括号
@@ -37,8 +54,8 @@ history     :    2015/10/12 初始版本
 	GetLocalTime(&rspTime);\
 	char strReqTime[256] = {0};\
 	char strRspTime[256] = {0};\
-	(void)_snprintf_s(strReqTime,256,_TRUNCATE,"%04d-%02d-%02d %02d:%02d:%02d.%03d",reqTime.wYear,reqTime.wMonth,reqTime.wDay,reqTime.wHour,reqTime.wMinute,reqTime.wSecond,reqTime.wMilliseconds);\
-	(void)_snprintf_s(strRspTime,256,_TRUNCATE,"%04d-%02d-%02d %02d:%02d:%02d.%03d",rspTime.wYear,rspTime.wMonth,rspTime.wDay,rspTime.wHour,rspTime.wMinute,rspTime.wSecond,rspTime.wMilliseconds);\
+	(void)_snprintf_s(strReqTime,256,_TRUNCATE,"%04d-%02d-%02d %02d:%02d:%02d %03d",reqTime.wYear,reqTime.wMonth,reqTime.wDay,reqTime.wHour,reqTime.wMinute,reqTime.wSecond,reqTime.wMilliseconds);\
+	(void)_snprintf_s(strRspTime,256,_TRUNCATE,"%04d-%02d-%02d %02d:%02d:%02d %03d",rspTime.wYear,rspTime.wMonth,rspTime.wDay,rspTime.wHour,rspTime.wMinute,rspTime.wSecond,rspTime.wMilliseconds);\
 	char strResCode[256] = {0};\
 	(void)_itoa_s(resCode, strResCode, 256, 10);\
 	if(0 == resCode)\

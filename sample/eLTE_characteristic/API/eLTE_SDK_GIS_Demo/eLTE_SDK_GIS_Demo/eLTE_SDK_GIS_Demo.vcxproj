@@ -76,7 +76,8 @@ xcopy /Y ..\..\eLTE_SDK\debug\pdb\eLTE_SDK.pdb ..\debug\
 xcopy /Y ..\..\eLTE_SDK\debug\eLTE_SDK.ini ..\debug\
 xcopy /y ..\..\eLTE_SDK\debug\eSDKLogAPI.dll ..\debug\
 xcopy /y ..\..\eLTE_SDK\debug\eSDKClientLogCfg.ini ..\debug\
-xcopy /y ..\..\eLTE_SDK\debug\SDL2.dll ..\debug\</Command>
+xcopy /y ..\..\eLTE_SDK\debug\SDL2.dll ..\debug\
+xcopy /y ..\..\eLTE_SDK\debug\eSDK_Secure_C.dll ..\debug\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,6 +108,16 @@ xcopy /y ..\..\eLTE_SDK\debug\SDL2.dll ..\debug\</Command>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
+    <PostBuildEvent>
+      <Command>xcopy /Y ..\..\eLTE_SDK\release\eLTE_SDK.dll ..\release\
+xcopy /Y ..\..\eLTE_SDK\release\eLTE_SDK.dll ..\release\
+xcopy /Y ..\..\eLTE_SDK\release\pdb\eLTE_SDK.pdb ..\release\
+xcopy /Y ..\..\eLTE_SDK\release\eLTE_SDK.ini ..\release\
+xcopy /y ..\..\eLTE_SDK\release\eSDKLogAPI.dll ..\release\
+xcopy /y ..\..\eLTE_SDK\release\eSDKClientLogCfg.ini ..\release\
+xcopy /y ..\..\eLTE_SDK\release\SDL2.dll ..\release\
+xcopy /y ..\..\eLTE_SDK\release\eSDK_Secure_C.dll ..\release\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

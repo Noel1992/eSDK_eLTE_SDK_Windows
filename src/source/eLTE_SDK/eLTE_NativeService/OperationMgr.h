@@ -110,10 +110,10 @@ public:
 	int UpdateDcVWallIDState(VWallInfoList* const &m_WallInfoList) const;
 
 	// 发起PSTN/PLMN电话呼叫 
-	int TelephoneDial(const std::string& PhoneNum) const;
+//	int TelephoneDial(const std::string& PhoneNum) const;
 
 	// 挂断PSTN/PLMN电话呼叫 
-	int TelephoneHangup(const std::string& PhoneNum) const;
+//	int TelephoneHangup(const std::string& PhoneNum) const;
 
 	// 缜密监听 
 	int DiscreetListenOpera(int ResourceID, Operation_t OperationType) const;
@@ -130,7 +130,7 @@ public:
 	int ModifyDynamicGroup(DGNA_Modify_parameter& param) const;
 
 	// 调度台组呼添加临时用户
-	int TempUserJoinGroup(const int& resid, const PhonePatch_parameter& param) const;
+//	int TempUserJoinGroup(const int& resid, const PhonePatch_parameter& param) const;
 
 	// 登陆登出参数
 private:

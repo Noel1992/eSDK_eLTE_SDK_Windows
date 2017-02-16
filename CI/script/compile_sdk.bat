@@ -40,7 +40,6 @@ xcopy /Y "%eSDKClientLogAPI_PATH%\eSDKClientLogCfg.ini" 				    "%Srv_OutPut_Deb
 
 xcopy /Y "%eSDKClientLogAPI_PATH%\debug\*.dll" 				                "%Cli_OutPut_Debug_PATH%\"
 xcopy /Y "%eSDKClientLogAPI_PATH%\debug\eSDKClientLogCfg.ini" 				"%Cli_OutPut_Debug_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\Log Collection Statement.txt" 			"%Cli_OutPut_Debug_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				                    "%Cli_OutPut_Debug_PATH%\"
 
 ::SDL2
@@ -66,12 +65,10 @@ xcopy /Y /E "%eLTE_Product_SDK_PATH%\pdb\*.*" 				"%Srv_OutPut_Release_PATH%\pdb
 
 ::eSDKClientLogAPI
 xcopy /Y "%eSDKClientLogAPI_PATH%\release\*.dll" 			                "%Srv_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\release\eSDKClientLogCfg.ini" 			"%Srv_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\Log Collection Statement.txt" 			"%Srv_OutPut_Release_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\eSDKClientLogCfg.ini" 					"%Srv_OutPut_Release_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				                    "%Srv_OutPut_Release_PATH%\"
 xcopy /Y "%eSDKClientLogAPI_PATH%\release\*.dll" 			                "%Cli_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\release\eSDKClientLogCfg.ini" 			"%Cli_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\Log Collection Statement.txt" 			"%Cli_OutPut_Release_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\debug\eSDKClientLogCfg.ini" 				"%Cli_OutPut_Release_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				                    "%Cli_OutPut_Release_PATH%\"
 
 ::SDL2
@@ -119,12 +116,19 @@ set ProjectPath=%cd%\..\..\src\source\eLTE_SDK
 
 ::生成的压缩包路径，根据要求进行修改
 set ZipPath=%ProjectPath%\..\..\..\..\00.Release\%DateOnly%
-set ZipName=%ZipPath%\eSDK_eLTE_API_V2.1.00.zip
+set ZipName=%ZipPath%\eSDK_eLTE_API_V2.1.10.zip
 
 ::打包
 ::--------------------------------------------------------------------------------
 ::设置各变量名
-set	WinRarRoot=C:\Program Files\WinRAR
+if "%PROCESSOR_ARCHITECTURE%"=="x86" goto x86
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" goto x64
+:x86
+set WinRarRoot=C:\Program Files\WinRAR
+goto setfinish
+:x64
+set WinRarRoot=C:\Program Files (x86)\WinRAR
+:setfinish
 
 ::创建目录
 mkdir "%ZipPath%\"
@@ -204,7 +208,6 @@ xcopy /Y "..\eLTE_SDK\ReadMe.txt" 			"%Cli_OutPut_Debug_PATH%\"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "release\eLTE_SDK\*.lib"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "release\eLTE_SDK\pdb\*.pdb"
 "%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "release\eLTE_SDK\ReadMe.txt"
-"%WinRarRoot%\Rar.exe" u -s- -m1 "%ZipName%" "release\eLTE_SDK\Log Collection Statement.txt"
 echo "--------- 打包 eLTE SDK Release  end  ---------"
 
 
@@ -239,7 +242,6 @@ set ZipName=%ZipPath%\eSDK_eLTE_API_Demo_Source_CPP.zip
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\debug" "%ZipName%" "*.lib"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\debug" "%ZipName%" "pdb\*.pdb"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\debug" "%ZipName%" "ReadMe.txt"
-"%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\debug" "%ZipName%" "Log Collection Statement.txt"
 
 (chdir "%ProjectPath%\output\release\eLTE_SDK\")
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\release" "%ZipName%" "*.ini"
@@ -247,7 +249,6 @@ set ZipName=%ZipPath%\eSDK_eLTE_API_Demo_Source_CPP.zip
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\release" "%ZipName%" "*.lib"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\release" "%ZipName%" "pdb\*.pdb"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\release" "%ZipName%" "ReadMe.txt"
-"%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\release" "%ZipName%" "Log Collection Statement.txt"
 
 (chdir "%ProjectPath%\eLTE_SDK\")
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK\include" "%ZipName%" "eLTE_Types.h"
@@ -271,12 +272,9 @@ REM xcopy /Y "%ProjectPath%\output\release\eLTE_SDK\*.dll"                      
 REM xcopy /Y "%ProjectPath%\output\release\eLTE_SDK\*.lib"                                          "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\"
 REM xcopy /Y "%ProjectPath%\output\release\eLTE_SDK\pdb\*.pdb"                                      "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\"
 REM xcopy /Y "%ProjectPath%\output\release\eLTE_SDK\ReadMe.txt"                                     "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\"
-REM xcopy /Y "%ProjectPath%\output\release\eLTE_SDK\Log Collection Statement.txt"                   "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\release\"
 REM xcopy /Y "%ProjectPath%\output\debug\eLTE_SDK\*.ini"                                            "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\"
 REM xcopy /Y "%ProjectPath%\output\debug\eLTE_SDK\*.dll"                                            "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\"
 REM xcopy /Y "%ProjectPath%\output\debug\eLTE_SDK\*.lib"                                            "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\"
 REM xcopy /Y "%ProjectPath%\output\debug\eLTE_SDK\pdb\*.pdb"                                        "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\"
 REM xcopy /Y "%ProjectPath%\output\debug\eLTE_SDK\ReadMe.txt"                                       "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\"
-REM xcopy /Y "%ProjectPath%\output\debug\eLTE_SDK\Log Collection Statement.txt"                     "%ProjectPath%\..\..\..\sample\eLTE_SDK\eLTE_SDK_Demo\eLTE_SDK\debug\"
-
 echo "--------- 打包 eLTE SDK Demo Source  end  ---------"

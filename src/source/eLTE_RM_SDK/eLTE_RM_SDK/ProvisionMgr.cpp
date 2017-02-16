@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 #include "stdafx.h"
 #include "ProvisionMgr.h"
 //Error Code define class
@@ -67,8 +83,7 @@ ELTE_INT32 CProvisionMgr::GetDcGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcG
 		return iRet;
 	}
 	
-	m_pUserMgr->SetCheckStr(eLTE_Tool::UInt2String(SEQ_GETDCGROUPS));
-	LOG_RUN_INFO("CProvisionMgr::GetDcGroups : wait single!");
+	m_pUserMgr->SetCheckStr(eLTE_Tool::UInt2String(SEQ_GETDCGROUPS));	
 	iRet = m_pUserMgr->WaitObject(WAIT_CHECK_TIME);
 	if (eLTE_SDK_ERR_SUCCESS != iRet)
 	{
@@ -86,8 +101,8 @@ ELTE_INT32 CProvisionMgr::GetDcGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcG
 			::ResetEvent(m_pUserMgr->GetEventHandle());
 			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
-		memset(*pDcGroups, 0x00, uiDataLen + 1);
-		memcpy(*pDcGroups, strPacketData.c_str(), uiDataLen);
+		eSDK_MEMSET(*pDcGroups, 0x00, uiDataLen + 1);
+		eSDK_MEMCPY(*pDcGroups, uiDataLen+1, strPacketData.c_str(), uiDataLen);
 	}
 	else
 	{
@@ -132,8 +147,7 @@ ELTE_INT32 CProvisionMgr::GetDcUsers(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcUs
 		return iRet;
 	}
 
-	m_pUserMgr->SetCheckStr(eLTE_Tool::UInt2String(SEQ_GETDCUSERS));
-	LOG_RUN_INFO("CProvisionMgr::GetDcUsers : wait single!");
+	m_pUserMgr->SetCheckStr(eLTE_Tool::UInt2String(SEQ_GETDCUSERS));	
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	iRet = m_pUserMgr->WaitObject(WAIT_CHECK_TIME);
 	if (eLTE_SDK_ERR_SUCCESS != iRet)
@@ -152,8 +166,8 @@ ELTE_INT32 CProvisionMgr::GetDcUsers(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcUs
 			::ResetEvent(m_pUserMgr->GetEventHandle());
 			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
-		memset(*pDcUsers, 0x00, uiDataLen + 1);
-		memcpy(*pDcUsers, strPacketData.c_str(), uiDataLen);
+		eSDK_MEMSET(*pDcUsers, 0x00, uiDataLen + 1);
+		eSDK_MEMCPY(*pDcUsers, uiDataLen+1, strPacketData.c_str(), uiDataLen);
 	}
 	else
 	{
@@ -215,8 +229,8 @@ ELTE_INT32 CProvisionMgr::GetGroupUsers(const ELTE_CHAR* pGroupID, ELTE_CHAR** p
 			::ResetEvent(m_pUserMgr->GetEventHandle());
 			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
-		memset(*pGroupUsers, 0x00, uiDataLen + 1);
-		memcpy(*pGroupUsers, strPacketData.c_str(), uiDataLen);
+		eSDK_MEMSET(*pGroupUsers, 0x00, uiDataLen + 1);
+		eSDK_MEMCPY(*pGroupUsers, uiDataLen+1, strPacketData.c_str(), uiDataLen);
 	}
 	else
 	{
@@ -277,8 +291,8 @@ ELTE_INT32 CProvisionMgr::GetGroupInfo(const ELTE_CHAR* pGroupID, ELTE_CHAR** pG
 			::ResetEvent(m_pUserMgr->GetEventHandle());
 			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
-		memset(*pGroupInfo, 0x00, uiDataLen + 1);
-		memcpy(*pGroupInfo, strPacketData.c_str(), uiDataLen);
+		eSDK_MEMSET(*pGroupInfo, 0x00, uiDataLen + 1);
+		eSDK_MEMCPY(*pGroupInfo, uiDataLen+1, strPacketData.c_str(), uiDataLen);		
 	}
 	else
 	{
@@ -338,8 +352,8 @@ ELTE_INT32 CProvisionMgr::GetUserInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pUse
 			::ResetEvent(m_pUserMgr->GetEventHandle());
 			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
-		memset(*pUserInfo, 0x00, uiDataLen + 1);
-		memcpy(*pUserInfo, strPacketData.c_str(), uiDataLen);
+		eSDK_MEMSET(*pUserInfo, 0x00, uiDataLen + 1);
+		eSDK_MEMCPY(*pUserInfo, uiDataLen+1, strPacketData.c_str(), uiDataLen);
 	}
 	else
 	{
@@ -399,8 +413,8 @@ ELTE_INT32 CProvisionMgr::GetDcInfo(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcInf
 			::ResetEvent(m_pUserMgr->GetEventHandle());
 			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
-		memset(*pDcInfo, 0x00, uiDataLen + 1);
-		memcpy(*pDcInfo, strPacketData.c_str(), uiDataLen);
+		eSDK_MEMSET(*pDcInfo, 0x00, uiDataLen + 1);
+		eSDK_MEMCPY(*pDcInfo, uiDataLen+1, strPacketData.c_str(), uiDataLen);
 	}
 	else
 	{

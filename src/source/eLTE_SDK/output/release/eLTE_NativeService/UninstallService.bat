@@ -1,4 +1,3 @@
 @echo off 
-call eLTE_NativeService.exe /uninstall
+call "%~dp0\eLTE_NativeService.exe" /uninstall
 pause
-

@@ -1,0 +1,28 @@
+如果不希望sdl参与消息处理，可将函数SetWindowLongPtr注销掉
+需要在无显卡的情况下显示视频，需要修改SDL_render.c文件内容，修改内容如下
+ if (!renderer) {
+			
+			Uint32 uiFlags = window->flags;
+			Uint32 uiLastFullScreenFlags = window->last_fullscreen_flags;
+
+            for (index = 0; index < n; ++index) {
+                const SDL_RenderDriver *driver = render_drivers[index];
+
+                if ((driver->info.flags & flags) == flags) {
+                    /* Create a new renderer instance */
+                    renderer = driver->CreateRenderer(window, flags);
+					
+                    if (renderer) {
+                        /* Yay, we got one! */
+                        break;
+                    }
+		    else
+		    {
+			/* Return to the original values */
+			window->flags = uiFlags;
+			window->last_fullscreen_flags = uiLastFullScreenFlags;
+		    }
+                }
+            }
+        }
+并且引入头文件#include "../video/SDL_sysvideo.h"

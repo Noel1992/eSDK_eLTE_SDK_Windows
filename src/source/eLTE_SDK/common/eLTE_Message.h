@@ -97,18 +97,7 @@ public:
 	}
 	~PACKET_BODY()
 	{
-		// 析构时不释放内存，要么很容易出现野指针（如：临时PACKET_BODY变量, 队列出队等）
-		// PACKET_BODY的内存，程序员自己注意释放
-
-		//try
-		//{
-		//	if (NULL != Value)
-		//	{
-		//		delete[] Value;
-				Value = NULL;
-		//	}
-		//}
-		//catch(...){}
+		Value = NULL;
 	}
 	PACKET_BODY(const PACKET_BODY& body)
 		: Value(body.Value)
@@ -276,8 +265,8 @@ public:
 #define ELTE_SERVICE_MODIFYDYNAMICGROUP_REQ         0x0322              // 修改动态重组
 #define ELTE_SERVICE_MODIFYDYNAMICGROUP_RSP         0xF322
 
-#define ELTE_SERVICE_TEMPUSERJOINGROUP_REQ         0x0323              // 组呼添加临时用户
-#define ELTE_SERVICE_TEMPUSERJOINGROUP_RSP         0xF323
+// #define ELTE_SERVICE_TEMPUSERJOINGROUP_REQ         0x0323              // 组呼添加临时用户
+// #define ELTE_SERVICE_TEMPUSERJOINGROUP_RSP         0xF323
 
 
 // 媒体接口定义			REQ: 0x0500 - 0x07FF RSP: 0xF500 - 0xF7FF
@@ -351,11 +340,11 @@ public:
 #define ELTE_SERVICE_VWALLSTOP_REQ          0x051C              // 停止视频上墙
 #define ELTE_SERVICE_VWALLSTOP_RSP          0xF51C
 
-#define ELTE_SERVICE_TELEPHONEDIAL_REQ			0x051D			// 发起PSTN/PLMN电话呼叫
-#define ELTE_SERVICE_TELEPHONEDIAL_RSP			0xF51D
+// #define ELTE_SERVICE_TELEPHONEDIAL_REQ			0x051D			// 发起PSTN/PLMN电话呼叫
+// #define ELTE_SERVICE_TELEPHONEDIAL_RSP			0xF51D
 
-#define ELTE_SERVICE_TELEPHONEHANGUP_REQ			0x051E			// 挂断PSTN/PLMN电话呼叫
-#define ELTE_SERVICE_TELEPHONEHANGUP_RSP			0xF51E
+// #define ELTE_SERVICE_TELEPHONEHANGUP_REQ			0x051E			// 挂断PSTN/PLMN电话呼叫
+// #define ELTE_SERVICE_TELEPHONEHANGUP_RSP			0xF51E
 
 #define ELTE_SERVICE_STARTDISCREETLISTEN_REQ			0x051F			// 发起缜密监听
 #define ELTE_SERVICE_STARTDISCREETLISTEN_RSP			0xF51F

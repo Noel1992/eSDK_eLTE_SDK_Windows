@@ -66,7 +66,6 @@ int OperationMgr::Login(const std::string& userId, const std::string& passwd,
 	const std::string& serverIP, const std::string& localIP, const std::string& sipPort)
 {
 	LOG_TRACE();
-	INFO_PARAM4(userId, serverIP, localIP, sipPort);
 
 	// 状态校验
 	if (m_bLoginSuccess)
@@ -1316,12 +1315,6 @@ int OperationMgr::SDSSend(const int& iResId, SDS_parameter& param) const
 
 	param.msg_body = eLTE_Tool::ANSIToUTF8(param.msg_body);
 
-	// 设置工作路径
-	//char srcWorkpath[MAX_PATH] = {0};
-	//GetCurrentDirectory(MAX_PATH, srcWorkpath);
-	//std::string workpath = eLTE_Tool::GetServicePath();
-	//SetCurrentDirectory(workpath.c_str());
-
 	// 发送短信
 	Op_Return_t iRet = pOM->invokeOp_multipara(pResInfo, (void*)&param, SDS_SEND);
 	if (OP_OK_ACCEPTED != iRet)
@@ -1332,8 +1325,6 @@ int OperationMgr::SDSSend(const int& iResId, SDS_parameter& param) const
 	// 释放短信资源
 	delete pResInfo;
 	pResInfo=NULL;
-	// 还原工作路径
-	//SetCurrentDirectory(srcWorkpath);
 	return iRet;//lint !e438
 }
 
@@ -1440,68 +1431,68 @@ int OperationMgr::UpdateDcVWallIDState(VWallInfoList* const &m_WallInfoList) con
 	m_WallIdState = NULL;	
 	return eLTE_SVC_ERR_SUCCESS;//lint !e438
 }
-
-//发起PSTN/PLMN电话呼叫 
-int OperationMgr::TelephoneDial(const std::string& PhoneNum) const
-{
-	LOG_TRACE();
-
-	// 获取SDK实例指针
-	GET_SDK_POINTER;
-
-	//对外部PSTN/PLMN电话发起呼叫,ResourceID固定为99911000
-	int	iResId = 99911000;
-
-	// 构建资源
-	TIResourceInfo* pTIResInfo = new TIResourceInfo(iResId, PhoneNum);
-	if (NULL == pTIResInfo)//lint !e774
-	{
-		LOG_RUN_ERROR("new TIResourceInfo failed.");
-		return eLTE_SVC_ERR_MEMORY_APPLY;
-	}
-	
-	// 发起PSTN/PLMN电话呼叫 
-	Op_Return_t iRet = pOM->invokeOp(pTIResInfo, TIC_DIALOUT);
-	if (OP_OK_ACCEPTED != iRet)
-	{
-		LOG_RUN_ERROR("invokeOp TelephoneDial failed. (%d)", iRet);
-	}
-	// 释放资源
-	delete pTIResInfo;
-	pTIResInfo = NULL;
-	return iRet;//lint !e438
-}
-
-//挂断PSTN/PLMN电话呼叫 
-int OperationMgr::TelephoneHangup(const std::string& PhoneNum) const
-{
-	LOG_TRACE();
-
-	// 获取SDK实例指针
-	GET_SDK_POINTER;
-
-	//对外部PSTN/PLMN电话发起呼叫,ResourceID固定为99911000
-	int	iResId = 99911000;
-
-	// 构建资源
-	TIResourceInfo* pTIResInfo = new TIResourceInfo(iResId, PhoneNum);
-	if (NULL == pTIResInfo)//lint !e774
-	{
-		LOG_RUN_ERROR("new TIResourceInfo failed.");
-		return eLTE_SVC_ERR_MEMORY_APPLY;
-	}
-	
-	// 挂断PSTN/PLMN电话呼叫
-	Op_Return_t iRet = pOM->invokeOp(pTIResInfo, TIC_HANGUP);
-	if (OP_OK_ACCEPTED != iRet)
-	{
-		LOG_RUN_ERROR("invokeOp TelephoneHangup failed. (%d)", iRet);
-	}
-	// 释放资源
-	delete pTIResInfo;
-	pTIResInfo = NULL;
-	return iRet;//lint !e438
-}
+// 
+// //发起PSTN/PLMN电话呼叫 
+// int OperationMgr::TelephoneDial(const std::string& PhoneNum) const
+// {
+// 	LOG_TRACE();
+// 
+// 	// 获取SDK实例指针
+// 	GET_SDK_POINTER;
+// 
+// 	//对外部PSTN/PLMN电话发起呼叫,ResourceID固定为99911000
+// 	int	iResId = 99911000;
+// 
+// 	// 构建资源
+// 	TIResourceInfo* pTIResInfo = new TIResourceInfo(iResId, PhoneNum);
+// 	if (NULL == pTIResInfo)//lint !e774
+// 	{
+// 		LOG_RUN_ERROR("new TIResourceInfo failed.");
+// 		return eLTE_SVC_ERR_MEMORY_APPLY;
+// 	}
+// 	
+// 	// 发起PSTN/PLMN电话呼叫 
+// 	Op_Return_t iRet = pOM->invokeOp(pTIResInfo, TIC_DIALOUT);
+// 	if (OP_OK_ACCEPTED != iRet)
+// 	{
+// 		LOG_RUN_ERROR("invokeOp TelephoneDial failed. (%d)", iRet);
+// 	}
+// 	// 释放资源
+// 	delete pTIResInfo;
+// 	pTIResInfo = NULL;
+// 	return iRet;//lint !e438
+// }
+// 
+// //挂断PSTN/PLMN电话呼叫 
+// int OperationMgr::TelephoneHangup(const std::string& PhoneNum) const
+// {
+// 	LOG_TRACE();
+// 
+// 	// 获取SDK实例指针
+// 	GET_SDK_POINTER;
+// 
+// 	//对外部PSTN/PLMN电话发起呼叫,ResourceID固定为99911000
+// 	int	iResId = 99911000;
+// 
+// 	// 构建资源
+// 	TIResourceInfo* pTIResInfo = new TIResourceInfo(iResId, PhoneNum);
+// 	if (NULL == pTIResInfo)//lint !e774
+// 	{
+// 		LOG_RUN_ERROR("new TIResourceInfo failed.");
+// 		return eLTE_SVC_ERR_MEMORY_APPLY;
+// 	}
+// 	
+// 	// 挂断PSTN/PLMN电话呼叫
+// 	Op_Return_t iRet = pOM->invokeOp(pTIResInfo, TIC_HANGUP);
+// 	if (OP_OK_ACCEPTED != iRet)
+// 	{
+// 		LOG_RUN_ERROR("invokeOp TelephoneHangup failed. (%d)", iRet);
+// 	}
+// 	// 释放资源
+// 	delete pTIResInfo;
+// 	pTIResInfo = NULL;
+// 	return iRet;//lint !e438
+// }
 
 //缜密监听
 int OperationMgr::DiscreetListenOpera(int ResourceID, Operation_t OperationType) const
@@ -1533,40 +1524,40 @@ int OperationMgr::DiscreetListenOpera(int ResourceID, Operation_t OperationType)
 	return iRet;//lint !e438
 }
 
-
-int OperationMgr::TempUserJoinGroup(const int& resid, const PhonePatch_parameter& param) const
-{
-	LOG_TRACE();
-	INFO_PARAM3(resid, param.DCID, param.UserID);
-
-	//获取业务管理类的全局唯一实例
-	OperationManager* pOM = OperationManager_T::instance();
-	if (NULL == pOM)
-	{
-		LOG_RUN_ERROR("OperationManager_T get instance failed.");
-		return eLTE_SVC_ERR_NULL_POINTER;
-	}
-
-	// 构造资源
-	ResourceInfo* pResInfo = new ResourceInfo(resid);
-	if (NULL == pResInfo)//lint !e774
-	{
-		LOG_RUN_ERROR("new ResourceInfo failed.");
-		return eLTE_SVC_ERR_MEMORY_APPLY;
-	}
-
-	//调用人工转接业务接口
-	Op_Return_t iRet = pOM->invokeOp_multipara(pResInfo,(void*)&param, TEMPUSER_JOIN_GRPCALL);
-	if (OP_OK_ACCEPTED != iRet)
-	{
-		LOG_RUN_ERROR("invokeOp_multipara TEMPUSER_JOIN_GRPCALL failed. (%d)", iRet);
-	}
-
-	//释放资源
-	delete pResInfo;
-	pResInfo = NULL;
-	return iRet;//lint !e438
-}
+// 
+// int OperationMgr::TempUserJoinGroup(const int& resid, const PhonePatch_parameter& param) const
+// {
+// 	LOG_TRACE();
+// 	INFO_PARAM3(resid, param.DCID, param.UserID);
+// 
+// 	//获取业务管理类的全局唯一实例
+// 	OperationManager* pOM = OperationManager_T::instance();
+// 	if (NULL == pOM)
+// 	{
+// 		LOG_RUN_ERROR("OperationManager_T get instance failed.");
+// 		return eLTE_SVC_ERR_NULL_POINTER;
+// 	}
+// 
+// 	// 构造资源
+// 	ResourceInfo* pResInfo = new ResourceInfo(resid);
+// 	if (NULL == pResInfo)//lint !e774
+// 	{
+// 		LOG_RUN_ERROR("new ResourceInfo failed.");
+// 		return eLTE_SVC_ERR_MEMORY_APPLY;
+// 	}
+// 
+// 	//调用人工转接业务接口
+// 	Op_Return_t iRet = pOM->invokeOp_multipara(pResInfo,(void*)&param, TEMPUSER_JOIN_GRPCALL);
+// 	if (OP_OK_ACCEPTED != iRet)
+// 	{
+// 		LOG_RUN_ERROR("invokeOp_multipara TEMPUSER_JOIN_GRPCALL failed. (%d)", iRet);
+// 	}
+// 
+// 	//释放资源
+// 	delete pResInfo;
+// 	pResInfo = NULL;
+// 	return iRet;//lint !e438
+// }
 
 int OperationMgr::P2PTransfer(const int iResId, transfer_parameter& param) const
 {

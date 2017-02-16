@@ -187,31 +187,6 @@ unsigned int __stdcall OperationMgr::VideoReverseRun(void* lparam)
 
 	if(eLTE_ERR_SUCCESS == iRet)
 	{
-		//if (NULL != OperationMgr::Instance().m_pCeLTE_PlayerCtrl && !m_ulByMediaPass)
-		//{
-		//	//const CVideoPane& videoPane = ((CeLTE_PlayerCtrl*)(OperationMgr::Instance().m_pCeLTE_PlayerCtrl))->GetVideoPane();
-		//	std::set<CeLTE_PlayerCtrl*>::iterator itor_b = CeLTE_PlayerCtrl::m_eLTE_PlayerList.begin();
-		//	std::set<CeLTE_PlayerCtrl*>::iterator itor_e = CeLTE_PlayerCtrl::m_eLTE_PlayerList.end();
-		//	for (; itor_e != itor_b; itor_b++)
-		//	{
-		//		CeLTE_PlayerCtrl* pOCX = *itor_b;
-		//		if (NULL != pOCX)
-		//		{
-		//			iResId = pOCX->GetMediaPlayer().GetMediaPlayerResID();
-		//			if (itor->first == iResId)
-		//			{
-		//				const CVideoPane& videoPane = pOCX->GetVideoPane();
-		//				iRet = ELTE_SDK_SetPlayWindow(eLTE_Tool::Int2String(itor->first).c_str(), (ELTE_VOID*)(videoPane.GetVideoStaticSafeHwnd()));
-		//				if (eLTE_ERR_SUCCESS != iRet)
-		//				{
-		//					LOG_RUN_ERROR("Toolbar Reverse ELTE_SDK_SetPlayWindow failed.");
-		//				}
-		//				//const_cast<CVideoPane&>(videoPane).EnableImageButton(TRUE);
-		//				break;
-		//			}
-		//		}
-		//	}
-		//}
 		iRet = OperationMgr::Instance().DcVideoMonitor(itor->first, videoParam, false);
 		if (eLTE_ERR_SUCCESS != iRet)
 		{

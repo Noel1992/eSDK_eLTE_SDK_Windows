@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 #include "stdafx.h"
 //User Login class
 #include "LoginMgr.h"
@@ -103,7 +119,7 @@ ELTE_INT32 CLoginMgr::Logout(const ELTE_CHAR* pUserId) const
 	}
 	
 	//Stop heart beat first
-	if (RET_SUCCESS != RMTimer::Instance().StopTimer(HEARTBEAT_TIMER))
+	if (RET_SUCCESS != RMTimer::Instance()->StopTimer(HEARTBEAT_TIMER))
 	{
 		LOG_RUN_ERROR("Timer Stop warning: stop timer error or timer stop running");
 	}
@@ -118,6 +134,7 @@ ELTE_INT32 CLoginMgr::Logout(const ELTE_CHAR* pUserId) const
 	value["serverport"] = eLTE_Tool::UInt2String(m_pUserMgr->GetServerSIPPort());
 	value["localip"] = m_pUserMgr->GetLocalIP();
 	value["session"] = m_pUserMgr->GetSessionId();
+	
 	value["seq"] = eLTE_Tool::UInt2String(SEQ_LOGOUT);
 	std::string loginReqStr = writer.write(value);
 

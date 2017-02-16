@@ -204,6 +204,10 @@ bool CXml::AddElem(const char *pszElemName)
     }
     catch (...)
     {
+		if (NULL != pXmlAddElem)
+		{
+			delete pXmlAddElem;
+		}
         pXmlAddElem = NULL;
 
         return false;//lint !e438
@@ -261,6 +265,10 @@ bool CXml::AddElemBeforeCurNode(const char *pszElemName)
 	}
 	catch (...)
 	{
+		if (NULL != pXmlAddElem)
+		{
+			delete pXmlAddElem;
+		}
 		pXmlAddElem = NULL;
 
 		return false;//lint !e438
@@ -322,6 +330,10 @@ bool CXml::AddChildElem(const char *pszElemName)
     }
     catch (...)
     {
+		if (NULL != pXmlElem)
+		{
+			delete pXmlElem;
+		}
         pXmlElem = NULL;
 
         return false;//lint !e438
@@ -356,6 +368,10 @@ bool CXml::SetElemValue(const char* pszElemValue)
     }
     catch (...)
     {
+		if (NULL != pXmlText)
+		{
+			delete pXmlText;
+		}
         pXmlText = NULL;
 
         return false;//lint !e438
@@ -391,6 +407,10 @@ bool CXml::SetElemValueCDATA(const char* pszElemValue)
     }
     catch (...)
     {
+		if (NULL != pXmlText)
+		{
+			delete pXmlText;
+		}
         pXmlText = NULL;
         return false;//lint !e438
     }
@@ -865,13 +885,17 @@ bool CXml::AddDeclaration(const char* pszVersion, const char* pszEncode, const c
 
     CHECK_POINTER(m_pXMlDoc, false);//lint !e774
 
-    TiXmlDeclaration *pXmlDeclaration;
+    TiXmlDeclaration *pXmlDeclaration = NULL;
     try
     {
         pXmlDeclaration = new TiXmlDeclaration(pszVersion, pszEncode, pszStdLone);
     }
     catch (...)
     {
+		if (NULL != pXmlDeclaration)
+		{
+			delete pXmlDeclaration;
+		}
         pXmlDeclaration = NULL;
 
         return false;//lint !e438
@@ -951,11 +975,11 @@ bool CXml::FindElemEx(const char *pszElemPath)
     char* pszPath = NULL;
     SAFE_NEW_A(pszPath, char, iNewStrLen);
     CHECK_POINTER(pszPath,false);
-    memset(pszPath, 0, iNewStrLen);
+    eSDK_MEMSET(pszPath, 0, iNewStrLen);
     char* pszTmpPath = pszPath;
 
     // ¸´ÖÆ×Ö·û´®
-	strncpy(pszTmpPath, pszElemPath, iNewStrLen);
+	strncpy_s(pszTmpPath, iNewStrLen, pszElemPath, iNewStrLen);
     //strcpy(pszTmpPath,pszElemPath);
     
     if(*pszTmpPath == '/')
@@ -1222,11 +1246,11 @@ bool CXml::MkAndFindElemEx(const char *pszElemPath)
     char* pszPath = NULL;
     SAFE_NEW_A(pszPath, char, iNewStrLen);
     CHECK_POINTER(pszPath, false);
-    memset(pszPath, 0, iNewStrLen);
+    eSDK_MEMSET(pszPath, 0, iNewStrLen);
     char* pszTmpPath = pszPath;    
 
 	// ¸´ÖÆ×Ö·û´®
-	strncpy(pszTmpPath, pszElemPath, iNewStrLen);
+	strncpy_s(pszTmpPath, iNewStrLen, pszElemPath, iNewStrLen);
 	//strcpy(pszTmpPath,pszElemPath);
     char *saveptr = NULL;
 	token = STRTOK( pszTmpPath, seps, &saveptr);

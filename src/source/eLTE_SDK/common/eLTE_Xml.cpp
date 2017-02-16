@@ -162,8 +162,6 @@ bool CXml::Save()
 {
     CHECK_POINTER(m_pszFileName, false);
 
-    //SAFE_NEW(m_pXMlDoc, TiXmlDocument);
-
     CHECK_POINTER(m_pXMlDoc, false);//lint !e774
 	
     return m_pXMlDoc->SaveFile(m_pszFileName);
@@ -194,35 +192,7 @@ void CXml::Print() const
 **************************************************************************/
 bool CXml::AddElem(const char *pszElemName)
 {
-    CHECK_POINTER(pszElemName, false);
-
-    //Tinyxml会管理所有的申请的内存，不需要调用者delete
-    TiXmlElement *pXmlAddElem = NULL;
-    try
-    {
-        pXmlAddElem = new TiXmlElement(pszElemName);
-    }
-    catch (...)
-    {
-        pXmlAddElem = NULL;
-
-        return false;//lint !e438
-    }
-    CHECK_POINTER(pXmlAddElem, false);//lint !e774
-
-    if (NULL == m_pXmlNode)
-    {
-        if (NULL == m_pXMlDoc)
-        {
-            SAFE_NEW(m_pXMlDoc, TiXmlDocument);//lint !e774
-        }
-
-        CHECK_POINTER(m_pXMlDoc, false);//lint !e774
-        (void)(m_pXMlDoc->LinkEndChild(pXmlAddElem));
-        GetRootPos();
-
-        return true;
-    }
+    ADD_ELEM_NODE();
 
     m_pXmlNode = m_pXmlNode->Parent();
 
@@ -251,35 +221,7 @@ bool CXml::AddElem(const char *pszElemName)
 **************************************************************************/
 bool CXml::AddElemBeforeCurNode(const char *pszElemName)
 {
-	CHECK_POINTER(pszElemName, false);
-
-	//Tinyxml会管理所有的申请的内存，不需要调用者delete
-	TiXmlElement *pXmlAddElem = NULL;
-	try
-	{
-		pXmlAddElem = new TiXmlElement(pszElemName);
-	}
-	catch (...)
-	{
-		pXmlAddElem = NULL;
-
-		return false;//lint !e438
-	}
-    CHECK_POINTER(pXmlAddElem, false);//lint !e774
-
-	if (NULL == m_pXmlNode)
-	{
-		if (NULL == m_pXMlDoc)
-		{
-			SAFE_NEW(m_pXMlDoc, TiXmlDocument);//lint !e774
-		}
-
-		CHECK_POINTER(m_pXMlDoc, false);//lint !e774
-		(void)(m_pXMlDoc->LinkEndChild(pXmlAddElem));
-		GetRootPos();
-
-		return true;
-	}
+	ADD_ELEM_NODE();
 
 	// 判断指针是否为空
 	CHECK_POINTER(m_pXmlNode, false); //lint !e774
@@ -356,6 +298,10 @@ bool CXml::SetElemValue(const char* pszElemValue)
     }
     catch (...)
     {
+		if (NULL != pXmlText)
+		{
+			delete pXmlText;
+		}
         pXmlText = NULL;
 
         return false;//lint !e438
@@ -956,7 +902,6 @@ bool CXml::FindElemEx(const char *pszElemPath)
 
     // 复制字符串
 	strncpy_s(pszTmpPath, iNewStrLen, pszElemPath, iNewStrLen);
-    //strcpy(pszTmpPath,pszElemPath);
     
     if(*pszTmpPath == '/')
     {
@@ -1065,23 +1010,7 @@ bool CXml::SetElemValueEx(const char *pszElemPath,const char *pszElemValue)
 
      if(FindElemEx(pszElemPath))
 	 {
-		 const char *str_value = GetElemValue();
-		 if(NULL != str_value && 0 != strcmp("",str_value))
-		 {
-			 this->ModifyElemValue(pszElemValue);
-			 return true;
-		 }
-         else
-		 {
-			 if (!this->SetElemValue(pszElemValue))
-			 {
-				 return false;
-			 }
-			 
-			 //这句是为了防止本来的值为空串的时候，set成功，值却没加进去
-			 this->ModifyElemValue(pszElemValue);
-             return true;
-		 }
+		 SET_ELEM_VALUE();
 	 }
 	 return false;
 }
@@ -1172,7 +1101,6 @@ bool CXml::MkAndNextElemEx(int count)
 		{
 			const char* pTmpElem = this->GetElem();
 			CHECK_POINTER(pTmpElem, false);
-			//return false;
 		}
 	}
 	return true;
@@ -1227,7 +1155,6 @@ bool CXml::MkAndFindElemEx(const char *pszElemPath)
 
 	// 复制字符串
 	strncpy_s(pszTmpPath, iNewStrLen, pszElemPath, iNewStrLen);
-	//strcpy(pszTmpPath,pszElemPath);
     char *saveptr = NULL;
 	token = STRTOK( pszTmpPath, seps, &saveptr);
 	std::string pszParentNode = "";
@@ -1250,15 +1177,6 @@ bool CXml::MkAndFindElemEx(const char *pszElemPath)
 				returnFlag = false;
 				break;
 
-				//// 如果发现没有此节点则创建该节点
-    //            if(0 != strcmp(curNodeName,pszParentNode.c_str()))//lint !e527
-				//{
-    //                 (void)this->AddElem(strTemp.c_str());
-				//}else
-				//{
-    //                 (void)this->AddChildElem(strTemp.c_str());
-				//}
-    //            (void)this->FindElem(strTemp.c_str());
 			}
 
 			if(!this->MkAndNextElemEx(index))
@@ -1302,35 +1220,17 @@ bool CXml::MkAndFindElemEx(const char *pszElemPath)
 	}
     SAFE_DELETE_A(pszPath);//lint !e424 !e774 !e1775
     return returnFlag;//lint !e438
-  //return false;
 }
 
 bool CXml::MkAndSetElemValueEx(const char *pszElemPath,const char *pszElemValue)
 {
     //入参指针判断
-    if ((NULL == pszElemPath) || (NULL == pszElemValue))
-    {
-        return false;
-    }
+	CHECK_POINTER(pszElemPath, false);
+	CHECK_POINTER(pszElemValue, false);
+
 	if(MkAndFindElemEx(pszElemPath))
 	{
-		const char *str_value = GetElemValue();
-		if(NULL != str_value && 0 != strcmp("",str_value))
-		{
-			this->ModifyElemValue(pszElemValue);
-			return true;
-		}
-        else
-		{
-			if (!this->SetElemValue(pszElemValue))
-			{
-				return false;
-			}
-
-			//这句是为了防止本来的值为空串的时候，set成功，值却没加进去
-			this->ModifyElemValue(pszElemValue);
-			return true;
-		}
+		SET_ELEM_VALUE();
 	}
 	return false;
 }

@@ -832,7 +832,7 @@ int OperationMgr::DcCreateTEMPG(DGNA_parameter& param) const
 	int iRet = pOM->invokeOp_multipara(pResInfo, (void*)&param, TEMPGRP_CREATE);
 	if (OP_OK_ACCEPTED != iRet)
 	{
-		LOG_RUN_ERROR("invokeOp_multipara TEMPGRP_CREATE failed. (%d)");
+		LOG_RUN_ERROR("invokeOp_multipara TEMPGRP_CREATE failed.");
 	}
 
 	// สอทลืสิด

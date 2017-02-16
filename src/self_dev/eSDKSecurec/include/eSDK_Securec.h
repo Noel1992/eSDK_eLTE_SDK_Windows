@@ -13,7 +13,7 @@ history			:	2015/3/10 ≥ı º∞Ê±æ;
 #include "securec.h"
 #endif
 
-#ifdef WIN32 || defined _MSC_VER
+#if defined WIN32 || defined _MSC_VER
 #include "securec_win.h"
 #endif
 

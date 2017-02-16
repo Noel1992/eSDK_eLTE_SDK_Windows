@@ -31,7 +31,7 @@ history			:	2015/1/5 初始版本
 
 
 // SDK版本号
-#define ELTE_SDK_VERSION		"2.1.0.0"
+#define ELTE_SDK_VERSION		"2.1.10.0"
 #define LOG_CATEGORY            3
 CUserMgr* g_pUserMgr = NULL;
 static std::string g_strLogPath = "";
@@ -57,9 +57,7 @@ static ELTE_UINT32 g_uiLogLevel = INVALID_LOG_LEVEL;
 #pragma comment(linker, "/EXPORT:ELTE_SDK_Login=_ELTE_SDK_Login@20")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_Logout=_ELTE_SDK_Logout@4")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_TriggerStatusReport=_ELTE_SDK_TriggerStatusReport@4")
-//#pragma comment(linker, "/EXPORT:ELTE_SDK_ProvisionManagerInit=_ELTE_SDK_ProvisionManagerInit@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_ProvisionManagerInitMRS=_ELTE_SDK_ProvisionManagerInitMRS@4")
-//#pragma comment(linker, "/EXPORT:ELTE_SDK_ProvisionManagerExit=_ELTE_SDK_ProvisionManagerExit@0")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetDcGroups=_ELTE_SDK_GetDcGroups@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetDcUsers=_ELTE_SDK_GetDcUsers@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetGroupUsers=_ELTE_SDK_GetGroupUsers@8")
@@ -102,8 +100,8 @@ static ELTE_UINT32 g_uiLogLevel = INVALID_LOG_LEVEL;
 #pragma comment(linker, "/EXPORT:ELTE_SDK_VWallStart=_ELTE_SDK_VWallStart@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetDcVWallIDList=_ELTE_SDK_GetDcVWallIDList@4")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_VWallStop=_ELTE_SDK_VWallStop@8")
-#pragma comment(linker, "/EXPORT:ELTE_SDK_TelephoneDial=_ELTE_SDK_TelephoneDial@4")
-#pragma comment(linker, "/EXPORT:ELTE_SDK_TelephoneHangup=_ELTE_SDK_TelephoneHangup@4")
+//#pragma comment(linker, "/EXPORT:ELTE_SDK_TelephoneDial=_ELTE_SDK_TelephoneDial@4")
+//#pragma comment(linker, "/EXPORT:ELTE_SDK_TelephoneHangup=_ELTE_SDK_TelephoneHangup@4")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_StartDiscreetListen=_ELTE_SDK_StartDiscreetListen@4")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_StopDiscreetListen=_ELTE_SDK_StopDiscreetListen@4")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_StartEnvironmentListen=_ELTE_SDK_StartEnvironmentListen@4")
@@ -115,10 +113,8 @@ static ELTE_UINT32 g_uiLogLevel = INVALID_LOG_LEVEL;
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetPatchGroups=_ELTE_SDK_GetPatchGroups@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetGroupMemberByPatchId=_ELTE_SDK_GetGroupMemberByPatchId@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetPatchGroupInfo=_ELTE_SDK_GetPatchGroupInfo@8")
-//#pragma comment(linker, "/EXPORT:ELTE_SDK_GetUserSpecificGISCfg=_ELTE_SDK_GetUserSpecificGISCfg@8")
-//#pragma comment(linker, "/EXPORT:ELTE_SDK_SetGisParam=_ELTE_SDK_SetGisParam@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_GetGisSubscription=_ELTE_SDK_GetGisSubscription@8")
-#pragma comment(linker, "/EXPORT:ELTE_SDK_TempUserJoinGroup=_ELTE_SDK_TempUserJoinGroup@8")
+//#pragma comment(linker, "/EXPORT:ELTE_SDK_TempUserJoinGroup=_ELTE_SDK_TempUserJoinGroup@8")
 #pragma comment(linker, "/EXPORT:ELTE_SDK_ModifyDynamicGroup=_ELTE_SDK_ModifyDynamicGroup@8")
 
 // 设置日志路径
@@ -259,18 +255,17 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_Login(const ELTE_CHAR* pUserID, const ELTE_CHAR* 
 	LOG_INTERFACE_TRACE();
 	if(NULL == pUserID || NULL == pPWD || NULL == pServerIP || NULL == pLocalIP)
 	{
-		LOG_RUN_ERROR("UserID or PWD or ServerIP or LocalIP is null.");
+		LOG_RUN_ERROR("UserID,PWD,ServerIP or LocalIP is null.");
 		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, "");
 		return eLTE_SDK_ERR_INVALID_PARAM;
 	}
-	LOG_RUN_INFO("UserID:%s, ServerIP:%s, LocalIP:%s, ServerSIPPort:%d.", pUserID, pServerIP, pLocalIP, uiServerSIPPort);
 
-	CHECK_INTERFACE_POINTER(g_pUserMgr, "UserID:%s, ServerIP:%s, LocalIP:%s, ServerSIPPort:%d", pUserID, pServerIP, pLocalIP, uiServerSIPPort);
+	CHECK_INTERFACE_POINTER(g_pUserMgr, "UserID:%s, ServerIP:**.**.**.**, LocalIP:**.**.**.**, ServerSIPPort:***", pUserID);
 	g_pUserMgr->SetUserID(pUserID);
 	g_pUserMgr->SetUserPwd(pPWD);
 	g_pUserMgr->SetLocalIP(pLocalIP);
 	ELTE_INT32 iRet = g_pUserMgr->GetLoginMgr().Login(pUserID, pPWD, pServerIP, pLocalIP, uiServerSIPPort);
-	LOG_INTERFACE_INFO(iRet, "UserID:%s, ServerIP:%s, LocalIP:%s, ServerSIPPort:%d", pUserID, pServerIP, pLocalIP, uiServerSIPPort);
+	LOG_INTERFACE_INFO(iRet, "UserID:%s, ServerIP:**.**.**.**, LocalIP:**.**.**.**, ServerSIPPort:***", pUserID);
 	return iRet;
 }
  
@@ -304,24 +299,6 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_TriggerStatusReport(ELTE_INT32 iEnableStatusRepor
 	return iRet;
 }
 
-//// 配置管理初始化
-//ELTE_INT32 __SDK_CALL ELTE_SDK_ProvisionManagerInit(const ELTE_CHAR* pServerIP,const ELTE_CHAR* pUserID)
-//{
-//	LOG_INTERFACE_TRACE();
-//	if(NULL == pUserID || NULL == pServerIP)
-//	{
-//		LOG_RUN_ERROR("UserID or ServerIP is null.");
-//		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, "");
-//		return eLTE_SDK_ERR_INVALID_PARAM;
-//	}
-//	LOG_RUN_INFO("ServerIP:%s, UserID:%s.", pServerIP, pUserID);
-//
-//	CHECK_INTERFACE_POINTER(g_pUserMgr, "ServerIP:%s, UserID:%s", pServerIP, pUserID);
-//	ELTE_INT32 iRet = g_pUserMgr->GetProvisionMgr().ProvisionManagerInit(pServerIP, pUserID);
-//	LOG_INTERFACE_INFO(iRet, "ServerIP:%s, UserID:%s", pServerIP, pUserID);
-//	return iRet;
-//}
-
 // 媒体服务器初始化
 ELTE_INT32 __SDK_CALL ELTE_SDK_ProvisionManagerInitMRS(const ELTE_CHAR* pServerIP)
 {
@@ -332,23 +309,13 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_ProvisionManagerInitMRS(const ELTE_CHAR* pServerI
 		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, "");
 		return eLTE_SDK_ERR_INVALID_PARAM;
 	}
-	LOG_RUN_INFO("ServerIP:%s.", pServerIP);
+	LOG_RUN_INFO("ServerIP:%s.", "***.***.***.***");
 
 	CHECK_INTERFACE_POINTER(g_pUserMgr, "ServerIP:%s", pServerIP);
 	ELTE_INT32 iRet = g_pUserMgr->GetProvisionMgr().ProvisionManagerInitMRS(pServerIP);
 	LOG_INTERFACE_INFO(iRet, "ServerIP:%s", pServerIP);
 	return iRet;
 }
-
-// 退出配置管理
-//ELTE_INT32 __SDK_CALL ELTE_SDK_ProvisionManagerExit()
-//{
-//	LOG_INTERFACE_TRACE();
-//	CHECK_INTERFACE_POINTER(g_pUserMgr, "");
-//	ELTE_INT32 iRet = g_pUserMgr->GetProvisionMgr().ProvisionManagerExit();
-//	LOG_INTERFACE_INFO(iRet, "");
-//	return iRet;
-//}
 
 // 获取调度台群组列表
 ELTE_INT32 __SDK_CALL ELTE_SDK_GetDcGroups(const ELTE_CHAR* pUserID, ELTE_CHAR** pDcGroups)
@@ -1232,8 +1199,7 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_VWallStop(const ELTE_CHAR* pVWallResID, const ELT
 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, VWallStopParam:%s", pVWallResID, pVWallStopParam);
 	return iRet;
 }
-
-//C60新添加接口
+/*
 // 发起PSTN/PLMN电话呼叫
 ELTE_INT32 __SDK_CALL ELTE_SDK_TelephoneDial(const ELTE_CHAR* pTelNumber)
 {
@@ -1268,7 +1234,7 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_TelephoneHangup(const ELTE_CHAR* pTelNumber)
 	LOG_INTERFACE_INFO(iRet, "TelNumber:%s", pTelNumber);
 	return iRet;
 }
-
+*/
 //发起缜密侦听
 ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_StartDiscreetListen(const ELTE_CHAR* pResourceID)
 {
@@ -1414,20 +1380,20 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_ModifyDynamicGroup(const ELTE_CHAR* pResourceID, 
 	return iRet;
 }
 
-ELTE_INT32 __SDK_CALL ELTE_SDK_TempUserJoinGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pPhonePatchParam)
-{
-	LOG_INTERFACE_TRACE();
-	if (NULL == pResourceID || NULL == pPhonePatchParam)
-	{
-		LOG_RUN_ERROR("ResourceID or PhonePatchParam is null.");
-		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, ""); 
-		return eLTE_SDK_ERR_INVALID_PARAM;
-	}
-	LOG_RUN_INFO("ResourceID:%s, PhonePatchParam:%s.", pResourceID, pPhonePatchParam);
-
-	CHECK_INTERFACE_POINTER(g_pUserMgr, "ResourceID:%s, PhonePatchParam:%s", pResourceID, pPhonePatchParam);
-
-	ELTE_INT32 iRet = g_pUserMgr->GetOperationMgr().TempUserJoinGroup(pResourceID, pPhonePatchParam);
-	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, PhonePatchParam:%s", pResourceID, pPhonePatchParam);
-	return iRet;
-}
+// ELTE_INT32 __SDK_CALL ELTE_SDK_TempUserJoinGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pPhonePatchParam)
+// {
+// 	LOG_INTERFACE_TRACE();
+// 	if (NULL == pResourceID || NULL == pPhonePatchParam)
+// 	{
+// 		LOG_RUN_ERROR("ResourceID or PhonePatchParam is null.");
+// 		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, ""); 
+// 		return eLTE_SDK_ERR_INVALID_PARAM;
+// 	}
+// 	LOG_RUN_INFO("ResourceID:%s, PhonePatchParam:%s.", pResourceID, pPhonePatchParam);
+// 
+// 	CHECK_INTERFACE_POINTER(g_pUserMgr, "ResourceID:%s, PhonePatchParam:%s", pResourceID, pPhonePatchParam);
+// 
+// 	ELTE_INT32 iRet = g_pUserMgr->GetOperationMgr().TempUserJoinGroup(pResourceID, pPhonePatchParam);
+// 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, PhonePatchParam:%s", pResourceID, pPhonePatchParam);
+// 	return iRet;
+// }

@@ -24,6 +24,47 @@ history     :    2014/01/12 ≥ı º∞Ê±æ
 #include "tinyxml.h"
 #include <string>
 
+#define ADD_ELEM_NODE() \
+	CHECK_POINTER(pszElemName, false);	\
+	TiXmlElement *pXmlAddElem = NULL;	\
+	try	\
+	{	\
+		pXmlAddElem = new TiXmlElement(pszElemName);	\
+	}	\
+	catch (...)	\
+	{	\
+		pXmlAddElem = NULL;	\
+		return false;	\
+	}	\
+	CHECK_POINTER(pXmlAddElem, false);	\
+	if (NULL == m_pXmlNode)	\
+	{	\
+		if (NULL == m_pXMlDoc)	\
+		{	\
+			SAFE_NEW(m_pXMlDoc, TiXmlDocument);	\
+		}	\
+		CHECK_POINTER(m_pXMlDoc, false);	\
+		(void)(m_pXMlDoc->LinkEndChild(pXmlAddElem));	\
+		GetRootPos();	\
+		return true;	\
+	}	\
+
+#define SET_ELEM_VALUE() \
+	const char *str_value = GetElemValue();				\
+	if(NULL != str_value && 0 != strcmp("",str_value))	\
+	{													\
+		this->ModifyElemValue(pszElemValue);			\
+		return true;									\
+	}													\
+	else												\
+	{													\
+		if (!this->SetElemValue(pszElemValue))			\
+		{												\
+			return false;								\
+		}												\
+		this->ModifyElemValue(pszElemValue);			\
+		return true;									\
+	}													\
 
 class CXml
 {

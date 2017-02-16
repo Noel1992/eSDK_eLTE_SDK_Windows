@@ -8,8 +8,8 @@ enum RetCode
 	RET_FAILED				=	1,
 	RET_NotInit				=	2,
 	RET_INVALID_PARA		=	3,
-	RET_NULL_POINTER		=	4
-};
+	RET_NULL_POINTER		=	4,
+}; 
 
 // 日志级别
 enum LogLevel

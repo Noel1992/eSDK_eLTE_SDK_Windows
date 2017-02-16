@@ -20,7 +20,7 @@ limitations under the License.*/
 #endif
 
 #include "targetver.h"
-
+#include "eSDK_Securec.h"
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // some CString constructors will be explicit
 #define _ATL_NO_AUTOMATIC_NAMESPACE             // avoid class name conflicts
 

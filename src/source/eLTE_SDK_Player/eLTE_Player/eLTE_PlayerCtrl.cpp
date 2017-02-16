@@ -117,8 +117,8 @@ BEGIN_DISPATCH_MAP(CeLTE_PlayerCtrl, COleControl)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_VWallStart", dispidELTE_OCX_VWallStart, ELTE_OCX_VWallStart, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_VWallStop", dispidELTE_OCX_VWallStop, ELTE_OCX_VWallStop, VT_BSTR, VTS_BSTR VTS_BSTR)
 
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TelephoneDial", dispidELTE_OCX_TelephoneDial, ELTE_OCX_TelephoneDial, VT_BSTR, VTS_BSTR)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TelephoneHangup", dispidELTE_OCX_TelephoneHangup, ELTE_OCX_TelephoneHangup, VT_BSTR, VTS_BSTR)
+//	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TelephoneDial", dispidELTE_OCX_TelephoneDial, ELTE_OCX_TelephoneDial, VT_BSTR, VTS_BSTR)
+//	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TelephoneHangup", dispidELTE_OCX_TelephoneHangup, ELTE_OCX_TelephoneHangup, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartDiscreetListen", dispidELTE_OCX_StartDiscreetListen, ELTE_OCX_StartDiscreetListen, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StopDiscreetListen", dispidELTE_OCX_StopDiscreetListen, ELTE_OCX_StopDiscreetListen, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartEnvironmentListen", dispidELTE_OCX_StartEnvironmentListen, ELTE_OCX_StartEnvironmentListen, VT_BSTR, VTS_BSTR)
@@ -139,7 +139,7 @@ BEGIN_DISPATCH_MAP(CeLTE_PlayerCtrl, COleControl)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_ModifyDynamicGroup", dispidELTE_OCX_ModifyDynamicGroup, ELTE_OCX_ModifyDynamicGroup, VT_BSTR, VTS_BSTR VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHalfDpxDial", dispidELTE_OCX_P2PHalfDpxDial, ELTE_OCX_P2PHalfDpxDial, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHalfDpxRelease", dispidELTE_OCX_P2PHalfDpxRelease, ELTE_OCX_P2PHalfDpxRelease, VT_BSTR, VTS_BSTR)
-	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TempUserJoinGroup", dispidELTE_OCX_TempUserJoinGroup, ELTE_OCX_TempUserJoinGroup, VT_BSTR, VTS_BSTR VTS_BSTR)
+	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TempUserJoinGroup", dispidELTE_OCX_TempUserJoinGroup, ELTE_OCX_TempUserJoinGroup, VT_BSTR, VTS_BSTR VTS_BSTR)
 END_DISPATCH_MAP()//lint -e786
 
 
@@ -421,7 +421,7 @@ ELTE_VOID __SDK_CALL CeLTE_PlayerCtrl::ELTE_EventCallBack(ELTE_INT32 iEventType,
 			{
 				return;
 			}
-			memcpy(pBuf, (char*)pEventBuf, uiBufSize);
+			eSDK_MEMCPY(pBuf, uiBufSize+1, (char*)pEventBuf, uiBufSize);
 			pBuf[uiBufSize] = '\0';
 		}
 		pCtrl->PostMessage(WM_ELTE_POST_EVENT,(WPARAM)iEventType, (LPARAM)pBuf);
@@ -925,7 +925,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ShowToolbar(LONG ulToolbar)
 	if(!m_ulByMediaPass)
 	{
 		RECT wnd;
-		memset(&wnd, 0x0, sizeof(wnd));
+		eSDK_MEMSET(&wnd, 0x0, sizeof(wnd));
 		m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
 		ELTE_INT32 iResId = m_MediaPlayer.GetMediaPlayerResID();
 		iRet = ELTE_SDK_SetPlayWindowSize(eLTE_Tool::Int2String(iResId).c_str(), (ELTE_ULONG)(wnd.right - wnd.left), (ELTE_ULONG)(wnd.bottom - wnd.top));
@@ -1193,11 +1193,11 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_Login(LPCTSTR pUserID, LPCTSTR pPWD, LPCTSTR pSe
 	if (eLTE_ERR_SUCCESS != iRet)
 	{
 		LOG_RUN_ERROR("DcLogin failed.");
-		LOG_INTERFACE_INFO(iRet, "UserID:%s, ServerIP:%s, LocalIP:%s, SipPort:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str(), eLTE_Tool::UnicodeToANSI(pServerIP).c_str(), eLTE_Tool::UnicodeToANSI(pLocalIP).c_str(), eLTE_Tool::UnicodeToANSI(pServerSIPPort).c_str());
+		LOG_INTERFACE_INFO(iRet, "UserID:%s, ServerIP:**.**.**.**, LocalIP:**.**.**.**, SipPort:**", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 		return strResult.AllocSysString();
 	}
 
-	LOG_INTERFACE_INFO(iRet, "UserID:%s, ServerIP:%s, LocalIP:%s, SipPort:%s", eLTE_Tool::UnicodeToANSI(pUserID).c_str(), eLTE_Tool::UnicodeToANSI(pServerIP).c_str(), eLTE_Tool::UnicodeToANSI(pLocalIP).c_str(), eLTE_Tool::UnicodeToANSI(pServerSIPPort).c_str());
+	LOG_INTERFACE_INFO(iRet, "UserID:%s, ServerIP:**.**.**.**, LocalIP:**.**.**.**, SipPort:**", eLTE_Tool::UnicodeToANSI(pUserID).c_str());
 	return strResult.AllocSysString();
 }//lint !e1762
 
@@ -2383,7 +2383,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetVideoWindowPos(ULONG ulLeft, ULONG ulTop, ULO
 	if(!m_ulByMediaPass)
 	{
 		RECT wnd;
-		memset(&wnd, 0x0, sizeof(wnd));
+		eSDK_MEMSET(&wnd, 0x0, sizeof(wnd));
 		m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
 		ELTE_INT32 iResId = m_MediaPlayer.GetMediaPlayerResID();
 		iRet = ELTE_SDK_SetPlayWindowSize(eLTE_Tool::Int2String(iResId).c_str(), (ELTE_ULONG)(wnd.right - wnd.left), (ELTE_ULONG)(wnd.bottom - wnd.top));
@@ -3553,52 +3553,52 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_VWallStop(LPCTSTR pResVWallID, LPCTSTR pVWallSto
 
 
 
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_TelephoneDial(LPCTSTR pTelNumber)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	LOG_INTERFACE_TRACE();
-	CString strResult;
-	CXml xml;
-	//load 类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-	//入参检测
-	if (NULL == pTelNumber)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
-		return strResult.AllocSysString();
-	}
-	//发起PSTN/PLMN电话呼叫
-	ELTE_INT32 iRet = ELTE_SDK_TelephoneDial(eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_TelephoneDial(LPCTSTR pTelNumber)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//	LOG_INTERFACE_TRACE();
+//	CString strResult;
+//	CXml xml;
+//	//load 类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//	//入参检测
+//	if (NULL == pTelNumber)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//	//发起PSTN/PLMN电话呼叫
+//	ELTE_INT32 iRet = ELTE_SDK_TelephoneDial(eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+//
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+//	return strResult.AllocSysString();
+//}
 
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
-	return strResult.AllocSysString();
-}
 
-
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_TelephoneHangup(LPCTSTR pTelNumber)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	LOG_INTERFACE_TRACE();
-	CString strResult;
-	CXml xml;
-	//load 类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-	//入参检测
-	if (NULL == pTelNumber)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
-		return strResult.AllocSysString();
-	}
-	//挂断PSTN/PLMN电话呼叫
-	ELTE_INT32 iRet = ELTE_SDK_TelephoneHangup(eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
-
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
-	return strResult.AllocSysString();
-}
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_TelephoneHangup(LPCTSTR pTelNumber)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//	LOG_INTERFACE_TRACE();
+//	CString strResult;
+//	CXml xml;
+//	//load 类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//	//入参检测
+//	if (NULL == pTelNumber)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//	//挂断PSTN/PLMN电话呼叫
+//	ELTE_INT32 iRet = ELTE_SDK_TelephoneHangup(eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+//
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	LOG_INTERFACE_INFO(iRet, "TelNumber:%s",eLTE_Tool::UnicodeToANSI(pTelNumber).c_str());
+//	return strResult.AllocSysString();
+//}
 
 
 BSTR CeLTE_PlayerCtrl::ELTE_OCX_StartDiscreetListen(LPCTSTR pResourceID)
@@ -4333,32 +4333,32 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PHalfDpxRelease(LPCTSTR pResourceID)
 }
 
 
-BSTR CeLTE_PlayerCtrl::ELTE_OCX_TempUserJoinGroup(LPCTSTR pGroupID, LPCTSTR pPhonePatchParam)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-	CString strResult;
-
-	// TODO: Add your dispatch handler code here
-	LOG_INTERFACE_TRACE();
-	CXml xml;
-
-	// load类型是否支持
-	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-
-	// 入参检测
-	if (NULL == pGroupID || NULL == pPhonePatchParam)
-	{
-		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
-		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
-		return strResult.AllocSysString();
-	}
-
-	// join call 
-	ELTE_INT32 iRet = ELTE_SDK_TempUserJoinGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), eLTE_Tool::UnicodeToANSI(pPhonePatchParam).c_str());
-
-	GET_RETURN_CODE_XML(xml, iRet, strResult);
-	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
-
-	return strResult.AllocSysString();
-}
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_TempUserJoinGroup(LPCTSTR pGroupID, LPCTSTR pPhonePatchParam)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//	LOG_INTERFACE_TRACE();
+//	CXml xml;
+//
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//
+//	// 入参检测
+//	if (NULL == pGroupID || NULL == pPhonePatchParam)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	// join call 
+//	ELTE_INT32 iRet = ELTE_SDK_TempUserJoinGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), eLTE_Tool::UnicodeToANSI(pPhonePatchParam).c_str());
+//
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
+//
+//	return strResult.AllocSysString();
+//}

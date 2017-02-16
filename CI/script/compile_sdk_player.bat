@@ -43,8 +43,7 @@ xcopy /Y "%eSDKClientLogAPI_PATH%\debug\*.dll" 			                    "%Srv_OutP
 xcopy /Y "%eSDKClientLogAPI_PATH%\eSDKClientLogCfg.ini" 			        "%Srv_OutPut_Debug_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				                    "%Srv_OutPut_Debug_PATH%\"
 xcopy /Y "%eSDKClientLogAPI_PATH%\debug\*.dll" 			                    "%Cli_OutPut_Debug_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\release\eSDKClientLogCfgOcx.ini" 			"%Cli_OutPut_Debug_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\Log Collection Statement.txt" 			"%Cli_OutPut_Debug_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\eSDKClientLogCfg.ini" 					"%Cli_OutPut_Debug_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				                    "%Cli_OutPut_Debug_PATH%\"
 
 ::SDL2
@@ -71,11 +70,11 @@ xcopy /Y /E "%eLTE_Product_SDK_PATH%\pdb\*.*" 				"%Srv_OutPut_Release_PATH%\pdb
 ::eSDKClientLogAPI
 xcopy /Y "%eSDKClientLogAPI_PATH%\release\*.dll" 			"%Srv_OutPut_Release_PATH%\"
 xcopy /Y "%eSDKClientLogAPI_PATH%\release\eSDKClientLogCfg.ini" 			"%Srv_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\Log Collection Statement.txt" 			"%Srv_OutPut_Release_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\eSDKClientLogCfgOcx.ini" 			"%Srv_OutPut_Release_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				    "%Srv_OutPut_Release_PATH%\"
 xcopy /Y "%eSDKClientLogAPI_PATH%\release\*.dll" 			"%Cli_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\release\eSDKClientLogCfgOcx.ini" 			"%Cli_OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\Log Collection Statement.txt" 			"%Cli_OutPut_Release_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\debug\eSDKClientLogCfg.ini" 			"%Cli_OutPut_Release_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\eSDKClientLogCfgOcx.ini" 			"%Cli_OutPut_Release_PATH%\"
 xcopy /Y "%SECURE_PATH%\eSDK_Secure_C.dll" 				    "%Cli_OutPut_Release_PATH%\"
 
 ::SDL2
@@ -100,13 +99,13 @@ xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%ESDK_OCX_OutPut_Debug_PATH%\"
 ::IVS NetSource
 xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%ESDK_OCX_OutPut_Debug_PATH%\"
 
-xcopy /Y "%Cli_OutPut_Debug_PATH%\*.dll"       "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player"
-xcopy /Y "%Cli_OutPut_Debug_PATH%\*.ini"       "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player"
+xcopy /Y "%Cli_OutPut_Debug_PATH%\*.dll"       "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\"
+xcopy /Y "%Cli_OutPut_Debug_PATH%\*.ini"       "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\"
 ::IVS Player
-xcopy /Y "%IVS_Player_PATH%\dll\*.dll" 				"%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player"
-xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player"
+xcopy /Y "%IVS_Player_PATH%\dll\*.dll" 				"%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\"
+xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\"
 ::IVS NetSource
-xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player"
+xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\"
   
 ::编译 eLTE_SDK Release
 echo "--------- 编译 eLTE_SDK Release start ---------"
@@ -122,18 +121,16 @@ xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%ESDK_OCX_OutPut_Release_PATH%\"
 ::IVS NetSource
 xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%ESDK_OCX_OutPut_Release_PATH%\"
 
-::拷贝日志声明
-xcopy /Y "%Cli_OutPut_Debug_PATH%\Log Collection Statement.txt"            "%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player"
 
 ::xcopy /Y "release\eLTE_SDK\*.pdb" 				        "release\eLTE_SDK\pdb\"
 
-xcopy /Y "%Cli_OutPut_Release_PATH%\*.dll"       "%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player"
-xcopy /Y "%Cli_OutPut_Release_PATH%\*.ini"       "%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player"
+xcopy /Y "%Cli_OutPut_Release_PATH%\*.dll"       "%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player\"
+xcopy /Y "%Cli_OutPut_Release_PATH%\*.ini"       "%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player\"
 ::IVS Player
-xcopy /Y "%IVS_Player_PATH%\dll\*.dll" 				"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player"
-xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player"
+xcopy /Y "%IVS_Player_PATH%\dll\*.dll" 				"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player\"
+xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player\"
 ::IVS NetSource
-xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player"
+xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK_Player\"
 
 
 ::编译
@@ -145,7 +142,7 @@ echo "--------- 编译 eLTE_SDK_OCX Debug  end  ---------"
 
 ::xcopy /Y "%Srv_OutPut_Debug_PATH%\*.pdb" 				"%Srv_OutPut_Debug_PATH%\pdb\"
 ::xcopy /Y "debug\eLTE_SDK\*.pdb" 				        "debug\eLTE_SDK\pdb\"
-xcopy /Y "%ESDK_OCX_OutPut_Debug_PATH%\*.ocx" 			    "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player"
+xcopy /Y "%ESDK_OCX_OutPut_Debug_PATH%\*.ocx" 			    "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\"
 xcopy /Y "%ESDK_OCX_OutPut_Debug_PATH%\*.pdb" 			    "%ESDK_OCX_OutPut_Debug_PATH%\eLTE_SDK_Player\pdb\"
 
 
@@ -182,16 +179,19 @@ set ProjectPath=%cd%\..\..\src\source\eLTE_SDK
 
 ::生成的压缩包路径，根据要求进行修改
 set ZipPath=%ProjectPath%\..\..\..\..\00.Release\%DateOnly%
-set ZipName=%ZipPath%\eSDK_eLTE_OCX_V1.5.70.zip
+set ZipName=%ZipPath%\eSDK_eLTE_OCX_V2.1.10.zip
 
 ::打包
 ::--------------------------------------------------------------------------------
 ::设置各变量名
-if exist "C:\Program Files\WinRAR" (
+if "%PROCESSOR_ARCHITECTURE%"=="x86" goto x86
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" goto x64
+:x86
 set WinRarRoot=C:\Program Files\WinRAR
-)else (
-set WinRarRoot=C:\Program Files\WinRAR
-)
+goto setfinish
+:x64
+set WinRarRoot=C:\Program Files (x86)\WinRAR
+:setfinish
 
 ::创建目录
 mkdir "%ZipPath%\"
@@ -329,6 +329,5 @@ xcopy /Y "..\eLTE_Player\ReadMe.txt" 			"%ESDK_OCX_OutPut_Release_PATH%\eLTE_SDK
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK_OCX" "%ZipName%" "release\eLTE_SDK_Player\*.bat"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK_OCX" "%ZipName%" "release\eLTE_SDK_Player\*.ocx"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK_OCX" "%ZipName%" "release\eLTE_SDK_Player\pdb\*.pdb"
-"%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK_OCX" "%ZipName%" "release\eLTE_SDK_Player\Log Collection Statement.txt"
 "%WinRarRoot%\Rar.exe" u -s- -m1 -ap"eLTE_SDK_OCX" "%ZipName%" "release\eLTE_SDK_Player\ReadMe.txt"
 echo "--------- 打包 eLTE OCX Demo Source  end  ---------"

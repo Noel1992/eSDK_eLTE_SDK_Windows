@@ -22,6 +22,10 @@ IMPLEMENT_DYNAMIC(CDConsoleDlg, CDialogEx)
 
 CDConsoleDlg::CDConsoleDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CDConsoleDlg::IDD, pParent)
+	, m_ResStatus(_T(""))
+	, m_ModuleStatus(_T(""))
+	, m_GroupStatus(_T(""))
+	, m_VideoStatus(_T(""))
 {
 
 }
@@ -54,6 +58,10 @@ BEGIN_MESSAGE_MAP(CDConsoleDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_DISPATCHVIDEO, &CDConsoleDlg::OnBnClickedButtonDispatchvideo)
 	ON_BN_CLICKED(IDC_BUTTON_UNDISPATCH, &CDConsoleDlg::OnBnClickedButtonUndispatch)
 	ON_COMMAND(IDOK, &CDConsoleDlg::OnIdok)
+	ON_BN_CLICKED(IDC_BUTTON_RESSTATUS, &CDConsoleDlg::OnBnClickedButtonResstatus)
+	ON_BN_CLICKED(IDC_BUTTON_MODULESTATUS, &CDConsoleDlg::OnBnClickedButtonModulestatus)
+	ON_BN_CLICKED(IDC_BUTTON_GROUPSTATUS, &CDConsoleDlg::OnBnClickedButtonGroupstatus)
+	ON_BN_CLICKED(IDC_BUTTON_VIDEOSTATUS, &CDConsoleDlg::OnBnClickedButtonVideostatus)
 END_MESSAGE_MAP()
 
 afx_msg LRESULT CDConsoleDlg::InitDlg(WPARAM wParam, LPARAM lParam)
@@ -714,31 +722,19 @@ void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 	std::map<CString, int>::iterator&  iter = m_pELTE_SDK_DemoDlg->GetVideoInfo().find(info.strResourceId);
 	if(m_pELTE_SDK_DemoDlg->GetVideoInfo().end() != iter && 5 != iter->second)//5 is invalid
 	{
-		if (2 == iter->second)
+		if (0 == iter->second)
 		{
-			info.strFormat = _T("D1");
-		}
-		else if (0 == iter->second)
-		{
-			info.strFormat = _T("CIF");
+			info.strFormat = _T("NO");
 		}
 		else if (1 == iter->second)
 		{
-			info.strFormat = _T("QCIF");
-		}
-		else if (3 == iter->second)
-		{
-			info.strFormat = _T("720P");
-		}
-		else if (4 == iter->second)
-		{
-			info.strFormat = _T("1080P");
+			info.strFormat = _T("CIF");
 		}
 	}
 	else
 	{
 		//default
-		info.strFormat = _T("D1");
+		info.strFormat = _T("NO");
 	}
 
 	//UpdateData(TRUE);
@@ -838,4 +834,32 @@ BOOL CDConsoleDlg::PreTranslateMessage(MSG* pMsg)
 		OnBnClickedButtonSearch();
 	} 
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonResstatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	SetDlgItemText(IDC_EDIT_EVENT, CeLTE_SDK_Video_DemoDlg::Instance().m_DConsoleDlg.m_ResStatus);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonModulestatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	SetDlgItemText(IDC_EDIT_EVENT, CeLTE_SDK_Video_DemoDlg::Instance().m_DConsoleDlg.m_ModuleStatus);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonGroupstatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	SetDlgItemText(IDC_EDIT_EVENT, CeLTE_SDK_Video_DemoDlg::Instance().m_DConsoleDlg.m_GroupStatus);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonVideostatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	SetDlgItemText(IDC_EDIT_EVENT, CeLTE_SDK_Video_DemoDlg::Instance().m_DConsoleDlg.m_VideoStatus);
 }

@@ -19,53 +19,6 @@ limitations under the License.*/
 #include "GISReportMgr.h"
 
 
-// 设置逻辑队列数据并放入逻辑队列
-#define PUSH_LOGIC_QUEUE(msgType, xmlStr, iRet) {\
-	if (xmlStr.empty())\
-	{\
-	QUEUE_DATA _data;\
-	_data.ProtocolVersion = PROTOCOL_VERSION;\
-	_data.MsgType = msgType;\
-	_data.SeqID = SSL_Socket::Instance().GetSeqNum();\
-	eSDK_MEMCPY(_data.SessionID, sizeof(_data.SessionID), SessionMgr::Instance().GetSessionID().c_str(), SESSIONID_LENGTH);\
-	_data.RspCode = iRet;\
-	_data.Type = XML_CONTEXT_TYPE;\
-	_data.PacketLength = PACKET_HEAD_SIZE;\
-	_data.ssl = SSL_Socket::Instance().GetOptSSL();\
-	_data.Value = NULL;\
-	iRet = Logic_Queue::Instance().Push(_data);\
-	if (eLTE_SVC_ERR_SUCCESS != iRet)\
-		{\
-		LOG_RUN_ERROR("Logic_Queue Push failed.");\
-		delete[] _data.Value;\
-		}\
-	}\
-	else\
-	{\
-	QUEUE_DATA _data;\
-	_data.ProtocolVersion = PROTOCOL_VERSION;\
-	_data.MsgType = msgType;\
-	_data.SeqID = SSL_Socket::Instance().GetSeqNum();\
-	_data.RspCode = iRet;\
-	_data.Type = XML_CONTEXT_TYPE;\
-	_data.PacketLength = PACKET_HEAD_SIZE+xmlStr.size();\
-	_data.ssl = SSL_Socket::Instance().GetOptSSL();\
-	_data.Value = new char[xmlStr.size()+1];\
-	if (NULL == _data.Value)\
-		{\
-		LOG_RUN_DEBUG("New queue data buf failed.");\
-		return;\
-		}\
-		eSDK_MEMSET(_data.Value, 0, xmlStr.size()+1);\
-		eSDK_MEMCPY(_data.Value, xmlStr.size()+1, xmlStr.c_str(), xmlStr.size());\
-		iRet = Logic_Queue::Instance().Push(_data);\
-		if (eLTE_SVC_ERR_SUCCESS != iRet)\
-		{\
-		LOG_RUN_ERROR("Logic_Queue Push failed.");\
-		delete[] _data.Value;\
-		}\
-	}\
-}
 
 GISReportMgr::GISReportMgr(void)
 {
@@ -93,6 +46,7 @@ void GISReportMgr::notifyGISReport(GISReportIndicator* pGISReportIndicator)
 	{
 		delete pGISReportIndicator;
 		pGISReportIndicator = NULL;
+		if(pGISReportIndicator==NULL){}
 	}
 	if (eLTE_SVC_ERR_SUCCESS != iRet)
 	{
@@ -121,6 +75,7 @@ void GISReportMgr::notifyGISSubRsp(GISReportIndicator* pGISReportIndicator)
 	{
 		delete pGISReportIndicator;
 		pGISReportIndicator = NULL;
+		if(pGISReportIndicator==NULL){}
 	}
 	if (eLTE_SVC_ERR_SUCCESS != iRet)
 	{

@@ -21,8 +21,8 @@ AudioPlayer::AudioPlayer(void)
 	, m_dwVolume(0)
 	, m_orgVolume(0)
 {
-	memset(&m_waveformat, 0, sizeof(m_waveformat));
-	memset(m_WaveOutBuf, 0, sizeof(WAVE_OUT_BUF)*WAVE_RING_SZ);
+	eSDK_MEMSET(&m_waveformat, 0, sizeof(m_waveformat));
+	eSDK_MEMSET(m_WaveOutBuf, 0, sizeof(WAVE_OUT_BUF)*WAVE_RING_SZ);
 }
 
 
@@ -53,7 +53,7 @@ int AudioPlayer::WaveOutInit()
 	if (NULL == m_hWaveOut)
 	{
 		// 设置音频参数
-		memset(&m_waveformat, 0, sizeof(m_waveformat));
+		eSDK_MEMSET(&m_waveformat, 0, sizeof(m_waveformat));
 		m_waveformat.wFormatTag = WAVE_FORMAT_PCM;	// 音频格式
 		m_waveformat.nChannels = 1;					// 1单声道，2立体声
 		m_waveformat.nSamplesPerSec = 8000;			// 样本频率8.0 KHz
@@ -206,7 +206,7 @@ int AudioPlayer::WaveOutPlay(char* pAmr, unsigned int len)
 	pWaveOutBuf->Hdr.dwLoops = 0; 
 	pWaveOutBuf->Hdr.lpNext = NULL;
 	pWaveOutBuf->Hdr.reserved = 0;
-	memcpy(pWaveOutBuf->Hdr.lpData, pWav, WAV_BUFFER_SIZE);
+	eSDK_MEMCPY(pWaveOutBuf->Hdr.lpData, WAV_BUFFER_SIZE, pWav, WAV_BUFFER_SIZE);
 
 	int iRet = eLTE_ERR_SUCCESS;
 	MMRESULT mRet = waveOutPrepareHeader(m_hWaveOut, &pWaveOutBuf->Hdr, sizeof(WAVEHDR));

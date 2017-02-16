@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 /********************************************************************
 filename		: 	eLTE_RM_SDK.cpp
 author			:	zWX229156
@@ -15,6 +31,7 @@ history			:	2015/10/12 初始版本
 #include "eLTE_Tool.h"
 //log manage class 
 #include "eLTE_Log.h"
+//type define
 #include "eLTE_Types.h"
 //user manage class 
 #include "UserMgr.h"
@@ -84,8 +101,8 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_GetVersion(ELTE_CHAR** pVersion)
 	ELTE_UINT32 iLength = strlen(eLTE_SDK_VERSION);
 	*pVersion = new ELTE_CHAR[iLength + 1];
 	CHECK_INTERFACE_POINTER(*pVersion, "");
-	memset(*pVersion , 0x0, (iLength + 1));
-	memcpy(*pVersion, eLTE_SDK_VERSION, iLength);
+	eSDK_MEMSET(*pVersion , 0x0, (iLength + 1));
+	eSDK_MEMCPY(*pVersion, iLength+1, eLTE_SDK_VERSION, iLength);
 
 	LOG_INTERFACE_INFO(eLTE_SDK_ERR_SUCCESS, "Version:%s", *pVersion);
 	return eLTE_SDK_ERR_SUCCESS;
@@ -95,19 +112,21 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_GetVersion(ELTE_CHAR** pVersion)
 ELTE_INT32 __SDK_CALL ELTE_SDK_Init()
 {
 	//打开日志
-	LOG_RUN_ERROR("ELTE_SDK_Init start.");
+	MutexLocker Locker(CREATE_MUTEX());
 	std::string strIniPath = eLTE_Tool::GetDllPath(ELTE_RM_SDK_DLL_NAME);
 	strIniPath.append(LOG_INI_FILE_NAME);
 	ELTE_UINT32 logLevel[LOG_CATEGORY];
-	for (ELTE_UINT32 i = 0; i < LOG_CATEGORY; ++ i)
+	for (ELTE_UINT32 i = 0; i < LOG_CATEGORY; ++i)
 	{
 		logLevel[i] = g_uiLogLevel;
 	}
+
 	ELTE_INT32 iRet = LOG_INIT(strIniPath.c_str(), logLevel, g_strLogPath.c_str());
 	if(eLTE_SDK_ERR_SUCCESS != iRet)
 	{
-		return eLTE_SDK_ERR_LOG_INIT;		
+		return eLTE_SDK_ERR_LOG_INIT;
 	}
+
 	LOG_INTERFACE_TRACE();
 	if(NULL == g_pUserMgr)
 	{
@@ -118,10 +137,10 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_Init()
 			LOG_INTERFACE_INFO(eLTE_SDK_ERR_CREATE_OBJECT, "");
 			//关闭日志
 			LOG_EXIT();
-			return eLTE_SDK_ERR_CREATE_OBJECT;			
+			return eLTE_SDK_ERR_CREATE_OBJECT;
 		}
 	}
-
+	
 	//初始化socket
 	SSL_Socket& sslSocket = const_cast<SSL_Socket&>(g_pUserMgr->GetSSLSocket());
 	iRet = sslSocket.Init_SSL_Socket();
@@ -354,7 +373,12 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_Cleanup()
 	{
 		//断开连接
 		SSL_Socket& socket = const_cast<SSL_Socket&>(g_pUserMgr->GetSSLSocket());
-		socket.Uninit_SSL_Socket();
+		iRet = socket.Uninit_SSL_Socket();
+		if (eLTE_SDK_ERR_SUCCESS != iRet)
+		{
+			LOG_RUN_ERROR("Uninit SSL Socket failed");
+			return iRet;
+		}
 		delete g_pUserMgr;
 		g_pUserMgr = NULL;
 	}

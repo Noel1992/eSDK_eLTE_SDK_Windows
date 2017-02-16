@@ -105,8 +105,6 @@ public:
 	afx_msg void OnClickTreeMenuItem(UINT uID);
 
 	afx_msg void OnBnClickedButtonEvent0();
-	afx_msg void OnBnClickedButtonEvent2();
-	afx_msg void OnBnClickedButtonEvent6();
 
 //public:
 	//void ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml);
@@ -202,4 +200,7 @@ public:
 	afx_msg void OnBnClickedBtnHangup();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnBnClickedButtonCreateTempg();
+	afx_msg void OnBnClickedButtonEvent2();
+	afx_msg void OnBnClickedButtonEvent7();
+	afx_msg void OnBnClickedButtonEvent6();
 };

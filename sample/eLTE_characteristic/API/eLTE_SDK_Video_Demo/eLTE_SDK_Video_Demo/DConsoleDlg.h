@@ -64,6 +64,10 @@ public:
 
 public:
 	CListCtrl m_DcUsers;
+	CString m_ResStatus;	// String callback message ELTE_Event_NotifyResourceStatus
+	CString m_ModuleStatus;	// String callback message ELTE_Event_NotifyModuleStatus
+	CString m_GroupStatus;	// String callback message ELTE_Event_NotifyGroupStatus
+	CString m_VideoStatus;	// String callback message ELTE_Event_NotifportyP2pvideocallStatus
 
 	CeLTE_SDK_Video_DemoDlg* m_pELTE_SDK_DemoDlg;	// login wnd pointer
 	virtual BOOL OnInitDialog();
@@ -93,4 +97,9 @@ public:
 	afx_msg void OnBnClickedButtonUndispatch();
 	afx_msg void OnIdok();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnBnClickedButtonResstatus();
+
+	afx_msg void OnBnClickedButtonModulestatus();
+	afx_msg void OnBnClickedButtonGroupstatus();
+	afx_msg void OnBnClickedButtonVideostatus();
 };

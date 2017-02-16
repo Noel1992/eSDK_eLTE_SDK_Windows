@@ -297,30 +297,6 @@ protected:
 	BSTR ELTE_OCX_TriggerStatusReport(ULONG ulEnableStatusReport);
 
 	/**
-	 *配置管理初始化
-	 * 
-	 *该函数用于配置管理初始化
-	 *
-	 *@param[in] 	pServerIP		服务器IP
-	 *@param[in] 	pUserID			调度员账号
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	无
-	 *@par 			无
-	**/
-	//BSTR ELTE_OCX_ProvisionManagerInit(LPCTSTR pServerIP, LPCTSTR pUserID);
-
-	/**
-	 *退出配置管理
-	 * 
-	 *该函数用于退出配置管理
-	 *
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	先调用ELTE_OCX_ProvisionManagerInit接口
-	 *@par 			无
-	**/
-	//BSTR ELTE_OCX_ProvisionManagerExit(void);
-
-	/**
 	 *获取调度台群组列表
 	 * 
 	 *该函数用于获取调度台群组列表
@@ -658,18 +634,6 @@ protected:
 	BSTR ELTE_OCX_P2PHangup(LPCTSTR pResourceID);
 
 	/**
-	 *加入群组
-	 * 
-	 *该函数用于加入群组
-	 *
-	 *@param[in] 	pGroupID		群组ID
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码。
-	 *@attention	无
-	 *@par 			无
-	**/
-	//BSTR ELTE_OCX_JoinGroup(LPCTSTR pGroupID);
-
-	/**
 	 *订阅并自动加入群组
 	 * 
 	 *该函数用于订阅并自动加入群组
@@ -790,19 +754,6 @@ protected:
 	 *@par 			无
 	**/
 	BSTR ELTE_OCX_VolUnMute(LPCTSTR pResourceID, LPCTSTR pMuteParam);
-
-	/**
-	 *静音控制
-	 * 
-	 *该函数用于静音控制
-	 *
-	 *@param[in] 	pResourceID		资源ID
-	 *@param[in] 	pMuteType		    静音操作参数
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码。
-	 *@attention	无
-	 *@par 			无
-	**/
-	//BSTR ELTE_OCX_MuteControl(LPCTSTR pResourceID, LPCTSTR pMuteType);
 
 	/**
 	 *订阅/去订阅GIS终端
@@ -930,32 +881,6 @@ protected:
 	 *@par 			无
 	**/
 	BSTR ELTE_OCX_VWallStop(LPCTSTR pResVWallID, LPCTSTR pVWallStopParam);
-
-	//	BSTR ELTE_OCX_GetDcVWallIDState(LPCTSTR DstObjId);
-
-	/**
-	 *调度台发起PSTN/PLMN电话呼叫
-	 * 
-	 *该函数用于调度台发起PSTN/PLMN电话呼叫
-	 *
-	 *@param[in] 	pTelNumber		电话号码
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	无
-	 *@par 			无
-	**/
-	BSTR ELTE_OCX_TelephoneDial(LPCTSTR pTelNumber);
-
-	/**
-	 *调度台挂断PSTN/PLMN电话呼叫
-	 * 
-	 *该函数用于调度台挂断PSTN/PLMN电话呼叫
-	 *
-	 *@param[in] 	pTelNumber		电话号码
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	无
-	 *@par 			无
-	**/
-	BSTR ELTE_OCX_TelephoneHangup(LPCTSTR pTelNumber);
 
 	/**
 	 *调度台发起缜密侦听
@@ -1090,31 +1015,6 @@ protected:
 	BSTR ELTE_OCX_GetPatchGroupInfo(LPCTSTR pPatchGroupId);
 
 	/**
-	 *获取指定终端的GIS配置信息
-	 * 
-	 *该函数用于获取指定终端的GIS配置信息
-	 *
-	 *@param[in] 	pResourceID 终端ID。
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	等待配置管理下载成功
-	 *@par 			无
-	**/
-	//BSTR ELTE_OCX_GetUserSpecificGISCfg(LPCTSTR pResourceID);
-
-	/**
-	 *设置指定终端的GIS配置信息
-	 * 
-	 *该函数用于设置指定终端的GIS配置信息
-	 *
-	 *@param[in] 	pResourceID 终端ID
-					pUeGisCfg 配置信息
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	等待配置管理下载成功
-	 *@par 			无
-	**/
-	//BSTR ELTE_OCX_SetGisParam(LPCTSTR pResourceID, LPCTSTR pUeGisCfg);
-
-	/**
 	 *获取调度台订阅GIS上报的终端列表
 	 * 
 	 *该函数用于获取调度台订阅GIS上报的终端列表
@@ -1177,19 +1077,6 @@ protected:
 	 *@par 			无
 	**/
 	BSTR ELTE_OCX_P2PHalfDpxRelease(LPCTSTR pResourceID);
-
-	/**
-	 *组呼添加临时用户
-	 * 
-	 *该函数用于组呼添加临时用户
-	 *
-	 *@param[in] 	pResourceID 普通组或动态组ID
-					pPhonePatchParam 添加临时用户信息
-	 *@return 		XML格式，ResultCode=0成功，其他失败参考错误码
-	 *@attention	等待配置管理下载成功
-	 *@par 			无
-	**/
-	BSTR ELTE_OCX_TempUserJoinGroup(LPCTSTR pGroupID, LPCTSTR pPhonePatchParam);
 
 	/**
 	 *OCX消息事件

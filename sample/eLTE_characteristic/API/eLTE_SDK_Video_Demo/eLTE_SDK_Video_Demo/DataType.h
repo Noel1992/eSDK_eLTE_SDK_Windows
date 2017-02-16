@@ -122,6 +122,68 @@ typedef enum
 	GRPPATCHSTATUS =24  
 }BundleKey;
 
+
+typedef enum {
+	RESOURCE_STATUS_NORMAL = 0, //status normal
+	SDS_OVERFLOW,    //message full
+	SDS_DISCONNECT,  //DC disconnect with message server
+	SDS_CONNECT,     //DC connected with message server
+	SDS_SEND_SUCCESS, //message send success
+	SDS_SEND_FAIL, //message send failed
+	FOLDER_IS_EMPTY,  //export folder is empty
+	GIS_LICESNCE_UPDATE,  //GIS License update
+	GIS_LICENSCE_EXPIREDAY, //license imminent expiration remind,
+	//Notice there are only 7 days left for n days, positive, negative for n days has expired
+	SIP_DISCONNECT,       //DC disconnected with BCC
+	SIP_RECONNECT,       //DC reconnect with BCC
+	SIP_KEEPALIVE_REJECT, //BCC reject keepalive request from DC
+	ATTACH_UPLOAD_FAIL,   //Attachment upload failed
+	ATTACH_DOWNLOAD_FAIL,  //Attachment download failed
+	SIP_START_RUNNING,     //BCC start running
+	KICK_OFF,      //BCC kick off notification,Because the same account login somewhere else
+	ASYN_CALLBACK_RETURN,   //Asynchronous call return value
+	PASSWORD_CHANGE,    //Dispatcher password change
+	MODULE_DISCONNECT,
+	MODULE_RECONNECT,
+	SIP_KA_FAILONCE,       //DC disconnect with BCC once
+	SIP_KA_OKONCE,       //DC reconnect with BCC once
+	USER_DELETE,
+	UNKOWN_STATUS = 999
+} module_status_t;
+
+typedef enum {
+	PTT_IND_STATUS_UNKNOWN=1000,
+	PTT_IND_STATUS_RECEIVED,
+	PTT_IND_STATUS_REQUEST,
+	PTT_IND_STATUS_ACCEPT,
+	PTT_IND_STATUS_WAITING,
+	PTT_IND_STATUS_REJECT,
+	PTT_IND_STATUS_SNATCH,
+	PTT_IND_STATUS_HANGUP_OK,
+	PTT_IND_STATUS_CLOSE_OK,
+	PTT_IND_STATUS_CANCEL_OK,
+	PTT_IND_STATUS_PREMPTED,
+	/*--------Notice of change in media-------------*/
+	PTT_IND_STATUS_TX_BEGIN,        //Group call right change
+	PTT_IND_STATUS_TX_IDLE,         //Group call right idle
+	PTT_IND_STATUS_MEDIAPLANE_ERROR,
+	PTT_IND_STATUS_EMERGENCY_BEGIN,
+	PTT_IND_STATUS_EMERGENCY_UPDATE,
+	PTT_IND_STATUS_LICENSE_LIMIT
+} Speaker_Status_t;
+typedef enum {
+	SDS_MODULE = 1,   //Short message service module
+	SMS_MODULE,       //SMS module
+	AUDIO_MODULE,    //Audio service module
+	VIDEO_MODULE,  //Video service module
+	GIS_MODULE,  //GIS service module
+	SIP_MODULE,  //Signaling channel module
+	RTP_MODULE,   //Media channel module
+	RING_MODULE,   //ring add by lwj
+	SVC_MODULE, //Scheduling machine process
+	UNKOWN_MODULE = 999
+} dc_module_t;
+
 typedef enum {
 	RESOURCE_STATUS_UNKNOWN = 4000,
 	STATUS_SELECTED = 4001,    

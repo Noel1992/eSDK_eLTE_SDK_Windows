@@ -71,3 +71,4 @@ limitations under the License.*/
 // eLTE_SDK
 #include "eLTE_SDK.h"
 #include "eLTE_Types.h"
+#include "eSDK_Securec.h"

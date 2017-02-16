@@ -143,6 +143,7 @@ CDConsoleDlg::CDConsoleDlg(CWnd* pParent /*=NULL*/)
 	, m_strEvent6(_T(""))
 	, m_strEvent10(_T(""))
 	, m_strEvent11(_T(""))
+	, m_ModuleStatus(_T(""))
 {
 
 	m_strSearch = _T("");
@@ -180,6 +181,9 @@ BEGIN_MESSAGE_MAP(CDConsoleDlg, CDialog)
 	ON_BN_CLICKED(IDC_BTN_HANGUP, &CDConsoleDlg::OnBnClickedBtnHangup)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST_DCUSERS, &CDConsoleDlg::OnNMRClickListDcusers)
 	ON_MESSAGE(WM_RECEIVED, OnCallMsgReceived)
+	ON_BN_CLICKED(IDC_BUTTON_MODULESTATUS, &CDConsoleDlg::OnBnClickedButtonModulestatus)
+	ON_BN_CLICKED(IDC_BUTTON_RESSTATUS, &CDConsoleDlg::OnBnClickedButtonResstatus)
+	ON_BN_CLICKED(IDC_BUTTON_GROUPSTATUS, &CDConsoleDlg::OnBnClickedButtonGroupstatus)
 END_MESSAGE_MAP()
 
 
@@ -798,8 +802,8 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 			GroupInfo* pInfo = NULL;
 			GetSelGroupInfo(&pInfo);
 
-			ELTE_INT32 iRet = ELTE_SDK_PTTRelease(eLTE_Tool::UnicodeToANSI(pInfo->GroupID).c_str());
-			CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_PTTRelease"));
+			ELTE_INT32 iRet = ELTE_SDK_SubJoinGroup(eLTE_Tool::UnicodeToANSI(pInfo->GroupID).c_str());
+			CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_SubJoinGroup"));
 		}
 		break;
 	case ID_MENU_JOIN_DCGROUP:
@@ -1307,20 +1311,6 @@ void CDConsoleDlg::OnBnClickedButtonEvent0()
 }
 
 
-void CDConsoleDlg::OnBnClickedButtonEvent2()
-{
-	// TODO: Add your control notification handler code here
-	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent2);
-}
-
-
-void CDConsoleDlg::OnBnClickedButtonEvent6()
-{
-	// TODO: Add your control notification handler code here
-	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent6);
-}
-
-
 void CDConsoleDlg::OnItemclickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
@@ -1509,31 +1499,31 @@ void CDConsoleDlg::OnBnClickedButtonRecflist()
 
 void CDConsoleDlg::OnBnClickedBtnCallphone()
 {
-	// TODO: Add your control notification handler code here
-	CString strPhoneNum = _T("");
-	CString strDialNum = _T("");
-	CString strResult = _T("");
-
-	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
-	//Structure parameter
-	strPhoneNum.Append(_T("<Content>"));
-	strPhoneNum.Append(_T("<TelNumber>"));
-	strPhoneNum.Append(strDialNum);
-	strPhoneNum.Append(_T("</TelNumber>"));
-	strPhoneNum.Append(_T("</Content>"));
-
-	int iRet= ELTE_SDK_TelephoneDial(eLTE_Tool::UnicodeToANSI(strPhoneNum).c_str());
-	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_TelephoneDial"));
+// 	// TODO: Add your control notification handler code here
+// 	CString strPhoneNum = _T("");
+// 	CString strDialNum = _T("");
+// 	CString strResult = _T("");
+// 
+// 	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
+// 	//Structure parameter
+// 	strPhoneNum.Append(_T("<Content>"));
+// 	strPhoneNum.Append(_T("<TelNumber>"));
+// 	strPhoneNum.Append(strDialNum);
+// 	strPhoneNum.Append(_T("</TelNumber>"));
+// 	strPhoneNum.Append(_T("</Content>"));
+// 
+// 	int iRet= ELTE_SDK_TelephoneDial(eLTE_Tool::UnicodeToANSI(strPhoneNum).c_str());
+// 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_TelephoneDial"));
 }
 
 void CDConsoleDlg::OnBnClickedBtnHangup()
 {
-	// TODO: Add your control notification handler code here
-	CString strDialNum = _T("");
-	CString strResult = _T("");
-	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
-	int iRet= ELTE_SDK_TelephoneHangup(eLTE_Tool::UnicodeToANSI(strDialNum).c_str());
-	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_TelephoneHangup"));
+// 	// TODO: Add your control notification handler code here
+// 	CString strDialNum = _T("");
+// 	CString strResult = _T("");
+// 	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
+// 	int iRet= ELTE_SDK_TelephoneHangup(eLTE_Tool::UnicodeToANSI(strDialNum).c_str());
+// 	CHECK_API_RETURN_VOID(iRet, _T("ELTE_SDK_TelephoneHangup"));
 }
 
 
@@ -1573,4 +1563,26 @@ BOOL CDConsoleDlg::PreTranslateMessage(MSG* pMsg)
 		OnBnClickedButtonSearch();
 	} 
 	return CDialog::PreTranslateMessage(pMsg);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonModulestatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_ModuleStatus);
+
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonResstatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent2);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonGroupstatus()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent6);
 }

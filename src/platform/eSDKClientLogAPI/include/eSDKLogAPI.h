@@ -88,8 +88,6 @@ extern "C"
 	 *@param[in]	interfaceType	接口类型，值为1和2：其中1标识为北向接口；2标识为南向接口
 	 *@param[in]	protocolType	接口类型，值为SOAP（细分ParlayX）、Rest、COM、Native、HTTP+XML，SMPP
 	 *@param[in]	interfaceName	接口名称
-	 *@param[in]	sourceAddr		源端设备，客户端API类为空
-	 *@param[in]	targetAddr		宿端设备，客户端API类为空
 	 *@param[in]	TransactionID	唯一标识接口消息所属事务，不存在时为空
 	 *@param[in]	reqTime			请求时间
 	 *@param[in]	RespTime		应答时间
@@ -104,8 +102,6 @@ extern "C"
 		const char* interfaceType,
 		const char* protocolType,
 		const char* interfaceName,
-		const char* sourceAddr,
-		const char* targetAddr,
 		const char* TransactionID,
 		const char* reqTime,
 		const char* RespTime,
@@ -122,8 +118,6 @@ extern "C"
 	 *@param[in]	interfaceType	接口类型，值为1和2：其中1标识为北向接口；2标识为南向接口
 	 *@param[in]	protocolType	接口类型，值为SOAP（细分ParlayX）、Rest、COM、Native、HTTP+XML，SMPP
 	 *@param[in]	interfaceName	接口名称
-	 *@param[in]	sourceAddr		源端设备，客户端API类为空
-	 *@param[in]	targetAddr		宿端设备，客户端API类为空
 	 *@param[in]	TransactionID	唯一标识接口消息所属事务，不存在时为空
 	 *@param[in]	reqTime			请求时间
 	 *@param[in]	RespTime		应答时间
@@ -139,8 +133,6 @@ extern "C"
 		const char* interfaceType,
 		const char* protocolType,
 		const char* interfaceName,
-		const char* sourceAddr,
-		const char* targetAddr,
 		const char* TransactionID,
 		const char* reqTime,
 		const char* RespTime,

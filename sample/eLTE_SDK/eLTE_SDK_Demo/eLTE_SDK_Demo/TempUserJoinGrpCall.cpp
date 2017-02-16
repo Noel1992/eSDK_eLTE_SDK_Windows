@@ -47,7 +47,7 @@ END_MESSAGE_MAP()
 
 // CTempUserJoinGrpCall message handlers
 
-
+//reserved
 void CTempUserJoinGrpCall::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
@@ -67,8 +67,8 @@ void CTempUserJoinGrpCall::OnBnClickedOk()
 	strPhonePatchParam.Append(_T("</PhonePatchParam>"));
 	strPhonePatchParam.Append(_T("</Content>"));
 
-	ELTE_INT32 iRet = ELTE_SDK_TempUserJoinGroup(eLTE_Tool::UnicodeToANSI(m_strSrcNum).c_str(), eLTE_Tool::UnicodeToANSI(strPhonePatchParam).c_str());
-	CHECK_API_RETURN(iRet, _T("ELTE_SDK_TempUserJoinGroup"));
+//	ELTE_INT32 iRet = ELTE_SDK_TempUserJoinGroup(eLTE_Tool::UnicodeToANSI(m_strSrcNum).c_str(), eLTE_Tool::UnicodeToANSI(strPhonePatchParam).c_str());
+//	CHECK_API_RETURN(iRet, _T("ELTE_SDK_TempUserJoinGroup"));
 
 	CDialogEx::OnOK();
 }

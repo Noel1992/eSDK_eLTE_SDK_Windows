@@ -61,6 +61,10 @@ private:
 	//处理事件的packetdata
 	ELTE_VOID ProcessPacketData(const PACKET_DATA& packetData);
 
+	//信息分发返回类型低圈复杂度判断
+	ELTE_INT32 CheckDispatchMsg(PACKET_DATA& Packet, ELTE_UINT32 Type);
+
+
 private:
 	SSL_CTX* m_ctx;
 	SSL* m_ssl;

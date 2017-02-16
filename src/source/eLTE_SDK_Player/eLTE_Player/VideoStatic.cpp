@@ -29,7 +29,7 @@ CVideoStatic::CVideoStatic()
 	, m_skinType(0)
 	, m_pImage(NULL)
 {
-	memset(&m_struOldWndpl, 0, sizeof(m_struOldWndpl));
+	eSDK_MEMSET(&m_struOldWndpl, 0, sizeof(m_struOldWndpl));
 }
 
 CVideoStatic::~CVideoStatic()
@@ -203,7 +203,7 @@ eLTE_RET CVideoStatic::ResetFullScreen()
 		if(m_pParentWnd)
 		{
 			RECT wnd;
-			memset(&wnd, 0x0, sizeof(wnd));
+			eSDK_MEMSET(&wnd, 0x0, sizeof(wnd));
 			if(m_pParentWnd)
 			{
 				((CVideoPane*)m_pParentWnd)->GetVideoStatic().GetWindowRect(&wnd);//lint !e1774

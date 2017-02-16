@@ -27,9 +27,9 @@ VideoRender::VideoRender(void)
 	/*, m_sdlSurface(NULL)*/
 {
 	LOG_TRACE();
-	memset(&m_srcRect, 0x0, sizeof(m_srcRect));
-	memset(&m_dstRect, 0x0, sizeof(m_dstRect));
-	memset(&m_outRect, 0x0, sizeof(m_outRect));
+	eSDK_MEMSET(&m_srcRect, 0x0, sizeof(m_srcRect));
+	eSDK_MEMSET(&m_dstRect, 0x0, sizeof(m_dstRect));
+	eSDK_MEMSET(&m_outRect, 0x0, sizeof(m_outRect));
 }//lint !e1401
 
 VideoRender::VideoRender(const int& resId)
@@ -41,9 +41,9 @@ VideoRender::VideoRender(const int& resId)
 	/*, m_sdlSurface(NULL)*/
 {
 	LOG_TRACE();
-	memset(&m_srcRect, 0x0, sizeof(m_srcRect));
-	memset(&m_dstRect, 0x0, sizeof(m_dstRect));
-	memset(&m_outRect, 0x0, sizeof(m_outRect));
+	eSDK_MEMSET(&m_srcRect, 0x0, sizeof(m_srcRect));
+	eSDK_MEMSET(&m_dstRect, 0x0, sizeof(m_dstRect));
+	eSDK_MEMSET(&m_outRect, 0x0, sizeof(m_outRect));
 }//lint !e1401
 
 

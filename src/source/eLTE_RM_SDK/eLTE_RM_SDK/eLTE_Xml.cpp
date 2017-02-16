@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 #include "stdafx.h"
 #include "eLTE_Xml.h"
 
@@ -150,8 +166,6 @@ bool CXml::Save(const char *pszFileName)
 bool CXml::Save()
 {
     CHECK_POINTER(m_pszFileName, false);
-
-    //SAFE_NEW(m_pXMlDoc, TiXmlDocument);
 
     CHECK_POINTER(m_pXMlDoc, false);//lint !e774
 	
@@ -519,18 +533,7 @@ bool CXml::FindElem(const char *pszElemName)
         m_pXmlNode = m_pXmlNode->NextSibling();
         m_pXmlElem = m_pXmlNode->ToElement();
     }
-/*
-	while (0 != strcmp(pszElemName, GetElem()))
-    {
-        if (NULL == m_pXmlNode->PreviousSibling())
-        {
-            return false;
-        }
 
-        m_pXmlNode = m_pXmlNode->PreviousSibling();
-        m_pXmlElem = m_pXmlNode->ToElement();
-    }
-*/
 	const char* pNextTmpElem = this->GetElem();
 	CHECK_POINTER(pNextTmpElem, false);
     if (0 == strcmp(pszElemName, pNextTmpElem))
@@ -938,12 +941,11 @@ bool CXml::FindElemEx(const char *pszElemPath)
     char* pszPath = NULL;
     SAFE_NEW_A(pszPath, char, iNewStrLen);
     CHECK_POINTER(pszPath,false);
-    memset(pszPath, 0, iNewStrLen);
+    eSDK_MEMSET(pszPath, 0, iNewStrLen);
     char* pszTmpPath = pszPath;
 
     // 复制字符串
 	strncpy_s(pszTmpPath, iNewStrLen, pszElemPath, iNewStrLen);
-    //strcpy(pszTmpPath,pszElemPath);
     
     if(*pszTmpPath == '/')
     {
@@ -1209,12 +1211,11 @@ bool CXml::MkAndFindElemEx(const char *pszElemPath)
     char* pszPath = NULL;
     SAFE_NEW_A(pszPath, char, iNewStrLen);
     CHECK_POINTER(pszPath, false);
-    memset(pszPath, 0, iNewStrLen);
+    eSDK_MEMSET(pszPath, 0, iNewStrLen);
     char* pszTmpPath = pszPath;    
 
 	// 复制字符串
 	strncpy_s(pszTmpPath, iNewStrLen, pszElemPath, iNewStrLen);
-	//strcpy(pszTmpPath,pszElemPath);
     char *saveptr = NULL;
 	token = STRTOK( pszTmpPath, seps, &saveptr);
 	std::string pszParentNode = "";
@@ -1236,16 +1237,6 @@ bool CXml::MkAndFindElemEx(const char *pszElemPath)
 			{
 				returnFlag = false;
 				break;
-
-				//// 如果发现没有此节点则创建该节点
-    //            if(0 != strcmp(curNodeName,pszParentNode.c_str()))//lint !e527
-				//{
-    //                 (void)this->AddElem(strTemp.c_str());
-				//}else
-				//{
-    //                 (void)this->AddChildElem(strTemp.c_str());
-				//}
-    //            (void)this->FindElem(strTemp.c_str());
 			}
 
 			if(!this->MkAndNextElemEx(index))

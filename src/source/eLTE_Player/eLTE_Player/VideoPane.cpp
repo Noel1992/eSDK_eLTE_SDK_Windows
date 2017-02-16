@@ -517,65 +517,65 @@ void CVideoPane::OnNcLButtonDown(UINT nHitTest, CPoint point)
 	{
 	case HTTOP:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_TOP, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTBOTTOM:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOM, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTLEFT:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_LEFT, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTRIGHT:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_RIGHT, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTTOPLEFT:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_TOPLEFT, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTTOPRIGHT:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_TOPRIGHT, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTBOTTOMLEFT:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage( WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOMLEFT, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;
 	case HTBOTTOMRIGHT:
 		{
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, FALSE, NULL, 0);
 			SendMessage(WM_SYSCOMMAND, SC_SIZE | WMSZ_BOTTOMRIGHT, MAKELPARAM(point.x, point.y));
-			SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
+			(void)SystemParametersInfo(SPI_SETDRAGFULLWINDOWS, TRUE, NULL, 0);
 			Invalidate(TRUE);
 		}
 		break;

@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 /********************************************************************
 filename		: 	OpenSSL_Mgr.h
 author			:	zWX229156
@@ -26,12 +42,24 @@ private:
 	~OpenSSL_Mgr();
 
 public:
+	//辅助结构，确保单例模式被初始化
+	struct OpenSSL_creater 
+	{
+		OpenSSL_creater()
+		{
+			(void)OpenSSL_Mgr::Instance();
+		}
+		//辅助函数，确保被结构体不被优化掉
+		inline void do_nothing() const {}
+	};
+	static OpenSSL_creater create_OpenSSL_;
+
 	//获取实例
-	static OpenSSL_Mgr& Instance();
+	static OpenSSL_Mgr* Instance();
 	//初始化ctx
 	ELTE_INT32 Init_SSL_CTX();
 	//释放ctx以及ssl
-	ELTE_VOID Uninit_SSL_CTX();
+	ELTE_INT32 Uninit_SSL_CTX();
 	//连接ssl
 	ELTE_INT32 Connect_SSL(ELTE_INT32 socketfd);
 	//创建接受数据线程
@@ -62,7 +90,7 @@ private:
 	//消息处理
 	ELTE_VOID DoProMsg();
 	//释放资源
-	ELTE_VOID CloseResource();
+	ELTE_INT32 CloseResource();
 	//分发消息
 	ELTE_VOID DispatchMsg(const std::string& strPacket);
 	//释放数据
@@ -83,8 +111,12 @@ private:
 	MUTEX_HANDLE m_MutexSSL;
 	//Pointer of class UserMgr
 	CUserMgr* m_pUserMgr;
+	//失去连接标志位 失去连接:1 未失去连接:0
 	static ELTE_INT32 m_iLoseCon;
+	//心跳计时标志位 已开启:1 未开启:0
 	static ELTE_INT32 m_iHeartBeat;	
+	//连接失败计数
+	static ELTE_INT32 m_iLoseConCounter;
 };
 
 #endif

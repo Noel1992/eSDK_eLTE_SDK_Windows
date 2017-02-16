@@ -23,6 +23,129 @@ history     :    2015/01/12
 
 #include "mq/gisreportindicator.h"
 
+#define SET_SDS_XML() \
+	(void)xml.AddElem("SdsFrom");	\
+	(void)xml.SetElemValue(pSdsMessage->getSdsFrom().c_str());	\
+	(void)xml.AddElem("SdsSubject");	\
+	(void)xml.SetElemValue(pSdsMessage->getSdsSubject().c_str());	\
+	(void)xml.AddElem("SdsDirection");	\
+	(void)xml.SetElemValue("false");	\
+	(void)xml.AddElem("SdsDate");	\
+	(void)xml.SetElemValue(pSdsMessage->getSdsDate().c_str());	\
+	(void)xml.AddElem("SdsTime");	\
+	(void)xml.SetElemValue(pSdsMessage->getSdsTime().c_str());	\
+	if("0001" != pSdsMessage->getSdsType())	\
+	{	\
+		(void)xml.AddElem("StatusCode");	\
+		(void)xml.SetElemValue(eLTE_Tool::UInt2String(pSdsMessage->getStatusCode()).c_str());	\
+	}	\
+	xml.OutOfElem();	\
+
+#define SET_GROUPINFO_XML() \
+	(void)xml.AddChildElem("GroupNumber");	\
+	(void)xml.IntoElem();	\
+	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->GroupNumber).c_str());	\
+	(void)xml.AddElem("SetupDcId");	\
+	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->SetupDcId).c_str());	\
+	(void)xml.AddElem("PGPriority");	\
+	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->PGPriority).c_str());	\
+	(void)xml.AddElem("DcPatchIndex");	\
+	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->DcPatchIndex).c_str());	\
+	(void)xml.AddElem("PGName");	\
+	(void)xml.SetElemValue(pPatchGroupInfo->PGName.c_str());	\
+	(void)xml.AddElem("VPNID");	\
+	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->VPNID).c_str());	\
+	xml.OutOfElem();	\
+
+#define GET_XML_STR(ret) \
+	unsigned int uiLen = 0;	\
+	const char* pXmlStr = xml.GetXMLStream(uiLen);	\
+	if (NULL == pXmlStr)	\
+	{	\
+		LOG_RUN_ERROR("pXmlStr is null.");	\
+		return ret;	\
+	}	\
+	xmlStr = pXmlStr;	\
+
+#define PARSE_GROUPLIST_AND_USERLIST() \
+	uiMaxLen = XML_VAR_LENGTH;	\
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);		\
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Priority", srcValue, elemValue, uiMaxLen);	\
+	param.priority = eLTE_Tool::String2Int(elemValue);	\
+	uiMaxLen = XML_VAR_LENGTH;	\
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	\
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "MaxPeriod", srcValue, elemValue, uiMaxLen);	\
+	param.maxPeriod = eLTE_Tool::String2Int(elemValue);	\
+	if (!xmlParse.FindElem("GroupList"))	\
+	{	\
+		LOG_RUN_ERROR("FindElem GroupList failed.");	\
+		return eLTE_SVC_ERR_XML_FIND_ELEM;	\
+	}	\
+	if (xmlParse.IntoElem())	\
+	{	\
+		int iIndex = 0;	\
+		do	\
+		{	\
+			uiMaxLen = XML_VAR_LENGTH;	\
+			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	\
+			srcValue = xmlParse.GetElemValue();	\
+			if (NULL == srcValue)	\
+			{	\
+				LOG_RUN_ERROR("GetElemValue GroupID failed.");	\
+				return eLTE_SVC_ERR_XML_GET_ELEM_VALUE;	\
+			}	\
+			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);	\
+			eSDK_MEMCPY(elemValue, sizeof(elemValue), srcValue, uiMaxLen);	\
+			param.grpList[iIndex++] = eLTE_Tool::String2Int(elemValue);	\
+			if (iIndex >= 8)	\
+			{	\
+				LOG_RUN_ERROR("grpList is out of memory. the max index is 8.");	\
+				break;	\
+			}	\
+		} while (xmlParse.NextElem());	\
+		xmlParse.OutOfElem();	\
+	}	\
+	if (!xmlParse.FindElem("UserList"))	\
+	{	\
+		LOG_RUN_ERROR("FindElem UserList failed.");	\
+		return eLTE_SVC_ERR_XML_FIND_ELEM;	\
+	}	\
+	if (xmlParse.IntoElem())	\
+	{	\
+		int iIndex = 0;	\
+		do	\
+		{	\
+			uiMaxLen = XML_VAR_LENGTH;	\
+			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	\
+			srcValue = xmlParse.GetElemValue();	\
+			if (NULL == srcValue)	\
+			{	\
+				LOG_RUN_ERROR("GetElemValue UserID failed.");	\
+				return eLTE_SVC_ERR_XML_GET_ELEM_VALUE;	\
+			}	\
+			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);	\
+			eSDK_MEMCPY(elemValue, sizeof(elemValue), srcValue, uiMaxLen);	\
+			param.userList[iIndex++] = eLTE_Tool::String2Int(elemValue);	\
+			if (iIndex >= 200)	\
+			{	\
+				LOG_RUN_ERROR("grpList is out of memory. the max index is 200.");	\
+				break;	\
+			}	\
+		} while (xmlParse.NextElem());	\
+		xmlParse.OutOfElem();	\
+	}	\
+
+#define SET_SDS_XML_HEADER() \
+	CXml xml;															\
+	(void)xml.AddElem("Content");										\
+	(void)xml.AddChildElem("SdsType");									\
+	(void)xml.IntoElem();												\
+	(void)xml.SetElemValue(pSdsMessage->getSdsType().c_str());			\
+	if(!(pSdsMessage->getSdsContent().empty()))							\
+	{																	\
+		(void)xml.AddElem("SdsContent");								\
+		(void)xml.SetElemValue(pSdsMessage->getSdsContent().c_str());	\
+	}																	\
 
 // XML节点解析
 #define GET_XML_ELEM_VALUE_CHAR(xml, elem, srcValue, retValue, maxLen)			\
@@ -59,6 +182,20 @@ if (!xmlParse.FindElem("Content"))			\
 	return eLTE_SVC_ERR_XML_FIND_ELEM;			\
 }												\
 (void)xmlParse.IntoElem();						\
+
+#define IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml) \
+	if (!pInfo->empty())	\
+	{						\
+		xml.OutOfElem();	\
+	}						\
+	xml.OutOfElem();		\
+	unsigned int uiLen = 0;	\
+	const char* pXmlStr = xml.GetXMLStream(uiLen);	\
+	if (NULL == pXmlStr)							\
+	{												\
+		LOG_RUN_ERROR("pXmlStr is null.");			\
+		return eLTE_SVC_ERR_XML_CONSTRUCT;			\
+	}												\
 
 struct VIDEO_PARAM
 {
@@ -138,14 +275,14 @@ public:
 	static int GetXml_StartVWall_Req(const char* xmlStr, int& resId, VWALL_PARAM& param);
 	static int GetXml_VWallStop_Req(const char* xmlStr, int& resId, VWallStop_parameter& param);
 
-	static int GetXml_TelephoneDial_Req(const char* xmlStr, std::string& PhoneNumStr);
-	static int GetXml_TelephoneHangup_Req(const char* xmlStr, std::string& PhoneNumStr);
+// 	static int GetXml_TelephoneDial_Req(const char* xmlStr, std::string& PhoneNumStr);
+// 	static int GetXml_TelephoneHangup_Req(const char* xmlStr, std::string& PhoneNumStr);
 	
 	static int GetXml_GetResourceID_Req(const char* xmlStr, std::string& ResourceID);
 	static int GetXml_P2PTransfer_Req(const char* xmlStr, int& resId, transfer_parameter& param);
 	static int GetXml_OperatePatchGroup_Req(const char* xmlStr, PCHGRP_Para& param);
 	static int GetXml_ModifyDynamicGroup_Req(const char* xmlStr, DGNA_Modify_parameter& param);
-	static int GetXml_TempUserJoinGroup_Req(const char* xmlStr, int& resId, PhonePatch_parameter& param);
+//	static int GetXml_TempUserJoinGroup_Req(const char* xmlStr, int& resId, PhonePatch_parameter& param);
 	static int GetXml_CancelPatchGroup_Req(const char* xmlStr, int& resId);
 	static int GetXml_SetUserSpecificGISCfg_Req(const char* xmlStr, unsigned& resId, unsigned& reportPeriod, unsigned& reportDistance);
 	// 答复消息xml构造

@@ -6,7 +6,7 @@ set ProjectPath=%cd%\..\..\src\source\eLTE_Player
 
 ::拷贝依赖库
 ::--------------------------------------------------------------------------------
-set eLTE_SDK_PATH=%ProjectPath%\..\..\platform\eDC610_TD V100R004C10B185
+set eLTE_SDK_PATH=%ProjectPath%\..\..\platform\SDK
 set IVS_Player_PATH=%ProjectPath%\..\..\platform\IVS_Player
 set IVS_NetSource_PATH=%ProjectPath%\..\..\self_dev\IVS_NetSource
 set eSDKClientLogAPI_PATH=%ProjectPath%\..\..\platform\eSDKClientLogAPI
@@ -31,7 +31,7 @@ xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%OutPut_Debug_PATH%\"
 xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%OutPut_Debug_PATH%\"
 ::eSDKClientLogAPI
 xcopy /Y "%eSDKClientLogAPI_PATH%\debug\*.dll" 		"%OutPut_Debug_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\debug\eSDKClientLogCfgOcx.ini" 		"%OutPut_Debug_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\debug\eSDKClientLogCfg.ini" 		"%OutPut_Debug_PATH%\"
 ::microsoft vs
 xcopy /Y "%Microsoft_DLL_PATH%\mfc100u.dll" 		"%OutPut_Debug_PATH%\"
 ::SDL2
@@ -53,7 +53,7 @@ xcopy /Y "%IVS_Player_PATH%\dll\*.conf" 			"%OutPut_Release_PATH%\"
 xcopy /Y "%IVS_NetSource_PATH%\dll\*.dll" 			"%OutPut_Release_PATH%\"
 ::eSDKClientLogAPI
 xcopy /Y "%eSDKClientLogAPI_PATH%\release\*.dll" 	"%OutPut_Release_PATH%\"
-xcopy /Y "%eSDKClientLogAPI_PATH%\release\eSDKClientLogCfgOcx.ini" 	"%OutPut_Release_PATH%\"
+xcopy /Y "%eSDKClientLogAPI_PATH%\debug\eSDKClientLogCfg.ini" 	"%OutPut_Release_PATH%\"
 ::microsoft vs
 xcopy /Y "%Microsoft_DLL_PATH%\mfc100u.dll" 		"%OutPut_Release_PATH%\"
 ::SDL2
@@ -98,12 +98,19 @@ set ProjectPath=%cd%\..\..\src\source\eLTE_Player
 
 ::生成的压缩包路径，根据要求进行修改
 set ZipPath=%ProjectPath%\..\..\..\..\00.Release\%DateOnly%
-set ZipName=%ZipPath%\eSDK_eLTE_OCX_V1.5.30.zip
+set ZipName=%ZipPath%\eSDK_eLTE_OCX_V2.1.10.zip
 
 ::打包
 ::--------------------------------------------------------------------------------
 ::设置各变量名
-set	WinRarRoot=C:\Program Files\WinRAR
+if "%PROCESSOR_ARCHITECTURE%"=="x86" goto x86
+if "%PROCESSOR_ARCHITECTURE%"=="AMD64" goto x64
+:x86
+set WinRarRoot=C:\Program Files\WinRAR
+goto setfinish
+:x64
+set WinRarRoot=C:\Program Files (x86)\WinRAR
+:setfinish
 
 ::创建目录
 mkdir "%ZipPath%\"

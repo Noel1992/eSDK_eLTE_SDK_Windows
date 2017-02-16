@@ -5,6 +5,7 @@
 #pragma once
 
 #include "DConsoleDlg.h"
+#include "afxwin.h"
 
 // CeLTE_SDK_Video_DemoDlg dialog
 class CeLTE_SDK_Video_DemoDlg : public CDialogEx
@@ -24,6 +25,7 @@ public:
 	static ELTE_VOID __SDK_CALL ELTE_EventCallBack(ELTE_INT32 iEventType, ELTE_VOID* pEventBuf, ELTE_UINT32 uiBufSize, ELTE_VOID* pUserData);
 
 public:
+	static CeLTE_SDK_Video_DemoDlg& Instance();
 	CString& GetCurrentUserName();
 	BOOL& GetIsLogin();
 	CDConsoleDlg& GetDConsoleDlg();
@@ -51,14 +53,22 @@ public:
 	afx_msg void OnBnClickedButtonLogin();
 
 private:
-	CString m_strUserName;
-	CString m_strServerIP;
-	CString m_strLocalIP;
-	CString m_strSipPort;
 	BOOL    m_bLogin;
 
-	CDConsoleDlg m_DConsoleDlg;	//main wnd
+	BOOL GetLocalIP();
+	BOOL WriteIniFile();
+	BOOL ReadIniFile();
 	std::map<CString, int> m_VideoInfo; //resid and videoformat
+
+public:
+	CDConsoleDlg m_DConsoleDlg;	// Business main interface
+	
 public:
 	afx_msg void OnClose();
+
+	CString m_strUserName;
+	CString m_strServerIP;
+	CString m_strSipPort;
+	CComboBox m_cmbLocalIP;
+	CString m_strLocalIP;
 };

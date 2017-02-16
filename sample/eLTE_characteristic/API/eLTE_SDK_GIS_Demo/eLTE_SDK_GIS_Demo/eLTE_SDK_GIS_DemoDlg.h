@@ -5,6 +5,7 @@
 #pragma once
 
 #include "DConsoleDlg.h"
+#include "afxwin.h"
 
 // CeLTE_SDK_GIS_DemoDlg dialog
 class CeLTE_SDK_GIS_DemoDlg : public CDialogEx
@@ -48,13 +49,18 @@ public:
 	afx_msg void OnBnClickedButtonLogin();
 
 private:
-	CString m_strUserName;
-	CString m_strServerIP;
-	CString m_strLocalIP;
-	CString m_strSipPort;
 	BOOL    m_bLogin;
+
+	BOOL GetLocalIP();
+	BOOL WriteIniFile();
+	BOOL ReadIniFile();
 
 	CDConsoleDlg m_DConsoleDlg;	//main wnd
 public:
 	afx_msg void OnClose();
+	CComboBox m_cmbLocalIP;
+	CString m_strLocalIP;
+	CString m_strUserName;
+	CString m_strServerIP;
+	CString m_strSipPort;
 };

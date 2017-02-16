@@ -1525,7 +1525,7 @@ void CDConsoleDlg::OnBnClickedButtonDispatchvideo()
 	--- XML format ---
 	<Content>
 		<ResourceID>resource ID</ResourceID>
-		<Fmtvalue></Fmtvalue>//D1°¢CIF°¢QCIF°¢720P or 1080P
+		<Fmtvalue></Fmtvalue>//NO or CIF
 		<DispatchNum></DispatchNum>//Video source user number, fill in the video source terminal ID.
 		<Dstviewerlist>//Video distribution destination terminal ID list
 			<Dstviewer></Dstviewer>//the target of video distribute, terminal ID or distributer ID
@@ -1716,6 +1716,10 @@ void CDConsoleDlg::OnBnClickedButtonShow()
 	GetDlgItem(IDC_BUTTON_UNMUTE)->EnableWindow(TRUE);
 	GetDlgItem(IDC_BUTTON_DISPATCHVIDEO)->EnableWindow(TRUE);
 	GetDlgItem(IDC_BUTTON_REVERSEPLAY)->EnableWindow(TRUE);
+
+	CString strText;
+	GetDlgItemText(IDC_EDIT_TITLE, strText);
+	strResult = param.pOCX->ELTE_OCX_SetTitleText(strText);
 }
 
 
@@ -1969,7 +1973,7 @@ void CDConsoleDlg::OnNMDblclkListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 	}
 
 	SetDlgItemText(IDC_EDIT_RESID, strResID);
-	SetDlgItemText(IDC_EDIT_TITLE, _T(" µ ± ”∆µ ")+strResID);
+	SetDlgItemText(IDC_EDIT_TITLE, _T("live video ")+strResID);
 
 	// Set resource status
 	std::map<int, ST_REALPLAY_PARAM>::iterator itor = m_ResourceMap.find(StrToInt(strResID));

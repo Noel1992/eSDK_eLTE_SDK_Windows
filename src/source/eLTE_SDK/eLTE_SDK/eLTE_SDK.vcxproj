@@ -54,7 +54,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.2j\openssl-1.0.2j\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\..\third_party\open_src\sdl2-2.0.3\include;..\..\..\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\openssl-1.0.2j\openssl-1.0.2j\include;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\..\third_party\open_src\sdl2-2.0.3\include;..\..\..\\self_dev\eSDKSecurec\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeaderFile>StdAfx.h</PrecompiledHeaderFile>
     </ClCompile>

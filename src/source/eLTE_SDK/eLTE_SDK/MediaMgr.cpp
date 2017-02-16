@@ -51,19 +51,11 @@ ELTE_INT32 CMediaMgr::GetUserRECFileInfoList(const ELTE_CHAR* pQueryXml, ELTE_CH
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	ELTE_UINT32 uiDataLen = packetData.PacketLength - PACKET_HEAD_SIZE;
 	if(uiDataLen > 0)
 	{
@@ -88,25 +80,7 @@ ELTE_INT32 CMediaMgr::GetUserRECFileInfoList(const ELTE_CHAR* pQueryXml, ELTE_CH
 ELTE_INT32 CMediaMgr::StartRealPlay(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pVideoParam) const
 {
 	LOG_TRACE();
-	if(NULL == m_pUserMgr)
-	{
-		LOG_RUN_ERROR("UserMgr is null.");
-		return eLTE_SDK_ERR_NULL_POINTER;
-	}
-	CXml reqXml;
-	if(!reqXml.Parse(pVideoParam))
-	{
-		LOG_RUN_ERROR("ReqXml parse failed, param is %s.", pVideoParam);
-		return eLTE_SDK_ERR_XML_PARSE;
-	}
-	if(!reqXml.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("Find 'Content' failed, reqXml is %s.", pVideoParam);
-		return eLTE_SDK_ERR_XML_FIND_ELEM;
-	}
-	(void)reqXml.IntoElem();
-	(void)reqXml.AddElemBeforeCurNode("ResourceID");
-	(void)reqXml.SetElemValue(pResourceID);
+	SET_MEDIA_XML(pVideoParam);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -119,44 +93,22 @@ ELTE_INT32 CMediaMgr::StartRealPlay(const ELTE_CHAR* pResourceID, const ELTE_CHA
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
-	iRet = packetData.RspCode;
-	::ResetEvent(m_pUserMgr->GetEventHandle());
-	if(eLTE_SDK_ERR_SUCCESS == iRet && !CUserMgr::m_iBypass)
-	{
-		iRet = SharedMemoryMgr::Instance().CreateSharedMemory(pResourceID);
-		if(eLTE_SDK_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("CreateSharedMemory failed.");
-		}
-	}
+
+	GET_PACKAGE_DATA_MEMORY();
 	return iRet;
 }
 
 ELTE_INT32 CMediaMgr::RecvVideoPlay(const ELTE_CHAR* pResourceID) const
 {
 	LOG_TRACE();
+
 	if(NULL == m_pUserMgr)
 	{
 		LOG_RUN_ERROR("UserMgr is null.");
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("ResourceID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pResourceID);
+
+	CONSTRUCT_XML("ResourceID",pResourceID);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -169,28 +121,8 @@ ELTE_INT32 CMediaMgr::RecvVideoPlay(const ELTE_CHAR* pResourceID) const
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
-	iRet = packetData.RspCode;
-	::ResetEvent(m_pUserMgr->GetEventHandle());
-	if(eLTE_SDK_ERR_SUCCESS == iRet && !CUserMgr::m_iBypass)
-	{
-		iRet = SharedMemoryMgr::Instance().CreateSharedMemory(pResourceID);
-		if(eLTE_SDK_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("CreateSharedMemory failed.");
-		}
-	}
+
+	GET_PACKAGE_DATA_MEMORY();
 	return iRet;
 }
 
@@ -221,17 +153,8 @@ ELTE_INT32 CMediaMgr::PTZControl(const ELTE_CHAR* pResourceID, ELTE_UINT32 iPTZC
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -260,17 +183,7 @@ ELTE_INT32 CMediaMgr::StopRealPlay(const ELTE_CHAR* pResourceID) const
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	if(eLTE_SDK_ERR_SUCCESS == iRet && !CUserMgr::m_iBypass)
@@ -283,25 +196,7 @@ ELTE_INT32 CMediaMgr::StopRealPlay(const ELTE_CHAR* pResourceID) const
 ELTE_INT32 CMediaMgr::StartVideoDispatch(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pVideoDispatchParam) const
 {
 	LOG_TRACE();
-	if(NULL == m_pUserMgr)
-	{
-		LOG_RUN_ERROR("UserMgr is null.");
-		return eLTE_SDK_ERR_NULL_POINTER;
-	}
-	CXml reqXml;
-	if(!reqXml.Parse(pVideoDispatchParam))
-	{
-		LOG_RUN_ERROR("ReqXml parse failed, param is %s.", pVideoDispatchParam);
-		return eLTE_SDK_ERR_XML_PARSE;
-	}
-	if(!reqXml.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("Find 'Content' failed, reqXml is %s.", pVideoDispatchParam);
-		return eLTE_SDK_ERR_XML_FIND_ELEM;
-	}
-	(void)reqXml.IntoElem();
-	(void)reqXml.AddElemBeforeCurNode("ResourceID");
-	(void)reqXml.SetElemValue(pResourceID);
+	SET_MEDIA_XML(pVideoDispatchParam);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -314,17 +209,8 @@ ELTE_INT32 CMediaMgr::StartVideoDispatch(const ELTE_CHAR* pResourceID, const ELT
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -333,25 +219,7 @@ ELTE_INT32 CMediaMgr::StartVideoDispatch(const ELTE_CHAR* pResourceID, const ELT
 ELTE_INT32 CMediaMgr::StopVideoDispatch(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pVideoDispatchParam) const
 {
 	LOG_TRACE();
-	if(NULL == m_pUserMgr)
-	{
-		LOG_RUN_ERROR("UserMgr is null.");
-		return eLTE_SDK_ERR_NULL_POINTER;
-	}
-	CXml reqXml;
-	if(!reqXml.Parse(pVideoDispatchParam))
-	{
-		LOG_RUN_ERROR("ReqXml parse failed, param is %s.", pVideoDispatchParam);
-		return eLTE_SDK_ERR_XML_PARSE;
-	}
-	if(!reqXml.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("Find 'Content' failed, reqXml is %s.", pVideoDispatchParam);
-		return eLTE_SDK_ERR_XML_FIND_ELEM;
-	}
-	(void)reqXml.IntoElem();
-	(void)reqXml.AddElemBeforeCurNode("ResourceID");
-	(void)reqXml.SetElemValue(pResourceID);
+	SET_MEDIA_XML(pVideoDispatchParam);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -364,17 +232,8 @@ ELTE_INT32 CMediaMgr::StopVideoDispatch(const ELTE_CHAR* pResourceID, const ELTE
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -384,28 +243,7 @@ ELTE_INT32 CMediaMgr::StopVideoDispatch(const ELTE_CHAR* pResourceID, const ELTE
 ELTE_INT32 CMediaMgr::VWallStart(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pVideoParam) const
 {
 	LOG_TRACE();
-	if(NULL == m_pUserMgr)
-	{
-		LOG_RUN_ERROR("UserMgr is null.");
-		return eLTE_SDK_ERR_NULL_POINTER;
-	}
-
-	CXml reqXml;
-	if(!reqXml.Parse(pVideoParam))
-	{
-		LOG_RUN_ERROR("ReqXml parse failed, param is %s.", pVideoParam);
-		return eLTE_SDK_ERR_XML_PARSE;
-	}
-
-	if(!reqXml.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("Find 'Content' failed, reqXml is %s.", pVideoParam);
-		return eLTE_SDK_ERR_XML_FIND_ELEM;
-	}
-
-	(void)reqXml.IntoElem();
-	(void)reqXml.AddElemBeforeCurNode("ResourceID");
-	(void)reqXml.SetElemValue(pResourceID);
+	SET_MEDIA_XML(pVideoParam);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -419,20 +257,10 @@ ELTE_INT32 CMediaMgr::VWallStart(const ELTE_CHAR* pResourceID, const ELTE_CHAR* 
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 
 	if (eLTE_SDK_ERR_SUCCESS != iRet)
@@ -477,122 +305,85 @@ ELTE_INT32 CMediaMgr::VWallStop(const ELTE_CHAR* pResourceID, const ELTE_CHAR* p
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
 }
-
-ELTE_INT32 CMediaMgr::TelephoneDial(const ELTE_CHAR* pTelNumber) const
-{
-	LOG_TRACE();
-	if(NULL == m_pUserMgr)
-	{
-		LOG_RUN_ERROR("UserMgr is null.");
-		return eLTE_SDK_ERR_NULL_POINTER;
-	}
-
-	//构造xml
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("TelNumber");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pTelNumber);
-
-	ELTE_UINT32 xmlLen = 0;
-	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
-
-	//发送消息
-	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
-	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
-	ELTE_INT32 iRet = socket.SendMsg(ELTE_SERVICE_TELEPHONEDIAL_REQ, reqXml, TRUE);
-	if(eLTE_SDK_ERR_SUCCESS != iRet) 
-	{
-		return iRet;
-	}
-
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
-	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
-	iRet = packetData.RspCode;
-	::ResetEvent(m_pUserMgr->GetEventHandle());
-
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		LOG_RUN_ERROR("GetPacketData failed.");
-	}
-	return iRet;
-}
-
-ELTE_INT32 CMediaMgr::TelephoneHangup(const ELTE_CHAR* pTelNumber) const
-{
-	LOG_TRACE();
-	if(NULL == m_pUserMgr)
-	{
-		LOG_RUN_ERROR("UserMgr is null.");
-		return eLTE_SDK_ERR_NULL_POINTER;
-	}
-
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("TelNumber");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pTelNumber);
-
-	ELTE_UINT32 xmlLen = 0;
-	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
-
-	//发送消息
-	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
-	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
-	ELTE_INT32 iRet = socket.SendMsg(ELTE_SERVICE_TELEPHONEHANGUP_REQ, reqXml, TRUE);
-	if(eLTE_SDK_ERR_SUCCESS != iRet) 
-	{
-		return iRet;
-	}
-
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
-	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
-	iRet = packetData.RspCode;
-	::ResetEvent(m_pUserMgr->GetEventHandle());
-
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		LOG_RUN_ERROR("GetPacketData failed.");
-	}
-	return iRet;
-}
+// 
+// ELTE_INT32 CMediaMgr::TelephoneDial(const ELTE_CHAR* pTelNumber) const
+// {
+// 	LOG_TRACE();
+// 	if(NULL == m_pUserMgr)
+// 	{
+// 		LOG_RUN_ERROR("UserMgr is null.");
+// 		return eLTE_SDK_ERR_NULL_POINTER;
+// 	}
+// 
+// 	//构造xml
+// 	CONSTRUCT_XML("TelNumber",pTelNumber);
+// 
+// 	ELTE_UINT32 xmlLen = 0;
+// 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
+// 
+// 	//发送消息
+// 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
+// 	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
+// 	ELTE_INT32 iRet = socket.SendMsg(ELTE_SERVICE_TELEPHONEDIAL_REQ, reqXml, TRUE);
+// 	if(eLTE_SDK_ERR_SUCCESS != iRet) 
+// 	{
+// 		return iRet;
+// 	}
+// 
+// 	WAIT_SERVER_RSP();
+// 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
+// 	iRet = packetData.RspCode;
+// 
+// 	::ResetEvent(m_pUserMgr->GetEventHandle());
+// 
+// 	if (eLTE_SDK_ERR_SUCCESS != iRet)
+// 	{
+// 		LOG_RUN_ERROR("GetPacketData failed.");
+// 	}
+// 	return iRet;
+// }
+// 
+// ELTE_INT32 CMediaMgr::TelephoneHangup(const ELTE_CHAR* pTelNumber) const
+// {
+// 	LOG_TRACE();
+// 	if(NULL == m_pUserMgr)
+// 	{
+// 		LOG_RUN_ERROR("UserMgr is null.");
+// 		return eLTE_SDK_ERR_NULL_POINTER;
+// 	}
+// 
+// 	CONSTRUCT_XML("TelNumber",pTelNumber);
+// 
+// 	ELTE_UINT32 xmlLen = 0;
+// 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
+// 
+// 	//发送消息
+// 	SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
+// 	MutexLocker Locker(m_pUserMgr->GetMutexHandle());
+// 	ELTE_INT32 iRet = socket.SendMsg(ELTE_SERVICE_TELEPHONEHANGUP_REQ, reqXml, TRUE);
+// 	if(eLTE_SDK_ERR_SUCCESS != iRet) 
+// 	{
+// 		return iRet;
+// 	}
+// 
+// 	WAIT_SERVER_RSP();
+// 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
+// 	iRet = packetData.RspCode;
+// 
+// 	::ResetEvent(m_pUserMgr->GetEventHandle());
+// 
+// 	if (eLTE_SDK_ERR_SUCCESS != iRet)
+// 	{
+// 		LOG_RUN_ERROR("GetPacketData failed.");
+// 	}
+// 	return iRet;
+// }
 
 ELTE_INT32 CMediaMgr::StartDiscreetListen(const ELTE_CHAR* pResourceID) const
 {
@@ -603,11 +394,7 @@ ELTE_INT32 CMediaMgr::StartDiscreetListen(const ELTE_CHAR* pResourceID) const
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
 
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("ResourceID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pResourceID);
+	CONSTRUCT_XML("ResourceID",pResourceID);
 	
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -621,20 +408,10 @@ ELTE_INT32 CMediaMgr::StartDiscreetListen(const ELTE_CHAR* pResourceID) const
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 
 	if (eLTE_SDK_ERR_SUCCESS != iRet)
@@ -653,11 +430,7 @@ ELTE_INT32 CMediaMgr::StopDiscreetListen(const ELTE_CHAR* pResourceID) const
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
 
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("ResourceID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pResourceID);
+	CONSTRUCT_XML("ResourceID",pResourceID);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -671,20 +444,10 @@ ELTE_INT32 CMediaMgr::StopDiscreetListen(const ELTE_CHAR* pResourceID) const
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 
 	if (eLTE_SDK_ERR_SUCCESS != iRet)
@@ -703,11 +466,7 @@ ELTE_INT32 CMediaMgr::StartEnvironmentListen(const ELTE_CHAR* pResourceID) const
 		return eLTE_SDK_ERR_NULL_POINTER;
 	}
 
-	CXml reqXml;
-	(void)reqXml.AddElem("Content");
-	(void)reqXml.AddChildElem("ResourceID");
-	(void)reqXml.IntoElem();
-	(void)reqXml.SetElemValue(pResourceID);
+	CONSTRUCT_XML("ResourceID",pResourceID);
 
 	ELTE_UINT32 xmlLen = 0;
 	LOG_RUN_INFO("ReqXml is %s.", reqXml.GetXMLStream(xmlLen));
@@ -721,20 +480,10 @@ ELTE_INT32 CMediaMgr::StartEnvironmentListen(const ELTE_CHAR* pResourceID) const
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
-
+	WAIT_SERVER_RSP();
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();
 	iRet = packetData.RspCode;
+
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 
 	if (eLTE_SDK_ERR_SUCCESS != iRet)

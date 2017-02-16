@@ -21,6 +21,10 @@ history     :    2014/07/01 ≥ı º∞Ê±æ
 #ifndef __ELTE_OCX_DISPLAY_MGR_H__
 #define __ELTE_OCX_DISPLAY_MGR_H__
 
+#define FREE_POINTER(pPointer) \
+	delete pPointer;	\
+	pPointer = NULL;	\
+	if(pPointer == NULL){}	\
 
 class DisplayMgr : public DisplayManager
 {

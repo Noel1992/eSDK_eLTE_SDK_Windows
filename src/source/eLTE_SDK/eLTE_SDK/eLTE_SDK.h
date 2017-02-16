@@ -548,25 +548,6 @@ extern "C"
 	**************************************************************************/
 	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_VWallStop(const ELTE_CHAR* pResVWallID, const ELTE_CHAR* pVWallStopParam);
 
-	//C60新添加接口
-	/**************************************************************************
-	* name			: ELTE_SDK_TelephoneDial
-	* description   : 发起PSTN/PLMN电话呼叫
-	* input			: pTelNumber PSTN/PLMN网络的对端电话号码
-	* output		: N/A
-	* return		: 成功返回0，失败返回错误码
-	**************************************************************************/
-	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_TelephoneDial(const ELTE_CHAR* pTelNumber);
-
-	/**************************************************************************
-	* name			: ELTE_SDK_TelephoneHangup
-	* description   : 停止PSTN/PLMN电话呼叫
-	* input			: pTelNumber PSTN/PLMN网络的对端电话号码
-	* output		: N/A
-	* return		: 成功返回0，失败返回错误码
-	**************************************************************************/
-	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_TelephoneHangup(const ELTE_CHAR* pTelNumber);
-
 	/**************************************************************************
 	* name			: ELTE_SDK_StartDiscreetListen
 	* description   : 发起缜密监听
@@ -689,16 +670,6 @@ extern "C"
 	* return		: 成功返回0，失败返回错误码
 	**************************************************************************/
 	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_ModifyDynamicGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pDynamicGroupInfo);
-
-	/**************************************************************************
-	* name			: ELTE_SDK_TempUserJoinGroup
-	* description   : 组呼添加临时用户
-	* input			: pResourceID 普通组或动态组ID
-	                  pPhonePatchParam 动态组修改信息
-	* output		: N/A
-	* return		: 成功返回0，失败返回错误码
-	**************************************************************************/
-	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_TempUserJoinGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pPhonePatchParam);
 
 #ifdef __cplusplus
 }

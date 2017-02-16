@@ -91,7 +91,7 @@ SharedMemory::~SharedMemory(void)
 	{
 		if (m_pBuffer)
 		{
-			UnmapViewOfFile(m_pBuffer);
+			(void)UnmapViewOfFile(m_pBuffer);
 			m_pBuffer = NULL;
 		}
 		if(m_hFileHandle)

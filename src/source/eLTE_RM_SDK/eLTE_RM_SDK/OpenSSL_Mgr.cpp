@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 #include "stdafx.h"
 #include <process.h>
 
@@ -24,6 +40,7 @@
 
 ELTE_INT32 OpenSSL_Mgr::m_iLoseCon=0;
 ELTE_INT32 OpenSSL_Mgr::m_iHeartBeat=0;
+ELTE_INT32 OpenSSL_Mgr::m_iLoseConCounter=0;
 
 OpenSSL_Mgr::OpenSSL_Mgr()
 	: m_ctx(NULL)
@@ -44,7 +61,7 @@ OpenSSL_Mgr::~OpenSSL_Mgr()
 {
 	try
 	{
-		CloseResource();
+		(void)CloseResource();
 	}
 	catch(...)
 	{
@@ -52,10 +69,10 @@ OpenSSL_Mgr::~OpenSSL_Mgr()
 	}
 }//lint !e1579 
 
-OpenSSL_Mgr& OpenSSL_Mgr::Instance()
+OpenSSL_Mgr* OpenSSL_Mgr::Instance()
 {
 	static OpenSSL_Mgr s_OpenSSL_Mgr;
-	return s_OpenSSL_Mgr;
+	return &s_OpenSSL_Mgr;
 }
 
 //初始化ctx
@@ -76,8 +93,39 @@ ELTE_INT32 OpenSSL_Mgr::Init_SSL_CTX()
 	// 载入所有 SSL 错误消息
 	SSL_load_error_strings();	//lint !e438
 
-	/* 选择会话协议,安全红线要求使用TLSv1 */
-	const SSL_METHOD* _method = TLSv1_client_method();
+	//获取当前配置项目录
+	std::string strEncypCfgPath = eLTE_Tool::GetDllPath(ELTE_RM_SDK_DLL_NAME);
+	strEncypCfgPath.append(ENCRYP_INI_FILE_NAME);
+
+	//增加配置项，使加密方式可选  By WX299049 2016/01/29 start
+	char cEncrypType[4];
+	//读取加密配置文件，默认值为 1 （TLSv1_client_method）
+	GetPrivateProfileString("ENCYPCONFIG", "ENCYPTYPE", "1", cEncrypType, 4, strEncypCfgPath.c_str());
+	LOG_RUN_INFO("Encryption config file read type is:%s",cEncrypType);
+
+	const SSL_METHOD* _method;
+	switch (atoi(cEncrypType))
+	{
+	case 1:
+		{
+			//适配版本V100R003C00,使用TLSv1_client_method
+			_method = TLSv1_client_method();
+		}
+		break;
+	case 2:
+		{
+			//适配版本V100R004C00B155 ,安全红线要求使用TLSv2.  By WX299049 2016/01/15 start
+			//上一版本V100R003C00使用TLSv1_client_method	
+			_method = TLSv1_2_client_method();
+			//适配版本V100R004C00B155 ,安全红线要求使用TLSv2.  By WX299049	2016/01/15 end
+		}
+		break;
+	default:
+		LOG_RUN_ERROR("encryption method choose error,please check eSDKClientEncypCfg.ini");
+		return eLTE_SDK_ERR_INVALID_PARAM;
+	}
+	//增加配置项，使加密方式可选  By WX299049 2016/01/29 end
+
 	if (NULL == _method)
 	{
 		LOG_RUN_ERROR("TLSv1_client_method failed.");
@@ -94,10 +142,10 @@ ELTE_INT32 OpenSSL_Mgr::Init_SSL_CTX()
 	return eLTE_SDK_ERR_SUCCESS;
 }
 
-ELTE_VOID OpenSSL_Mgr::Uninit_SSL_CTX()
+ELTE_INT32 OpenSSL_Mgr::Uninit_SSL_CTX()
 {
 	LOG_TRACE();
-	CloseResource();
+	return CloseResource();
 }
 
 ELTE_VOID OpenSSL_Mgr::CleanMsgQuene()
@@ -105,34 +153,30 @@ ELTE_VOID OpenSSL_Mgr::CleanMsgQuene()
 	MutexLocker Locker(m_MutexMsgQueue);
 	while (!m_msgQueue.empty())
 	{
-		//PACKET_DATA Packet = m_msgQueue.front();
 		m_msgQueue.pop();
-		//RELEASE_PACKET(Packet);
 	}
 }
 
-ELTE_VOID OpenSSL_Mgr::CloseResource()
+ELTE_INT32 OpenSSL_Mgr::CloseResource()
 {
-	// 关闭回调
-	//CEventMgr::Instance().SetEventCallBack(NULL, NULL);
-
+	ELTE_INT32 iRet=0;
 	// 停止线程
-	if(eLTE_SDK_ERR_SUCCESS != StopRevMsg())
+	iRet = StopRevMsg();
+	if(eLTE_SDK_ERR_SUCCESS != iRet)
 	{
 		LOG_RUN_ERROR("Stop rev msg failed");
-		return;
+		return iRet;
 	}
 
-	if(eLTE_SDK_ERR_SUCCESS != StopProMsg())
+	iRet = StopProMsg();
+	if(eLTE_SDK_ERR_SUCCESS != iRet)
 	{
 		LOG_RUN_ERROR("Stop Pro msg failed");
-		return;
+		return iRet;
 	}
 
 	//清空队列
 	CleanMsgQuene();
-	//CEventMgr::Instance().StopEventProcess();
-	//CEventMgr::Instance().ClearEvents();
 	if (NULL != m_ssl)
 	{
 		// 关闭 SSL 连接
@@ -149,6 +193,7 @@ ELTE_VOID OpenSSL_Mgr::CloseResource()
 	DESTROY_MUTEX(m_MutexMsgQueue);
 	DESTROY_MUTEX(m_MutexSSL);
 	m_pUserMgr = NULL;
+	return eLTE_SDK_ERR_SUCCESS;
 }
 
 ELTE_INT32 OpenSSL_Mgr::Connect_SSL(int socketfd)
@@ -212,7 +257,6 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 	fd_set fdset;
 	timeout.tv_sec = 1;
 	timeout.tv_usec = 0;
-	//PACKET_DATA Packet;
 	ELTE_UINT32 iTotalReadSize = 0;
 	ELTE_INT32 iReadSize = 0;
 
@@ -226,7 +270,7 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 	if (0 == m_iHeartBeat)
 	{
 		m_iHeartBeat = 1;
-		RMTimer::Instance().SetTimer(HEARTBEAT_TIMER, HEARTBEAT_TIME);
+		RMTimer::Instance()->SetTimer(HEARTBEAT_TIMER, HEARTBEAT_TIME);
 	}
 
 	//receiving message start
@@ -234,13 +278,15 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 	{
 		iTotalReadSize = 0;
 		FD_ZERO(&fdset);
+		//judge whether the connect is lose
 		if (1 == m_iLoseCon)
 		{
-			if (WAIT_TIMEOUT == WaitForSingleObject(m_pUserMgr->GetEventHandle(), INFINITE))
+			m_iLoseConCounter=0;
+			//wait for reconnect success
+			if (WAIT_TIMEOUT == WaitForSingleObject(m_pUserMgr->GetEventHandle(), WAIT_CALLBACK_TIME))
 			{
 				LOG_RUN_ERROR("reconnect timeout!");
 			}
-			
 		}
 		
 		// 状态校验
@@ -249,6 +295,7 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 			LOG_RUN_ERROR("Please Connect SSL first.");
 			return;
 		}
+
 		ELTE_UINT32 tempSocket = (ELTE_UINT32)SSL_get_fd(m_ssl);
 		if(INVALID_SOCKET == tempSocket)
 		{
@@ -269,7 +316,7 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 		if(FD_ISSET(tempSocket, &fdset))
 		{
 			//RESET_PACKET(Packet);
-			memset(buf, 0, SOCKET_RECV_BUFFRM_LEN_SIZE+1);
+			eSDK_MEMSET(buf, 0, SOCKET_RECV_BUFFRM_LEN_SIZE+1);
 			//互斥锁
 			MutexLocker Locker(m_MutexSSL);
 			// 读取消息头
@@ -283,15 +330,23 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 				{
 					if (0 == m_iLoseCon)
  					{
- 						m_iLoseCon = 1;
-						//stop heart beat timer
-						if (RET_SUCCESS != RMTimer::Instance().StopTimer(HEARTBEAT_TIMER))
+						if (m_iLoseConCounter<MAX_LOSECONCOUNT)
 						{
-							LOG_RUN_ERROR("Timer Stop warning: stop timer error or timer stop running");
+							m_iLoseConCounter++;
 						}
+						else
+						{
+							m_iLoseCon = 1;
+							m_iLoseConCounter=0;
+							//stop heart beat timer
+							if (RET_SUCCESS != RMTimer::Instance()->StopTimer(HEARTBEAT_TIMER))
+							{
+								LOG_RUN_ERROR("Timer Stop warning: stop timer error or timer stop running");
+							}
 
-						//start reconnect timer
- 						RMTimer::Instance().SetTimer(RECONNECT_TIMER, RECONNECT_POLLING_TIME);
+							//start reconnect timer
+							RMTimer::Instance()->SetTimer(RECONNECT_TIMER, RECONNECT_POLLING_TIME);
+						}
  					}
 					continue;
 				}
@@ -330,7 +385,7 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 						// 申请内存失败，线程退出
 					break;
 				}
-				memset(cValue, 0, iBodyLength + 1);
+				eSDK_MEMSET(cValue, 0, iBodyLength + 1);
 				// 读取消息体
 				iReadSize = 0;
 				while(iTotalReadSize < iBodyLength)
@@ -339,25 +394,6 @@ ELTE_VOID OpenSSL_Mgr::DoRevMsg()
 					iReadSize = SSL_read(m_ssl, cValue + iTotalReadSize, BUFFER_SIZE);
 					if(0 >= iReadSize) // 读取错误或者链接断开
 					{
-						//连接断开，进行重连
-						/*if(0 == iReadSize)
-						{*/
-							if(NULL != m_pUserMgr)
-							{
-								//停止保活
-								//CTimer& timer = const_cast<CTimer&>(m_pUserMgr->GetTimer());
-								//(void)timer.StopTimer();
-								SSL_Socket& ReconSocket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
-								ELTE_INT32 iRet = ReconSocket.ConnectAgain();
-								if (eLTE_SDK_ERR_SUCCESS == iRet)
-								{
-									LOG_RUN_INFO("Read body,Connect again successed.");
-									//开启保活
-									//timer.SetTimer(KEEPALIVE_TIME * 1000);
-									break;
-								}
-							}
-						/*}*/
 						if (NULL == m_ssl)
 						{
 							break;
@@ -412,6 +448,11 @@ ELTE_INT32 OpenSSL_Mgr::StartRevMsg()
 	if(NULL != m_revThread)
 	{
 		CloseHandle(m_revThread);
+		if (0 != GetLastError())
+		{
+			LOG_RUN_ERROR("CloseHandle rev thread failed!");
+		}
+		
 		m_revThread = NULL;
 		LOG_RUN_DEBUG("Stop rev msg thread success, thread id[%d]", m_revThreadId);
 	}
@@ -458,6 +499,11 @@ ELTE_INT32 OpenSSL_Mgr::StopRevMsg()
 	}
 	
 	CloseHandle(m_revThread);
+	if (0 != GetLastError())
+	{
+		LOG_RUN_ERROR("CloseHandle rev thread failed!");
+	}
+
 	m_revThread = NULL;
 	LOG_RUN_DEBUG("Stop rev msg thread success, thread id[%d]", m_revThreadId);
 	m_revThreadId = 0;
@@ -471,6 +517,11 @@ ELTE_INT32 OpenSSL_Mgr::StartProMsg()
 	if(NULL != m_proMsgThread)
 	{
 		CloseHandle(m_proMsgThread);
+		if (0 != GetLastError())
+		{
+			LOG_RUN_ERROR("CloseHandle Pro thread failed!");
+		}
+
 		m_proMsgThread = NULL;
 		LOG_RUN_DEBUG("Stop msg process thread success, thread id[%d]", m_proMsgThreadId);
 	}
@@ -595,6 +646,7 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(const std::string& strPacket)
 			{
 				LOG_RUN_ERROR("SetXml_GetDcGroups_Rsp of logout failed.");
 			}
+
 		}
 		else if(SEQ_GETDCUSERS == uiSeq) //dc users
 		{
@@ -603,12 +655,9 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(const std::string& strPacket)
 			{
 				LOG_RUN_ERROR("SetXml_GetDcUsers_Rsp of logout failed.");
 			}
+
 		}
-		if (root["seq"].asString() != m_pUserMgr->GetCheckSeq())
-		{
-			LOG_RUN_ERROR("seq or cmd value has been changed!");
-			return;
-		}
+
 		m_pUserMgr->SetPacketData(xmlStr);
 		LOG_RUN_INFO("query 110006 :SetEvent!");
 		::SetEvent(m_pUserMgr->GetEventHandle());
@@ -672,7 +721,6 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(const std::string& strPacket)
 	else if("100007"==root["cmd"].asString())//播放和挂断状态回传
 	{
 		std::string opt=root["opt"].asString();
-//		std::string strRsp = root["rsp"].asString();
 		m_pUserMgr->SetPacketData(root["rsp"].asString());
 		LOG_RUN_INFO("Query 100007 : SetEvent!");
 		::SetEvent(m_pUserMgr->GetEventHandle());
@@ -689,7 +737,6 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(const std::string& strPacket)
 	else if("100009"==root["cmd"].asString())//云台控制
 	{
 		std::string opt=root["opt"].asString();
-//		std::string strRsp = root["rsp"].asString();
 		m_pUserMgr->SetPacketData(root["rsp"].asString());
 		LOG_RUN_INFO("Query 100009 : SetEvent!");
 		::SetEvent(m_pUserMgr->GetEventHandle());
@@ -740,6 +787,10 @@ ELTE_INT32 OpenSSL_Mgr::StopProMsg()
 		return eLTE_SDK_ERR_WAIT_TIME_OUT;
 	}
 	CloseHandle(m_proMsgThread);
+	if (0 != GetLastError())
+	{
+		LOG_RUN_ERROR("CloseHandle Pro thread failed!");
+	}
 	m_proMsgThread = NULL;
 	LOG_RUN_DEBUG("Stop pro msg thread success, thread id[%d]", m_proMsgThreadId);
 	m_proMsgThreadId = 0;
@@ -781,8 +832,6 @@ ELTE_INT32 OpenSSL_Mgr::SSL_ReConnect()
 	LOG_TRACE();
 	ELTE_INT32 iRet=0;
 	Json::Value ErrValue;
-	Json::FastWriter writer;
-	std::string strErrValue;
 	std::string xmlStr;
 
 	if (NULL == m_pUserMgr)
@@ -807,6 +856,8 @@ ELTE_INT32 OpenSSL_Mgr::SSL_ReConnect()
 		ErrValue["statusvalue"] = "10";		
 		//reset BLoseCon
 		m_iLoseCon = 0;
+		//reset m_iLoseConCounter
+		m_iLoseConCounter=0;
 		//reset Heart Beat sign
 		m_iHeartBeat = 0;
 		//send single to stop waitting
@@ -820,18 +871,13 @@ ELTE_INT32 OpenSSL_Mgr::SSL_ReConnect()
 	}
 
 	//send message back 
-	strErrValue = writer.write(ErrValue);
-	iRet = XMLProcess::SetXml_NotifyModuleStatus(ErrValue, xmlStr);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
+	int iXmlRet = XMLProcess::SetXml_NotifyModuleStatus(ErrValue, xmlStr);
+	if (eLTE_SDK_ERR_SUCCESS != iXmlRet)
 	{
 		LOG_RUN_ERROR("SetXml_NotifyUserStatus of logout failed.");
 	}
 
 	EventCallBack m_fnEventCallBack = m_pUserMgr->GetEventCallBack();
-	//if (WAIT_TIMEOUT == WaitForSingleObject(m_fnEventCallBack, WAIT_CALLBACK_TIME))
-	//{
-	//	return eLTE_SDK_ERR_CONNECT_SERVER;
-	//}
 
 	if(m_fnEventCallBack)
 	{
@@ -841,14 +887,13 @@ ELTE_INT32 OpenSSL_Mgr::SSL_ReConnect()
 			m_fnEventCallBack(ELTE_Event_NotifyModuleStatus, (ELTE_VOID*)xmlStr.c_str(), uiLength, m_pUserMgr->GetEventUserData());
 		}		
 	}
-
+	iRet = iRet | iXmlRet;
 	return iRet;
 }
 
 ELTE_INT32 OpenSSL_Mgr::SSL_HeartBeat()
 {
 	LOG_TRACE();
-	LOG_RUN_INFO("FUNCTION : SSL_HeartBeat");
 	ELTE_INT32 iRet=0;
 	if (NULL == m_pUserMgr)
 	{

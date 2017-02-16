@@ -110,13 +110,13 @@ eLTE_RET ConfigMgr::LoadConfigFile()
 		m_snapshotFormat = eLTE_SNAPSHOT_JPG;
 	}
 
-	memset(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
+	eSDK_MEMSET(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
 	dwRet = GetPrivateProfileString(SECTION_SNAPSHOT_CONFIG, _T("savePath"), _T(""), tchValue, LENGTH_LONG, szPath);
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_savePath = eLTE_Tool::UnicodeToANSI(tchValue);
 
 	// skin_config
-	memset(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
+	eSDK_MEMSET(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
 	dwRet = GetPrivateProfileString(SECTION_SKIN_CONFIG, _T("skinType"), _T(""), tchValue, LENGTH_SHORT, szPath);
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_skinType = eLTE_Tool::WString2Int(tchValue);
@@ -126,13 +126,13 @@ eLTE_RET ConfigMgr::LoadConfigFile()
 		m_skinType = eLTE_SKIN_BLACK;
 	}
 
-	memset(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
+	eSDK_MEMSET(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
 	dwRet = GetPrivateProfileString(SECTION_SKIN_CONFIG, _T("logoPath"), _T(""), tchValue, LENGTH_LONG, szPath);
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_strLogoPath = tchValue;
 
 	// audio_config
-	memset(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
+	eSDK_MEMSET(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
 	dwRet = GetPrivateProfileString(SECTION_AUDIO_CONFIG, _T("volume"), _T(""), tchValue, LENGTH_SHORT, szPath);
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_ulVolume = eLTE_Tool::WString2UInt(tchValue);
@@ -143,12 +143,12 @@ eLTE_RET ConfigMgr::LoadConfigFile()
 	}
 
 	// video_param
-	memset(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
+	eSDK_MEMSET(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
 	dwRet = GetPrivateProfileString(SECTION_VIDEO_PARAM, _T("frontFormat"), _T(""), tchValue, LENGTH_SHORT, szPath);
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_strFrontFormat = eLTE_Tool::UnicodeToANSI(tchValue);
 
-	memset(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
+	eSDK_MEMSET(tchValue, 0, sizeof(TCHAR)*LENGTH_LONG);
 	dwRet = GetPrivateProfileString(SECTION_VIDEO_PARAM, _T("backFormat"), _T(""), tchValue, LENGTH_SHORT, szPath);
 	CHECK_READ_CONFIG_FILE(dwRet);
 	m_strBackFormat = eLTE_Tool::UnicodeToANSI(tchValue);

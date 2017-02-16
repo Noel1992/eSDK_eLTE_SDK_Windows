@@ -13,6 +13,28 @@ history			:	2015/1/6 ≥ı º∞Ê±æ
 #include "eLTE_Types.h"
 #include <string>
 
+#define CONSTRUCT_XML_HEAD(nodeName,nodeValue) \
+	CXml reqXml;	\
+	(void)reqXml.AddElem("Content");	\
+	(void)reqXml.AddChildElem(nodeName);	\
+	(void)reqXml.IntoElem();	\
+	(void)reqXml.SetElemValue(nodeValue);	\
+
+	
+#define WAIT_SERVER_RSP() \
+	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);									\
+	if (eLTE_SDK_ERR_SUCCESS != iRet)													\
+	{																					\
+		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());	\
+		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())			\
+		{																				\
+			m_pUserMgr->SetServerStatus(0);												\
+			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;										\
+		}																				\
+		return iRet;																	\
+	}																					\
+
+
 class CUserMgr;//lint !e763
 class CProvisionMgr
 {

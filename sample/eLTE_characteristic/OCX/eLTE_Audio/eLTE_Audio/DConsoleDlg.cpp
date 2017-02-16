@@ -183,6 +183,9 @@ BEGIN_MESSAGE_MAP(CDConsoleDlg, CDialog)
 	ON_MESSAGE(WM_RECEIVED, OnCallMsgReceived)
 //	ON_BN_CLICKED(IDC_BTN_DISCREETLISTEN, &CDConsoleDlg::OnBnClickedBtnDiscreetlisten)
 ON_BN_CLICKED(IDC_BUTTON_CREATE_TEMPG, &CDConsoleDlg::OnBnClickedButtonCreateTempg)
+ON_BN_CLICKED(IDC_BUTTON_EVENT2, &CDConsoleDlg::OnBnClickedButtonEvent2)
+ON_BN_CLICKED(IDC_BUTTON_EVENT7, &CDConsoleDlg::OnBnClickedButtonEvent7)
+ON_BN_CLICKED(IDC_BUTTON_EVENT6, &CDConsoleDlg::OnBnClickedButtonEvent6)
 END_MESSAGE_MAP()
 
 
@@ -1180,20 +1183,6 @@ void CDConsoleDlg::OnBnClickedButtonEvent0()
 }
 
 
-void CDConsoleDlg::OnBnClickedButtonEvent2()
-{
-	// TODO: Add your control notification handler code here
-	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent2);
-}
-
-
-void CDConsoleDlg::OnBnClickedButtonEvent6()
-{
-	// TODO: Add your control notification handler code here
-	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent6);
-}
-
-
 void CDConsoleDlg::OnItemclickListDcusers(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
@@ -1366,35 +1355,35 @@ void CDConsoleDlg::OnBnClickedButtonRecflist()
 
 
 
-
+//reserved
 void CDConsoleDlg::OnBnClickedBtnCallphone()
 {
 	// TODO: Add your control notification handler code here
-	CString strPhoneNum = _T("");
-	CString strDialNum = _T("");
-	CString strResult = _T("");
-
-	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
-	//construct XML
-	strPhoneNum.Append(_T("<Content>"));
-	strPhoneNum.Append(_T("<TelNumber>"));
-	strPhoneNum.Append(strDialNum);
-	strPhoneNum.Append(_T("</TelNumber>"));
-	strPhoneNum.Append(_T("</Content>"));
-
-	strResult = m_peLTE_Player->ELTE_OCX_TelephoneDial(strPhoneNum);
-	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneDial"));
+// 	CString strPhoneNum = _T("");
+// 	CString strDialNum = _T("");
+// 	CString strResult = _T("");
+// 
+// 	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
+// 	//construct XML
+// 	strPhoneNum.Append(_T("<Content>"));
+// 	strPhoneNum.Append(_T("<TelNumber>"));
+// 	strPhoneNum.Append(strDialNum);
+// 	strPhoneNum.Append(_T("</TelNumber>"));
+// 	strPhoneNum.Append(_T("</Content>"));
+// 
+// 	strResult = m_peLTE_Player->ELTE_OCX_TelephoneDial(strPhoneNum);
+// 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneDial"));
 }
 
-
+//reserved
 void CDConsoleDlg::OnBnClickedBtnHangup()
 {
 	// TODO: Add your control notification handler code here
-	CString strDialNum = _T("");
-	CString strResult = _T("");
-	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
-	strResult = m_peLTE_Player->ELTE_OCX_TelephoneHangup(strDialNum);
-	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneHangup"));
+// 	CString strDialNum = _T("");
+// 	CString strResult = _T("");
+// 	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
+// 	strResult = m_peLTE_Player->ELTE_OCX_TelephoneHangup(strDialNum);
+// 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneHangup"));
 }
 
 
@@ -1534,4 +1523,24 @@ void CDConsoleDlg::AddTempGroup(const CString& strGroupID)
 	m_DcGroups.SetItemData(itemroot, (DWORD_PTR)pInfo);
 
 	m_DcGroups.Expand(itemroot,TVE_EXPAND);
+}
+
+void CDConsoleDlg::OnBnClickedButtonEvent2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent2);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonEvent7()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent7);
+}
+
+
+void CDConsoleDlg::OnBnClickedButtonEvent6()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_EDIT_EVENTMSG)->SetWindowText(m_strEvent6);
 }

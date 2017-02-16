@@ -1,5 +1,4 @@
 #include "stdafx.h"
-//#include <winsock2.h>
 #include "SSL_Socket.h"
 #include "OpenSSL_Mgr.h"
 #include "eLTE_Log.h"
@@ -13,7 +12,6 @@
 #define TRY_CONNECT_NUM 6
 #define CONNECT_AGAIN_TIME 25000
 #define WAIT_STOP_THREAD_TIME 3*1000
-//#define KEEPALIVE_INTERVAL 5000
 
 SSL_Socket::SSL_Socket(void)
 	: m_uiPort(0)
@@ -82,7 +80,7 @@ ELTE_INT32 SSL_Socket::SendMsg(const ELTE_USHORT& usMsgType, CXml& reqXml, const
 	}
 	eSDK_MEMSET(pBuf, 0x00, packetData.PacketLength);
 	eSDK_MEMCPY(pBuf, packetData.PacketLength, &packetData, PACKET_HEAD_SIZE);
-	if(bBodyExist)
+	if(bBodyExist && (NULL != pValue))
 	{
 		eSDK_MEMCPY(pBuf + PACKET_HEAD_SIZE, packetData.PacketLength, pValue, uiXmlLen);
 	}

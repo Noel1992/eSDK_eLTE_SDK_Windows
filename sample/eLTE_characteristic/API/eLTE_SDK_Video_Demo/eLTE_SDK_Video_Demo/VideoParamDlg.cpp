@@ -112,7 +112,7 @@ void CVideoParamDlg::OnBnClickedOk()
 	else if (1 == iSel)
 	{
 		m_pVideoParamInfo->strFormat = _T("CIF");
-	}
+	}	
 	else if (2 == iSel)
 	{
 		m_pVideoParamInfo->strFormat = _T("QCIF");

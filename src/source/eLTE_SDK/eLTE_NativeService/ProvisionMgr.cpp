@@ -37,7 +37,6 @@ ProvisionMgr& ProvisionMgr::Instance()
 int ProvisionMgr::Init(const std::string& strSrvIp, int iUserId)
 {
 	LOG_TRACE();
-	INFO_PARAM2(strSrvIp, iUserId);
 
 	// ×´Ì¬Ð£Ñé
 	if (m_bHaveInited)

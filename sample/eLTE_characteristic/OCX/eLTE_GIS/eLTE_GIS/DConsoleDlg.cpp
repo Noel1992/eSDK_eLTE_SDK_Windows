@@ -428,15 +428,19 @@ void CDConsoleDlg::GetUsers(const CString strSearch, bool bFlag)
 	for (; users.end() != itor; itor++)
 	{
 		UserInfo* pUserInfo = *itor;
-		if (false == bFlag || (-1) != pUserInfo->UserID.Find(strSearch))
+		if ("9" == pUserInfo->UserCategory)
 		{
-			int item = m_DcUsers.InsertItem(m_DcUsers.GetItemCount(), _T(""), GetUserImageId(pUserInfo->UserCategory, true));
-			m_DcUsers.SetItemText(item, DCUSERS_RESID, pUserInfo->UserID);
-			m_DcUsers.SetItemText(item, DCUSERS_STATUS, _T("offline"));
-			m_DcUsers.SetItemText(item, DCUSERS_NAME, pUserInfo->UserName);
-			m_DcUsers.SetItemText(item, DCUSERS_CATEGORY, pUserInfo->UserCategory);
-			m_DcUsers.SetItemText(item, DCUSERS_PRIORITY, pUserInfo->UserPriority);
+			if (false == bFlag || (-1) != pUserInfo->UserID.Find(strSearch))
+			{
+				int item = m_DcUsers.InsertItem(m_DcUsers.GetItemCount(), _T(""), GetUserImageId(pUserInfo->UserCategory, true));
+				m_DcUsers.SetItemText(item, DCUSERS_RESID, pUserInfo->UserID);
+				m_DcUsers.SetItemText(item, DCUSERS_STATUS, _T("offline"));
+				m_DcUsers.SetItemText(item, DCUSERS_NAME, pUserInfo->UserName);
+				m_DcUsers.SetItemText(item, DCUSERS_CATEGORY, pUserInfo->UserCategory);
+				m_DcUsers.SetItemText(item, DCUSERS_PRIORITY, pUserInfo->UserPriority);
+			}
 		}
+		
 	}
 }
 

@@ -52,11 +52,11 @@ history     :    2014/07/01 ≥ı º∞Ê±æ
 	(void)_itoa_s(resCode, strResCode, 256, 10);\
 	if(0 == resCode)\
 	{\
-		Log_Interface_Info(PRODUCT_NAME,INTERFACE_TYPE,PROTOCOL_TYPE,__FUNCTION__,"","","",strReqTime,strRspTime,strResCode,fmt,##__VA_ARGS__);\
+		Log_Interface_Info(PRODUCT_NAME,INTERFACE_TYPE,PROTOCOL_TYPE,__FUNCTION__,"",strReqTime,strRspTime,strResCode,fmt,##__VA_ARGS__);\
 	}\
 	else\
 	{\
-		Log_Interface_Error(PRODUCT_NAME,INTERFACE_TYPE,PROTOCOL_TYPE,__FUNCTION__,"","","",strReqTime,strRspTime,strResCode,fmt,##__VA_ARGS__);\
+		Log_Interface_Error(PRODUCT_NAME,INTERFACE_TYPE,PROTOCOL_TYPE,__FUNCTION__,"",strReqTime,strRspTime,strResCode,fmt,##__VA_ARGS__);\
 	}\
 }
 

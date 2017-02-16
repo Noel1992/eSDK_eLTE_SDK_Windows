@@ -1,3 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
+
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 #include "stdafx.h"
 #include "eLTE_RM_Timer.h"
 //SSL manage class
@@ -7,15 +23,13 @@
 
 //initial static variable
 int RMTimer::iTaskNum = 0;
-//int RMTimer::m_iHeartBeatCounter = 0;
-//int RMTimer::m_iReConnectCounter = 0;
 unsigned int RMTimer::m_uTimerIDArray[TIMERNUM]={0};
 
 
 /**************************************************************************
 * name       : SetTimer
 * description: 开启定时器
-* input      : tick
+* input      : tick 计时毫秒数
 * output     : NA
 * return     : NA
 * remark     : NA
@@ -34,16 +48,10 @@ void RMTimer::SetTimer(int iID, int tick)
 			if (m_uTimerIDArray[RECONNECT_TIMER] != IDLE_TIMER)
 			{
 				LOG_RUN_ERROR("Heart beat timer is already running!");
-// 				if (RET_SUCCESS != StopTimer(iID))
-// 				{
-// 					LOG_RUN_ERROR("eLTE_RM_Timer::Reconnect StopTimer error!");
-// 				}
-
 				return;
 			}
 			else
 			{
-//				m_iReConnectCounter++;
 				LOG_RUN_INFO("reconnect Timer start .");
 			}
 		}
@@ -53,16 +61,10 @@ void RMTimer::SetTimer(int iID, int tick)
 			if (m_uTimerIDArray[HEARTBEAT_TIMER] != IDLE_TIMER)
 			{
 				LOG_RUN_ERROR("Reconnect timer is already running!");
-// 				if (RET_SUCCESS != StopTimer(iID))
-// 				{
-// 					LOG_RUN_ERROR("eLTE_RM_Timer::Reconnect StopTimer error!");
-// 				}
-				
 				return;
 			}
 			else
 			{
-				//m_iHeartBeatCounter++;
 				LOG_RUN_INFO("heart beat Timer start.");
 			}
 		}
@@ -133,7 +135,7 @@ int RMTimer::DoProcess()
 	{
 	case RECONNECT_TIMER:
 		{
-			iRet = OpenSSL_Mgr::Instance().SSL_ReConnect();
+			iRet = OpenSSL_Mgr::Instance()->SSL_ReConnect();
 			//Reconnect
 			if (RET_SUCCESS == iRet)
 			{
@@ -148,7 +150,7 @@ int RMTimer::DoProcess()
 		break;
 	case HEARTBEAT_TIMER:
 		{
-			iRet = OpenSSL_Mgr::Instance().SSL_HeartBeat();
+			iRet = OpenSSL_Mgr::Instance()->SSL_HeartBeat();
 			//Heart beat 
 			if (RET_SUCCESS != iRet)
 			{
@@ -191,11 +193,6 @@ int RMTimer::StopTimer(int iID)
 				LOG_RUN_ERROR("no Reconnect timer is running!");
 				return RET_FAILED;
 			}
-			else
-			{				
-//				m_iReConnectCounter--;
-				LOG_RUN_INFO("reconnect Timer end.");
-			}
 		}
 		break;
 	case HEARTBEAT_TIMER:
@@ -205,17 +202,12 @@ int RMTimer::StopTimer(int iID)
 				LOG_RUN_ERROR("no heart beat timer is running!");
 				return RET_FAILED;
 			}
-			else
-			{
-				//m_iHeartBeatCounter--;
-				LOG_RUN_INFO("heart beat Timer end.");
-			}
+			
 		}
 		break;
 	default:
 		;
 	}
-
 
 	if(IDLE_TIMER != m_uTimerIDArray[iID])
 	{
@@ -226,8 +218,8 @@ int RMTimer::StopTimer(int iID)
 	return RET_SUCCESS;
 }
 
-RMTimer& RMTimer::Instance()
+RMTimer* RMTimer::Instance()
 {
 	static RMTimer s_RMTimer;
-	return s_RMTimer;
+	return &s_RMTimer;
 }

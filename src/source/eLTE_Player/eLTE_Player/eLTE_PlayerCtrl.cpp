@@ -951,7 +951,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_ShowToolbar(LONG ulToolbar)
 			if (NULL != pVideoRender)
 			{
 				RECT wnd;
-				memset(&wnd, 0x0, sizeof(wnd));
+				eSDK_MEMSET(&wnd, 0x0, sizeof(wnd));
 				m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
 				pVideoRender->SetDstRect(0, 0, (int)(wnd.right - wnd.left), (int)(wnd.bottom - wnd.top));
 			}
@@ -2169,7 +2169,7 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_SetVideoWindowPos(ULONG ulLeft, ULONG ulTop, ULO
 			if (NULL != pVideoRender)
 			{
 				RECT wnd;
-				memset(&wnd, 0x0, sizeof(wnd));
+				eSDK_MEMSET(&wnd, 0x0, sizeof(wnd));
 				m_VideoPane.GetVideoStatic().GetWindowRect(&wnd);
 				pVideoRender->SetDstRect(0, 0, (int)(wnd.right - wnd.left), (int)(wnd.bottom - wnd.top));
 			}

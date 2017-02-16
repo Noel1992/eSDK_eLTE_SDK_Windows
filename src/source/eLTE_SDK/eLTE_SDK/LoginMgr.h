@@ -14,6 +14,19 @@ history			:	2015/1/5 ≥ı º∞Ê±æ
 #include "eLTE_Message.h"
 #include <string>
 
+#define WAIT_SERVER_RSP() \
+	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);								\
+	if (eLTE_SDK_ERR_SUCCESS != iRet)												\
+	{																				\
+		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());\
+		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())		\
+		{																			\
+			m_pUserMgr->SetServerStatus(0);											\
+			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;									\
+		}																			\
+		return iRet;																\
+	}																				\
+
 class CUserMgr;//lint !e763
 class CLoginMgr
 {

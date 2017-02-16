@@ -188,21 +188,13 @@ uint8_t* OpencoreAmrnb::DecodeAmrToWav(uint8_t* pAmr)
 	}
 
 	// 初始化变量
-	memset(m_pWav, 0, sizeof(uint8_t)*WAV_BUFFER_SIZE);
-	memset(m_pOutBuf, 0, sizeof(int16_t)*OUT_BUFFER_SIZE);
+	eSDK_MEMSET(m_pWav, 0, sizeof(uint8_t)*WAV_BUFFER_SIZE);
+	eSDK_MEMSET(m_pOutBuf, 0, sizeof(int16_t)*OUT_BUFFER_SIZE);
 
 	// 解码一个AMR音频帧成PCM数据
 	m_fpDecoder_Interface_Decode(m_pState, pAmr, m_pOutBuf, 0);
 
-	// 转换wav
-	//uint8_t* ptr = m_pWav;
-	//for (int i = 0; i < OUT_BUFFER_SIZE; i++)
-	//{
-	//	*ptr++ = (m_pOutBuf[i] >> 0) & 0xff;
-	//	*ptr++ = (m_pOutBuf[i] >> 8) & 0xff;
-	//}
-
-	memcpy(m_pWav, m_pOutBuf, sizeof(uint8_t)*WAV_BUFFER_SIZE);
+	eSDK_MEMCPY(m_pWav, sizeof(uint8_t)*WAV_BUFFER_SIZE, m_pOutBuf, sizeof(uint8_t)*WAV_BUFFER_SIZE);
 
 	// 这里使用成员变量，避免内存重复申请释放开销
 	return m_pWav;

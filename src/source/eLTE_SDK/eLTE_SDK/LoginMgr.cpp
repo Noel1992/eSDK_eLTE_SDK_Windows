@@ -48,17 +48,8 @@ ELTE_INT32 CLoginMgr::Login(const ELTE_CHAR* pUserId, const ELTE_CHAR* pPasswd, 
 		return iRet;
 	}
 
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -88,17 +79,8 @@ ELTE_INT32 CLoginMgr::Logout(const ELTE_CHAR* pUserId) const
 		return iRet;
 	}
 	
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;
@@ -128,17 +110,8 @@ ELTE_INT32 CLoginMgr::TriggerStatusReport(const ELTE_INT32& iEnableStatusReport)
 	{
 		return iRet;
 	}
-	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);
-	if (eLTE_SDK_ERR_SUCCESS != iRet)
-	{
-		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());
-		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())
-		{
-			m_pUserMgr->SetServerStatus(0);
-			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;
-		}
-		return iRet;
-	}
+	WAIT_SERVER_RSP();
+
 	iRet = m_pUserMgr->GetPacketData().RspCode;
 	::ResetEvent(m_pUserMgr->GetEventHandle());
 	return iRet;

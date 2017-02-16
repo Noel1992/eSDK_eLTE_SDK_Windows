@@ -100,8 +100,6 @@ public:
 	afx_msg void OnClickTreeMenuItem(UINT uID);
 
 	afx_msg void OnBnClickedButtonEvent0();
-	afx_msg void OnBnClickedButtonEvent2();
-	afx_msg void OnBnClickedButtonEvent6();
 
 //public:
 	//void ELTE_PlayerEvent(UINT CtlID, ULONG ulEventId, LPCTSTR pXml);
@@ -177,11 +175,11 @@ public:
 	CString m_strEvent4;
 	CString m_strEvent5;
 	CString m_strEvent6;
-	CString m_strEvent7;
 	CString m_strEvent8;
 	CString m_strEvent9;
 	CString m_strEvent10;
-	CString m_strEvent11;	
+	CString m_strEvent11;
+	CString m_ModuleStatus;
 
 public:
 	CTreeCtrl m_PatchGroups;
@@ -191,4 +189,7 @@ public:
 	afx_msg void OnBnClickedBtnCallphone();
 	afx_msg void OnBnClickedBtnHangup();
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnBnClickedButtonModulestatus();
+	afx_msg void OnBnClickedButtonResstatus();
+	afx_msg void OnBnClickedButtonGroupstatus();
 };

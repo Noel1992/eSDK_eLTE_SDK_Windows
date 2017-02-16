@@ -253,7 +253,7 @@ BOOL eLTE_Tool::ChangeEnvironmentVariable()
 		if( ERROR_ENVVAR_NOT_FOUND == dwErr )
 		{
 			//ERROR_LOG() << "Environment variable does not exist.";
-			memset(pszOldVal, 0, BUFSIZE*sizeof(TCHAR));
+			eSDK_MEMSET(pszOldVal, 0, BUFSIZE*sizeof(TCHAR));
 		}
 		else
 		{
@@ -370,7 +370,7 @@ std::string eLTE_Tool::UnicodeToANSI(const std::wstring& str)
 
 	size_t bufsize = (size_t)(textlen+1);
 	char* pBuf = new char[bufsize];
-	memset(pBuf, 0, sizeof(char)*bufsize);
+	eSDK_MEMSET(pBuf, 0, sizeof(char)*bufsize);
 	WideCharToMultiByte(CP_ACP, 0, str.c_str(), -1, pBuf, textlen, NULL, NULL);//lint !e713
 
 	strResult = pBuf;
@@ -392,7 +392,7 @@ std::string eLTE_Tool::UnicodeToUTF8(const std::wstring& str)
 
 	size_t bufsize = (size_t)(textlen+1);
 	char* pBuf = new char[bufsize];
-	memset(pBuf, 0, sizeof(char)*bufsize);
+	eSDK_MEMSET(pBuf, 0, sizeof(char)*bufsize);
 	WideCharToMultiByte(CP_UTF8, 0, str.c_str(), -1, pBuf, textlen, NULL, NULL);//lint !e713
 
 	strResult = pBuf;
@@ -414,7 +414,7 @@ std::wstring eLTE_Tool::ANSIToUnicode(const std::string& str)
 
 	size_t bufsize = (size_t)(textlen+1);
 	wchar_t* pBuf = new wchar_t[bufsize];
-	memset(pBuf, 0, sizeof(wchar_t)*bufsize);
+	eSDK_MEMSET(pBuf, 0, sizeof(wchar_t)*bufsize);
 	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, (LPWSTR)pBuf, textlen);//lint !e713
 
 	strResult = pBuf;
@@ -435,7 +435,7 @@ std::wstring eLTE_Tool::UTF8ToUnicode(const std::string& str)
 
 	size_t bufsize = (size_t)(textlen+1);
 	wchar_t* pBuf = new wchar_t[bufsize];
-	memset(pBuf, 0, sizeof(wchar_t)*bufsize);
+	eSDK_MEMSET(pBuf, 0, sizeof(wchar_t)*bufsize);
 	MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, (LPWSTR)pBuf, textlen);//lint !e713
 
 	strResult = pBuf;

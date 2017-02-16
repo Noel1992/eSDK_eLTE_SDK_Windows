@@ -16,7 +16,10 @@ limitations under the License.*/
 #include "UserMgr.h"
 #include "EventMgr.h"
 #include <process.h>
+#include <vector>
+#include<algorithm>
 
+using namespace std;
 
 #define BUFFER_SIZE		1024
 #define WAIT_STOP_THREAD_TIME 3*1000
@@ -380,19 +383,19 @@ ELTE_INT32 OpenSSL_Mgr::StartRevMsg()
 	{
 		CloseHandle(m_revThread);
 		m_revThread = NULL;
-		LOG_RUN_DEBUG("Stop rev msg thread success, thread id[%d]", m_revThreadId);
+		LOG_RUN_DEBUG("OpenSSL_Mgr::Stop rev msg thread success, thread id[%d]", m_revThreadId);
 	}
 
 	m_revThread = (HANDLE)_beginthreadex(NULL, 0, RevMsgThread, (void*)this, 0, &m_revThreadId);
 	if(NULL == m_revThread)
 	{
-		LOG_RUN_ERROR("Start rev msg thread failed");
+		LOG_RUN_ERROR("OpenSSL_Mgr::Start rev msg thread failed");
 		return eLTE_SDK_ERR_CREATE_OBJECT;
 	}
 	else
 	{
 		m_bStopRevThtread = FALSE;
-		LOG_RUN_DEBUG("Start rev msg thread success, thread id[%d]", m_revThreadId);
+		LOG_RUN_DEBUG("OpenSSL_Mgr::Start rev msg thread success, thread id[%d]", m_revThreadId);
 		return eLTE_SDK_ERR_SUCCESS;
 	}
 }
@@ -415,18 +418,18 @@ ELTE_INT32 OpenSSL_Mgr::StopRevMsg()
 	m_bStopRevThtread = TRUE;
 	if(NULL == m_revThread)
 	{
-		LOG_RUN_DEBUG("Stop rev msg thread success, no thread is running");
+		LOG_RUN_DEBUG("OpenSSL_Mgr::Stop rev msg thread success, no thread is running");
 		return eLTE_SDK_ERR_SUCCESS;
 	}
 
 	ELTE_ULONG ulResult = ::WaitForSingleObject(m_revThread, WAIT_STOP_THREAD_TIME);//lint -e206
 	if(0 != ulResult)
 	{
-		LOG_RUN_ERROR("Wait for single object failed.");
+		LOG_RUN_ERROR("OpenSSL_Mgr::Wait for single object failed.");
 	}
 	CloseHandle(m_revThread);
 	m_revThread = NULL;
-	LOG_RUN_DEBUG("Stop rev msg thread success, thread id[%d]", m_revThreadId);
+	LOG_RUN_DEBUG("OpenSSL_Mgr::Stop rev msg thread success, thread id[%d]", m_revThreadId);
 	m_revThreadId = 0;
 	return eLTE_SDK_ERR_SUCCESS;
 }
@@ -479,6 +482,102 @@ ELTE_VOID OpenSSL_Mgr::DoProMsg()
 	}
 }
 
+ELTE_INT32 OpenSSL_Mgr::CheckDispatchMsg(PACKET_DATA& Packet, ELTE_UINT32 Type)
+{
+	LOG_TRACE();
+	if(NULL == m_pUserMgr)
+	{
+		LOG_RUN_ERROR("UserMgr is null.");
+		return eLTE_SDK_ERR_FAILED;
+	}
+
+	vector<ELTE_UINT32> conditionNo(100);
+	if (!conditionNo.empty())
+	{
+		conditionNo.clear();
+	}
+	//将条件插入到向量容器中
+
+	conditionNo.push_back(ELTE_SERVICE_LOGIN_RSP);
+	conditionNo.push_back(ELTE_SERVICE_LOGOUT_RSP);
+	conditionNo.push_back(ELTE_SERVICE_TRIGGERSTATUSREPORT_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PROVISIONMANAGERINIT_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PROVISIONMANAGERINITMRS_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PROVISIONMANAGEREXIT_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETUSERINFO_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETDCGROUPS_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETDCUSERS_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETGROUPUSERS_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETGROUPINFO_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETDCINFO_RSP);
+	conditionNo.push_back(ELTE_SERVICE_SUBSCRIBEGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETUSERRECFILEINFOLIST_RSP);
+	conditionNo.push_back(ELTE_SERVICE_CREATEDYNAMICGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_CANCELDYNAMICGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETTEMPGROUPID_RSP);
+	conditionNo.push_back(ELTE_SERVICE_CREATETEMPGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STARTREALPLAY_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PTZCONTROL_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STOPREALPLAY_RSP);
+	conditionNo.push_back(ELTE_SERVICE_DISCONNECT_RSP);
+	conditionNo.push_back(ELTE_SERVICE_SUBJOINGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GISSUBSCRIBE_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PDIAL_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PRECV_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PREJECT_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PHANGUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PBREAKOFF_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PBREAKIN_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PTTDIAL_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PTTRELEASE_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PTTHANGUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_PTTEMERGENCY_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GROUPBREAKOFF_RSP);
+	conditionNo.push_back(ELTE_SERVICE_VOLUMEMUTE_RSP);
+	conditionNo.push_back(ELTE_SERVICE_VOLUMEUNMUTE_RSP);
+	conditionNo.push_back(ELTE_SERVICE_SDSSEND_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STARTDISPATCHVIDEO_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STOPDISPATCHVIDEO_RSP);
+	conditionNo.push_back(ELTE_SERVICE_RECVVIDEOPLAY_RSP);
+	conditionNo.push_back(ELTE_SERVICE_VWALLSTART_RSP);
+	conditionNo.push_back(ELTE_SERVICE_VWALLSTOP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETVWALLLIST_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETVWALLSTATE_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PTRANSFER_RSP);
+//	conditionNo.push_back(ELTE_SERVICE_TELEPHONEDIAL_RSP);
+//	conditionNo.push_back(ELTE_SERVICE_TELEPHONEHANGUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STARTDISCREETLISTEN_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STOPDISCREETLISTEN_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STARTENVIRLISTEN_RSP);
+	conditionNo.push_back(ELTE_SERVICE_CREATEPATCHGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_CANCELPATCHGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_ADDPATCHMEMBER_RSP);
+	conditionNo.push_back(ELTE_SERVICE_DELETEPATCHMEMBER_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETPATCHGROUPS_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETPATCHGROUPMEMBERS_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETPATCHGROUPINFO_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETUSERSPECIFICGISCFG_RSP);
+	conditionNo.push_back(ELTE_SERVICE_SETUSERSPECIFICGISCFG_RSP);
+	conditionNo.push_back(ELTE_SERVICE_GETGISSUBSCRIPTION_RSP);
+	conditionNo.push_back(ELTE_SERVICE_MODIFYDYNAMICGROUP_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PHALFDPXDIAL_RSP);
+	conditionNo.push_back(ELTE_SERVICE_P2PHALFDPXRELEASE_RSP);
+//	conditionNo.push_back(ELTE_SERVICE_TEMPUSERJOINGROUP_RSP);
+	
+	vector<ELTE_UINT32>::iterator cond = find(conditionNo.begin(),conditionNo.end(),Type);
+	if (cond != conditionNo.end())	
+	{
+		m_pUserMgr->SetPacketData(Packet);
+		::SetEvent(m_pUserMgr->GetEventHandle());
+		return eLTE_SDK_ERR_SUCCESS;
+	}
+	else
+	{
+		return eLTE_SDK_ERR_FAILED;
+	}
+	
+}
+
 ELTE_VOID OpenSSL_Mgr::DispatchMsg(PACKET_DATA& Packet)
 {
 	LOG_TRACE();
@@ -489,7 +588,7 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(PACKET_DATA& Packet)
 	}
 	switch (Packet.MsgType)
 	{
-		case ELTE_SERVICE_LOGIN_RSP:
+		/*case ELTE_SERVICE_LOGIN_RSP:
 		case ELTE_SERVICE_LOGOUT_RSP:
 		case ELTE_SERVICE_TRIGGERSTATUSREPORT_RSP:
 		case ELTE_SERVICE_PROVISIONMANAGERINIT_RSP:
@@ -558,7 +657,7 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(PACKET_DATA& Packet)
 			m_pUserMgr->SetPacketData(Packet);
 			::SetEvent(m_pUserMgr->GetEventHandle());
 		}
-		break;
+		break;*/
 		case ELTE_SERVICE_CONNECT_RSP:
 		{
 			SSL_Socket& socket = const_cast<SSL_Socket&>(m_pUserMgr->GetSSLSocket());
@@ -591,8 +690,12 @@ ELTE_VOID OpenSSL_Mgr::DispatchMsg(PACKET_DATA& Packet)
 		break;
 		default:
 		{
-			LOG_RUN_ERROR("Invalid msg_type 0x%x.",Packet.MsgType);
-			RELEASE_PACKET(Packet);
+			if (eLTE_SDK_ERR_SUCCESS != CheckDispatchMsg(Packet, Packet.MsgType))
+			{
+				LOG_RUN_ERROR("Invalid msg_type 0x%x.",Packet.MsgType);
+				RELEASE_PACKET(Packet);
+			}			
+			
 		}		
 	}
 }//lint !e1762
@@ -749,7 +852,7 @@ ELTE_INT32 OpenSSL_Mgr::SendMsg(const ELTE_VOID* pData, const ELTE_UINT32& uiLen
 	if (iLen < 0)
 	{
 		iErrorCode = SSL_get_error(m_ssl, iLen);
-		LOG_RUN_ERROR("%s message Send failure ！Error code is %d.", pData, iErrorCode);
+		LOG_RUN_ERROR("%s message Send failure ！Error code is %d.", (char*)pData, iErrorCode);
 		return eLTE_SDK_ERR_SEND_MSG;
 	}
 	

@@ -92,15 +92,8 @@ int XMLProcess::SetXml_NotifyGroupStatus(GrpDspInfo* const pInfo, std::string& x
 	(void)xml.SetElemValue(pInfo->getToString());
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	
-	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -345,16 +338,10 @@ int XMLProcess::SetXml_NotifyP2pvideocallStatus(P2pvideocallStatusIndicator* con
 	(void)xml.AddElem("ToString");
 	(void)xml.SetElemValue(pInfo->getToString());
 	xml.OutOfElem();
+	LOG_RUN_DEBUG("SetXml_NotifyP2pvideocallStatus SET XML finished.");
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
+	
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -463,17 +450,7 @@ int XMLProcess::SetXml_NotifySDSReport(SdsMessageIndicator* const pSdsMessage, s
 			</Content>
 	************************************************************************/
 	LOG_TRACE();
-	CXml xml;
-	(void)xml.AddElem("Content");
-	(void)xml.AddChildElem("SdsType");
-	(void)xml.IntoElem();
-	(void)xml.SetElemValue(pSdsMessage->getSdsType().c_str());
-
-	if(!(pSdsMessage->getSdsContent().empty()))
-	{
-		(void)xml.AddElem("SdsContent");
-		(void)xml.SetElemValue(pSdsMessage->getSdsContent().c_str());
-	}
+	SET_SDS_XML_HEADER();
 
 	(void)xml.AddElem("SdsFrom");
 	(void)xml.SetElemValue(pSdsMessage->getSdsFrom().c_str());
@@ -496,7 +473,7 @@ int XMLProcess::SetXml_NotifySDSReport(SdsMessageIndicator* const pSdsMessage, s
 	{
 		(void)xml.AddElem("SdsMmsFileNameList");
 		std::list<std::string>::iterator it = recvFileList.begin();
-		//std::list<std::string> RecvfileList;
+		
 		for (; it != recvFileList.end(); ++it)
 		{
 			if(it == recvFileList.begin())
@@ -525,35 +502,9 @@ int XMLProcess::SetXml_NotifySDSReport(SdsMessageIndicator* const pSdsMessage, s
 		xml.OutOfElem();
 	}
 
-	(void)xml.AddElem("SdsSubject");
-	(void)xml.SetElemValue(pSdsMessage->getSdsSubject().c_str());
+	SET_SDS_XML();
 
-	(void)xml.AddElem("SdsDirection");
-	(void)xml.SetElemValue("false");
-
-	(void)xml.AddElem("SdsDate");
-	(void)xml.SetElemValue(pSdsMessage->getSdsDate().c_str());
-
-	(void)xml.AddElem("SdsTime");
-	(void)xml.SetElemValue(pSdsMessage->getSdsTime().c_str());
-
-	//普通短信不适用
-	if("0001" != pSdsMessage->getSdsType())
-	{
-		(void)xml.AddElem("StatusCode");
-		(void)xml.SetElemValue(eLTE_Tool::UInt2String(pSdsMessage->getStatusCode()).c_str());
-	}
-
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_FAILED;
-	}
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_FAILED);
 
 	//INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
@@ -575,50 +526,11 @@ int XMLProcess::SetXml_NotifyUserSdsStatusReport(SdsMessageIndicator* const pSds
 			</Content>
 	************************************************************************/
 	LOG_TRACE();
-	CXml xml;
-	(void)xml.AddElem("Content");
-	(void)xml.AddChildElem("SdsType");
-	(void)xml.IntoElem();
-	(void)xml.SetElemValue(pSdsMessage->getSdsType().c_str());
+	SET_SDS_XML_HEADER();
 
-	if(!(pSdsMessage->getSdsContent().empty()))
-	{
-		(void)xml.AddElem("SdsContent");
-		(void)xml.SetElemValue(pSdsMessage->getSdsContent().c_str());
-	}
+	SET_SDS_XML();
 
-	(void)xml.AddElem("SdsFrom");
-	(void)xml.SetElemValue(pSdsMessage->getSdsFrom().c_str());
-
-	(void)xml.AddElem("SdsSubject");
-	(void)xml.SetElemValue(pSdsMessage->getSdsSubject().c_str());
-
-	(void)xml.AddElem("SdsDirection");
-	(void)xml.SetElemValue("false");
-
-	(void)xml.AddElem("SdsDate");
-	(void)xml.SetElemValue(pSdsMessage->getSdsDate().c_str());
-
-	(void)xml.AddElem("SdsTime");
-	(void)xml.SetElemValue(pSdsMessage->getSdsTime().c_str());
-
-	//普通短信不适用
-	if("0001" != pSdsMessage->getSdsType())
-	{
-		(void)xml.AddElem("StatusCode");
-		(void)xml.SetElemValue(eLTE_Tool::UInt2String(pSdsMessage->getStatusCode()).c_str());
-	}
-
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_FAILED;
-	}
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_FAILED);
 
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
@@ -1225,15 +1137,7 @@ int XMLProcess::SetXml_NotifyGISStatus(GISReportIndicator* const pInfo, std::str
 	xml.OutOfElem();
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -1247,25 +1151,7 @@ int XMLProcess::GetXml_Connect_Req(const char* xmlStr, std::string& passwd)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 64;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1292,25 +1178,7 @@ int XMLProcess::GetXml_Login_Req(const char* xmlStr,
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1374,25 +1242,7 @@ int XMLProcess::GetXml_Logout_Req(const char* xmlStr, std::string& userId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1414,25 +1264,7 @@ int XMLProcess::GetXml_TriggerStatusReport_Req(const char* xmlStr, unsigned int&
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1455,25 +1287,7 @@ int XMLProcess::GetXml_ProvisionManagerInit_Req(const char* xmlStr, std::string&
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1500,25 +1314,7 @@ int XMLProcess::GetXml_ProvisionManagerInitMRS_Req(const char* xmlStr, std::stri
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1540,25 +1336,7 @@ int XMLProcess::GetXml_GetDcGroups_Req(const char* xmlStr, int& userId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1580,25 +1358,7 @@ int XMLProcess::GetXml_GetDcUsers_Req(const char* xmlStr, int& userId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1620,25 +1380,7 @@ int XMLProcess::GetXml_GetGroupUsers_Req(const char* xmlStr, int& groupId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1660,25 +1402,7 @@ int XMLProcess::GetXml_GetGroupInfo_Req(const char* xmlStr, int& groupId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1700,25 +1424,7 @@ int XMLProcess::GetXml_GetUserInfo_Req(const char* xmlStr, int& userId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1740,25 +1446,7 @@ int XMLProcess::GetXml_GetDcInfo_Req(const char* xmlStr, int& userId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1781,25 +1469,7 @@ int XMLProcess::GetXml_SubscribeGroup_Req(const char* xmlStr, int& groupId, unsi
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -1833,25 +1503,7 @@ int XMLProcess::GetXml_GetUserRECFileInfoList_Req(const char* xmlStr, RECQueryIn
 	</Content>
 	************************************************************************/
 	
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 	if (!xmlParse.FindElem("RECQueryInfo"))
 	{
 		LOG_RUN_ERROR("FindElem RECQueryInfo failed.");
@@ -1927,68 +1579,50 @@ int XMLProcess::GetXml_GetUserRECFileInfoList_Req(const char* xmlStr, RECQueryIn
 
 	return eLTE_SVC_ERR_SUCCESS;
 }
-
-int XMLProcess::GetXml_TempUserJoinGroup_Req(const char* xmlStr, int& resId, PhonePatch_parameter& param)
-{
-/************************************************************************
-	--- XML 格式 ---
-	<Content>
-		<PhonePatchParam>
-			<ResourceID>普通组或动态组ID</ResourceID>
-			<DcID>调度台ID</DcID>
-			<UserID>添加到组内的临时用户ID号</UserID>
-		</PhonePatchParam>
-	</Content>
-	************************************************************************/
-
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
-
-	const unsigned int XML_VAR_LENGTH = 20;
-	char elemValue[XML_VAR_LENGTH] = {0};
-	const char* srcValue;
-	unsigned int uiMaxLen = XML_VAR_LENGTH;
-
-	if (!xmlParse.FindElem("PhonePatchParam"))
-	{
-		LOG_RUN_ERROR("FindElem PhonePatchParam failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
-
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
-	resId = eLTE_Tool::String2Int(elemValue);
-
-	uiMaxLen = XML_VAR_LENGTH;
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "DcID", srcValue, elemValue, uiMaxLen);
-	param.DCID = eLTE_Tool::String2Int(elemValue);
-
-	uiMaxLen = MAX_TELENUMBER_LENGTH;
-	eSDK_MEMSET(param.UserID, 0, sizeof(char)*MAX_TELENUMBER_LENGTH);	
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "UserID", srcValue, param.UserID, uiMaxLen);
-	
-
-	return eLTE_SVC_ERR_SUCCESS;	
-}
+// 
+// int XMLProcess::GetXml_TempUserJoinGroup_Req(const char* xmlStr, int& resId, PhonePatch_parameter& param)
+// {
+// /************************************************************************
+// 	--- XML 格式 ---
+// 	<Content>
+// 		<PhonePatchParam>
+// 			<ResourceID>普通组或动态组ID</ResourceID>
+// 			<DcID>调度台ID</DcID>
+// 			<UserID>添加到组内的临时用户ID号</UserID>
+// 		</PhonePatchParam>
+// 	</Content>
+// 	************************************************************************/
+// 
+// 	PARSE_XML_DATA(xmlStr);
+// 
+// 	const unsigned int XML_VAR_LENGTH = 20;
+// 	char elemValue[XML_VAR_LENGTH] = {0};
+// 	const char* srcValue;
+// 	unsigned int uiMaxLen = XML_VAR_LENGTH;
+// 
+// 	if (!xmlParse.FindElem("PhonePatchParam"))
+// 	{
+// 		LOG_RUN_ERROR("FindElem PhonePatchParam failed.");
+// 		return eLTE_SVC_ERR_XML_FIND_ELEM;
+// 	}
+// 	(void)xmlParse.IntoElem();
+// 
+// 	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+// 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
+// 	resId = eLTE_Tool::String2Int(elemValue);
+// 
+// 	uiMaxLen = XML_VAR_LENGTH;
+// 	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+// 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "DcID", srcValue, elemValue, uiMaxLen);
+// 	param.DCID = eLTE_Tool::String2Int(elemValue);
+// 
+// 	uiMaxLen = MAX_TELENUMBER_LENGTH;
+// 	eSDK_MEMSET(param.UserID, 0, sizeof(char)*MAX_TELENUMBER_LENGTH);	
+// 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "UserID", srcValue, param.UserID, uiMaxLen);
+// 	
+// 
+// 	return eLTE_SVC_ERR_SUCCESS;	
+// }
 
 int XMLProcess::GetXml_ModifyDynamicGroup_Req(const char* xmlStr, DGNA_Modify_parameter& param)
 {
@@ -2008,25 +1642,7 @@ int XMLProcess::GetXml_ModifyDynamicGroup_Req(const char* xmlStr, DGNA_Modify_pa
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 50;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -2038,7 +1654,7 @@ int XMLProcess::GetXml_ModifyDynamicGroup_Req(const char* xmlStr, DGNA_Modify_pa
 		LOG_RUN_ERROR("FindElem DynamicGroupInfo failed.");
 		return eLTE_SVC_ERR_XML_FIND_ELEM;
 	}
-	xmlParse.IntoElem();
+	(void)xmlParse.IntoElem();
 
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
 	param.dcId = eLTE_Tool::String2Int(elemValue);
@@ -2077,6 +1693,7 @@ int XMLProcess::GetXml_ModifyDynamicGroup_Req(const char* xmlStr, DGNA_Modify_pa
 				break;
 			}
 		} while (xmlParse.NextElem());
+
 		param.addList[iIndex] = 0;
 		xmlParse.OutOfElem();
 	}
@@ -2131,25 +1748,7 @@ int XMLProcess::GetXml_OperatePatchGroup_Req(const char* xmlStr, PCHGRP_Para& pa
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 50;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -2226,25 +1825,7 @@ int XMLProcess::GetXml_CreateDynamicGroup_Req(const char* xmlStr, DGNA_parameter
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 50;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -2268,80 +1849,7 @@ int XMLProcess::GetXml_CreateDynamicGroup_Req(const char* xmlStr, DGNA_parameter
 		}
 	}
 
-	uiMaxLen = XML_VAR_LENGTH;
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Priority", srcValue, elemValue, uiMaxLen);
-	param.priority = eLTE_Tool::String2Int(elemValue);
-
-	uiMaxLen = XML_VAR_LENGTH;
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "MaxPeriod", srcValue, elemValue, uiMaxLen);
-	param.maxPeriod = eLTE_Tool::String2Int(elemValue);
-
-	if (!xmlParse.FindElem("GroupList"))
-	{
-		LOG_RUN_ERROR("FindElem GroupList failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	if (xmlParse.IntoElem())
-	{
-		int iIndex = 0;
-		do 
-		{
-			uiMaxLen = XML_VAR_LENGTH;
-			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-
-			srcValue = xmlParse.GetElemValue();
-			if (NULL == srcValue)
-			{
-				LOG_RUN_ERROR("GetElemValue GroupID failed.");
-				return eLTE_SVC_ERR_XML_GET_ELEM_VALUE;
-			}
-			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);
-			eSDK_MEMCPY(elemValue, sizeof(elemValue), srcValue, uiMaxLen);
-			param.grpList[iIndex++] = eLTE_Tool::String2Int(elemValue);
-
-			if (iIndex >= 8)
-			{
-				LOG_RUN_ERROR("grpList is out of memory. the max index is 8.");
-				break;
-			}
-		} while (xmlParse.NextElem());
-		xmlParse.OutOfElem();
-	}
-
-	if (!xmlParse.FindElem("UserList"))
-	{
-		LOG_RUN_ERROR("FindElem UserList failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	if (xmlParse.IntoElem())
-	{
-		int iIndex = 0;
-		do 
-		{
-			uiMaxLen = XML_VAR_LENGTH;
-			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-
-			srcValue = xmlParse.GetElemValue();
-			if (NULL == srcValue)
-			{
-				LOG_RUN_ERROR("GetElemValue UserID failed.");
-				return eLTE_SVC_ERR_XML_GET_ELEM_VALUE;
-			}
-			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);
-			eSDK_MEMCPY(elemValue, sizeof(elemValue), srcValue, uiMaxLen);
-			param.userList[iIndex++] = eLTE_Tool::String2Int(elemValue);
-
-			if (iIndex >= 200)
-			{
-				LOG_RUN_ERROR("grpList is out of memory. the max index is 200.");
-				break;
-			}
-
-		} while (xmlParse.NextElem());
-		xmlParse.OutOfElem();
-	}
+	PARSE_GROUPLIST_AND_USERLIST();
 
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -2387,25 +1895,7 @@ int XMLProcess::GetXml_CreateTempGroup_Req(const char* xmlStr, DGNA_parameter& p
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -2425,80 +1915,7 @@ int XMLProcess::GetXml_CreateTempGroup_Req(const char* xmlStr, DGNA_parameter& p
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Alias", srcValue, elemValue, uiMaxLen);
 	param.alias = eLTE_Tool::ANSIToUTF8(elemValue);
 
-	uiMaxLen = XML_VAR_LENGTH;
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Priority", srcValue, elemValue, uiMaxLen);
-	param.priority = eLTE_Tool::String2Int(elemValue);
-
-	uiMaxLen = XML_VAR_LENGTH;
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "MaxPeriod", srcValue, elemValue, uiMaxLen);
-	param.maxPeriod = eLTE_Tool::String2Int(elemValue);
-
-	if (!xmlParse.FindElem("GroupList"))
-	{
-		LOG_RUN_ERROR("FindElem GroupList failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	if (xmlParse.IntoElem())
-	{
-		int iIndex = 0;
-		do 
-		{
-			uiMaxLen = XML_VAR_LENGTH;
-			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-
-			srcValue = xmlParse.GetElemValue();
-			if (NULL == srcValue)
-			{
-				LOG_RUN_ERROR("GetElemValue GroupID failed.");
-				return eLTE_SVC_ERR_XML_GET_ELEM_VALUE;
-			}
-			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);
-			eSDK_MEMCPY(elemValue, sizeof(elemValue), srcValue, uiMaxLen);
-			param.grpList[iIndex++] = eLTE_Tool::String2Int(elemValue);
-
-			if (iIndex >= 8)
-			{
-				LOG_RUN_ERROR("grpList is out of memory. the max index is 8.");
-				break;
-			}
-		} while (xmlParse.NextElem());
-		xmlParse.OutOfElem();
-	}
-
-	if (!xmlParse.FindElem("UserList"))
-	{
-		LOG_RUN_ERROR("FindElem UserList failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	if (xmlParse.IntoElem())
-	{
-		int iIndex = 0;
-		do 
-		{
-			uiMaxLen = XML_VAR_LENGTH;
-			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-
-			srcValue = xmlParse.GetElemValue();
-			if (NULL == srcValue)
-			{
-				LOG_RUN_ERROR("GetElemValue UserID failed.");
-				return eLTE_SVC_ERR_XML_GET_ELEM_VALUE;
-			}
-			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);
-			eSDK_MEMCPY(elemValue, sizeof(elemValue), srcValue, uiMaxLen);
-			param.userList[iIndex++] = eLTE_Tool::String2Int(elemValue);
-
-			if (iIndex >= 200)
-			{
-				LOG_RUN_ERROR("grpList is out of memory. the max index is 200.");
-				break;
-			}
-
-		} while (xmlParse.NextElem());
-		xmlParse.OutOfElem();
-	}
+	PARSE_GROUPLIST_AND_USERLIST();
 
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -2793,19 +2210,7 @@ int XMLProcess::SetXml_GetGisSubscription_Rsp(const GisQuerySubList* pInfo, std:
 		
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -2843,25 +2248,7 @@ int XMLProcess::Common_GetGroupID(const char* xmlStr, int& groupId)
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
 	char elemValue[XML_VAR_LENGTH] = {0};
@@ -2887,25 +2274,7 @@ int XMLProcess::GetXml_SetUserSpecificGISCfg_Req(const char* xmlStr, unsigned& r
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 	if (!xmlParse.FindElem("UeGisCfgInfo"))
 	{
 		LOG_RUN_ERROR("FindElem UeGisCfgInfo failed.");
@@ -2913,10 +2282,10 @@ int XMLProcess::GetXml_SetUserSpecificGISCfg_Req(const char* xmlStr, unsigned& r
 	}
 	(void)xmlParse.IntoElem();
 
+	const char* srcValue;	
 	const unsigned int XML_VAR_LENGTH = 20;
-	char elemValue[XML_VAR_LENGTH] = {0};
-	const char* srcValue;
 	unsigned int uiMaxLen = XML_VAR_LENGTH;
+	char elemValue[XML_VAR_LENGTH] = {0};	
 
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
 	resId = eLTE_Tool::String2Int(elemValue);
@@ -2946,25 +2315,8 @@ int XMLProcess::GetXml_VolControl_Req(const char* xmlStr, int& resId, int& callT
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
+	PARSE_XML_DATA(xmlStr);
 
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
 	if (!xmlParse.FindElem("MuteParam"))
 	{
 		LOG_RUN_ERROR("FindElem MuteParam failed.");
@@ -3033,7 +2385,7 @@ int XMLProcess::GetXml_SDSSend_Req(const std::string& xmlStr, std::string& strRe
 	uiMaxLen = XML_VAR_LENGTH;
 	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "SDSType", srcValue, elemValue, uiMaxLen);
-	//param.sdstype = eLTE_Tool::String2Int(elemValue);
+	
 	param.sdstype = elemValue;
 
 	if (xmlParse.FindElem("MsgBody"))													
@@ -3061,7 +2413,7 @@ int XMLProcess::GetXml_SDSSend_Req(const std::string& xmlStr, std::string& strRe
 	//彩信
 	if (EXMPP_MSG_TYPE_MMS == param.sdstype && xmlParse.FindElem("AttachFileList") && xmlParse.IntoElem())
 	{
-		//std::list<std::string>::iterator it = param.files.begin();
+		
 
 		do 
 		{																		
@@ -3187,15 +2539,7 @@ int XMLProcess::SetXml_GetUserSpecificGISCfg_Rsp(const ProvGisCfg* pProvGisCfg, 
 	xml.OutOfElem();
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 
@@ -3229,32 +2573,10 @@ int XMLProcess::SetXml_GetPatchGroupInfo_Rsp(const PatchGroupInfo* pPatchGroupIn
 	(void)xml.AddElem("Content");
 	(void)xml.AddChildElem("PatchGroupInfo");
 	(void)xml.IntoElem();
-	(void)xml.AddChildElem("GroupNumber");
-	(void)xml.IntoElem();
-	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->GroupNumber).c_str());
-	(void)xml.AddElem("SetupDcId");
-	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->SetupDcId).c_str());
-	(void)xml.AddElem("PGPriority");
-	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->PGPriority).c_str());
-	(void)xml.AddElem("DcPatchIndex");
-	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->DcPatchIndex).c_str());
-	(void)xml.AddElem("PGName");
-	(void)xml.SetElemValue(pPatchGroupInfo->PGName.c_str());
-	(void)xml.AddElem("VPNID");
-	(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->VPNID).c_str());
-
-	xml.OutOfElem();
+	SET_GROUPINFO_XML();
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -3310,35 +2632,9 @@ int XMLProcess::SetXml_GetPatchGroups_Rsp(const PatchGroupsList* pInfo, std::str
 			return eLTE_SVC_ERR_NULL_POINTER;
 		}
 
-		(void)xml.AddChildElem("GroupNumber");
-		(void)xml.IntoElem();
-		(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->GroupNumber).c_str());
-		(void)xml.AddElem("SetupDcId");
-		(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->SetupDcId).c_str());
-		(void)xml.AddElem("PGPriority");
-		(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->PGPriority).c_str());
-		(void)xml.AddElem("DcPatchIndex");
-		(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->DcPatchIndex).c_str());
-		(void)xml.AddElem("PGName");
-		(void)xml.SetElemValue(pPatchGroupInfo->PGName.c_str());
-		(void)xml.AddElem("VPNID");
-		(void)xml.SetElemValue(eLTE_Tool::Int2String(pPatchGroupInfo->VPNID).c_str());
-
-		xml.OutOfElem();
+		SET_GROUPINFO_XML();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -3402,19 +2698,7 @@ int XMLProcess::SetXml_GetGroupMemberByPatchId_Rsp(const PatchGroupMembers* pInf
 
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -3483,19 +2767,7 @@ int XMLProcess::SetXml_GetDcGroups_Rsp(const DcGroups* pInfo, std::string& xmlSt
 
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -3564,19 +2836,7 @@ int XMLProcess::SetXml_GetDcUsers_Rsp(const DcUsers* pInfo, std::string& xmlStr)
 
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -3645,19 +2905,7 @@ int XMLProcess::SetXml_GetGroupUsers_Rsp(const GrpUserList* pInfo, std::string& 
 
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -3712,15 +2960,7 @@ int XMLProcess::SetXml_GetGroupInfo_Rsp(const GroupInfo* pInfo, std::string& xml
 	xml.OutOfElem();
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -3763,15 +3003,7 @@ int XMLProcess::SetXml_GetUserInfo_Rsp(const UserInfo* pInfo, std::string& xmlSt
 	xml.OutOfElem();
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -3814,15 +3046,7 @@ int XMLProcess::SetXml_GetDcInfo_Rsp(const DcProperty* pInfo, std::string& xmlSt
 	xml.OutOfElem();
 	xml.OutOfElem();
 
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
-
-	xmlStr = pXmlStr;
+	GET_XML_STR(eLTE_SVC_ERR_XML_CONSTRUCT);
 	INFO_PARAM1(xmlStr);
 	return eLTE_SVC_ERR_SUCCESS;
 }
@@ -3896,19 +3120,7 @@ int XMLProcess::SetXml_GetUserRECFileInfoList_Rsp(const UserRecFileInfoList* pIn
 
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	//INFO_PARAM1(xmlStr);
@@ -3962,9 +3174,9 @@ int XMLProcess::GetXml_StartVWall_Req(const char* xmlStr, int& resId, VWALL_PARA
 	PARSE_XML_DATA(xmlStr);
 
 	const unsigned int XML_VAR_LENGTH = 20;
+	unsigned int uiMaxLen = XML_VAR_LENGTH;
 	char elemValue[XML_VAR_LENGTH] = {0};
 	const char* srcValue;
-	unsigned int uiMaxLen = XML_VAR_LENGTH;
 
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
 	resId = eLTE_Tool::String2Int(elemValue);
@@ -3983,7 +3195,6 @@ int XMLProcess::GetXml_StartVWall_Req(const char* xmlStr, int& resId, VWALL_PARA
 
 	param.SrcObjId = resId;
 
-	//Reserved
 	uiMaxLen = XML_VAR_LENGTH;
 	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "StrFmt", srcValue, elemValue, uiMaxLen);
@@ -4025,7 +3236,6 @@ int XMLProcess::SetXml_GetDcVWallIDList_Rsp(const VWallInfoList* pInfo, std::str
 
 	unsigned int t=pInfo->size();
 
-	//LOG_RUN_INFO((IntToStr()));
 	LOG_RUN_INFO("list:%d.",t);
 
 	for (VWallInfoList::const_iterator itor = it_b; it_e != itor; itor++)
@@ -4059,19 +3269,7 @@ int XMLProcess::SetXml_GetDcVWallIDList_Rsp(const VWallInfoList* pInfo, std::str
 		
 		xml.OutOfElem();
 	}
-	if (!pInfo->empty())
-	{
-		xml.OutOfElem();
-	}
-	xml.OutOfElem();
-
-	unsigned int uiLen = 0;
-	const char* pXmlStr = xml.GetXMLStream(uiLen);
-	if (NULL == pXmlStr)
-	{
-		LOG_RUN_ERROR("pXmlStr is null.");
-		return eLTE_SVC_ERR_XML_CONSTRUCT;
-	}
+	IS_POINTER_EMPTY_AND_GETXMLSTREAM(pInfo,xml);
 
 	xmlStr = pXmlStr;
 	INFO_PARAM1(xmlStr);
@@ -4088,25 +3286,7 @@ int XMLProcess::GetXml_VWallStop_Req(const char* xmlStr, int& resId, VWallStop_p
 		<DstObjId>视频上墙的目的地，为一个视频通道</DstObjId>
 	</Content>
 	************************************************************************/
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	LOG_RUN_INFO("XMLProcess::GetXml_VWallStop_Req xmlStr:%s",xmlStr);	
 
@@ -4127,89 +3307,49 @@ int XMLProcess::GetXml_VWallStop_Req(const char* xmlStr, int& resId, VWallStop_p
 	return eLTE_SVC_ERR_SUCCESS;
 }
 
-int XMLProcess::GetXml_TelephoneDial_Req(const char* xmlStr, std::string& PhoneNumStr)
-{
-	/************************************************************************
-	--- XML 格式 ---
-	<Content>
-		<PhoneNum>PSTN/PLMN电话拨号</PhoneNum>		
-	</Content>
-	************************************************************************/
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
+// int XMLProcess::GetXml_TelephoneDial_Req(const char* xmlStr, std::string& PhoneNumStr)
+// {
+// 	/************************************************************************
+// 	--- XML 格式 ---
+// 	<Content>
+// 		<PhoneNum>PSTN/PLMN电话拨号</PhoneNum>		
+// 	</Content>
+// 	************************************************************************/
+// 	PARSE_XML_DATA(xmlStr);
+// 	LOG_RUN_INFO("XMLProcess::GetXml_TelephoneDial_Req xmlStr:%s",xmlStr);	
+// 
+// 	const unsigned int XML_VAR_LENGTH = 20;
+// 	char elemValue[XML_VAR_LENGTH] = {0};
+// 	const char* srcValue;
+// 	unsigned int uiMaxLen = XML_VAR_LENGTH;
+// 	
+// 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "TelNumber", srcValue, elemValue, uiMaxLen);
+// 	PhoneNumStr = elemValue;
+// 
+// 	return eLTE_SVC_ERR_SUCCESS;
+// }
 
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-
-	(void)xmlParse.IntoElem();
-	LOG_RUN_INFO("XMLProcess::GetXml_TelephoneDial_Req xmlStr:%s",xmlStr);	
-
-	const unsigned int XML_VAR_LENGTH = 20;
-	char elemValue[XML_VAR_LENGTH] = {0};
-	const char* srcValue;
-	unsigned int uiMaxLen = XML_VAR_LENGTH;
-	
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "TelNumber", srcValue, elemValue, uiMaxLen);
-	PhoneNumStr = elemValue;
-
-	return eLTE_SVC_ERR_SUCCESS;
-}
-
-int XMLProcess::GetXml_TelephoneHangup_Req(const char* xmlStr, std::string& PhoneNumStr)
-{
-	/************************************************************************
-	--- XML 格式 ---
-	<Content>
-		<PhoneNum>PSTN/PLMN电话拨号</PhoneNum>		
-	</Content>
-	************************************************************************/
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-
-	(void)xmlParse.IntoElem();
-	LOG_RUN_INFO("XMLProcess::GetXml_TelephoneHangup_Req xmlStr:%s",xmlStr);	
-
-	const unsigned int XML_VAR_LENGTH = 20;
-	char elemValue[XML_VAR_LENGTH] = {0};
-	const char* srcValue;
-	unsigned int uiMaxLen = XML_VAR_LENGTH;
-	
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "TelNumber", srcValue, elemValue, uiMaxLen);
-	PhoneNumStr = elemValue;
-
-	return eLTE_SVC_ERR_SUCCESS;
-}
+// int XMLProcess::GetXml_TelephoneHangup_Req(const char* xmlStr, std::string& PhoneNumStr)
+// {
+// 	/************************************************************************
+// 	--- XML 格式 ---
+// 	<Content>
+// 		<PhoneNum>PSTN/PLMN电话拨号</PhoneNum>		
+// 	</Content>
+// 	************************************************************************/
+// 	PARSE_XML_DATA(xmlStr);
+// 	LOG_RUN_INFO("XMLProcess::GetXml_TelephoneHangup_Req xmlStr:%s",xmlStr);	
+// 
+// 	const unsigned int XML_VAR_LENGTH = 20;
+// 	char elemValue[XML_VAR_LENGTH] = {0};
+// 	const char* srcValue;
+// 	unsigned int uiMaxLen = XML_VAR_LENGTH;
+// 	
+// 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "TelNumber", srcValue, elemValue, uiMaxLen);
+// 	PhoneNumStr = elemValue;
+// 
+// 	return eLTE_SVC_ERR_SUCCESS;
+// }
 
 int XMLProcess::GetXml_GetResourceID_Req(const char* xmlStr, std::string& ResourceID)
 {
@@ -4219,27 +3359,8 @@ int XMLProcess::GetXml_GetResourceID_Req(const char* xmlStr, std::string& Resour
 		<ResourceID>资源对象，可以是群组或用户</ResourceID>		
 	</Content>
 	************************************************************************/
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
+	PARSE_XML_DATA(xmlStr);
 
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-
-	(void)xmlParse.IntoElem();
 	LOG_RUN_INFO("XMLProcess::GetXml_StartDiscreetListen_Req xmlStr:%s",xmlStr);	
 
 	const unsigned int XML_VAR_LENGTH = 20;
@@ -4264,25 +3385,7 @@ int XMLProcess::GetXml_P2PTransfer_Req(const char* xmlStr,int& resId,transfer_pa
 	</Content>
 	************************************************************************/
 
-	LOG_TRACE();
-	if (NULL == xmlStr)
-	{
-		LOG_RUN_ERROR("xmlStr is null.");
-		return eLTE_SVC_ERR_INVALID_PARAM;
-	}
-
-	CXml xmlParse;
-	if (!xmlParse.Parse(xmlStr))
-	{
-		LOG_RUN_ERROR("parse xml failed.");
-		return eLTE_SVC_ERR_XML_PARSE;
-	}
-	if (!xmlParse.FindElem("Content"))
-	{
-		LOG_RUN_ERROR("FindElem Content failed.");
-		return eLTE_SVC_ERR_XML_FIND_ELEM;
-	}
-	(void)xmlParse.IntoElem();
+	PARSE_XML_DATA(xmlStr);
 
 	LOG_RUN_INFO("XMLProcess::GetXml_P2PTransfer_Req xmlStr:%s",xmlStr);	
 

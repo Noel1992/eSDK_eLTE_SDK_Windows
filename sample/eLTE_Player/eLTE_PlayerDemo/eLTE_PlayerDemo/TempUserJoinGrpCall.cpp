@@ -67,8 +67,8 @@ void CTempUserJoinGrpCall::OnBnClickedOk()
 	strPhonePatchParam.Append(_T("</PhonePatchParam>"));
 	strPhonePatchParam.Append(_T("</Content>"));
 
-	CString strResult = m_peLTE_Player->ELTE_OCX_TempUserJoinGroup(m_strSrcNum, strPhonePatchParam);
-	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TempUserJoinGroup"));
+// 	CString strResult = m_peLTE_Player->ELTE_OCX_TempUserJoinGroup(m_strSrcNum, strPhonePatchParam);
+// 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TempUserJoinGroup"));
 
 	CDialogEx::OnOK();
 }

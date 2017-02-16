@@ -533,8 +533,18 @@ void CeLTE_AudioDlg::ELTE_OCX_EventEltePlayerctrl1(unsigned long ulEventType, LP
 			{
 				strEventMsg.Append(_T(" ¡¾coming call¡¿\r\n"));
 				m_DcDlg.m_strEvent5.Append(strEventMsg);
-				m_DcDlg.SetCaller(strCaller, 0);
-				m_DcDlg.PostMessage(WM_RECEIVED, 0, 0);
+				int iDiscreetListenee = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("DiscreetListenee"));
+				int iFromString = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("FromString"));
+				int iToString = GET_XML_ELEM_VALUE_INT(pEventDataXml, _T("ToString"));
+				if(iDiscreetListenee > 0 || iFromString == 0 || iToString == 0)
+				{
+
+				}
+				else
+				{
+					m_DcDlg.SetCaller(strCaller, 0);
+					m_DcDlg.PostMessage(WM_RECEIVED, 0, 0);
+				}
 			}
 			else if (P2P_IND_STATUS_REMOTE_NOANSWER == iType)
 			{

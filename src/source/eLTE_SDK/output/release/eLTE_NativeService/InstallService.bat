@@ -1,4 +1,4 @@
 @echo off 
-call eLTE_NativeService.exe /install
-pause
+call "%~dp0\eLTE_NativeService.exe" /install
 
+pause

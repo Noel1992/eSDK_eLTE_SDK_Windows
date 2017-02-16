@@ -55,13 +55,13 @@ void DispatchParamDlg::OnBnClickedOk()
 	int iSel = pCComboBox->GetCurSel();
 	if (0 == iSel)
 	{
-		m_pDispatchParamInfo->strFormat = _T("D1");
+		m_pDispatchParamInfo->strFormat = _T("NO");
 	}
 	else if (1 == iSel)
 	{
 		m_pDispatchParamInfo->strFormat = _T("CIF");
 	}
-	else if (2 == iSel)
+	/*else if (2 == iSel)
 	{
 		m_pDispatchParamInfo->strFormat = _T("QCIF");
 	}
@@ -72,7 +72,7 @@ void DispatchParamDlg::OnBnClickedOk()
 	else if (4 == iSel)
 	{
 		m_pDispatchParamInfo->strFormat = _T("1080P");
-	}
+	}*/
 	CString strDstViewers;
 	((CEdit*)GetDlgItem(IDC_EDIT_DSTVIEWER))->GetWindowText(strDstViewers);
 
@@ -106,11 +106,8 @@ BOOL DispatchParamDlg::OnInitDialog()
 	CComboBox* pCComboBox = (CComboBox*)GetDlgItem(IDC_COMBO_FORMAT);
 	if (NULL != pCComboBox)
 	{
-		pCComboBox->InsertString(0, _T("1080P"));
-		pCComboBox->InsertString(0, _T("720P"));
-		pCComboBox->InsertString(0, _T("QCIF"));
 		pCComboBox->InsertString(0, _T("CIF"));
-		pCComboBox->InsertString(0, _T("D1"));
+		pCComboBox->InsertString(0, _T("NO"));
 		pCComboBox->SetCurSel(0);
 	}
 

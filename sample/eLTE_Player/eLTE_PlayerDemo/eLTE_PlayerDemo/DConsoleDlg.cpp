@@ -1041,7 +1041,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			menu.AppendMenu(MF_STRING, ID_MENU_UNSUB_DCGROUP, _T("UnSub"));
 			menu.AppendMenu(MF_STRING, ID_MENU_SUB_JOIN_DCGROUP, _T("SubJoin"));
-			menu.AppendMenu(MF_STRING, ID_MENU_JOINCALL, _T("JoinCall"));
+//			menu.AppendMenu(MF_STRING, ID_MENU_JOINCALL, _T("JoinCall"));
 		}		
 		
 		
@@ -1701,13 +1701,13 @@ void CDConsoleDlg::OnClickTreeMenuItem(UINT uID)
 		break;
 	case ID_MENU_JOINCALL:
 		{
-			HTREEITEM selectedItem = m_DcGroups.GetSelectedItem();
-			GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(selectedItem);
-
-			CTempUserJoinGrpCall dlg(NULL);
-			dlg.SetParamInfo(m_strUserID, pInfo->GroupID);
-			dlg.SetELtePlayer(m_peLTE_Player);
-			dlg.DoModal();
+// 			HTREEITEM selectedItem = m_DcGroups.GetSelectedItem();
+// 			GroupInfo* pInfo = (GroupInfo*)m_DcGroups.GetItemData(selectedItem);
+// 
+// 			CTempUserJoinGrpCall dlg(NULL);
+// 			dlg.SetParamInfo(m_strUserID, pInfo->GroupID);
+// 			dlg.SetELtePlayer(m_peLTE_Player);
+// 			dlg.DoModal();
 		}
 		break;
 	case ID_MENU_MODIFYDGROUP:
@@ -3199,33 +3199,33 @@ void CDConsoleDlg::OnBnClickedButtonVwall()
 
 }
 
-
+//reserved
 void CDConsoleDlg::OnBnClickedBtnDialphone()
 {
-	CString strPhoneNum = _T("");
-	CString strDialNum = _T("");
-	CString strResult = _T("");
-
-	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
-	// construct reference
-	strPhoneNum.Append(_T("<Content>"));
-	strPhoneNum.Append(_T("<TelNumber>"));
-	strPhoneNum.Append(strDialNum);
-	strPhoneNum.Append(_T("</TelNumber>"));
-	strPhoneNum.Append(_T("</Content>"));
-		
-	strResult = m_peLTE_Player->ELTE_OCX_TelephoneDial(strPhoneNum);
-	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneDial"));	
+// 	CString strPhoneNum = _T("");
+// 	CString strDialNum = _T("");
+// 	CString strResult = _T("");
+// 
+// 	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
+// 	// construct reference
+// 	strPhoneNum.Append(_T("<Content>"));
+// 	strPhoneNum.Append(_T("<TelNumber>"));
+// 	strPhoneNum.Append(strDialNum);
+// 	strPhoneNum.Append(_T("</TelNumber>"));
+// 	strPhoneNum.Append(_T("</Content>"));
+// 		
+// 	strResult = m_peLTE_Player->ELTE_OCX_TelephoneDial(strPhoneNum);
+// 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneDial"));
 }
 
-
+//reserved
 void CDConsoleDlg::OnBnClickedBtnHangup()
 {
-	CString strDialNum = _T("");
-	CString strResult = _T("");
-	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
-	strResult = m_peLTE_Player->ELTE_OCX_TelephoneHangup(strDialNum);
-	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneHangup"));
+// 	CString strDialNum = _T("");
+// 	CString strResult = _T("");
+// 	GetDlgItem(IDC_EDIT_PHONENUM)->GetWindowText(strDialNum);
+// 	strResult = m_peLTE_Player->ELTE_OCX_TelephoneHangup(strDialNum);
+// 	CHECK_RESULTE_CODE(strResult, _T("ELTE_OCX_TelephoneHangup"));
 }
 
 void CDConsoleDlg::OnBnClickedBtnDiscreetlisten()

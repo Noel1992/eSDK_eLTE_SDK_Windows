@@ -66,7 +66,7 @@ eLTE_RET XMLProcess::XmlParseMuteULParameter(const std::string& xmlStr,	// 入参
 	const char* srcValue;
 	unsigned int uiMaxLen = XML_VAR_LENGTH;
 
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "CallType", srcValue, elemValue, uiMaxLen);
 	strCallType = elemValue;
 
@@ -122,17 +122,17 @@ eLTE_RET XMLProcess::XmlParseVideoULParameter(const std::string& xmlStr,	// 入参
 	strVideoFormat = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "CameraType", srcValue, elemValue, uiMaxLen);
 	strCameraType = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "UserConfirmType", srcValue, elemValue, uiMaxLen);
 	strUserConfirmType = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "MuteType", srcValue, elemValue, uiMaxLen);
 	strMuteType = elemValue;
 
@@ -194,12 +194,12 @@ eLTE_RET XMLProcess::XmlParsePlayVideoParam(const std::string& xmlStrLocal, cons
 	strLocalIP = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlLocal, "VideoPort", srcValue, elemValue, uiMaxLen);
 	uiLocalVideoPort = eLTE_Tool::String2UInt(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlLocal, "AudioPort", srcValue, elemValue, uiMaxLen);
 	uiLocalAudioPort = eLTE_Tool::String2UInt(elemValue);
 
@@ -224,17 +224,17 @@ eLTE_RET XMLProcess::XmlParsePlayVideoParam(const std::string& xmlStrLocal, cons
 	(void)xmlRemote.IntoElem();
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlRemote, "RemoteIP", srcValue, elemValue, uiMaxLen);
 	strRemoteIP = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlRemote, "VideoPort", srcValue, elemValue, uiMaxLen);
 	uiRemoteVideoPort = eLTE_Tool::String2UInt(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlRemote, "AudioPort", srcValue, elemValue, uiMaxLen);
 	uiRemoteAudioPort = eLTE_Tool::String2UInt(elemValue);
 
@@ -322,27 +322,27 @@ eLTE_RET XMLProcess::XmlParseRECQueryInfo(const std::string& xmlStr,
 	}
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Caller", srcValue, elemValue, uiMaxLen);
 	queryInfo.caller = eLTE_Tool::String2Int(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Callee", srcValue, elemValue, uiMaxLen);
 	queryInfo.callee = eLTE_Tool::String2Int(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
 	queryInfo.resourceid = eLTE_Tool::String2Int(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "StartSec", srcValue, elemValue, uiMaxLen);
 	queryInfo.start_sec = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "EndSec", srcValue, elemValue, uiMaxLen);
 	queryInfo.end_sec = elemValue;
 
@@ -394,22 +394,22 @@ eLTE_RET XMLProcess::XmlParseDGNAParam(const std::string& xmlStr, DGNA_parameter
 	param.grpId = eLTE_Tool::String2Int(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "DcID", srcValue, elemValue, uiMaxLen);
 	param.dcId = eLTE_Tool::String2Int(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Alias", srcValue, elemValue, uiMaxLen);
 	param.alias = eLTE_Tool::ANSIToUTF8(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Priority", srcValue, elemValue, uiMaxLen);
 	param.priority = eLTE_Tool::String2Int(elemValue);
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "MaxPeriod", srcValue, elemValue, uiMaxLen);
 	param.maxPeriod = eLTE_Tool::String2Int(elemValue);
 
@@ -424,7 +424,7 @@ eLTE_RET XMLProcess::XmlParseDGNAParam(const std::string& xmlStr, DGNA_parameter
 		do 
 		{
 			uiMaxLen = XML_VAR_LENGTH;
-			memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 
 			srcValue = xmlParse.GetElemValue();
 			if (NULL == srcValue)
@@ -433,7 +433,7 @@ eLTE_RET XMLProcess::XmlParseDGNAParam(const std::string& xmlStr, DGNA_parameter
 				return eLTE_ERR_XML_GET_ELEM_VALUE;
 			}
 			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);
-			memcpy(elemValue, srcValue, uiMaxLen);
+			eSDK_MEMCPY(elemValue, uiMaxLen+1, srcValue, uiMaxLen);
 			param.grpList[iIndex++] = eLTE_Tool::String2Int(elemValue);
 
 			if (iIndex >= 8)
@@ -456,7 +456,7 @@ eLTE_RET XMLProcess::XmlParseDGNAParam(const std::string& xmlStr, DGNA_parameter
 		do 
 		{
 			uiMaxLen = XML_VAR_LENGTH;
-			memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+			eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 
 			srcValue = xmlParse.GetElemValue();
 			if (NULL == srcValue)
@@ -465,7 +465,7 @@ eLTE_RET XMLProcess::XmlParseDGNAParam(const std::string& xmlStr, DGNA_parameter
 				return eLTE_ERR_XML_GET_ELEM_VALUE;
 			}
 			uiMaxLen = (strlen(srcValue) < (uiMaxLen)) ? strlen(srcValue) : ((uiMaxLen)-1);
-			memcpy(elemValue, srcValue, uiMaxLen);
+			eSDK_MEMCPY(elemValue, uiMaxLen+1, srcValue, uiMaxLen);
 			param.userList[iIndex++] = eLTE_Tool::String2Int(elemValue);
 
 			if (iIndex >= 200)
@@ -2180,7 +2180,7 @@ eLTE_RET XMLProcess::XmlParseGISSubscribeParameter(const std::string& xmlStr,   
 	strResourceList = srcValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "Subscriber", srcValue, elemValue, uiMaxLen);
 	strSubscriber = elemValue;
 

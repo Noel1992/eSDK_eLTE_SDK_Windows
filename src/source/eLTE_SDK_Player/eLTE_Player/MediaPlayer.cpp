@@ -123,7 +123,7 @@ int MediaPlayer::InitPlayerParam(IVS_CHAR* pLocalIP, IVS_UINT32 uiLocalVideoPort
 	iRet = IVS_NETSOURCE_SetLocalRecvStreamIP(m_ulNetChannel, pLocalIP);
 	if (IVS_SUCCEED != iRet)
 	{
-		INFO_PARAM2(m_ulNetChannel, pLocalIP);
+		//INFO_PARAM2(m_ulNetChannel, pLocalIP);
 		LOG_RUN_ERROR("IVS_NETSOURCE_SetLocalRecvStreamIP failed. (%d)", iRet);
 		return iRet;
 	}

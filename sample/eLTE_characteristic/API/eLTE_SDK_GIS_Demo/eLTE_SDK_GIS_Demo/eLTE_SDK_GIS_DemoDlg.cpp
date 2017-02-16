@@ -53,6 +53,10 @@ END_MESSAGE_MAP()
 
 CeLTE_SDK_GIS_DemoDlg::CeLTE_SDK_GIS_DemoDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CeLTE_SDK_GIS_DemoDlg::IDD, pParent)
+	, m_strLocalIP(_T(""))
+	, m_strUserName(_T(""))
+	, m_strServerIP(_T(""))
+	, m_strSipPort(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_bLogin = FALSE;
@@ -61,6 +65,11 @@ CeLTE_SDK_GIS_DemoDlg::CeLTE_SDK_GIS_DemoDlg(CWnd* pParent /*=NULL*/)
 void CeLTE_SDK_GIS_DemoDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_COMBO_LOCALIP, m_cmbLocalIP);
+	DDX_CBString(pDX, IDC_COMBO_LOCALIP, m_strLocalIP);
+	DDX_Text(pDX, IDC_EDIT_USERNAME, m_strUserName);
+	DDX_Text(pDX, IDC_EDIT_SERVERIP, m_strServerIP);
+	DDX_Text(pDX, IDC_EDIT_SIPPORT, m_strSipPort);
 }
 
 BEGIN_MESSAGE_MAP(CeLTE_SDK_GIS_DemoDlg, CDialogEx)
@@ -104,7 +113,19 @@ BOOL CeLTE_SDK_GIS_DemoDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	// TODO: Add extra initialization here
+	if (GetLocalIP())
+	{
+		printf("Get Local IP failed!\n");
+	}
 
+	if (!ReadIniFile())
+	{
+		m_strUserName = _T("4101");
+		m_strServerIP = _T("10.170.102.234");
+		m_strLocalIP = _T("10.135.46.130");
+		m_strSipPort = _T("5060");
+	}
+	UpdateData(FALSE);
 	if (NULL == m_DConsoleDlg.m_hWnd)
 	{
 		m_DConsoleDlg.Create(CDConsoleDlg::IDD, CWnd::GetDesktopWindow());
@@ -194,7 +215,7 @@ void CeLTE_SDK_GIS_DemoDlg::OnBnClickedButtonLogin()
 
 	GetDlgItem(IDC_EDIT_SERVERIP)->GetWindowText(m_strServerIP);
 
-	GetDlgItem(IDC_EDIT_LOCALIP)->GetWindowText(m_strLocalIP);
+	GetDlgItem(IDC_COMBO_LOCALIP)->GetWindowText(m_strLocalIP);
 
 	GetDlgItem(IDC_EDIT_SIPPORT)->GetWindowText(m_strSipPort);
 
@@ -205,6 +226,7 @@ void CeLTE_SDK_GIS_DemoDlg::OnBnClickedButtonLogin()
 		MessageBox(_T("ELTE_SDK_Login failed."));
 		return;
 	}
+	WriteIniFile();
 }
 
 CString CeLTE_SDK_GIS_DemoDlg::GetTimeString()
@@ -374,4 +396,85 @@ void CeLTE_SDK_GIS_DemoDlg::OnClose()
 	m_DConsoleDlg.DestroyWindow();
 
 	CDialogEx::OnClose();
+}
+
+
+BOOL CeLTE_SDK_GIS_DemoDlg::ReadIniFile()
+{
+	TCHAR pszPath[MAX_PATH] = {0};
+	GetModuleFileName(AfxGetInstanceHandle(), pszPath, MAX_PATH);
+	CString szPath(pszPath);
+	szPath = szPath.Left(szPath.ReverseFind(_T('\\'))+1);
+	szPath.Append(_T("Server.ini"));
+
+	if (!(::PathFileExists(szPath)))
+	{
+		return FALSE;
+	}
+
+	const int LENGTH = 16;
+	TCHAR tchValue[LENGTH] = {0};
+	GetPrivateProfileString(_T("LoginInfo"), _T("Name"), _T(""), tchValue, LENGTH, szPath);
+	m_strUserName = tchValue;
+
+	memset(tchValue, 0, sizeof(TCHAR)*LENGTH);
+	GetPrivateProfileString(_T("LoginInfo"), _T("ServerIP"), _T(""), tchValue, LENGTH, szPath);
+	m_strServerIP = tchValue;
+
+	memset(tchValue, 0, sizeof(TCHAR)*LENGTH);
+	GetPrivateProfileString(_T("LoginInfo"), _T("LocalIP"), _T(""), tchValue, LENGTH, szPath);
+	m_strLocalIP = tchValue;
+
+	memset(tchValue, 0, sizeof(TCHAR)*LENGTH);
+	GetPrivateProfileString(_T("LoginInfo"), _T("SipPort"), _T(""), tchValue, LENGTH, szPath);
+	m_strSipPort = tchValue;
+
+	return TRUE;
+}
+
+
+BOOL CeLTE_SDK_GIS_DemoDlg::WriteIniFile()
+{
+	TCHAR pszPath[MAX_PATH] = {0};
+	GetModuleFileName(AfxGetInstanceHandle(), pszPath, MAX_PATH);
+	CString szPath(pszPath);
+	szPath = szPath.Left(szPath.ReverseFind(_T('\\'))+1);
+	szPath.Append(_T("Server.ini"));
+
+	WritePrivateProfileString(_T("LoginInfo"), _T("Name"), m_strUserName, szPath);
+	WritePrivateProfileString(_T("LoginInfo"), _T("ServerIP"), m_strServerIP, szPath);
+	WritePrivateProfileString(_T("LoginInfo"), _T("LocalIP"), m_strLocalIP, szPath);
+	WritePrivateProfileString(_T("LoginInfo"), _T("SipPort"), m_strSipPort, szPath);
+
+	return TRUE;
+}
+
+BOOL CeLTE_SDK_GIS_DemoDlg::GetLocalIP() 
+{
+	WORD wVersionReq = MAKEWORD(2, 2);
+	WSADATA wsaData;
+
+	if (0 != WSAStartup(wVersionReq, &wsaData))
+	{
+		return FALSE;
+	}
+	//local variation
+	char localIp[255] = {0};
+	gethostname(localIp, sizeof(localIp));
+	hostent* phost = gethostbyname(localIp);
+	if (NULL == phost)
+	{
+		return FALSE;
+	}
+
+	HOSTENT* host = gethostbyname(localIp);	
+	for (int i=0; i<256; i++)
+	{
+		m_cmbLocalIP.AddString(LPCTSTR(CString(inet_ntoa(*(IN_ADDR*)host->h_addr_list[i]))));
+		if (host->h_addr_list[i]+host->h_length >= host->h_name)
+		{
+			break;
+		}
+	}
+	return TRUE;
 }

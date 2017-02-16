@@ -1195,7 +1195,7 @@ void CDConsoleDlg::OnNMRClickTreeDcgroups(NMHDR *pNMHDR, LRESULT *pResult)
 		//menu.AppendMenu(MF_STRING, ID_MENU_SUBGROUP, _T("SubscribeGroup"));
 		menu.AppendMenu(MF_STRING, ID_MENU_UNSUBGROUP, _T("UnSubscribeGroup"));
 		menu.AppendMenu(MF_STRING, ID_MENU_SUBJOINGROUP, _T("SubJoinGroup"));
-		menu.AppendMenu(MF_STRING, ID_MENU_JOINCALL, _T("JoinCall"));
+		//menu.AppendMenu(MF_STRING, ID_MENU_JOINCALL, _T("JoinCall"));
 
 		//Dynamic group
 		if (pInfo->GroupCategory == "9")

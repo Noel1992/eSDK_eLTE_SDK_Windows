@@ -65,7 +65,7 @@ history     :    2014/07/01 初始版本
 		return eLTE_ERR_XML_GET_ELEM_VALUE;										\
 	}																			\
 	maxLen = (strlen(srcValue) < (maxLen)) ? strlen(srcValue) : ((maxLen)-1);	\
-	memcpy(retValue, srcValue, maxLen)
+	eSDK_MEMCPY(retValue, maxLen+1, srcValue, maxLen)
 
 // 检查OCX Load模式是否正确
 #define CHECK_ELTE_OCX_LOAD_TYPE(type, xml, strResult)							\

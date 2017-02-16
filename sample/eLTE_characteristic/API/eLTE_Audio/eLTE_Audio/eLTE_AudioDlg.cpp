@@ -325,7 +325,7 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 			if (STATUS_ASSIGNED == iValue)//sub success
 			{
 				CString strMsg;
-				strMsg.Format(_T("group [%s]."), strResId);
+				strMsg.Format(_T("group [%s] subscribe success."), strResId);
 				pDlg->MessageBox(strMsg);
 				strEventMsg.Append(strMsg);
 			}
@@ -467,8 +467,18 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 		{
 			strEventMsg.Append(_T(" [coming call]\r\n"));
 			pDlg->GetDConsoleDlg().m_strEvent5.Append(strEventMsg);
-			pDlg->GetDConsoleDlg().SetCaller(strCaller, 0);
-			pDlg->GetDConsoleDlg().PostMessage(WM_RECEIVED, 0, 0);
+			int iDiscreetListenee = GET_XML_ELEM_VALUE_INT(xmlStr, _T("DiscreetListenee"));
+			int iFromString = GET_XML_ELEM_VALUE_INT(xmlStr, _T("FromString"));
+			int iToString = GET_XML_ELEM_VALUE_INT(xmlStr, _T("ToString"));
+			if(iDiscreetListenee > 0 || iFromString == 0 || iToString == 0)
+			{
+
+			}
+			else
+			{
+				pDlg->GetDConsoleDlg().SetCaller(strCaller, 0);
+				pDlg->GetDConsoleDlg().PostMessage(WM_RECEIVED, 0, 0);
+			}
 		}
 		else if (P2P_IND_STATUS_REMOTE_NOANSWER == iType)
 		{
@@ -501,7 +511,7 @@ ELTE_VOID __SDK_CALL CeLTE_AudioDlg::ELTE_EventCallBack(ELTE_INT32 iEventType, E
 			pDlg->PostMessage(WM_CLOSE);
 		}
 		strEventMsg.Append(_T("\r\n"));
-		pDlg->GetDConsoleDlg().m_strEvent7.Append(strEventMsg);
+		pDlg->GetDConsoleDlg().m_ModuleStatus.Append(strEventMsg);
 	}
 	else if (ELTE_Event_NotifyGroupStatus == iEventType)
 	{

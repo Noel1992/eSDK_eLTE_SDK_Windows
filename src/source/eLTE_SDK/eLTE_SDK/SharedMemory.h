@@ -17,6 +17,20 @@ history     :    2015/06/16 ³õÊ¼°æ±¾
 
 #define SHARE_MEMORY_SIZE 5242880 //5*1024*1024
 
+#define FREE_ARRAY(pArray) \
+	delete [] pArray;		\
+	pArray = NULL;		\
+	if (NULL == pArray){} \
+
+#define RELEASE_RESOURCE(postStream,hBmpGlobal,pRGBData) \
+	postStream->Release();	\
+	postStream = NULL;		\
+	GlobalFree(hBmpGlobal);	\
+	hBmpGlobal = NULL;		\
+	delete [] pRGBData;		\
+	pRGBData = NULL;		\
+	if (NULL == postStream && NULL == hBmpGlobal && NULL == pRGBData){} \
+
 class SharedMemory
 {
 public:

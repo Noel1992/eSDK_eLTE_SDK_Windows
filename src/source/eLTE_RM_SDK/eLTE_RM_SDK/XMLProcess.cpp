@@ -1,4 +1,19 @@
+/*
+Copyright 2015 Huawei Technologies Co., Ltd. All rights reserved.
+	   eSDK is licensed under the Apache License, Version 2.0 (the "License");
+	   you may not use this file except in compliance with the License.
+	   You may obtain a copy of the License at
+	
+	       http://www.apache.org/licenses/LICENSE-2.0
 
+	
+	   Unless required by applicable law or agreed to in writing, software
+	   distributed under the License is distributed on an "AS IS" BASIS,
+	   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	   See the License for the specific language governing permissions and
+	   limitations under the License.
+
+*/
 #include "stdafx.h"
 #include "XMLProcess.h"
 //log manage class 
@@ -637,6 +652,8 @@ ELTE_INT32 XMLProcess::SetXml_NotifyModuleStatus(const Json::Value& root, std::s
 	(void)xml.AddElem("ModuleStatus");
 	(void)xml.SetElemValue(root["statusvalue"].asString().c_str());
 
+	//ELTE_INT32 iStatusValue = eLTE_Tool::String2Int(root["statusvalue"].asString().c_str());
+
 	//
 	(void)xml.AddElem("CallBackMsgType");
 	if(root.isMember("callbackmsgtype"))
@@ -653,27 +670,36 @@ ELTE_INT32 XMLProcess::SetXml_NotifyModuleStatus(const Json::Value& root, std::s
 	{
 		std::string strPara;
 		Json::Value para = root["para"];
+
 		for(ELTE_UINT32 i = 0; i < para.size(); ++i)
 		{
-			if(para[i].isMember("newip"))
+			if(para[i].isObject())
 			{
-				strPara.append("newip:");
-				strPara.append(para[i]["newip"].asString().c_str());
+				if(para[i].isMember("newip"))
+				{
+					strPara.append("newip:");
+					strPara.append(para[i]["newip"].asString().c_str());
+				}
+				if(para[i].isMember("ret"))
+				{
+					strPara.append("ret:");
+					if (para[i]["ret"].isString())
+					{
+						strPara.append(para[i]["ret"].asString().c_str());
+					}
+					else if(para[i]["ret"].isInt())
+					{
+						strPara.append(eLTE_Tool::Int2String(para[i]["ret"].asInt()));
+					}
+
+				}
 			}
-			if(para[i].isMember("ret"))
+			else if (para[i].isString())
 			{
-				strPara.append("ret:");
-				if (para[i]["ret"].isString())
-				{
-					strPara.append(para[i]["ret"].asString().c_str());
-				}
-				else if(para[i]["ret"].isInt())
-				{
-					strPara.append(eLTE_Tool::Int2String(para[i]["ret"].asInt()));
-				}
-				
+				strPara.append(para[i].asString().c_str());
 			}
 		}
+
 		(void)xml.SetElemValue(strPara.c_str());
 	}
 	else
@@ -743,22 +769,22 @@ int XMLProcess::GetXml_StartRealPlay_Req(const ELTE_CHAR* xmlStr, VIDEO_PARAM& p
 	(void)xmlParse.IntoElem();
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "VideoFormat", srcValue, elemValue, uiMaxLen);
 	param.VideoFormat = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "CameraType", srcValue, elemValue, uiMaxLen);
 	param.CameraType = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "UserConfirmType", srcValue, elemValue, uiMaxLen);
 	param.UserConfirmType = elemValue;
 
 	uiMaxLen = XML_VAR_LENGTH;
-	memset(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "MuteType", srcValue, elemValue, uiMaxLen);
 	param.MuteType = elemValue;
 

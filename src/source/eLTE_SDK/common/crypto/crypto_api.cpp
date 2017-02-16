@@ -37,13 +37,13 @@ int AES_ENCRYPT(unsigned char *key, unsigned int bits, AES_PADDING_TYPE padding_
 	case PKCS5_PADDING_://lint !e650
 		ret = aes.aes_padding_encrypt(in_buf, in_buf_len, out_buf, out_buf_len);
 		break;
-	case ECB_PADDING:
+	case ECB_PADDING:{}
 		break;
-	case BCB_PADDING:
+	case BCB_PADDING:{}
 		break;
-	case CFB_PADDING:
+	case CFB_PADDING:{}
 		break;
-	case OFB_PADDING:
+	case OFB_PADDING:{}
 		break;
 	default:
 		break;

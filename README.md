@@ -8,7 +8,7 @@
 华为宽带集群**eSDK\_eLTE\_SDK\_Windows**提供基于Windows动态库标准化API接口和OCX控件，为您提供集群用户管理、群组管理、语音点呼、语音组呼、人工转接、缜密监听、环境监听、实时视频回传与分发、视频上墙、短彩信发送与接收以及集群终端GIS订阅与地理位置信息上报等管理调度功能。
 
 ## 版本更新 ##
-eSDK eLTE最新版本v1.5.70
+eSDK eLTE最新版本v2.1.10
 
 ## 开发环境 ##
 
@@ -40,13 +40,13 @@ eSDK eLTE最新版本v1.5.70
     int iRet = eLTE_SDK_Init(0);//init eLTE SDK
     
 	//用户名
-	CString strUserName = ("4120");
+	CString strUserName = ("***");
 	//用户密码
-	CString strPWD = ("4120");
+	CString strPWD = ("***");
 	//服务器IP 
-	CString strServerIP = ("172.22.9.120");
+	CString strServerIP = ("**.**.**.**");
 	//本地IP地址
-	CString strLocalIP = ("172.23.0.32");
+	CString strLocalIP = ("**.**.**.**");
 	//端口号
 	int SipPort = 5060;
 	//登录

@@ -23,6 +23,68 @@ history     :    2015/01/12 初始版本
 
 #include "eLTE_Types.h"
 
+#define SET_RESOURCE_XML_HEAD() \
+	if(NULL == m_pUserMgr)	\
+	{	\
+		LOG_RUN_ERROR("UserMgr is null.");	\
+		return eLTE_SDK_ERR_NULL_POINTER;	\
+	}	\
+	CXml reqXml;	\
+	(void)reqXml.AddElem("Content");	\
+	(void)reqXml.AddChildElem("ResourceID");	\
+	(void)reqXml.IntoElem();	\
+	(void)reqXml.SetElemValue(pResourceID);	\
+
+#define SET_GROUP_XML_HEAD() \
+	if(NULL == m_pUserMgr)	\
+	{	\
+	LOG_RUN_ERROR("UserMgr is null.");	\
+	return eLTE_SDK_ERR_NULL_POINTER;	\
+	}	\
+	CXml reqXml;	\
+	(void)reqXml.AddElem("Content");	\
+	(void)reqXml.AddChildElem("GroupID");	\
+	(void)reqXml.IntoElem();	\
+	(void)reqXml.SetElemValue(pGroupID);	\
+
+#define PARSE_MUTE_XML() \
+	LOG_TRACE();															\
+	if(NULL == m_pUserMgr)													\
+	{																		\
+		LOG_RUN_ERROR("UserMgr is null.");									\
+		return eLTE_SDK_ERR_NULL_POINTER;									\
+	}																		\
+	CXml reqXml;															\
+	if(!reqXml.Parse(pMuteParam))											\
+	{																		\
+		LOG_RUN_ERROR("ReqXml parse failed, param is %s.", pMuteParam);		\
+		return eLTE_SDK_ERR_XML_PARSE;										\
+	}																		\
+	if(!reqXml.FindElem("Content"))											\
+	{																		\
+		LOG_RUN_ERROR("Find 'Content' failed, reqXml is %s.", pMuteParam);	\
+		return eLTE_SDK_ERR_XML_FIND_ELEM;									\
+	}																		\
+	(void)reqXml.IntoElem();												\
+	if(!reqXml.FindElem("MuteParam"))										\
+	{																		\
+		LOG_RUN_ERROR("Find 'MuteParam' failed, reqXml is %s.", pMuteParam);\
+		return eLTE_SDK_ERR_XML_FIND_ELEM;									\
+	}																		\
+
+#define WAIT_SERVER_RSP() \
+	iRet = m_pUserMgr->WaitObject(WAIT_OBJECT_TIME);	\
+	if (eLTE_SDK_ERR_SUCCESS != iRet)	\
+	{	\
+		CServerMgr& serverMgr = const_cast<CServerMgr&>(m_pUserMgr->GetServerMgr());	\
+		if(!serverMgr.ServerIsRunning() || 0 != m_pUserMgr->GetServerStatus())	\
+		{	\
+			m_pUserMgr->SetServerStatus(0);	\
+			return eLTE_SDK_ERR_SERVER_NOT_RUNNING;	\
+		}	\
+		return iRet;	\
+	}	\
+
 class CUserMgr;//lint !e763
 class COperationMgr
 {
@@ -119,7 +181,7 @@ public:
 	ELTE_INT32 ModifyDynamicGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pDynamicGroupInfo) const;
 
 	//调度台组呼添加临时用户
-	ELTE_INT32 TempUserJoinGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pPhonePatchParam) const;
+//	ELTE_INT32 TempUserJoinGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pPhonePatchParam) const;
 
 private:
 	CUserMgr*    m_pUserMgr;

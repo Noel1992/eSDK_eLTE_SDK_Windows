@@ -543,11 +543,11 @@ void Logic_Queue::InterfaceDeviceMgr(const QUEUE_DATA& data) const
 		}
 		break;
 		// 组呼添加临时用户
-	case ELTE_SERVICE_TEMPUSERJOINGROUP_REQ:
-		{
-			TempUserJoinGroup(data);
-		}
-		break;
+// 	case ELTE_SERVICE_TEMPUSERJOINGROUP_REQ:
+// 		{
+// 			TempUserJoinGroup(data);
+// 		}
+// 		break;
 		// 创建派接组、增加派接组成员、删除派接组成员
 	case ELTE_SERVICE_CREATEPATCHGROUP_REQ:
 	case ELTE_SERVICE_ADDPATCHMEMBER_REQ:
@@ -740,19 +740,19 @@ void Logic_Queue::InterfaceMediaMgr(const QUEUE_DATA& data) const
 			{			
 				VWallStop(data);
 			}
-			break;
-			//发起PSTN/PLMN电话呼叫
-		case ELTE_SERVICE_TELEPHONEDIAL_REQ:
-			{			
-				TelephoneDial(data);
-			}
-			break;
-			//挂起PSTN/PLMN电话呼叫
-		case ELTE_SERVICE_TELEPHONEHANGUP_REQ:
-			{			
-				TelephoneHangup(data);
-			}
-			break;
+			break;			
+// 			//发起PSTN/PLMN电话呼叫
+// 		case ELTE_SERVICE_TELEPHONEDIAL_REQ:
+// 			{			
+// 				TelephoneDial(data);
+// 			}
+// 			break; 			
+// 			//挂断PSTN/PLMN电话呼叫
+// 		case ELTE_SERVICE_TELEPHONEHANGUP_REQ:
+// 			{			
+// 				TelephoneHangup(data);
+// 			}
+// 			break;
 			//发起缜密监听
 		case ELTE_SERVICE_STARTDISCREETLISTEN_REQ:
 			{			
@@ -812,19 +812,6 @@ void Logic_Queue::Connect(const QUEUE_DATA& data) const
 		// 校验密码是否正确，不正确就断客户端连接
 		std::string strIniFile = eLTE_Tool::GetServicePath();
 		strIniFile.append(CONFIG_FILE_NAME);
-		//std::string strSvcPwd = eLTE_Tool::GetEncryptPassword(strIniFile);
-		//if (strSvcPwd != connectpasswd)
-		//{
-		//	LOG_RUN_ERROR("Error connect password.");
-		//	head.RspCode = eLTE_SVC_ERR_CONNECT_PASSWD;
-		//	eSDK_MEMSET(head.SessionID, 0, SESSIONID_LENGTH);
-		//	// 发送消息头
-		//	SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-
-		//	// 踢出客户端连接
-		//	SSL_Socket::Instance().KickOutClient(_ssl);
-		//	return;
-		//}
 
 		// 业务处理
 		char sessId[SESSIONID_LENGTH+1] = {0};
@@ -1156,22 +1143,7 @@ void Logic_Queue::GetDcGroups(const QUEUE_DATA& data) const
 	SSL_CHECK(data)
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int userId;
-		int iRet = XMLProcess::GetXml_GetDcGroups_Req(data.Value, userId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_GetDcGroups_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_DCGROUPS_HEAD();
 
 		// 业务处理
 		DcGroups* pGroups = NULL;
@@ -1205,32 +1177,7 @@ void Logic_Queue::GetDcGroups(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1246,21 +1193,7 @@ void Logic_Queue::GetGroupMemberByPatchId(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::GetXml_GetGroupUsers_Req(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_GetGroupUsers_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUPUSERS_REQ();
 
 		// 业务处理
 		PatchGroupMembers* pPatchGroupMembers = NULL;
@@ -1294,32 +1227,7 @@ void Logic_Queue::GetGroupMemberByPatchId(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1430,32 +1338,7 @@ void Logic_Queue::GetUserSpecificGISCfg(const QUEUE_DATA& data) const
 			}
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1470,22 +1353,7 @@ void Logic_Queue::GetGisSubscription(const QUEUE_DATA& data) const
 	SSL_CHECK(data)
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		GisQuerySubList* pGisQuerySubList = NULL;
@@ -1517,32 +1385,7 @@ void Logic_Queue::GetGisSubscription(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1558,21 +1401,7 @@ void Logic_Queue::GetPatchGroupInfo(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::GetXml_GetGroupUsers_Req(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_GetGroupUsers_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUPUSERS_REQ();
 
 		// 业务处理
 		PatchGroupInfo* pPatchGroupInfo = NULL;
@@ -1605,32 +1434,7 @@ void Logic_Queue::GetPatchGroupInfo(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1645,22 +1449,7 @@ void Logic_Queue::GetPatchGroups(const QUEUE_DATA& data) const
 	SSL_CHECK(data)
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int userId;
-		int iRet = XMLProcess::GetXml_GetDcGroups_Req(data.Value, userId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_GetDcGroups_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_DCGROUPS_HEAD();
 
 		// 业务处理
 		PatchGroupsList* pPatchGroupsList = NULL;
@@ -1694,32 +1483,7 @@ void Logic_Queue::GetPatchGroups(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1782,32 +1546,7 @@ void Logic_Queue::GetDcUsers(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1823,21 +1562,7 @@ void Logic_Queue::GetGroupUsers(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::GetXml_GetGroupUsers_Req(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_GetGroupUsers_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUPUSERS_REQ();
 
 		// 业务处理
 		GrpUserList* pGrpUserList = NULL;
@@ -1870,32 +1595,7 @@ void Logic_Queue::GetGroupUsers(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -1956,32 +1656,7 @@ void Logic_Queue::GetGroupInfo(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -2042,32 +1717,7 @@ void Logic_Queue::GetUserInfo(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -2128,32 +1778,7 @@ void Logic_Queue::GetDcInfo(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -2256,32 +1881,7 @@ void Logic_Queue::GetUserRECFileInfoList(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -2411,45 +2011,45 @@ void Logic_Queue::ModifyDynamicGroup(const QUEUE_DATA& data) const
 }
 
 // 组呼添加临时用户
-void Logic_Queue::TempUserJoinGroup(const QUEUE_DATA& data) const
-{
-	SSL_CHECK(data);
-	if (SSL_ST_OK == SSL_state(_ssl))
-	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resid;
-		PhonePatch_parameter param;
-		int iRet = XMLProcess::GetXml_TempUserJoinGroup_Req(data.Value, resid, param);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_TempUserJoinGroup_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-
-		// 业务处理
-		iRet = OperationMgr::Instance().TempUserJoinGroup(resid, param);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("TempUserJoinGroup failed.");
-		}
-		head.RspCode = iRet;
-		// 发送消息头
-		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-	}
-	else
-	{
-		// ssl状态不正确，有可能连接中断，不发送数据
-		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
-	}
-}
+// void Logic_Queue::TempUserJoinGroup(const QUEUE_DATA& data) const
+// {
+// 	SSL_CHECK(data);
+// 	if (SSL_ST_OK == SSL_state(_ssl))
+// 	{
+// 		// 构造消息头
+// 		PACKET_HEAD head(data);
+// 		head.MsgType |= RSP_MSG_FLAG;
+// 		head.PacketLength = PACKET_HEAD_SIZE;
+// 
+// 		// xml解析
+// 		int resid;
+// 		PhonePatch_parameter param;
+// 		int iRet = XMLProcess::GetXml_TempUserJoinGroup_Req(data.Value, resid, param);
+// 		if (eLTE_SVC_ERR_SUCCESS != iRet)
+// 		{
+// 			LOG_RUN_ERROR("GetXml_TempUserJoinGroup_Req failed.");
+// 			head.RspCode = iRet;
+// 			// 发送消息头
+// 			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+// 			return;
+// 		}
+// 
+// 		// 业务处理
+// 		iRet = OperationMgr::Instance().TempUserJoinGroup(resid, param);
+// 		if (eLTE_SVC_ERR_SUCCESS != iRet)
+// 		{
+// 			LOG_RUN_ERROR("TempUserJoinGroup failed.");
+// 		}
+// 		head.RspCode = iRet;
+// 		// 发送消息头
+// 		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+// 	}
+// 	else
+// 	{
+// 		// ssl状态不正确，有可能连接中断，不发送数据
+// 		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
+// 	}
+// }
 
 // 创建派接组、增加派接组成员、删除派接组成员
 void Logic_Queue::OperatePatchGroup(const QUEUE_DATA& data) const
@@ -2565,32 +2165,7 @@ void Logic_Queue::GetTempGroupID(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}
 	else
 	{
@@ -2900,22 +2475,7 @@ void Logic_Queue::P2PHalfDpxRelease(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PHalfDpxRelease(resId);
@@ -2940,22 +2500,7 @@ void Logic_Queue::P2PHalfDpxDial(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PHalfDpxDial(resId);
@@ -2980,22 +2525,7 @@ void Logic_Queue::P2PDial(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PDial(resId);
@@ -3020,22 +2550,7 @@ void Logic_Queue::P2PRecv(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PRecv(resId);
@@ -3060,22 +2575,7 @@ void Logic_Queue::P2PReject(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PReject(resId);
@@ -3100,22 +2600,7 @@ void Logic_Queue::P2PHangup(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PHangup(resId);
@@ -3140,22 +2625,7 @@ void Logic_Queue::P2PBreakin(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PBreakin(resId);
@@ -3180,22 +2650,7 @@ void Logic_Queue::P2PBreakoff(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int iRet = XMLProcess::Common_GetResourceID(data.Value, resId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetResourceID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCE_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().P2PBreakoff(resId);
@@ -3220,22 +2675,7 @@ void Logic_Queue::SubJoinGroup(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::Common_GetGroupID(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetGroupID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUP_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().SubJoinGroup(groupId);
@@ -3260,22 +2700,7 @@ void Logic_Queue::PTTDial(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::Common_GetGroupID(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetGroupID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUP_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().PTTDial(groupId);
@@ -3300,22 +2725,7 @@ void Logic_Queue::PTTRelease(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::Common_GetGroupID(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetGroupID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUP_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().PTTRelease(groupId);
@@ -3340,22 +2750,7 @@ void Logic_Queue::PTTHangup(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::Common_GetGroupID(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetGroupID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUP_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().PTTHangup(groupId);
@@ -3380,22 +2775,7 @@ void Logic_Queue::PTTEmergency(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::Common_GetGroupID(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetGroupID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUP_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().PTTEmergency(groupId);
@@ -3420,22 +2800,7 @@ void Logic_Queue::GroupBreakoff(const QUEUE_DATA& data) const
 	SSL_CHECK(data);
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int groupId;
-		int iRet = XMLProcess::Common_GetGroupID(data.Value, groupId);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("Common_GetGroupID failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_GROUP_HEAD();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().GroupBreakoff(groupId);
@@ -3461,22 +2826,7 @@ void Logic_Queue::VolMute(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int callType;
-		int iRet = XMLProcess::GetXml_VolControl_Req(data.Value, resId, callType);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_VolControl_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_VOL_HEAD();
 
 		// 业务处理
 		Mute_parameter param;
@@ -3505,22 +2855,7 @@ void Logic_Queue::VolUnMute(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		int resId;
-		int callType;
-		int iRet = XMLProcess::GetXml_VolControl_Req(data.Value, resId, callType);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_VolControl_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_VOL_HEAD();
 
 		// 业务处理
 		Mute_parameter param;
@@ -3737,32 +3072,7 @@ void Logic_Queue::GetDcVWallIDList(const QUEUE_DATA& data) const
 			return;
 		}
 
-		// 构造消息体
-		PACKET_BODY body;
-		size_t _size = xmlStr.size();
-		body.Value = new char[_size+1];
-		if (NULL == body.Value)
-		{
-			LOG_RUN_ERROR("new memory failed.");
-			head.RspCode = eLTE_SVC_ERR_MEMORY_APPLY;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-		eSDK_MEMSET(body.Value, 0, _size+1);
-		eSDK_MEMCPY(body.Value, _size+1, xmlStr.c_str(), _size);
-
-		head.RspCode = iRet;
-		head.PacketLength += _size;
-		// 发送消息头
-		SSL_WRITE_SAFE(_ssl, &head, PACKET_HEAD_SIZE, body.Value);
-		// 发送消息体
-		SSL_WRITE_SAFE(_ssl, body.Value, _size, body.Value);
-		if(NULL != body.Value)
-		{
-			delete [] body.Value;
-			body.Value = NULL;
-		}
+		CONSTRUCT_AND_SEND_MESSAGE();
 	}//lint !e438
 	else
 	{
@@ -3814,90 +3124,90 @@ void Logic_Queue::VWallStop(const QUEUE_DATA& data) const
 		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
 	}
 }
-
-	// 发起PSTN/PLMN电话呼叫
-void Logic_Queue::TelephoneDial(const QUEUE_DATA& data) const
-{
-	SSL_CHECK(data);
-
-	if (SSL_ST_OK == SSL_state(_ssl))
-	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		std::string PhoneNumStr;
-		VWallStop_parameter param;
-		int iRet = XMLProcess::GetXml_TelephoneDial_Req(data.Value, PhoneNumStr);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_TelephoneDial_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-
-		// 业务处理
-		iRet = OperationMgr::Instance().TelephoneDial(PhoneNumStr);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("TelephoneDial failed.");
-		}
-		head.RspCode = iRet;
-		// 发送消息头
-		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-	}
-	else
-	{
-		// ssl状态不正确，有可能连接中断，不发送数据
-		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
-	}
-}
-
-// 挂断PSTN/PLMN电话呼叫
-void Logic_Queue::TelephoneHangup(const QUEUE_DATA& data) const
-{
-	SSL_CHECK(data);
-
-	if (SSL_ST_OK == SSL_state(_ssl))
-	{
-		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		std::string PhoneNumStr;
-		VWallStop_parameter param;
-		int iRet = XMLProcess::GetXml_TelephoneHangup_Req(data.Value, PhoneNumStr);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_TelephoneHangup_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
-
-		// 业务处理
-		iRet = OperationMgr::Instance().TelephoneHangup(PhoneNumStr);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("TelephoneDial failed.");
-		}
-		head.RspCode = iRet;
-		// 发送消息头
-		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-	}
-	else
-	{
-		// ssl状态不正确，有可能连接中断，不发送数据
-		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
-	}
-}
+// 
+// 	// 发起PSTN/PLMN电话呼叫
+// void Logic_Queue::TelephoneDial(const QUEUE_DATA& data) const
+// {
+// 	SSL_CHECK(data);
+// 
+// 	if (SSL_ST_OK == SSL_state(_ssl))
+// 	{
+// 		// 构造消息头
+// 		PACKET_HEAD head(data);
+// 		head.MsgType |= RSP_MSG_FLAG;
+// 		head.PacketLength = PACKET_HEAD_SIZE;
+// 
+// 		// xml解析
+// 		std::string PhoneNumStr;
+// 		VWallStop_parameter param;
+// 		int iRet = XMLProcess::GetXml_TelephoneDial_Req(data.Value, PhoneNumStr);
+// 		if (eLTE_SVC_ERR_SUCCESS != iRet)
+// 		{
+// 			LOG_RUN_ERROR("GetXml_TelephoneDial_Req failed.");
+// 			head.RspCode = iRet;
+// 			// 发送消息头
+// 			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+// 			return;
+// 		}
+// 
+// 		// 业务处理
+// 		iRet = OperationMgr::Instance().TelephoneDial(PhoneNumStr);
+// 		if (eLTE_SVC_ERR_SUCCESS != iRet)
+// 		{
+// 			LOG_RUN_ERROR("TelephoneDial failed.");
+// 		}
+// 		head.RspCode = iRet;
+// 		// 发送消息头
+// 		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+// 	}
+// 	else
+// 	{
+// 		// ssl状态不正确，有可能连接中断，不发送数据
+// 		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
+// 	}
+// }
+// 
+// // 挂断PSTN/PLMN电话呼叫
+// void Logic_Queue::TelephoneHangup(const QUEUE_DATA& data) const
+// {
+// 	SSL_CHECK(data);
+// 
+// 	if (SSL_ST_OK == SSL_state(_ssl))
+// 	{
+// 		// 构造消息头
+// 		PACKET_HEAD head(data);
+// 		head.MsgType |= RSP_MSG_FLAG;
+// 		head.PacketLength = PACKET_HEAD_SIZE;
+// 
+// 		// xml解析
+// 		std::string PhoneNumStr;
+// 		VWallStop_parameter param;
+// 		int iRet = XMLProcess::GetXml_TelephoneHangup_Req(data.Value, PhoneNumStr);
+// 		if (eLTE_SVC_ERR_SUCCESS != iRet)
+// 		{
+// 			LOG_RUN_ERROR("GetXml_TelephoneHangup_Req failed.");
+// 			head.RspCode = iRet;
+// 			// 发送消息头
+// 			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+// 			return;
+// 		}
+// 
+// 		// 业务处理
+// 		iRet = OperationMgr::Instance().TelephoneHangup(PhoneNumStr);
+// 		if (eLTE_SVC_ERR_SUCCESS != iRet)
+// 		{
+// 			LOG_RUN_ERROR("TelephoneDial failed.");
+// 		}
+// 		head.RspCode = iRet;
+// 		// 发送消息头
+// 		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+// 	}
+// 	else
+// 	{
+// 		// ssl状态不正确，有可能连接中断，不发送数据
+// 		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
+// 	}
+// }
 
 // 发起缜密监听
 void Logic_Queue::StartDiscreetListen(const QUEUE_DATA& data) const
@@ -3907,22 +3217,8 @@ void Logic_Queue::StartDiscreetListen(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
+		CONSTRUCT_AND_WRITE_RESOURCEID_REQ();
 
-		// xml解析
-		std::string ResourceID;
-		VWallStop_parameter param;
-		int iRet = XMLProcess::GetXml_GetResourceID_Req(data.Value, ResourceID);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_StartDiscreetListen_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
 		// 业务处理
 		iRet = OperationMgr::Instance().DiscreetListenOpera(eLTE_Tool::String2Int(ResourceID), DL_START);
 		if (eLTE_SVC_ERR_SUCCESS != iRet)
@@ -3947,22 +3243,7 @@ void Logic_Queue::StopDiscreetListen(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		std::string ResourceID;
-		VWallStop_parameter param;
-		int iRet = XMLProcess::GetXml_GetResourceID_Req(data.Value, ResourceID);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_StartDiscreetListen_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCEID_REQ();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().DiscreetListenOpera(eLTE_Tool::String2Int(ResourceID), DL_STOP);
@@ -3988,22 +3269,7 @@ void Logic_Queue::StartEnvironmentListen(const QUEUE_DATA& data) const
 	if (SSL_ST_OK == SSL_state(_ssl))
 	{
 		// 构造消息头
-		PACKET_HEAD head(data);
-		head.MsgType |= RSP_MSG_FLAG;
-		head.PacketLength = PACKET_HEAD_SIZE;
-
-		// xml解析
-		std::string ResourceID;
-		VWallStop_parameter param;
-		int iRet = XMLProcess::GetXml_GetResourceID_Req(data.Value, ResourceID);
-		if (eLTE_SVC_ERR_SUCCESS != iRet)
-		{
-			LOG_RUN_ERROR("GetXml_StartDiscreetListen_Req failed.");
-			head.RspCode = iRet;
-			// 发送消息头
-			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
-			return;
-		}
+		CONSTRUCT_AND_WRITE_RESOURCEID_REQ();
 
 		// 业务处理
 		iRet = OperationMgr::Instance().DiscreetListenOpera(eLTE_Tool::String2Int(ResourceID), P2P_ENVIRONMENT_LISTEN);
