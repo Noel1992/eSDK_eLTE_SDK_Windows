@@ -1,0 +1,7 @@
+{
+   "name": "com.huawei.firewyrmhost",
+   "description": "call elte function",
+   "path": "D:\\elte_js_control\\Host\\FireWyrmNativeMessageHost.exe",
+   "type": "stdio",
+   "allowed_origins": ["chrome-extension://dlfdfkalmjbghacnadegnkmbcnpmnmfn/"]
+}

@@ -1,0 +1,7 @@
+{
+   "name": "${PLUGIN_CRX_NATIVEHOST_NAME}",
+   "description": "${PLUGIN_CRX_NATIVEHOST_DESCRIPTION}",
+   "path": "${NAMESHOST}",
+   "type": "stdio",
+   "allowed_extensions": [${PLUGIN_XPI_ALLOWED_EXTENSIONS}]
+}
