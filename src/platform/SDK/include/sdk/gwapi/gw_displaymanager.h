@@ -5,7 +5,7 @@ Author:      Wang Kai
 Created:     2014/03/12 10:00
 
 Description: DisplayManager implementation class for SDK_GW,
-             convert from DisplayManager interface to ServiceObserver interface
+convert from DisplayManager interface to ServiceObserver interface
 *********************************************************************/
 
 #ifndef GW_DISPLAYMANAGER_H

@@ -358,7 +358,7 @@ void rtp_session_feedback_send(struct _RtpSession *s);
 mblk_t *rtcp_session_create_nat_probe_packet(struct _RtpSession *session);
 void rtp_session_send_rtcp_nat_probe_packet(struct _RtpSession *s);
 //end add by wangshiwei
-#define RTCP_DEFAULT_REPORT_INTERVAL 5
+#define RTCP_DEFAULT_REPORT_INTERVAL 3//5
 
 
 /* packet parsing api */

@@ -28,7 +28,10 @@ public:
 
     Peripheral_t getDeviceTp();
 
-    void setDevStatus(bool DevStatus); //PTT PRESS:TRUE, PTT RELEASE:FALSE;
+    //type=SERIAL_PORT:online:true, offline:false;
+    //type=PTT_MIC: pressed:true, released:false
+    //type=SND_CARD: Insert headset: true, no headset:false
+    void setDevStatus(bool DevStatus);
 
     bool getDevStatus();
 

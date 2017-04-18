@@ -10,7 +10,7 @@
         <Param name="start_java" value="/opt/UBP/bin/hpgw_webstart.sh"/>
         <Param name="pid_java" value="/opt/UBP/bin/hpgw_status.sh"/>
         <Param name="stop_java" value="/opt/UBP/bin/hpgw_webstop.sh"/>
-        <Param name="init_wait_time" value="90"/>
+        <Param name="init_wait_time" value="120"/>
       </SvcParams>
       <LoadModules>
       </LoadModules>

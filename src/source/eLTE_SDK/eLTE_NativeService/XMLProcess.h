@@ -163,11 +163,12 @@ history     :    2015/01/12
 	maxLen = (strlen(srcValue) < (maxLen)) ? strlen(srcValue) : ((maxLen)-1);	\
 	eSDK_MEMCPY(retValue, sizeof(retValue), srcValue, maxLen)
 
+//ÅÐ¶Ïxml×Ö´®ÊÇ·ñÎª¿Õ£¬²¢ÅÐ¶ÏÆäcontent±êÇ©ÊÇ·ñ´æÔÚ
 #define PARSE_XML_DATA(xmlStr)	\
 	LOG_TRACE();							\
 if (NULL == xmlStr)							\
 {											\
-	LOG_RUN_ERROR("xml is null.");		\
+	LOG_RUN_ERROR("xml is null.");			\
 	return eLTE_SVC_ERR_INVALID_PARAM;		\
 }											\
 CXml xmlParse;								\
@@ -205,7 +206,7 @@ struct VIDEO_PARAM
 	std::string MuteType;
 };
 
-struct VWALL_PARAM
+struct StartVWALL_PARAM
 {
 	MSISDN DstObjId;
 	MSISDN SrcObjId;
@@ -272,8 +273,11 @@ public:
 
 	static int GetXml_RecvVideoPlay_Req(const char* xmlStr, int& resId);
 	
-	static int GetXml_StartVWall_Req(const char* xmlStr, int& resId, VWALL_PARAM& param);
+	static int GetXml_StartVWall_Req(const char* xmlStr, int& resId, StartVWALL_PARAM& param);
 	static int GetXml_VWallStop_Req(const char* xmlStr, int& resId, VWallStop_parameter& param);
+
+	static int GetXml_StartRecord_Req(const char* xmlStr, int& resId, Record_parameter& param);
+	static int GetXml_StopRecord_Req(const char* xmlStr, int& resId, Record_parameter& param);
 
 // 	static int GetXml_TelephoneDial_Req(const char* xmlStr, std::string& PhoneNumStr);
 // 	static int GetXml_TelephoneHangup_Req(const char* xmlStr, std::string& PhoneNumStr);

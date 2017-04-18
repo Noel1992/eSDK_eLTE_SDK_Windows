@@ -76,6 +76,9 @@ public : /* 监听Slots定义 */
     void updateGroupStatus(GroupStatusIndicatorRef);
     /* 临时群组关闭通知 */
     void notifyGroupClose(ResourceStatusIndicatorRef);
+    void updateUserStatus(ResourceStatusIndicatorRef);
+    void audioAllMuteUpdate(ResourceStatusIndicatorRef);
+    void tmpGrpMuteStatusUpdate(ResourceStatusIndicatorRef);
     /* 视频浏览SDP协商资源通知 */
     void notifyVideoInfo(P2pvideocallStatusIndicatorRef);
     /* 模块状态更新通知 */

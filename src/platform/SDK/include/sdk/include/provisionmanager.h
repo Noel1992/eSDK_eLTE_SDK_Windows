@@ -17,7 +17,7 @@ Description: ProvisionManager API
 #include "sdk/include/provision_helper.h"
 
 namespace Json{
-class Value;
+    class Value;
 }
 
 //forward declarations:
@@ -38,21 +38,21 @@ class SDK_IMPORT_EXPORT ProvisionManager
 public:
 
     /**
-      \brief get ProvisionManager service object
-      \note please don't invoke this API, use ProvisionManager_T::instance() instead
+    \brief get ProvisionManager service object
+    \note please don't invoke this API, use ProvisionManager_T::instance() instead
     */
     static ProvisionManager* getInstance();
 
     /**
-        \brief ProvisionManager initialize，will download provisioning data from server
-        \param serverIP： IP address for eMDC server
-        \param dcid： ID of DC
+    \brief ProvisionManager initialize，will download provisioning data from server
+    \param serverIP： IP address for eMDC server
+    \param dcid： ID of DC
     */
     void init(std::string serverIP,MSISDN dcid);
     /**
-      \brief init eMRS
-      \param mrsServerIP: IP address for eMRS server
-      \note : if eMRS and eMDC are deployed separately, you need invoke this API before querying recording files
+    \brief init eMRS
+    \param mrsServerIP: IP address for eMRS server
+    \note : if eMRS and eMDC are deployed separately, you need invoke this API before querying recording files
     */
     int initMRS(std::string mrsServerIP);
 
@@ -64,9 +64,9 @@ public:
     ProvListener* getProvListener();
 
     /**
-      \brief get hotline configurations for this DC, the caller is responsible to destroy the clone data structure
-      \param dcid： DCID for the invoking DC
-      \return DcHotlines: vectors of hotline for this DC
+    \brief get hotline configurations for this DC, the caller is responsible to destroy the clone data structure
+    \param dcid： DCID for the invoking DC
+    \return DcHotlines: vectors of hotline for this DC
     */
     DcHotlines* getDcHotlinesClone(MSISDN Dcid);
 
@@ -77,54 +77,54 @@ public:
     bool isInOnlyDcRange(MSISDN userid, MSISDN dcid);
 
     /**
-      \brief get managed groups for this DC, the caller is responsible to destroy the clone data structure
-      \param dcid： DCID for the invoking DC
-      \return DcGroups: vector of groups managed by this DC
+    \brief get managed groups for this DC, the caller is responsible to destroy the clone data structure
+    \param dcid： DCID for the invoking DC
+    \return DcGroups: vector of groups managed by this DC
     */
     DcGroups* getDcGroupsClone(MSISDN Dcid);
     /**
-      \brief get managed groups for this DC by group type, the caller is responsible to destroy the clone data structure
-      \param dcid： DCID for the invoking DC
-      \param cat: category of group object
-      \return DcGroups: vector of groups managed by this DC
+    \brief get managed groups for this DC by group type, the caller is responsible to destroy the clone data structure
+    \param dcid： DCID for the invoking DC
+    \param cat: category of group object
+    \return DcGroups: vector of groups managed by this DC
     */
     DcGroups* getDcGroupsByType(MSISDN Dcid, Group_Category_t cat);
 
 
     /**
-      \brief get managed users for this DC , the caller is responsible to destroy the clone data structure
-      \param dcid： DCID for the invoking DC
-      \return DcUsers: vector of users managed by this DC
+    \brief get managed users for this DC , the caller is responsible to destroy the clone data structure
+    \param dcid： DCID for the invoking DC
+    \return DcUsers: vector of users managed by this DC
     */
     DcUsers* getDcUsersClone(MSISDN Dcid);
     DcUsers* getDcUsersCloneByType(MSISDN Dcid, User_Category_t cat);
 
     /**
-      \brief get users in a group, the caller is responsible to destroy the clone data structure
-      \param grpid： group id
-      \return GrpUserlist: vector of users in a group
+    \brief get users in a group, the caller is responsible to destroy the clone data structure
+    \param grpid： group id
+    \return GrpUserlist: vector of users in a group
     */
     GrpUserList* getGroupUsersClone(MSISDN  grpid);
 
     GrpUserList* getDynamicGroupPhotoUsersClone(MSISDN  dynamicgrpid, MSISDN photogrpid);
     /**
-      \brief get detail information for a group
-      \param grpid: group ID
-      \return GroupInfo: details about a group, NULL if the group doesn't exist
+    \brief get detail information for a group
+    \param grpid: group ID
+    \return GroupInfo: details about a group, NULL if the group doesn't exist
     */
     GroupInfo* getGroupInfoClone(MSISDN  grpid);
 
     /**
-      \brief get detail information for a user
-      \param userid: user ID
-      \return UserInfo: details about a user, NULL if the user doesn't exist
+    \brief get detail information for a user
+    \param userid: user ID
+    \return UserInfo: details about a user, NULL if the user doesn't exist
     */
     UserInfo*  getUserInfoClone(MSISDN userid);
 
     /**
-      \brief get detail information for a DC (Dispatch Console)
-      \param dcid: DC id
-      \return DcProperty: details about a DC, NULL if the DC doesn't exist
+    \brief get detail information for a DC (Dispatch Console)
+    \param dcid: DC id
+    \return DcProperty: details about a DC, NULL if the DC doesn't exist
     */
     DcProperty* getDcProperty(MSISDN Dcid);
 
@@ -136,15 +136,15 @@ public:
 
 
     /**
-      \brief get status message defintion for a status code
-      \param code: status code
-      \return SdsStMsgCfg: details about a status message, NULL if it doesn't exist
+    \brief get status message defintion for a status code
+    \param code: status code
+    \return SdsStMsgCfg: details about a status message, NULL if it doesn't exist
     */
     SdsStMsgCfg* getStatusMsgClone(/*unsigned*/ int code);
-		
+
     /**
-      \brief get video wall list (video output channels)
-      \return VWallInfoList: a list of video walls managed by this DC, return NULL if no video walls
+    \brief get video wall list (video output channels)
+    \return VWallInfoList: a list of video walls managed by this DC, return NULL if no video walls
     */
     VWallInfoList* getVWallsClone();
 
@@ -157,23 +157,23 @@ public:
     void setListener(LicenseListener *Listener);
 
     /**
-      \brief recording files from eMRS
-      \param condition: query condition, please see RECQueryInfo definition for more details
-      \return UserRecFileInfoList: list of recording files, NULL if no recording files are found with this condition
+    \brief recording files from eMRS
+    \param condition: query condition, please see RECQueryInfo definition for more details
+    \return UserRecFileInfoList: list of recording files, NULL if no recording files are found with this condition
     */
     UserRecFileInfoList* getUserRecFileInfoList( RECQueryInfo* condition);
 
     /**
-      \brief query ability for a mobile terminal
-      \param ueid: ID of the mobile terminal
-      \return ProvUEAblity: ability of this UE, reported when UE power up
+    \brief query ability for a mobile terminal
+    \param ueid: ID of the mobile terminal
+    \return ProvUEAblity: ability of this UE, reported when UE power up
     */
     ProvUEAblity* getUEAbilityClone(MSISDN ueid);
 
     /*-----------------------TTR3.0----------------------- */
 
     /**
-      \brief initMRS with dcid, security and privilege checking
+    \brief initMRS with dcid, security and privilege checking
     */
     int initMRS(std::string mrsServerIP, std::string localIP, MSISDN dcid, std::string pwd);
 
@@ -215,7 +215,7 @@ public:
     */
     GisQuerySubList* queryGISSubscription(MSISDN dcid);
 
-	
+
     /**
     \brief recording tasks from eMRS,when got tasks you can query files by it
     \param condition: query condition, please see RECQueryTaskInfo definition for more details
@@ -266,19 +266,19 @@ public:
     void setPagesConfigure4DC(MSISDN offset,MSISDN filenum);
 
     /**
-      \brief get members in a dynamic group, filter by member type
-      \param dmgrpid： dynamic group id
-      \return GrpUserlist: vector of members in the dynamic group
-      \note   you can filter by member type to get group list or user list in the dynamic group
+    \brief get members in a dynamic group, filter by member type
+    \param dmgrpid： dynamic group id
+    \return GrpUserlist: vector of members in the dynamic group
+    \note   you can filter by member type to get group list or user list in the dynamic group
     */
     GrpUserList* getDynamicGroupMembers(MSISDN  dmgrpid);
 
     /**
-      \brief get users proxy register informations
-      \param from: user isdn begin
-      \param to: user isdn end
-      \return UserRegisterList: vector of users register informations
-      \note: if set from and to with -1,then eSDK will query all users proxy register informations.
+    \brief get users proxy register informations
+    \param from: user isdn begin
+    \param to: user isdn end
+    \return UserRegisterList: vector of users register informations
+    \note: if set from and to with -1,then eSDK will query all users proxy register informations.
     */
     UserRegisterList* getUserRegisterInfo(MSISDN from, MSISDN to);
 
@@ -286,32 +286,53 @@ public:
     ProvPTTLinkCamera* getPttLinkCameraClone(std::string pttisdn);
 
     /**
-      \brief when creating a patchGroup, you can invoke this API to get the current sequence.
-      \return @int PatchGroup sequence
+    \brief when creating a patchGroup, you can invoke this API to get the current sequence.
+    \return @int PatchGroup sequence
     */
     MSISDN getCurrentPatchSeq();
 
-    /* 根据patchId，查询派接组信息 */
+    /**
+    \brief get patchGroup informations by group id
+    */
     PatchGroupInfo * getPatchGroupCloneById(MSISDN pid);
 
     bool isPatchGroup(MSISDN grpid);
     /**
-       \brief get the value whcih can tell you whether camera support viedo loss retransmission or not
+    \brief get the value whcih can tell you whether camera support viedo loss retransmission or not
     */
     VideoLossRetransmissionInfoList* getVideoLossRetransMissionInfo();
 
     /**
-      \brief by this you can get the cameras' shape infomation
-      \param dcid: ID of DC
-      \return CameraAttributeList: vector of 'CameraAttribute'
+    \brief by this you can get the cameras' shape infomation
+    \param dcid: ID of DC
+    \return CameraAttributeList: vector of 'CameraAttribute'
     */
     CameraAttributeList* getDcCameraAttributeCloneByDcID(MSISDN dcid);
     /**
-      \brief by this you can get a camera's shape
-      \param cameraid: ID of camera
-      \return type of 'CameraShape_t'
+    \brief by this you can get a camera's shape
+    \param cameraid: ID of camera
+    \return type of 'CameraShape_t'
     */
     CameraShape_t getDcCameraAttributeByCameraId(MSISDN cameraid);
+
+    /**
+    \brief Check the success or failure information of the SDK load key tables
+    \return 32 bit value, user should compare the value with LOADDATA_OK, equal means success, or failed
+    \note:
+    KeyTable[T_KEYTBL_NUM] ={T_DCATTRIBUTES,T_RANGELIST,T_DCRANGES,T_VPNINFO,T_VPNRANGE,T_GROUP,T_PTTUSER,T_FIXEDUSER,T_GROUPPTTUSER,T_GROUPFIXEDUSER};
+    it was reserved for INTERNAL use only!
+    */
+
+    unsigned int getLoadTablesInfo();
+    /**
+    \brief Check this group whether still exist in ExternalISDN Table.
+    \param group isdn
+    \return true or false
+    \note: It was reserved for INTERNAL use only!
+    Call this API when receiving MO_Group notifyProvisionChange.If return true, please ignore this notify.
+    */
+
+    bool isExistExternalISDNDatas(const int& groupid);
 
 public:
     ProvisionManager();

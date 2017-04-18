@@ -43,6 +43,9 @@ static const char *SVC_NAME_MRS_UE = "ubp_ue";
 static const char *SVC_NAME_UDC_OPM = "udc_opm";
 static const char *SVC_NAME_UDC_PUSH = "udc_push";
 static const char *SVC_NAME_UDC_UOM = "udc_uom";
+static const char *SVC_NAME_UDC_UIS = "udc_uis";
+static const char *SVC_NAME_UDC_AAS = "udc_aas";
+static const char *SVC_NAME_UDC_MDM = "udc_mdm";
 
 static const char *SVC_TYPE_DAEM = "daem_agent";
 static const char *SVC_TYPE_CM = "cm_agent";
@@ -64,6 +67,9 @@ static const char *SVC_TYPE_MRS_UE = "ue_agent";
 static const char *SVC_TYPE_UDC_OPM = "opm_agent";
 static const char *SVC_TYPE_UDC_PUSH = "push_agent";
 static const char *SVC_TYPE_UDC_UOM = "uom_agent";
+static const char *SVC_TYPE_UDC_UIS = "uis_agent";
+static const char *SVC_TYPE_UDC_AAS = "aas_agent";
+static const char *SVC_TYPE_UDC_MDM = "mdm_agent";
 static const char *SVC_TYPE_UDC_EBS = "web_agent"; //added by wyj for F0012_0120ebs
 
 #endif //UBP_CONST_HPP__

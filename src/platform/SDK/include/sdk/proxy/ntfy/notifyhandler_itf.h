@@ -16,19 +16,19 @@ Description: 通知处理器接口
 class SDK_IMPORT_EXPORT NotifyHandlerItf
 {
 public:
-    
+
     //发送通知接口
-        virtual int fireNotification(void *  /*para*/, std::string clientID = "default"){return 0;}
-        virtual std::string toNotification(void *  /*para*/, std::string clientID = "default"){return NULL;}
+    virtual int fireNotification(void *  /*para*/, std::string clientID = "default"){return 0;}
+    virtual std::string toNotification(void *  /*para*/, std::string clientID = "default"){return NULL;}
 
 };
 
 
 class SDK_IMPORT_EXPORT NotifyFactoryItf
 {
- public:
-    
-         virtual NotifyHandlerItf* getHandler(std::string&  /*cmdid*/){return NULL;}
+public:
+
+    virtual NotifyHandlerItf* getHandler(std::string&  /*cmdid*/){return NULL;}
 
 };
 

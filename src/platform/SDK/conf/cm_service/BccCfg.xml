@@ -4,7 +4,7 @@
 		<Parameter name="BccCfgIndex" desc="序号" type="int" range="[0,2147483647]" constrain="PRI" />
 		<Parameter name="SingleCallLimitTime" desc="点呼限时时长（秒）" type="int" range="[0,65535]" constrain="NOT NULL" mode="update" default="300" />
 		<Parameter name="RingCallLimitTime" desc="振铃限时时长（秒）" type="int" range="[1,60]" constrain="NOT NULL" mode="update" default="30" />
-		<Parameter name="GroupIdleLimitTime" desc="组呼空闲态限时时长（秒）" type="int" range="[1,3600]" constrain="NOT NULL" mode="update" default="10" />
+		<Parameter name="GroupIdleLimitTime" desc="组呼空闲态限时时长（秒）" type="int" range="[1,3600]" constrain="NOT NULL" mode="update" default="5" />
 		<Parameter name="UserInGroupQueryTime" desc="用户是否在群组中查询超时定时器（秒）" type="int" range="[1,60]" constrain="NOT NULL" mode="update" default="15" />
 		<Parameter name="TempGroupIdleLimitTime" desc="临时组呼空闲态限时时长（秒）" type="int" range="[1,3600]" constrain="NOT NULL" mode="update" default="10" />
 		<Parameter name="TempGroupSpeakerLimitTime" desc="临时主讲话权限时时长（秒）" type="int" range="[1,65535]" constrain="NOT NULL" mode="update" default="60" />
@@ -12,10 +12,10 @@
 		<Parameter name="TimeA" desc="SIP timea定时器长度（毫秒）" type="int" range="[500,4000]" constrain="NOT NULL" mode="update" default="500" />
 		<Parameter name="ProxyAuthSwitch" desc="代理鉴权开关" type="enum" range="0,1" vlist="0:ON,1:OFF" mode="update" default="1" />
 		<Parameter name="PocSetupSwitch" desc="poc建立群组方式开关" type="enum" range="0,1" vlist="0:常规群组建立方式,1:快速群组建立方式" mode="update" default="1" />
-		<Parameter name="GwDtmfPremptPriority" desc="网关Dtmf抢权优先级" type="int" range="[1,15]" constrain="NOT NULL" mode="update" default="1" />
+		<Parameter name="GwDtmfPremptPriority" desc="网关Dtmf抢权优先级" type="int" range="[1,15]" constrain="NOT NULL" mode="update" default="2" />
 		<Parameter name="HalfduplexIdleLimitTime" desc="半双工点呼空闲限时时长(秒)" type="int" range="[1,3600]" constrain="NOT NULL" mode="update" default="30" />
 		<Parameter name="MixGwTollPhoneSwitch" desc="混合网关长途手机处理开关" type="enum" range="0,1" vlist="0:OFF,1:ON" mode="update" default="0" />
 		<Parameter name="TetraGWGroupStateSwitch" desc="Tetra网关组呼话权指示开关" type="enum" range="0,1" vlist="0:OFF,1:ON" mode="update" default="1" />
-		<Parameter name="LineGroupIdleLimitTime" desc="有线组呼空闲态限时时长" type="int" range="[0,86400]" constrain="NOT NULL" mode="update" default="10" />
+		<Parameter name="LineGroupIdleLimitTime" desc="有线组呼空闲态限时时长(秒)" type="int" range="[0,86400]" constrain="NOT NULL" mode="update" default="10" />
 	</MOC>
 </Moc-Config>

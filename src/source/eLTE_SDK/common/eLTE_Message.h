@@ -364,6 +364,12 @@ public:
 #define ELTE_SERVICE_P2PHALFDPXRELEASE_REQ		0x0524			   // 释放半双工点呼
 #define ELTE_SERVICE_P2PHALFDPXRELEASE_RSP		0xF524
 
+#define ELTE_SERVICE_STARTRECORD_REQ		0x0525			   // 发起音视频录制
+#define ELTE_SERVICE_STARTRECORD_RSP		0xF525
+
+#define ELTE_SERVICE_STOPRECORD_REQ		0x0526			   // 停止音视频录制
+#define ELTE_SERVICE_STOPRECORD_RSP		0xF526
+
 //////////////////////////////////////////////////////////////////////////
 // 消息类型范围定义
 // 通用接口定义			REQ: 0x0000 - 0x00FF RSP: 0xF000 - 0xF0FF

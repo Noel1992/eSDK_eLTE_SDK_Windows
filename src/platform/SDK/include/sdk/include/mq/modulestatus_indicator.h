@@ -14,7 +14,7 @@ Description: module level notifications from SDK to upper layer
 #include "sdk_export.h"
 
 namespace Json{
- class Value;
+    class Value;
 }
 
 typedef enum {
@@ -67,7 +67,7 @@ typedef enum {
     ATTACH_SERVER_SPACE_FULL = 33,          ///SDS Server space full
     PROGRESS_RECORD_FILE = 34,              ///progress details when downloading file.
     PROGRESS_FILE_RESULT = 35,              ///result for downing file
-	GIS_MONITOR = 36,
+    GIS_MONITOR = 36,
     UNKOWN_STATUS = 999
 } module_status_t;
 
@@ -126,7 +126,7 @@ public:
     virtual const char* serialize(Json::Value& value);
     virtual bool parse(const Json::Value& value);
 
- private:
+private:
     NestedModuleIndicator * _impl;
 
 };

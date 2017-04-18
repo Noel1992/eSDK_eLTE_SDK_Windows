@@ -8,7 +8,7 @@
     <ServiceInfo svc_type="adm_agent" code_type="cplus" user="ubp" team="PLT" tcmalloc_trigger="off" valgrind_trigger="off">
       <SvcParams>
         <Param name="all_service_init_waittime" value="120"/>
-        <Param name="all_service_fini_waittime" value="60"/>
+        <Param name="all_service_fini_waittime" value="120"/>
         <Param name="all_service_kill_waittime" value="10"/>
         <Param name="start_daem_waittime" value="30"/>
         <Param name="stop_daem_waittime" value="20"/>
@@ -20,11 +20,11 @@
       </SvcParams>
       <LoadModules>
         <Module lib="ubp_sca" entry="CreateCfgMgr" />
-        <Module lib="ubp_svcmgr" />
-        <Module lib="ubp_threadpool" />
-        <Module lib="ubp_encryption" />
-        <Module lib="ubp_timer" />
-        <Module lib="ubp_mq" />
+        <Module lib="ubp_svcmgr" entry="CreateModule"/>
+        <Module lib="ubp_threadpool" entry="CreateModule"/>
+        <Module lib="ubp_encryption" entry="CreateModule"/>
+        <Module lib="ubp_timer" entry="CreateModule"/>
+        <Module lib="ubp_mq" entry="CreateModule"/>
       </LoadModules>
       <LoadPB>
       </LoadPB>

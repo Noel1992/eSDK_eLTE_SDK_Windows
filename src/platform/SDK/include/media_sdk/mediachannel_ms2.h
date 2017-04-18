@@ -11,6 +11,7 @@ Description:  基于MediaStream2(in Linphone)的 VoiceChannel 和 VideoChannel �
 #ifndef MEDIACHANNEL_MS2_H
 #define MEDIACHANNEL_MS2_H
 
+#include "ace/Synch.h"
 #include "mediamanager.h"
 #include "mediastreamer2/mediastream.h"
 #include "media_export.h"
@@ -98,8 +99,12 @@ private:       //基于MediaStream2的实现定义
     bool is_recording_; //标志当前是否已经启动录音
     VoiceChannelMS2* voice_channel_; //伴音的Channel，录像时有用
     int rec_session_id_;
+
     //added in TTR4.0
     bool bStopNATProbe;				  //NAT	穿透是否定时发送首包标志，true停止发送,false继续发送
+    ACE_Thread_Mutex natMutex;
+    ACE_Condition<ACE_Thread_Mutex> natCond;
+
 #endif
 protected:
     VideoRenderer *renderer_;  //外部注入的render

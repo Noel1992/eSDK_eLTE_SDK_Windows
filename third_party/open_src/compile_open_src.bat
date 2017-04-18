@@ -2,9 +2,9 @@
 
 @echo off
 
-set OPENSSL_PATH=%cd%\openssl-1.0.2j\openssl-1.0.2j
+set OPENSSL_PATH=%cd%\openssl-1.0.2k\openssl-1.0.2k
 set VCVARS32="%VS100COMNTOOLS%\..\..\VC\bin\vcvars32.bat"
-set OPENSSL_LIB=%cd%\openssl-1.0.2j\lib\windows
+set OPENSSL_LIB=%cd%\openssl-1.0.2k\lib\windows
 set TINYXML_PATH=%cd%\tinyxml\tinyxml
 set TINYXML_LIB=%cd%\tinyxml\lib
 set SDL_PATH=%cd%\sdl2-2.0.3\sdl2-2.0.3\VisualC
@@ -60,4 +60,3 @@ xcopy /Y "%JSON_PATH%\Release\lib_json.pdb" 					"%JSON_DLL%\"
 @echo .
 @echo гнгнгнгнгнгнгнгнгнгнгнгнгнгнгнгн▒р╥ыjson Endгнгнгнгнгнгнгнгнгнгнгнгнгнгнгнгн
 
-pause

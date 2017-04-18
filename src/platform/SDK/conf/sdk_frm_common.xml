@@ -21,19 +21,19 @@
         <Param name="ubp_sdk_agent_08" value="22128"/>
         <Param name="ubp_sdk_agent_09" value="22129"/>
         <Param name="ubp_sdk_agent_10" value="22130"/>
-        <Param name="curwkey" value="3CD512317830B5677AAF7C7E3D3BC17D73F71D0F133702AAE7F68A5B13D37D954D75E089E505E5A8BA00054D0F48CE16B7FF70B895C92A673FD031C25C10796E"/>
+        <Param name="curwkey" value="01EA9B020309C9037F8D530E42D329060E4C7FB11A3ABDC25BE50F52B11C522FDE17E107075CEE318E675981904E76B4"/>
       </SvcParams>
       <LoadModules>
         <Module lib="ubp_sca" entry="CreateCfgMgr" />
-        <Module lib="ubp_svcmgr" />
-        <Module lib="ubp_error" />
-        <Module lib="ubp_threadpool" />
-        <Module lib="ubp_timer" />
-        <Module lib="ubp_encryption" />
-        <Module lib="ubp_dao" />
-        <Module lib="ubp_mq" />
-        <Module lib="ubp_fmproxy" />
-        <Module lib="ubp_lmproxy" />
+        <Module lib="ubp_svcmgr" entry="CreateModule"/>
+        <Module lib="ubp_error" entry="CreateModule"/>
+        <Module lib="ubp_threadpool" entry="CreateModule"/>
+        <Module lib="ubp_timer" entry="CreateModule"/>
+        <Module lib="ubp_encryption" entry="CreateModule"/>
+        <Module lib="ubp_dao" entry="CreateModule"/>
+        <Module lib="ubp_mq" entry="CreateModule"/>
+        <Module lib="ubp_fmproxy" entry="CreateModule"/>
+        <Module lib="ubp_lmproxy" entry="CreateModule"/>
       </LoadModules>
       <LoadPB>
       </LoadPB>

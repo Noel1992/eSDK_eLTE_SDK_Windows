@@ -21,6 +21,7 @@ public:
 	MSISDN getCallerVpnId();
 	MSISDN getCalleeVpnId();
 	MSISDN getCallId();
+    std::string datalog_str();
 
 private:
     MSISDN theRECCaller;
@@ -50,6 +51,7 @@ public:
 	bool   getMix();
 	bool   getCallerSwitch();
 	bool   getCalleeSwitch();
+    std::string datalog_str();
 private:
     MSISDN theRECCaller;
     MSISDN theRECCallee;
@@ -77,6 +79,7 @@ public:
     MSISDN getCallId();
     void setMix(bool Mixflag);
     bool   getMix();
+    std::string datalog_str();
 private:
     MSISDN theRECCaller;
     MSISDN theRECCallee;

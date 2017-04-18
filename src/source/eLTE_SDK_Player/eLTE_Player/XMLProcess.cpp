@@ -786,5 +786,12 @@ eLTE_RET XMLProcess::ParseXmlStringEventNotifyP2pvideocallStatus(NotifyP2pvideoc
 	}
 	pInfo.iRemoteVideoPort = eLTE_Tool::String2Int(xmlParse.GetElemValue());
 
+	if (!xmlParse.FindElem("Ptz"))
+	{
+		LOG_RUN_ERROR("FindElem Ptz failed.");
+		return eLTE_ERR_FAILED;
+	}
+	pInfo.iPtz = eLTE_Tool::String2Int(xmlParse.GetElemValue());
+
 	return eLTE_ERR_SUCCESS;
 }

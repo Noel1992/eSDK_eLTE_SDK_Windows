@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Moc-Config>
+	<MOC MOC_NAME="MrsHa" MOC_NAME_C="MRS容灾场景配置" Module="DC" ACCESS_CONTROL="add,delete,modify,read" DEST_SVC="" Group="" Relation="">
+		<Parameter name="id" desc="节点编号" type="int" range="[1,2147483647]" constrain="PRI" mode="update" />
+		<Parameter name="addrIPV4" desc="IPV4地址" type="string" range="[7,15]" constrain="NOT NULL" c_type="ipv4" mode="update" />
+		<Parameter name="outerAddrIPV4" desc="外网IPV4地址" type="string" range="[7,15]" c_type="ipv4" mode="update" />
+		<Parameter name="outerPort" desc="外网端口号" type="int" range="[1024,65535]" mode="update" />
+	</MOC>
+</Moc-Config>

@@ -193,7 +193,7 @@ typedef enum
 }UserType_t;
 
 typedef enum{
-    UBKNOWN = 0, //not configureBox Camera
+    UNKNOWN = 0, //not configureBox Camera
     DomeCamera = 1,
     BoxCamera = 2
 }CameraShape_t;
@@ -213,6 +213,8 @@ public:
      \brief de_serialize from json text format
     */
     virtual bool parse(const Json::Value&){return false;}
+    //[todo]move to cpp
+    std::string datalog_str();    
 };
 typedef BaseInfo BaseCondition;
 
@@ -420,6 +422,8 @@ public:
     std::string  ipcIndex;      /** local camera ID */
     std::string  nodeId;        /** node ID which include 'ipcIndex'*/
     std::string  recordUeId;    /** resource terminal ID*/
+    MSISDN startTimeSec;        /** recording start time, seconds from 1970-01-01 00:00:00 */
+    MSISDN endTimeSec;          /** recording end time, seconds from 1970-01-01 00:00:00 */
     UserRecTaskInfo();
     virtual const char* serialize(Json::Value &value);
     virtual bool parse(const Json::Value&);
@@ -436,6 +440,7 @@ public:
     std::string taskid;             /** task ID*/
     MSISDN fileTotalNum;            /** total number of record files in one task*/
     MSISDN fileNum;                 /** current record file counts*/
+    MSISDN errorcode;               /** error info*/
     std::string fileId;             /** only when query type is 'ENUM_REC_VIDEO_UEOFFLINE' it means the name of uploaded record file, others mean session ID*/
     std::string fileSeqNo;
     std::string beginTime;          /** recording start time, "yyyy-mm-dd hh:mm:ss" */
@@ -444,6 +449,8 @@ public:
     std::string downloadUrlFor40;   /** URL for HTTP, note: you can download record file from eMRS*/
     std::string playHttpUrl;        /** URL for HTTP, note: you can play the record files which is in eMRS by using it*/
     std::string rtspUrl;            /** URL for RTSP */
+    MSISDN beginTimeSec;            /** recording start time, seconds from 1970-01-01 00:00:00 */
+    MSISDN endTimeSec;              /** recording end time, seconds from 1970-01-01 00:00:00 */
     UserRecFileInTask();
     virtual const char* serialize(Json::Value &value);
     virtual bool parse(const Json::Value&);
@@ -461,8 +468,11 @@ public:
     std::string eventIdx;           /** event index*/
     MSISDN isRelease;               /** release flag, true means released*/
     std::string owner;              /** current speaking ID*/
-    MSISDN timeSec;                 /** the owner speaking begin time*/
-    MSISDN timeUsec;                /** the owner speaking end time*/
+    MSISDN timeSec;                 /** the owner begin snatching group_right time*/
+    MSISDN timeUsec;
+    MSISDN releas_time_sec;         /** the owner begin releasing group_right time*/
+    MSISDN releas_time_usec;
+    MSISDN is_emergency;              /** indicate the current group call is emergency or not,0:not emergency,1:emergency, default is 0*/
     UserRecPttInfo();
     virtual const char* serialize(Json::Value &value);
     virtual bool parse(const Json::Value&);

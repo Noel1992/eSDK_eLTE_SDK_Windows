@@ -17,7 +17,7 @@ history			:	2015/1/12 初始版本
 	const PACKET_DATA& packetData = m_pUserMgr->GetPacketData();	\
 	iRet = packetData.RspCode;	\
 	::ResetEvent(m_pUserMgr->GetEventHandle());	\
-	if(eLTE_SDK_ERR_SUCCESS == iRet && !CUserMgr::m_iBypass)	\
+	if(eLTE_SDK_ERR_SUCCESS == iRet)	\
 	{	\
 		iRet = SharedMemoryMgr::Instance().CreateSharedMemory(pResourceID);	\
 		if(eLTE_SDK_ERR_SUCCESS != iRet)	\
@@ -118,7 +118,12 @@ public:
 
 	//开始环境侦听
 	ELTE_INT32 StartEnvironmentListen(const ELTE_CHAR* pResourceID) const;
-	
+
+	//开始音视频录制
+//	ELTE_INT32 startRecord(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pTypeParam) const;
+
+	//终止音视频录制
+//	ELTE_INT32 stopRecord(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pTypeParam) const;
 	
 private:
 	CUserMgr*    m_pUserMgr;

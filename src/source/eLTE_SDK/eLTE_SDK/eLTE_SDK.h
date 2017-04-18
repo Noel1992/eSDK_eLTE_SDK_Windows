@@ -671,6 +671,7 @@ extern "C"
 	**************************************************************************/
 	ELTE_SDK_API ELTE_INT32 __SDK_CALL ELTE_SDK_ModifyDynamicGroup(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pDynamicGroupInfo);
 
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus

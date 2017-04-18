@@ -4,10 +4,10 @@ Filename:    provchange_indicator.h
 Author:      Kai Wang
 Created:     2012/12/07 08:36
 Description: 本对象负责处理配置变更时从APP到GUI的指示
-             ProvChangeIndicator 为基类
-             ProvChangeIndicator_XXX 定义每一个变更的具体类
-             DisplayManager::NotifyProvChange(ProvChangeIndicator*) 使用一个基类的多态指针
-             使用者通过 getChangeMO来知道具体变化类并 down_cast 多态指针到具体类型
+ProvChangeIndicator 为基类
+ProvChangeIndicator_XXX 定义每一个变更的具体类
+DisplayManager::NotifyProvChange(ProvChangeIndicator*) 使用一个基类的多态指针
+使用者通过 getChangeMO来知道具体变化类并 down_cast 多态指针到具体类型
 *********************************************************************/
 
 #ifndef PROVCHANGE_INDICATOR_H
@@ -18,7 +18,7 @@ Description: 本对象负责处理配置变更时从APP到GUI的指示
 #include "ubp_globe.hpp"
 
 /**
-   定义变更类型
+定义变更类型
 **/
 
 typedef enum {
@@ -101,8 +101,8 @@ public:
 protected:
     void cloneBase(ProvChangeIndicator& pci)
     {
-     _changetype = pci.getChangeType();
-     _changemo = pci.getChangeMO() ;
+        _changetype = pci.getChangeType();
+        _changemo = pci.getChangeMO() ;
     }
 
 private:
@@ -111,7 +111,7 @@ private:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_PTTUser
-:public ProvChangeIndicator, public UserInfo
+    :public ProvChangeIndicator, public UserInfo
 {
 public:
     ProvChangeIndicator_PTTUser(const UserInfo& userinfo);
@@ -124,7 +124,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_Group
-:public ProvChangeIndicator, public GroupInfo
+    :public ProvChangeIndicator, public GroupInfo
 {
 public:
     ProvChangeIndicator_Group(const GroupInfo& groupinfo);
@@ -134,11 +134,11 @@ public:
 
     //added from TTR3.0
     virtual const char* serialize_ind(Json::Value &value);    //serialize into text format
-     virtual bool de_serialize(const char* text);
+    virtual bool de_serialize(const char* text);
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_GrpUserInfo
-:public ProvChangeIndicator, public GrpUserInfo
+    :public ProvChangeIndicator, public GrpUserInfo
 {
 public:
     ProvChangeIndicator_GrpUserInfo(const GrpUserInfo& grpuserinfo);
@@ -153,7 +153,7 @@ public:
 typedef  ProvChangeIndicator_PTTUser ProvChangeIndicator_FixedUser;
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_DCAttribute
-:public ProvChangeIndicator, public DcProperty
+    :public ProvChangeIndicator, public DcProperty
 {
 public:
     ProvChangeIndicator_DCAttribute(const DcProperty& grpuserinfo);
@@ -162,7 +162,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_RangeList
-:public ProvChangeIndicator, public RangeInfo
+    :public ProvChangeIndicator, public RangeInfo
 {
 public:
     ProvChangeIndicator_RangeList(const RangeInfo& rangeinfo);
@@ -172,7 +172,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_DCRange
-:public ProvChangeIndicator
+    :public ProvChangeIndicator
 {
 public:
     ProvChangeIndicator_DCRange(MSISDN dcid,int rangid);
@@ -184,7 +184,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_HotlineCfg
-:public ProvChangeIndicator, public Hotline
+    :public ProvChangeIndicator, public Hotline
 {
 public:
     ProvChangeIndicator_HotlineCfg(const Hotline& msg);
@@ -194,7 +194,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_TerminalLinkageCfg  //add by lwj
-:public ProvChangeIndicator, public TerminalLinkage
+    :public ProvChangeIndicator, public TerminalLinkage
 {
 public:
 
@@ -204,7 +204,7 @@ public:
     //std::string datalog_str();
 };
 class SDK_IMPORT_EXPORT ProvChangeIndicator_StMsgCfg
-:public ProvChangeIndicator, public SdsStMsgCfg
+    :public ProvChangeIndicator, public SdsStMsgCfg
 {
 public:
     ProvChangeIndicator_StMsgCfg(const SdsStMsgCfg& msg);
@@ -214,7 +214,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_VgwDec
-:public ProvChangeIndicator
+    :public ProvChangeIndicator
 {
 public:
     ProvChangeIndicator_VgwDec(int devIndex_, int nodeId_, int chnNum_, std::string devAlias_,int devStatus_);
@@ -225,12 +225,12 @@ public:
     std::string DevAlias; //'大屏描述'
     int DevStatus;       //解码器状态 
 
-   virtual const char* serialize_ind(Json::Value &value);
+    virtual const char* serialize_ind(Json::Value &value);
 
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_GisCfg
-:public ProvChangeIndicator, public ProvGisCfg
+    :public ProvChangeIndicator, public ProvGisCfg
 {
 public:
     ProvChangeIndicator_GisCfg(const ProvGisCfg& msg);
@@ -240,7 +240,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_GisIpc
-:public ProvChangeIndicator, public ProvGisIpc
+    :public ProvChangeIndicator, public ProvGisIpc
 {
 public:
     ProvChangeIndicator_GisIpc(const ProvGisIpc& msg);
@@ -252,7 +252,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_PhotoGrpUserInfo
-:public ProvChangeIndicator, public PhotoGrpUserInfo
+    :public ProvChangeIndicator, public PhotoGrpUserInfo
 {
 public:
     ProvChangeIndicator_PhotoGrpUserInfo(const PhotoGrpUserInfo& grpuserinfo);
@@ -263,7 +263,7 @@ public:
 
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_VPN
-:public ProvChangeIndicator, public VpnInfo
+    :public ProvChangeIndicator, public VpnInfo
 {
 public:
     ProvChangeIndicator_VPN(const VpnInfo& vpn);
@@ -273,7 +273,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_VPNRange
-:public ProvChangeIndicator, public VpnRangeInfo
+    :public ProvChangeIndicator, public VpnRangeInfo
 {
 public:
     ProvChangeIndicator_VPNRange(const VpnRangeInfo& rangeinfo);
@@ -284,7 +284,7 @@ public:
 
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_UEAbility
-:public ProvChangeIndicator, public ProvUEAblity
+    :public ProvChangeIndicator, public ProvUEAblity
 {
 public:    
     ProvChangeIndicator_UEAbility(const ProvUEAblity& ueability);
@@ -295,7 +295,7 @@ public:
 
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_PatchGroup
-:public ProvChangeIndicator, public PatchGroupInfo
+    :public ProvChangeIndicator, public PatchGroupInfo
 {
 public:
     ProvChangeIndicator_PatchGroup();
@@ -306,7 +306,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_PatchGroupMember
-:public ProvChangeIndicator, public PatchGroupMemberInfo
+    :public ProvChangeIndicator, public PatchGroupMemberInfo
 {
 public:
     ProvChangeIndicator_PatchGroupMember();
@@ -318,7 +318,7 @@ public:
 
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_EmergencyGrp
-:public ProvChangeIndicator, public ProvEmgrpmber
+    :public ProvChangeIndicator, public ProvEmgrpmber
 {
 public:
     ProvChangeIndicator_EmergencyGrp(const ProvEmgrpmber& emgrptime);
@@ -328,12 +328,12 @@ public:
 };
 
 /**
-  \brief ProvisionChangeIndicator for a batch query or import
-  \param list: the objects in the batch, which is a vector of ProvisionChange_Indicator object
-  \note ordinarilly, the Change_Type_t for this indicator is CHANGE_QUERY or CHANGE_BATCHIMPORT
+\brief ProvisionChangeIndicator for a batch query or import
+\param list: the objects in the batch, which is a vector of ProvisionChange_Indicator object
+\note ordinarilly, the Change_Type_t for this indicator is CHANGE_QUERY or CHANGE_BATCHIMPORT
 */
 class SDK_IMPORT_EXPORT ProvChangeIndicator_Batch
-:public ProvChangeIndicator, public BaseInfo
+    :public ProvChangeIndicator, public BaseInfo
 {
 public:
 
@@ -350,7 +350,7 @@ public:
 
 // CRN05317
 class SDK_IMPORT_EXPORT ProvChangeIndicator_PTTLinkCamera
-:public ProvChangeIndicator, public ProvPTTLinkCamera
+    :public ProvChangeIndicator, public ProvPTTLinkCamera
 {
 public:
     ProvChangeIndicator_PTTLinkCamera(const ProvPTTLinkCamera& pttlinkinfo);
@@ -359,7 +359,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_External_Isdn
-:public ProvChangeIndicator, public External_Isdn
+    :public ProvChangeIndicator, public External_Isdn
 {
 public:
     ProvChangeIndicator_External_Isdn(const External_Isdn& exisdn);
@@ -368,7 +368,7 @@ public:
 };
 
 class SDK_IMPORT_EXPORT ProvChangeIndicator_VideoLossRetransMission
-:public ProvChangeIndicator, public VideoLossRetransmissionInfo
+    :public ProvChangeIndicator, public VideoLossRetransmissionInfo
 {
 public:
     ProvChangeIndicator_VideoLossRetransMission(const VideoLossRetransmissionInfo& exisdn);
@@ -376,7 +376,7 @@ public:
 
 };
 class SDK_IMPORT_EXPORT ProvChangeIndicator_IPCATTRIBUTE
-        :public ProvChangeIndicator, public CameraAttribute
+    :public ProvChangeIndicator, public CameraAttribute
 {
 public:
     ProvChangeIndicator_IPCATTRIBUTE(const CameraAttribute& ipc);

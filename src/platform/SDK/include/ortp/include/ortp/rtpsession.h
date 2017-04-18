@@ -198,8 +198,15 @@ typedef struct _RtpRtxItem
     uint64_t first_fb_time;
     uint64_t last_fb_time;
 }RtpRtxItem;
-
 /* lijinglai add for rtprtx e */
+
+/* lijinglai add for rtp lossrate b */
+typedef struct _RtpReorderingItem
+{
+	uint32_t seq;
+    uint64_t recv_time;
+}RtpReorderingItem;
+/* lijinglai add for rtp lossrate e */
 
 /**
  * An object representing a bi-directional RTP session.
@@ -284,11 +291,16 @@ struct _RtpSession
   uint32_t congest_timer_thd;
   uint32_t congestdelay_timer_thd;
   uint32_t max_trans_time;
+  uint32_t bitrate_adjust_up;
+  uint64_t send_const_lr_timer;
   int64_t  sumjitter;
   uint64_t congest_timer;
   uint64_t congest_delay_timer;
   /* lijinglai add for rtprtx e */
   
+  /* lijinglai add for rtp lossrate b */
+  struct _OList *rtp_reorder_tables;
+  /* lijinglai add for rtp lossrate e */
 };
 
 #ifdef __cplusplus

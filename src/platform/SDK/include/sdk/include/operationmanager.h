@@ -109,7 +109,8 @@ typedef enum
     USER_UNSUB_BATCH,               /** unsubscribe mobile user or camera resources in a batch */
     QUERY_GROUPINFO,                /** query groups information cross multi-zones*/
     P2P_VIDEO_PUSH,                  /** push a video from someone, there're some differences from P2P_VIDEO_MONITOR. This can choose to set from who.*/
-    CANCEL_DOWNLOAD_MRSRECFILE     /** cancel downloading a record file*/
+    CANCEL_DOWNLOAD_MRSRECFILE,     /** cancel downloading a record file*/
+    P2P_VIDEO_HANGUP_WITHREASON     /** Reserved. if want to hangup a video, please use  P2P_VIDEO_HANGUP*/
 }Operation_t;
 
 class SDK_IMPORT_EXPORT OperationManager
@@ -117,26 +118,26 @@ class SDK_IMPORT_EXPORT OperationManager
 public:
     OperationManager();    
     /**
-      \brief Start a dispatching operation, without additional parameters
-      \param res_info: The resource on which this dispatching operation is performed
-      \param op_type: The dispatching operation type defined by Operation_t Enum
+    \brief Start a dispatching operation, without additional parameters
+    \param res_info: The resource on which this dispatching operation is performed
+    \param op_type: The dispatching operation type defined by Operation_t Enum
 
-      \return : please refer to dc_module_error.h in C:\\Program Files\\SDK\\include\\dc
-      \note: for most dispatching operations, the return value of UBP_SUCCESS only means the operation is valid and accepted by SDK
-             , and after that more status or events are notified through callback interface in DisplayManager
+    \return : please refer to dc_module_error.h in C:\\Program Files\\SDK\\include\\dc
+    \note: for most dispatching operations, the return value of UBP_SUCCESS only means the operation is valid and accepted by SDK
+    , and after that more status or events are notified through callback interface in DisplayManager
     **/
     ACE_INT32 invokeOp(ResourceInfo * res_info, Operation_t op_type);
 
 
     /**
-      \brief Start a disptaching operation, with additional parameters passed by a generic void*
-      \param res_info: The resource on which this dispatching operation is performed
-      \param multi_para: The additional parameters, the actual data structure depends on op_type and shall be one defined in uiparameter.h
-      \param op_type: The dispatching operation type defined by Operation_t Enum
+    \brief Start a disptaching operation, with additional parameters passed by a generic void*
+    \param res_info: The resource on which this dispatching operation is performed
+    \param multi_para: The additional parameters, the actual data structure depends on op_type and shall be one defined in uiparameter.h
+    \param op_type: The dispatching operation type defined by Operation_t Enum
 
-      \return : please refer to dc_module_error.h in C:\\Program Files\\SDK\\include\\dc
-      \note: for most dispatching operations, the return value of UBP_SUCCESS only means the operation is valid and accepted by SDK
-             , and after that more status or events are notified through callback interface in DisplayManager
+    \return : please refer to dc_module_error.h in C:\\Program Files\\SDK\\include\\dc
+    \note: for most dispatching operations, the return value of UBP_SUCCESS only means the operation is valid and accepted by SDK
+    , and after that more status or events are notified through callback interface in DisplayManager
     **/
     ACE_INT32 invokeOp_multipara(ResourceInfo * res_info, void * multi_para, Operation_t op_type);
 };
@@ -144,7 +145,7 @@ public:
 class SDK_IMPORT_EXPORT OperationManager_T
 {
 public:
-  /// Global access point to the Singleton.
-  static OperationManager *instance (void);
+    /// Global access point to the Singleton.
+    static OperationManager *instance (void);
 };
 #endif // OPERATIONMANAGER_H

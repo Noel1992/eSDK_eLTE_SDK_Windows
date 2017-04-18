@@ -925,7 +925,7 @@ void CVideoPane::CreateCaption(const CRect& rect, const CString& strOcxPath)
 void CVideoPane::CreateToolBar(const CRect& rect, const CString& strOcxPath)
 {
 	// 设置按钮坐标
-	CRect rtSnapshot,rtChangePlay,rtAudio,rtFullScreen;
+	CRect rtSnapshot,rtChangePlay,rtAudio,rtFullScreen,rtPtz;
 	rtSnapshot.left = rect.left + VIDEO_IMG_BTN_SPACE;
 	rtSnapshot.top = (rect.bottom - VIDEO_TOOLBAR_WIDTH) + ((VIDEO_TOOLBAR_WIDTH - VIDEO_IMG_BTN_WIDTH)/2);
 	rtSnapshot.right = rtSnapshot.left + VIDEO_IMG_BTN_WIDTH;
@@ -945,6 +945,12 @@ void CVideoPane::CreateToolBar(const CRect& rect, const CString& strOcxPath)
 	rtFullScreen.top = rtSnapshot.top;
 	rtFullScreen.right = rtFullScreen.left + VIDEO_IMG_BTN_WIDTH;
 	rtFullScreen.bottom = rtFullScreen.top + VIDEO_IMG_BTN_WIDTH;
+
+	//ptz
+	rtPtz.left = rect.right - ((3*VIDEO_IMG_BTN_SPACE) + (3*VIDEO_IMG_BTN_WIDTH));
+	rtPtz.top = rtSnapshot.top;
+	rtPtz.right = rtPtz.left + VIDEO_IMG_BTN_WIDTH;
+	rtPtz.bottom = rtPtz.top + VIDEO_IMG_BTN_WIDTH;
 
 	// 创建按钮
 	m_SnapshotBtn.Create(_T(""), WS_CHILD | WS_VISIBLE, rtSnapshot, this, IDC_BTN_SNAPSHOT);

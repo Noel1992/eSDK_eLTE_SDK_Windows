@@ -196,6 +196,7 @@ typedef struct
 	int iCamera;				// 资源ID
 	int iSoundPtype;			//
 	int iVideoFormatType;		// 视频格式
+	int iPtz;					//Ptz支持
 } NotifyP2pvideocallStatusInfo;	// 开始实况事件通知消息结构
 
 typedef struct  

@@ -86,6 +86,12 @@ Description:
 /* max number of patch group*/
 #define MAX_PATCH_GRP_NUM 16
 
+/* 可以根据此值与getLoadTablesInfo值进行比较，如果相等则认为SDK加载表成功
+ * 使用者应只关注这个宏而不应关注宏的值 
+ */
+#define LOADDATA_OK 1023 
+
+
 /*REC :: type,Call-Info的格式定义如下
 Call-Info: <0>;type=call_type;id1=user1;id2=user2
 其中type为本次通话类型：single_voice_call表示语音点呼，single_video_call表示视频点呼，
@@ -142,6 +148,7 @@ fmt = 720P/D1，填写多个表示只支持明确携带的，即只支持720P/D1
 #define CALLINFO_EXT_CHANNEL const_cast<char *>("channel")
 #define CALLINFO_EXT_RESULT const_cast<char *>("result")
 #define CALLINFO_EXT_GROUPCALL const_cast<char *>("group_call")
+#define CALLINFO_EXT_GROUP const_cast<char *>("group")
 #define CALLINFO_EXT_PRIORITY const_cast<char *>("priority")
 #define CALLINFO_EXT_CALLTYPE const_cast<char *>("calltype")
 #define CALLINFO_EXT_TEMPGROUPCALL const_cast<char *>("temp_groupcall")

@@ -6,5 +6,16 @@
 		<Parameter name="RCMode" desc="码率控制方式" type="enum" range="0,1" vlist="0:Bitrate,1:CRF" default="0" />
 		<Parameter name="Bitrate" desc="平均码率(kbps)" type="int" range="[100,500]" mode="update" default="200" />
 		<Parameter name="CRF" desc="视频质量" type="enum" range="0,1,2" vlist="0:high,1:medium,2:low" default="1" />
+		<Parameter name="ATSwitch" desc="下行码率自适应调整开关" type="enum" range="0,1" vlist="0:off,1:on" mode="update" default="0" />
+		<Parameter name="MaxCR" desc="CIF最大码率" type="int" range="[10,1000]" mode="update" default="200" />
+		<Parameter name="MinCR" desc="CIF最小码率" type="int" range="[10,1000]" mode="update" default="50" />
+		<Parameter name="UpThreshold" desc="上调计数器上限" type="int" range="[1,20]" mode="update" default="10" />
+		<Parameter name="DnCRFactor" desc="码率最小下调步长系数" type="int" range="[0,10]" mode="update" default="6" />
+		<Parameter name="UpCRFactor" desc="码率上调步长系数" type="int" range="[2,16]" mode="update" default="8" />
+		<Parameter name="LossrateAvaFactor" desc="丢包率余量系数" type="int" range="[10,20]" mode="update" default="15" />
+		<Parameter name="RTCPRRTimer" desc="RTCP报告接收超时周期数" type="int" range="[2,6]" mode="update" default="2" />
+		<Parameter name="LossDnthd" desc="CIF丢包率下调门限" type="int" range="[0,255]" mode="update" default="0" />
+		<Parameter name="LossUpthd" desc="CIF丢包率上调门限" type="int" range="[0,255]" mode="update" default="0" />
+		<Parameter name="ErrorConcealInvalidLossthd" desc="错误隐藏失效丢包门限" type="int" range="[0,100]" mode="update" default="5" />
 	</MOC>
 </Moc-Config>

@@ -69,7 +69,8 @@ typedef enum {
     P2P_IND_STATUS_CALLER_UNSUPPORT = 2048,          /** caller unsupport*/
     P2P_IND_STATUS_CALLEE_UNSUPPORT = 2049,          /** callee unsupport*/
     P2P_IND_STATUS_CIPHER_NOT_AVAILABLE = 2050,          /** cipher not available*/
-    P2P_IND_STATUS_MISCELLANEOUS_WARNING = 2051          /** Miscellaneous warning*/
+    P2P_IND_STATUS_MISCELLANEOUS_WARNING = 2051,          /** Miscellaneous warning*/
+    P2P_IND_STATUS_REMOTE_PROHIBITED = 2052               /** remote no permissions*/
 
 } P2pcall_Status_t;
 

@@ -562,7 +562,9 @@ ELTE_INT32 OpenSSL_Mgr::CheckDispatchMsg(PACKET_DATA& Packet, ELTE_UINT32 Type)
 	conditionNo.push_back(ELTE_SERVICE_MODIFYDYNAMICGROUP_RSP);
 	conditionNo.push_back(ELTE_SERVICE_P2PHALFDPXDIAL_RSP);
 	conditionNo.push_back(ELTE_SERVICE_P2PHALFDPXRELEASE_RSP);
-//	conditionNo.push_back(ELTE_SERVICE_TEMPUSERJOINGROUP_RSP);
+//	conditionNo.push_back(ELTE_SERVICE_TEMPUSERJOINGROUP_RSP);	
+	conditionNo.push_back(ELTE_SERVICE_STARTRECORD_RSP);
+	conditionNo.push_back(ELTE_SERVICE_STOPRECORD_RSP);
 	
 	vector<ELTE_UINT32>::iterator cond = find(conditionNo.begin(),conditionNo.end(),Type);
 	if (cond != conditionNo.end())	

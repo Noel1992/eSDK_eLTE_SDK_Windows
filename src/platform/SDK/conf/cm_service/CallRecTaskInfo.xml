@@ -3,7 +3,7 @@
 	<MOC MOC_NAME="CallRecTaskInfo" MOC_NAME_C="录像任务信息" Module="MRS" ACCESS_CONTROL="add,delete,modify,read" DEST_SVC="only" Group="" Relation="">
 		<Parameter name="task_id" desc="任务号" type="string" range="[1,64]" constrain="PRI" mode="display" />
 		<Parameter name="node_id" desc="节点号" type="int" range="[1,1024]" constrain="PRI" mode="display" />
-		<Parameter name="task_status" desc="任务状态" type="enum" range="0,1,2,3" vlist="0:初始化,1:正在存储,2:失败,3:成功" mode="display" />
+		<Parameter name="task_status" desc="任务状态" type="enum" range="0,1,2,3" vlist="0:初始化,1:正在存储,2:成功,3:失败" mode="display" />
 		<Parameter name="task_type" desc="任务类型" type="enum" range="1,2,3" vlist="1:录音,2:录像,3:录像加伴音" mode="display" />
 		<Parameter name="call_type" desc="呼叫类型" type="enum" range="0,1,2,3,4" vlist="0:语音点呼,1:视频点呼,2:视频回传,3:群组呼叫,4:未知类型" mode="display" />
 		<Parameter name="caller" desc="主叫" type="double" range="" mode="display" />

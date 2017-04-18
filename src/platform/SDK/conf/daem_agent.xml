@@ -12,22 +12,22 @@
         <Param name="heartbeat_interval" value="30"/>
         <Param name="default_service_init_waittime" value="45"/>
         <Param name="default_service_fini_waittime" value="30"/>
-        <Param name="all_service_init_waittime" value="120"/>
-        <Param name="all_service_fini_waittime" value="60"/>
+        <Param name="all_service_init_waittime" value="180"/>
+        <Param name="all_service_fini_waittime" value="180"/>
         <Param name="master_host_ip" value=""/>
       </SvcParams>
       <LoadModules>
         <Module lib="ubp_sca" entry="CreateCfgMgr" />
-        <Module lib="ubp_svcmgr" />
-        <Module lib="ubp_error" />
-        <Module lib="ubp_threadpool" />
-        <Module lib="ubp_timer" />
-        <Module lib="ubp_encryption" />
-        <Module lib="ubp_dao" />
-        <Module lib="ubp_mq" />
-        <Module lib="ubp_fmproxy" />
-        <Module lib="ubp_lmproxy" />
-        <Module lib="ubp_cgroup" />
+        <Module lib="ubp_svcmgr" entry="CreateModule"/>
+        <Module lib="ubp_error" entry="CreateModule"/>
+        <Module lib="ubp_threadpool" entry="CreateModule"/>
+        <Module lib="ubp_timer" entry="CreateModule"/>
+        <Module lib="ubp_encryption" entry="CreateModule"/>
+        <Module lib="ubp_dao" entry="CreateModule"/>
+        <Module lib="ubp_mq" entry="CreateModule"/>
+        <Module lib="ubp_fmproxy" entry="CreateModule"/>
+        <Module lib="ubp_lmproxy" entry="CreateModule"/>
+        <Module lib="ubp_cgroup" entry="CreateModule"/>
       </LoadModules>
       <LoadPB>
       </LoadPB>

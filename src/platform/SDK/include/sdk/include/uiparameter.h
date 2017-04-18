@@ -63,6 +63,10 @@ typedef struct SDK_IMPORT_EXPORT BaseParam{
     virtual bool parse(const Json::Value& ){return false;}
     virtual ~BaseParam(){;}
 
+    virtual bool serialize(Json::Value& value){return false;}
+	
+    std::string datalog_str();
+
 }BaseParam;
 
 /**
@@ -76,6 +80,7 @@ typedef struct SDK_IMPORT_EXPORT FVG_control : public BaseParam
     unsigned int ptz_control_value;
     virtual bool parse(const Json::Value& param);
     virtual ~FVG_control(){;}
+    virtual bool serialize(Json::Value &);
 }FVG_control;
 
 /**
@@ -84,6 +89,7 @@ typedef struct SDK_IMPORT_EXPORT FVG_control : public BaseParam
   \param cameratype: “0”=front camera； “1”=back camera
   \param user_confirm_type: “0”=receiver don't need confirm；“1”=receiver need confirm
   \param mutetype: “0”= with audio；“1”=without audio
+  \param ptztype: RESERVED
 */
 typedef struct SDK_IMPORT_EXPORT Video_UL_parameter : public BaseParam
 {
@@ -95,6 +101,7 @@ typedef struct SDK_IMPORT_EXPORT Video_UL_parameter : public BaseParam
     Video_UL_parameter():ptztype(NULL){}
     virtual bool parse(const Json::Value& param);
     virtual ~Video_UL_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }Video_UL_parameter;
 
 /**
@@ -109,6 +116,7 @@ typedef struct SDK_IMPORT_EXPORT Video_Negotiate_parameter : public BaseParam
     int ptz;
     virtual bool parse(const Json::Value& param);
     virtual ~Video_Negotiate_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }Video_Negotiate_parameter;
 
 
@@ -130,6 +138,7 @@ typedef struct  SDK_IMPORT_EXPORT Video_Dispatch_parameter : public BaseParam
 
     virtual bool parse(const Json::Value& param);
     virtual ~Video_Dispatch_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }Video_Dispatch_parameter;
 
 /**
@@ -143,6 +152,7 @@ typedef struct SDK_IMPORT_EXPORT Video_Dispatch_Delete : public BaseParam
     int  userId;
     virtual bool parse(const Json::Value& param);
     virtual ~Video_Dispatch_Delete(){;}
+    virtual bool serialize(Json::Value &);
 }Video_Dispatch_Delete;
 
 /**
@@ -158,6 +168,7 @@ typedef struct SDK_IMPORT_EXPORT transfer_parameter : public BaseParam
     const char *objectid;
     virtual bool parse(const Json::Value& param);
     virtual ~transfer_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }transfer_parameter;
 
 typedef std::list<MSISDN> DC_LIST;
@@ -173,6 +184,7 @@ typedef struct SDK_IMPORT_EXPORT Video_CircDisplay_parameter: public BaseParam
     DC_LIST  Displaylist;
     virtual bool parse(const Json::Value& param);
     virtual ~Video_CircDisplay_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }Video_CircDisplay_parameter;
 
 typedef std::list<std::string> AttachFileList;	/** Attach file list */
@@ -285,6 +297,7 @@ typedef struct  SDK_IMPORT_EXPORT GIS_parameter: public BaseParam
     std::string subscriber;
     virtual bool parse(const Json::Value& param);
     virtual ~GIS_parameter(){;}
+    virtual bool serialize(Json::Value &);
 } GIS_parameter;
 
 
@@ -314,6 +327,7 @@ typedef struct SDK_IMPORT_EXPORT Record_parameter: public BaseParam{
     unsigned int call_type;
     virtual bool parse(const Json::Value& param);
     virtual ~Record_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }Record_parameter;
 
 /**
@@ -331,6 +345,7 @@ typedef struct SDK_IMPORT_EXPORT VWallStart_parameter : public BaseParam
 
     virtual bool parse(const Json::Value& param);
     virtual ~VWallStart_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }VWallStart_parameter;
 
 
@@ -347,6 +362,7 @@ typedef struct SDK_IMPORT_EXPORT VWallStop_parameter : public BaseParam
 
     virtual bool parse(const Json::Value& param);
     virtual ~VWallStop_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }VWallStop_parameter;
 
 //define structure for dynamic group and temporary group
@@ -376,6 +392,7 @@ typedef struct SDK_IMPORT_EXPORT DGNA_parameter : public BaseParam
 
     virtual bool parse(const Json::Value& param);
     virtual ~DGNA_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }DGNA_parameter;
 
 typedef struct {
@@ -394,6 +411,7 @@ typedef struct SDK_IMPORT_EXPORT Mute_parameter: public BaseParam
 {
     bool task_type;
     int call_type;
+    virtual bool serialize(Json::Value &);
 }Mute_parameter;
 
 typedef enum
@@ -409,11 +427,11 @@ typedef enum
 #define MAX_MEMBER_IN_PATCH 20
 
 /**
-  \brief Operation_t::PCHGRP_CREATE parameters
+  \brief Operation_t::PCHGRP_CREATE/PCHGRP_ADD/PCHGRP_DEL parameters
   \param DcId: ID of the creating DC
   \param PatchGroupId: ID of this patch group,can be 0 when creating
   \param PatchGroupName: alias of the patch group
-  \param memberList: member list, 0 means the end of the list
+  \param memberList: member list, 0 means the end of the list, NOT FOR PCHGRP_CREATE
   \note when create a patch group please set memberList as empty, instead please fill memberList when edit patch group
 */
 typedef struct SDK_IMPORT_EXPORT PCHGRP_Para: public BaseParam{
@@ -422,8 +440,11 @@ typedef struct SDK_IMPORT_EXPORT PCHGRP_Para: public BaseParam{
     std::string PatchGroupName;
     MSISDN memberList[MAX_MEMBER_IN_PATCH];
 
+    //PCHGRP_Para();
+
     virtual bool parse(const Json::Value& param);
     virtual ~PCHGRP_Para(){;}
+    //virtual bool serialize(Json::Value &value);
 }PCHGRP_Para;
 
 /**
@@ -462,6 +483,7 @@ typedef struct SDK_IMPORT_EXPORT PTT_Dial_parameter : public BaseParam
 
     virtual bool parse(const Json::Value& );
     virtual ~PTT_Dial_parameter(){;}
+    virtual bool serialize(Json::Value &);
 }PTT_Dial_parameter;
 
 typedef struct SDK_IMPORT_EXPORT User2Ue_parameter: public BaseParam
@@ -508,6 +530,7 @@ typedef struct SDK_IMPORT_EXPORT SDS_ConfirmEmergStatus_parameter: public BasePa
     std::string sdstype;
     std::string msgid;
     virtual bool parse(const Json::Value& );
+    virtual bool serialize(Json::Value &);
     virtual ~SDS_ConfirmEmergStatus_parameter(){;}
 }SDS_ConfirmEmergStatus_parameter;
 
@@ -525,7 +548,7 @@ typedef struct SDK_IMPORT_EXPORT UEGisCfg_parameter: public BaseParam
 
     virtual bool parse(const Json::Value& param);
     virtual ~UEGisCfg_parameter(){;}
-
+    virtual bool serialize(Json::Value &);
 }UEGisCfg_parameter;
 
 typedef struct SDK_IMPORT_EXPORT ReInvite_parameter: public BaseParam
@@ -541,6 +564,7 @@ typedef struct SDK_IMPORT_EXPORT DownLoad_MrsRecFile_parameter:public BaseParam
     std::string downloadHttpURL;
     std::string savePath;
     virtual bool parse(const Json::Value &){return false;}
+    virtual bool serialize(Json::Value &);
     virtual ~DownLoad_MrsRecFile_parameter(){;}
 }DownLoad_MrsRecFile_parameter;
 
@@ -559,6 +583,7 @@ typedef struct SDK_IMPORT_EXPORT DGNA_Modify_parameter : public BaseParam
     MSISDN delList[MAX_UE_IN_DGNA];
 
     virtual bool parse(const Json::Value& param);
+    virtual bool serialize(Json::Value &);
     virtual ~DGNA_Modify_parameter(){;}
 }DGNA_Modify_parameter;
 
@@ -569,6 +594,7 @@ typedef struct SDK_IMPORT_EXPORT QueryDevInfo_parameter: public BaseParam
     std::string EndUserId;
 
     virtual bool parse(const Json::Value& ){return false;}
+    virtual bool serialize(Json::Value &);
 }QueryDevInfo_parameter;
 
 
@@ -581,7 +607,16 @@ typedef struct SDK_IMPORT_EXPORT CancelDownload_MrsRecFile_parameter : public Ba
     MSISDN number; //the number of cancel dwonloading, default is 0
 }CancelDownload_MrsRecFile_parameter;
 
-
+ /**
+   \brief Operation_t::P2P_VIDEO_HANGUP_WITHREASON parameters
+   \param cause 
+   \note: It was reserved for INTERNAL use only
+  */
+typedef struct SDK_IMPORT_EXPORT HangUpReason : public BaseParam
+{
+  int cause;
+  HangUpReason():cause(200){}
+}HangUpReason;
 
 
 

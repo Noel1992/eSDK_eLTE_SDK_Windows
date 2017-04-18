@@ -47,7 +47,9 @@ public:
     void setGroupId(std::string groupid);
     //report gis direction,speed
     void setGISDirection(std::string gisdirection);
-	void setGISSpeed(std::string gisspeed);
+    void setGISSpeed(std::string gisspeed);
+    void setSdsMsgid(const std::string& msgid);
+
 
     std::string getSdsType();
     std::string getSdsContent();
@@ -65,7 +67,8 @@ public:
     bool getSdsDirection();
     std::string getRetCode();
     std::string getGISDirection();
-	std::string getGISSpeed();
+    std::string getGISSpeed();
+    std::string getSdsMsgid() const;
 
     const char* serialize(Json::Value& value);
 private:
@@ -85,7 +88,8 @@ private:
     std::string _emerg_ueid;            /** UE Isdn for Emergency Status **/
     std::string _groupid;               /** GroupId for GroupChat**/
     std::string _gis_direction;         /** report gis direction, 0-360**/
-	std::string _gis_speed;				/** report gis speed, km/h **/
+    std::string _gis_speed;				/** report gis speed, km/h **/
+    std::string _msgid;
 };
 
 

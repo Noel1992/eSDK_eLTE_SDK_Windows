@@ -10,8 +10,8 @@
 		<Parameter name="CameraCode" desc="IVS摄像头编码" type="string" range="[1,128]" constrain="NOT NULL" mode="update" />
 		<Parameter name="DevStatus" desc="设备状态" type="enum" range="0,1" vlist="0:空闲,1:激活" constrain="NOT NULL" mode="update" />
 		<Parameter name="DevLinkMode" desc="设备连接模式" type="enum" range="0,1" vlist="0:TCP,1:UDP" constrain="NOT NULL" mode="update" default="0" />
-		<Parameter name="DevStreamType" desc="码流类型" type="enum" range="0,1" vlist="0:子码流,1:主码流" constrain="NOT NULL" default="0" />
-		<Parameter name="PtzAbility" desc="云台控制能力" type="enum" range="0,1,2" vlist="0:未配置,1:支持云台控制,2:不支持云台控制" constrain="NOT NULL" default="0" />
-		<Parameter name="CameraType" desc="摄像头类型" type="enum" range="0,1,2" vlist="0:未知,1:球机,2:枪机" constrain="NOT NULL" mode="update" default="0" />
+		<Parameter name="DevStreamType" desc="码流类型" type="enum" range="0,1" vlist="0:子码流,1:主码流" constrain="NOT NULL" mode="update" default="0" />
+		<Parameter name="PtzAbility" desc="云台控制能力" type="enum" range="0,1,2" vlist="0:未配置,1:支持云台控制,2:不支持云台控制" constrain="NOT NULL" mode="display" default="0" />
+		<Parameter name="CameraType" desc="摄像头类型" type="enum" range="0,1,2" vlist="0:未知,1:球机,2:枪机" constrain="NOT NULL" mode="display" default="0" />
 	</MOC>
 </Moc-Config>

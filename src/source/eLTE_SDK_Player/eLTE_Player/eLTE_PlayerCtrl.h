@@ -68,6 +68,8 @@ protected:
 // Dispatch and event IDs
 public:
 	enum {
+		dispidELTE_OCX_StopRecord = 91L,
+		dispidELTE_OCX_StartRecord = 90L,
 		dispidELTE_OCX_TempUserJoinGroup = 89L,
 		dispidELTE_OCX_P2PHalfDpxRelease = 88L,
 		dispidELTE_OCX_P2PHalfDpxDial = 87L,
@@ -1108,6 +1110,30 @@ protected:
 		FireEvent(eventidELTE_OCX_PlayerEvent, EVENT_PARAM(VTS_UI4 VTS_BSTR), ulEventType, pEventDataXml);
 	}
 
+	/**
+	 *OCX开启音视频录制
+	 * 
+	 *该函数用于OCX音视频录制的发起。
+	 *
+	 *@param[in] 	pResourceID		目标resourceID。参考eLTE_PLAYER_EVENT_ID_E枚举定义
+	 *@param[in] 	pRecordParam	音视频录制参数。按XML格式解析
+	 *@attention	无
+	 *@par 			无
+	**/
+//	BSTR ELTE_OCX_StartRecord(LPCTSTR pResourceID, LPCTSTR pRecordParam);
+
+	/**
+	 *OCX终止音视频录制
+	 * 
+	 *该函数用于OCX音视频录制的发起。
+	 *
+	 *@param[in] 	pResourceID		目标resourceID。参考eLTE_PLAYER_EVENT_ID_E枚举定义
+	 *@param[in] 	pRecordParam	音视频录制参数。按XML格式解析
+	 *@attention	无
+	 *@par 			无
+	**/
+//	BSTR ELTE_OCX_StopRecord(LPCTSTR pResourceID, LPCTSTR pRecordParam);
+
 	
 	// 工具栏操作接口
 public:
@@ -1159,5 +1185,4 @@ public:
 	// 控件列表
 	static std::set<CeLTE_PlayerCtrl*> m_eLTE_PlayerList;
 	static BOOL m_bLogInited;
-protected:
 };//lint !e1712 !e1773 !e1768

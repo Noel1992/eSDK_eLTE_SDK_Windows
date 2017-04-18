@@ -77,6 +77,7 @@ Description:
 
 //transfer failed, for instance transfer target is not regiter, refuse, in speaking...
 #define ERR_BCC_ZMQ_TRANSFER_FAILED                     (ERR_BCC_ZMQ_NO_LICENSE-69)
+#define ERR_BCC_ZMQ_TRANSCODE_NO_LICENSE                (ERR_BCC_ZMQ_NO_LICENSE-70)
 
 //new err code for 4.0 
 #define ERR_BCC_ZMQ_PATCH_GROUP_DN_GET_FAIL      (ERR_BCC_ZMQ_NO_LICENSE-72)
@@ -94,6 +95,15 @@ Description:
 #define ERR_BCC_ZMQ_PWD_UDCNEWPWDILLEGAL            (ERR_BCC_ZMQ_NO_LICENSE-403)
 #define ERR_BCC_ZMQ_PWD_UDCUNKOWN                   (ERR_BCC_ZMQ_NO_LICENSE-404)
 
+//Add by chenchujie for DTS2016072809307
+#define ERR_BCC_ZMQ_TMP_USER_JOIN_INVALID_ISDN      (ERR_BCC_ZMQ_NO_LICENSE-500)
+//End of add by chenchujie for DTS2016072809307 
+
+//Add by chenchujie for DTS2016110108657
+#define ERR_BCC_ZMQ_ADS_ZONE_NOT_FOUND              (ERR_BCC_ZMQ_NO_LICENSE-600)
+#define ERR_BCC_ZMQ_ADS_ZONE_NOT_CONNECTED          (ERR_BCC_ZMQ_NO_LICENSE-601)
+//End of add by chenchujie for DTS2016110108657 
+
 // member group id's specified result
 #define ERR_BCC_ZMQ_PATCH_RESULT_GROUP_OK                       0
 #define ERR_BCC_ZMQ_PATCH_RESULT_GROUP_ALREADY_PATCHED          1
@@ -102,7 +112,7 @@ Description:
 #define ERR_BCC_ZMQ_PATCH_RESULT_GROUP_VPN_NOT_ALLOWED          4
 #define ERR_BCC_ZMQ_PATCH_RESULT_GROUP_DEL_NOT_FOUND            5
 #define ERR_BCC_ZMQ_PATCH_RESULT_GROUP_IS_EMERGENCY             6
-
+#define ERR_BCC_ZMQ_PATCH_RESULT_GROUP_NOT_ALLOWED             7
 //hpgw return error code authentication error
 #define ERROR_BCC_HPGW_ZMQ_AUTH_FAILURE        10208
 

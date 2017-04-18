@@ -177,7 +177,26 @@ VOID WINAPI ServiceMain(DWORD dwNumServicesArgs, LPSTR *lpServiceArgVectors)
 	LOG_TRACE();
 	if (1 < dwNumServicesArgs && 0 == strcmp("MediaBypass", lpServiceArgVectors[1]))
 	{
-		AppContextMgr::Instance().SetBypass(TRUE);
+		//AppContextMgr::Instance().SetBypass(TRUE);
+		if (0 == strcmp("1", lpServiceArgVectors[2]))
+		{
+			LOG_RUN_INFO("lpServiceArgVectors mode 1 .");
+			AppContextMgr::Instance().SetBypass(1);
+		}
+		else if (0 == strcmp("2", lpServiceArgVectors[2]))
+		{
+			LOG_RUN_INFO("lpServiceArgVectors mode 2 .");
+			AppContextMgr::Instance().SetBypass(2);
+		}
+		else if (0 == strcmp("3", lpServiceArgVectors[2]))
+		{
+			LOG_RUN_INFO("lpServiceArgVectors mode 3 .");
+			AppContextMgr::Instance().SetBypass(3);
+		}
+		else
+		{
+			LOG_RUN_ERROR("lpServiceArgVectors mode error");
+		}
 	}
 
 	g_hSvcCtrl = RegisterServiceCtrlHandler(MY_SERVICE_NAME, ControlHandler);

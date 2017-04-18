@@ -7,6 +7,10 @@
 		<Parameter name="ower" desc="话权人" type="int" range="[0,65535]" mode="display" />
 		<Parameter name="time_sec" desc="话权事件时间（秒）" type="int" range="" mode="display" />
 		<Parameter name="time_usec" desc="话权事件时间（纳秒）" type="int" range="" mode="display" />
+		<Parameter name="releas_time_sec" desc="话权放权事件时间（秒）" type="int" range="" />
+		<Parameter name="releas_time_usec" desc="话权放权事件时间（纳秒）" type="int" range="" />
 		<Parameter name="owerid_str" desc="话权人字符串" type="string" range="[1,32]" constrain="NOT NULL" />
+		<Parameter name="is_emergency" desc="紧急呼叫标志" type="int" range="" />
+		<Parameter name="node_id" desc="节点标示" type="int" range="" />
 	</MOC>
 </Moc-Config>

@@ -7,9 +7,9 @@
          <!-- valgrind_trigger="on" ： open valgrind -->
     <ServiceInfo svc_type="push_agent" code_type="java" user="ubp" team="UDC" tcmalloc_trigger="off" valgrind_trigger="off">
       <SvcParams>
-        <Param name="start_java" value="/opt/UDC/bin/start_openfire.sh"/>
-        <Param name="pid_java" value="/opt/UDC/bin/openfire_pid.sh"/>
-        <Param name="stop_java" value="/opt/UDC/bin/stop_openfire.sh"/>
+        <Param name="start_java" value="/opt/UDC/bin/runOpenfire.sh"/>
+        <Param name="pid_java" value="/opt/UDC/bin/checkOpenfire.sh"/>
+        <Param name="stop_java" value="/opt/UDC/bin/downOpenfire.sh"/>
         <Param name="init_wait_time" value="180"/>
       </SvcParams>
       <LoadModules>

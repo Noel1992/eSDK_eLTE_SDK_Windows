@@ -45,7 +45,8 @@ typedef enum
     USERDGNASTATUS =21,      //用户动态重组状态
     VIDEODISPATCHSTATUS =22,     //视频分发状态
     MUTESTATUS =23,          //静音状态
-    GRPPATCHSTATUS =24  //派接操作状态
+    GRPPATCHSTATUS =24,  //派接操作状态
+    TMPGRPMUTESTATUS =25  //临时组静音通知
 }BundleKey;
 
 #endif // UIEVENTLIST_H

@@ -110,6 +110,8 @@ library eLTE_PlayerLib
 			[id(87)] BSTR ELTE_OCX_P2PHalfDpxDial(BSTR pResourceID);
 			[id(88)] BSTR ELTE_OCX_P2PHalfDpxRelease(BSTR pResourceID);
 			[id(89)] BSTR ELTE_OCX_TempUserJoinGroup(BSTR pGroupID, BSTR pPhonePatchParam);
+			[id(90)] BSTR ELTE_OCX_StartRecord(BSTR pResourceID, BSTR pRecordParam);
+			[id(91)] BSTR ELTE_OCX_StopRecord(BSTR pResourceID, BSTR pRecordParam);
 	};
 
 	//  Event dispatch interface for CeLTE_PlayerCtrl

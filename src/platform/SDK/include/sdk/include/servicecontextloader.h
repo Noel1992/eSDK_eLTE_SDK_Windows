@@ -17,7 +17,7 @@ using namespace ubp::platform::frame;
 
 class SDK_IMPORT_EXPORT ServiceContextLoader
 {
-   friend class ACE_Unmanaged_Singleton<ServiceContextLoader, ACE_Null_Mutex>;
+    friend class ACE_Unmanaged_Singleton<ServiceContextLoader, ACE_Null_Mutex>;
 
 public:
     ServiceContextLoader();
@@ -57,12 +57,12 @@ private:
 class SDK_IMPORT_EXPORT ServiceContextLoader_T
 {
 public:
-  /// Global access point to the Singleton.
-  static ServiceContextLoader *instance (void);
+    /// Global access point to the Singleton.
+    static ServiceContextLoader *instance (void);
 
 private:
-  static ServiceContextLoader* _instance;
-  static utils::Mutex _mutex;
+    static ServiceContextLoader* _instance;
+    static utils::Mutex _mutex;
 };
 
 #endif // SERVICECONTEXTLOADER_H

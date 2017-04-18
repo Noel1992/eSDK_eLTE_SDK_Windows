@@ -52,12 +52,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\include\json;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\..\third_party\open_src\openssl-1.0.2j\openssl-1.0.2j\include;..\..\..\self_dev\eSDKSecurec\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\include\json;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\..\third_party\open_src\openssl-1.0.2k\openssl-1.0.2k\inc32;..\..\..\self_dev\eSDKSecurec\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\lib\win32_x86_msvc\release;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\..\third_party\open_src\openssl-1.0.2j\lib\windows;..\..\..\self_dev\eSDKSecurec\windows</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\platform\eSDKClientLogAPI\debug;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\lib\win32_x86_msvc\release;..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\..\third_party\open_src\openssl-1.0.2k\lib\windows;..\..\..\self_dev\eSDKSecurec\windows</AdditionalLibraryDirectories>
       <AdditionalDependencies>eSDKLogAPI.lib;lib_json.lib;tinyxml.lib;libeay32.lib;ssleay32.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib</IgnoreSpecificDefaultLibraries>
     </Link>
@@ -70,7 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ELTE_RM_SDK_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\include\json;..\..\..\..\third_party\open_src\openssl-1.0.2j\openssl-1.0.2j\include\;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\self_dev\eSDKSecurec\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\platform\eSDKClientLogAPI\include;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\include\json;..\..\..\..\third_party\open_src\openssl-1.0.2k\openssl-1.0.2k\inc32\;..\..\..\..\third_party\open_src\tinyxml\tinyxml;..\..\..\self_dev\eSDKSecurec\include</AdditionalIncludeDirectories>
       <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
@@ -78,7 +78,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\release;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\lib\win32_x86_msvc\release;..\..\..\..\third_party\open_src\openssl-1.0.2j\lib\windows;..\..\..\self_dev\eSDKSecurec\windows</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\..\..\third_party\open_src\tinyxml\lib;..\..\..\platform\eSDKClientLogAPI\release;..\..\..\..\third_party\open_src\jsoncpp-0.10.5\lib\win32_x86_msvc\release;..\..\..\..\third_party\open_src\openssl-1.0.2k\lib\windows;..\..\..\self_dev\eSDKSecurec\windows</AdditionalLibraryDirectories>
       <AdditionalDependencies>eSDKLogAPI.lib;lib_json.lib;tinyxml.lib;libeay32.lib;ssleay32.lib;eSDK_Secure_C.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

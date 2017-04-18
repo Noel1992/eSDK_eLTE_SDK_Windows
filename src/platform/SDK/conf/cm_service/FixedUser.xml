@@ -2,7 +2,7 @@
 <Moc-Config>
 	<MOC MOC_NAME="FixedUser" MOC_NAME_C="有线用户" Module="OMC,MDC,MRS" ACCESS_CONTROL="read" DEST_SVC="custom:ubp_fixeduser:CreateModule:after" Group="" Relation="">
 		<Parameter name="ISDN" desc="用户号码" type="string" range="[1,8]" constrain="PRI" not_begin_with="0" all_num="" mode="display" />
-		<Parameter name="UserName" desc="用户名" type="string" range="[0,254]" mode="update" />
+		<Parameter name="UserName" desc="用户名" type="string" range="[0,255]" mode="update" />
 		<Parameter name="UserPriority" desc="用户优先级" type="int" range="[1,15]" constrain="NOT NULL" mode="update" default="15" />
 		<Parameter name="SipPass" desc="SIP密码" type="string" range="[1,18]" constrain="NOT NULL" c_type="password" mode="update" />
 		<Parameter name="Category" desc="用户类型" type="enum" range="0,1,2,3,4,5,6,10,255" vlist="0:调度台用户,1:固定摄像头,2:PSTN用户,3:TETRA用户,4:PLMN移动用户,5:外部PTT用户,6:SDK应用网关用户,10:网关代理用户,255:其它未分类用户" constrain="NOT NULL" mode="update" default="0" />

@@ -90,6 +90,19 @@ static const ACE_INT32 ERR_UBP_DC_SDK_MEDIAPLANE_ERROR = ERR_UBP_DC_SDK_BASE-12;
     \端口分配失败，无可用端口供分配  40013
 */
 static const ACE_INT32 ERR_UBP_DC_SDK_NO_FREE_PORT_ERROR = ERR_UBP_DC_SDK_BASE-13;
+
+/**
+ * Cannot find user home.40094
+ * 找不到归属地（用户在ZONE号段外）
+ */
+static const ACE_INT32 ERR_UBP_DC_SDK_ADS_ZONE_NOT_FOUND = ERR_UBP_DC_SDK_BASE-94;
+
+/**
+ * Cannot find user home.40094
+ * 找到了用户的归属地 但与归属地MDC之间断链
+ */
+static const ACE_INT32 ERR_UBP_DC_SDK_ADS_ZONE_NOT_CONNECTED = ERR_UBP_DC_SDK_BASE-95;
+
 /**
     \Server response timeout. 40096
     \服务器端响应超时  40096
@@ -276,8 +289,8 @@ static const ACE_INT32 ERR_UBP_DC_SDK_VERCHECK_FAILURE = ERR_UBP_DC_SDK_BASE-135
 //*/
 //static const ACE_INT32 ERR_UBP_DC_SDK_DGNA_WRONG_NUMBER = ERR_UBP_DC_SDK_BASE-136;
 /**
-    \DynamicGroup operation UDC timeout. 40137
-    \动态组操作UDC超时
+    \DynamicGroup operation has no response or is still establishing, please check later. 40137
+    \后台服务无响应或动态组还在建立中，请稍后查看
 */
 static const ACE_INT32 ERR_UBP_DC_SDK_DMG_UDCTIMEROUT = ERR_UBP_DC_SDK_BASE-137;
 
@@ -355,6 +368,12 @@ static const ACE_INT32 ERR_UBP_DC_SDK_DISPATCH_VPN_NOT_ALLOWED = ERR_UBP_DC_SDK_
   \创建派接组达到系统最大数量,100
 */
 static const ACE_INT32 ERR_UBP_DC_SDK_PATCH_GROUP_MAX_NUMBER_REACHED = ERR_UBP_DC_SDK_BASE - 152;
+
+/**
+  \Only gateway-user can be added in group temporarily.
+  \临时用户当前只支持网关用户
+*/
+static const ACE_INT32 ERR_UBP_DC_SDK_USER_JOIN_INVALID_ISDN = ERR_UBP_DC_SDK_BASE - 153;
 
 //DC_APP:-41000 ~ -41999
 static const ACE_INT32 ERR_UBP_DC_APP_BASE = -41000;  //init asyn socket error

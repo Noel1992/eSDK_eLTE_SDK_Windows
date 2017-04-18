@@ -25,7 +25,7 @@ Description: Define different API and data structure for SDK_DC
 #include "sdk_export.h"
 
 /**
-  \brief User Status Value
+\brief User Status Value
 */
 typedef enum {
     INVITING = 0,
@@ -35,7 +35,7 @@ typedef enum {
 }User_Status_Value;
 
 /**
-  \brief Call Type Value
+\brief Call Type Value
 */
 typedef enum {
     UNREG =0,
@@ -51,7 +51,7 @@ typedef enum {
 }Call_Type_t;
 
 /**
-  \brief User Call Status data structure
+\brief User Call Status data structure
 */
 typedef struct User_Call_Status{
     res_status_value_t userStatus;
@@ -61,14 +61,18 @@ typedef struct User_Call_Status{
     int is_encrypt;
     std::string peerNumber;
 
-    int speakID; //speak isdn in half voice call
-    std::string speakName;  //speak name in half voice call
+    int speakID; //speak isdn in half voice call or videodispatch
+    std::string speakName;  //speak name in half voice call or videodispatch
+
+    std::string callerCause; //only when callType = VIDEOONWALL used
+    std::string calleeCause; //only when callType = VIDEOONWALL used
 
     User_Call_Status* clone() const;
+
 }User_Call_Status;
 
 /**
-  \brief User Registration Status data structure
+\brief User Registration Status data structure
 */
 typedef struct {
     res_status_value_t regResult;
@@ -76,7 +80,7 @@ typedef struct {
 }Res_Reg_Status;
 
 /**
-  \brief Group Status data structure
+\brief Group Status data structure
 */
 typedef struct {
     MSISDN grpid;
@@ -96,14 +100,14 @@ class GroupInfo;
 class DcState_Imp;
 
 /**
- \brief Group subscribing data structure
- \param bMuted: whether the group is muted
- \param bRecording: whether the group is in recording
- \param bDiscretListening: whether the group is in listening
- \param bCallActivated: whether the group is active
- \param bTempGroup: whether the group is a temp group
- \param setupDcId: creating DC of temp group or dynamic group
- \param speakerID: speaker assigned for this group
+\brief Group subscribing data structure
+\param bMuted: whether the group is muted
+\param bRecording: whether the group is in recording
+\param bDiscretListening: whether the group is in listening
+\param bCallActivated: whether the group is active
+\param bTempGroup: whether the group is a temp group
+\param setupDcId: creating DC of temp group or dynamic group
+\param speakerID: speaker assigned for this group
 */
 class SDK_IMPORT_EXPORT SubscribeInfo {
 
@@ -141,29 +145,34 @@ public:
 
 
 /**
- \brief Camera subscribing data structure
- \param bMuted: whether the camera is muted
- \param camera: video channel, front camera or back camera
- \param bOnWall: whether the camera is projected on a video wall
+\brief Camera subscribing data structure
+\param bMuted: whether the camera is muted
+\param camera: video channel, front camera or back camera
+\param bOnWall: whether the camera is projected on a video wall
+\param subtype: check detail video type,default is -1, 0:videomonitor, 1: videodial, 2:videodispatch, it's valid Only for videodial at present.
 */
 class SDK_IMPORT_EXPORT VideoInfo {
 
 public:
+    VideoInfo();
+    ~VideoInfo();
     bool bMuted;
 
     int camera;
 
     bool bOnWall;
 
-    int ptz;     
+    int ptz;
+
+    int subtype;
 };
 
 
 /**
- \brief User joining Group data structure
- \param userID: mobile ISDN
- \param is_joined_grp: whether the mobile is joining a group call
- \param grpID:	Group ID mobile is joining
+\brief User joining Group data structure
+\param userID: mobile ISDN
+\param is_joined_grp: whether the mobile is joining a group call
+\param grpID:	Group ID mobile is joining
 */
 typedef struct user_inGrp_info
 
@@ -184,14 +193,14 @@ public:
     static DcState* getInstance();
 
     /**
-     \brief set login required information of DC
-     \param dcid : ID of the DC
-     \param password: password of the DC
-     \param serverIP : IP address of eMDC server
-     \param sipPort: SIP port of eMDC server
-     \param localIP : IP address of DC machine
-     \param lang: language, such as "zh","en",etc
-     \note  This API replace several setXXX() APIs
+    \brief set login required information of DC
+    \param dcid : ID of the DC
+    \param password: password of the DC
+    \param serverIP : IP address of eMDC server
+    \param sipPort: SIP port of eMDC server
+    \param localIP : IP address of DC machine
+    \param lang: language, such as "zh","en",etc
+    \note  This API replace several setXXX() APIs
     */
     virtual void set_login_info(MSISDN dcid,const char* password,const char* serverIP, int sipPort, const char* localIP,const char* lang );
 
@@ -210,9 +219,9 @@ public:
     virtual void setLocalIP(const std::string &org);
 
     /**
-     \brief set local RTP address
-     \param localrtp : IP address for local RTP
-     \note  This API is to customize RTP negotiation, can be used together with updatePortRange() to customize your local RTP IP and port
+    \brief set local RTP address
+    \param localrtp : IP address for local RTP
+    \note  This API is to customize RTP negotiation, can be used together with updatePortRange() to customize your local RTP IP and port
     */
     virtual void setLocalIP4RTP(const std::string &localrtp);
 
@@ -259,58 +268,66 @@ public:
     /*---------------------ADDED FROM TTR3.0--------------------------*/
 
     /**
-     \brief customize RTP port range
-     \param start: start port number when SDK allocate RTP port
-     \param end: end port number when SDK allocate RTP port
-     \note  for some scenarios, 3rd-DC can customize RTP port ranges
+    \brief customize RTP port range
+    \param start: start port number when SDK allocate RTP port
+    \param end: end port number when SDK allocate RTP port
+    \note  for some scenarios, 3rd-DC can customize RTP port ranges
     */
     virtual void updatePortRange(unsigned int start, unsigned int end);
     /**
-     \brief logon/logoff
-     \note  used together with set_login_info()，to replace TTR2.x ResourceInfo+DC_LOGIN for DC Login
+    \brief logon/logoff
+    \note  used together with set_login_info()，to replace TTR2.x ResourceInfo+DC_LOGIN for DC Login
     */
     virtual int logonDC();
     virtual int logoffDC();
 
     /**
-     \brief assign a speaker for a group
-     \param grpid: Group MSISDN
-     \param speakerid: speaker ID, shall be one emuerated by enumSpeakers()
-     \note  The voice from this group will be mixed and played in the assigned speaker
+    \brief assign a speaker for a group
+    \param grpid: Group MSISDN
+    \param speakerid: speaker ID, shall be one emuerated by enumSpeakers()
+    \note  The voice from this group will be mixed and played in the assigned speaker
     */
     virtual int assignSpeaker4Group(MSISDN grpid, const char* speakerid);
 
     /**
-     \brief assign a speaker for individual call on Dispatcher console
-     \param speakerid: speaker ID, shall be one emuerated by enumSpeakers()
-     \note  The voice from individual call will be mixed and played in the assigned speaker
+    \brief assign a speaker for individual call on Dispatcher console
+    \param speakerid: speaker ID, shall be one emuerated by enumSpeakers()
+    \note  The voice from individual call will be mixed and played in the assigned speaker
     */
     virtual int assignSpeaker4Individual(const char* speakerid);
 
     /**
-      \brief enumerate all speakers on the Dispatch PC
-      \param speakers: an array of char*, the array shall be allocated by caller and be large enough (array size shall be larger than the count of speakers!)
-      \return: the number of speakers found in this enumeration
-      \note: first use this API to enumerate all speaker and save the ID for each speaker, then use assignSpeaker4XXX() API to assign speaker for different calls
+    \brief enumerate all speakers on the Dispatch PC
+    \param speakers: an array of char*, the array shall be allocated by caller and be large enough (array size shall be larger than the count of speakers!)
+    \return: the number of speakers found in this enumeration
+    \note: first use this API to enumerate all speaker and save the ID for each speaker, then use assignSpeaker4XXX() API to assign speaker for different calls
     */
     virtual int enumSpeakers(char* speakers[]);
 
     /**
-      \brief:Reserved
-      \note:
+    \brief:Reserved
+    \note:
     */
     virtual void addSubscribedGroup(MSISDN grpid,SubscribeInfo*);
     /**
-      \brief:find whether exist p2p call at present
-      \note: NOT include Emergency call, if want to find all active p2pcall, you can call 'findAllActiveP2pCall'.
+    \brief:find whether exist p2p call at present
+    \note: NOT include Emergency call, if want to find all active p2pcall, you can call 'findAllActiveP2pCall'.
     */
     virtual bool findActiveP2pCall();
 
     /**
-      \brief:find whether exist p2p call at present
-      \note: include Emergency call
+    \brief:find whether exist p2p call at present
+    \note: include Emergency call
     */
     virtual bool findAllActiveP2pCall();
+    
+     /**
+     \brief find whether exist normal p2p voice call, not include emergency or listen p2pcall
+     \param
+     \return exist return true,or return false
+     \note: 'findActiveP2pCall' 'findAllActiveP2pCall' both may contain listen p2p voice call, this API is for accurately querying Normal P2pCall.
+     */
+    virtual bool findOnlyNormalP2pCall();
 
 
 private:

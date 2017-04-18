@@ -98,13 +98,23 @@ int AppContextMgr::Init()
 		return eLTE_SVC_ERR_NULL_POINTER;
 	}
 	pAC->setWorkMode(APPMODE_DISPATCH_CONSOLE);
-	if (m_uiBypass)
+	if (1 == m_uiBypass)
 	{
+		//the third part handle both video and audio
 		pAC->setBypassBuildMedia(true);
 	}
-	else
+	else if (0 == m_uiBypass || 3 == m_uiBypass)
 	{
-		pAC->setBypassBuildMedia(false);
+		if (0 == m_uiBypass)
+		{
+			//SDK handle both video and audio
+			pAC->setBypassBuildMedia(false);
+		}
+		else if (3 == m_uiBypass)
+		{
+			//video sdk 处理，audio 第三方处理
+			pAC->setBypassBuildMedia(true, false);
+		}
 		if (NULL == m_pMediaMgr)
 		{
 			m_pMediaMgr = new MediaMgr();
@@ -121,6 +131,15 @@ int AppContextMgr::Init()
 			return eLTE_SVC_ERR_NULL_POINTER;
 		}
 		pAC->setMediaManager(pMediaManager);
+	}
+	else if (2 == m_uiBypass)
+	{
+		//audio sdk 处理，video 第三方处理
+		pAC->setBypassBuildMedia(false, true);
+	}
+	else
+	{
+		LOG_RUN_ERROR("Bypass Value out of range.");
 	}
 
 	if (NULL == m_pDisplayMgr)

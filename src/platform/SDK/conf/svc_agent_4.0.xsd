@@ -23,7 +23,7 @@ changed	  : 2015-4-17 2:38 to support 4.0 by huangchunlun
   
 	<xsd:complexType name="Module_t">
 		<xsd:attribute name="lib" type="xsd:string" use="required"/>
-		<xsd:attribute name="entry" type="xsd:string" default="CreateModule"/>
+		<xsd:attribute name="entry" type="xsd:string" use="required"/>
 	</xsd:complexType>
 	<xsd:complexType name="LoadModules_t">
 		<xsd:sequence>
@@ -55,8 +55,8 @@ changed	  : 2015-4-17 2:38 to support 4.0 by huangchunlun
     </xsd:sequence>
     <xsd:attribute name="svc_type" type="xsd:string" use="required"/>
 	<xsd:attribute name="code_type" type="xsd:string" use="required"/>
-	<xsd:attribute name="valgrind_trigger" type="xsd:string" use="optional" default="off" />
-	<xsd:attribute name="tcmalloc_trigger" type="xsd:string" use="optional" default="off" />
+	<xsd:attribute name="valgrind_trigger" type="xsd:string" use="required" />
+	<xsd:attribute name="tcmalloc_trigger" type="xsd:string" use="required"  />
 	<xsd:attribute name="user" type="xsd:string" use="required"/>
 	<xsd:attribute name="team" type="xsd:string" use="required"/>
   </xsd:complexType>

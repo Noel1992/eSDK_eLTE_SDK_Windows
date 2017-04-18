@@ -8,5 +8,6 @@
 		<Parameter name="ISDN" desc="用户号码" type="int" range="[99900001,99909999]" constrain="NOT NULL" mode="update" />
 		<Parameter name="SipPass" desc="SIP密码" type="string" range="[1,18]" constrain="NOT NULL" c_type="password" mode="update" />
 		<Parameter name="GwOutSwitch" desc="局向开关" type="enum" range="0,1" vlist="0:关闭,1:打开" constrain="NOT NULL" mode="update" default="0" />
+		<Parameter name="DifferentOriginalSwitch" desc="不同源开关" type="enum" range="0,1" vlist="0:关闭,1:打开" constrain="NOT NULL" mode="update" />
 	</MOC>
 </Moc-Config>

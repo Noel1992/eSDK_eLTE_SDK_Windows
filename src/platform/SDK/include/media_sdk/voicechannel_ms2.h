@@ -13,10 +13,10 @@ Description:  基于MediaStream2(in Linphone)的 VoiceChannel 和 VideoChannel �
 
 #pragma warning(disable: 4251)
 
+#include "ace/Synch.h"
 #include "mediastreamer2/mediastream.h"
 #include <string>
 #include "media_export.h"
-
 
 struct RecordStream;
 
@@ -154,9 +154,12 @@ class MEDIA_IMPORT_EXPORT VoiceChannelMS2
 #endif
   /* test for start audio detect e*/
   
+#ifndef _BYPASS_MEDIA
   //added in TTR4.0
   bool bStopNATProbe;				  //NAT	穿透是否定时发送首包标志，true停止发送,false继续发送
-
+  ACE_Thread_Mutex natMutex;
+  ACE_Condition<ACE_Thread_Mutex> natCond;
+#endif
 
 public:
   int UpdateAudio_StartRecord(std::string filepath);

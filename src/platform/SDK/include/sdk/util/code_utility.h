@@ -24,6 +24,8 @@ public:
 
  private:
     Code_Utility();
+    void multiToUnicode(const std::string& multiText, std::wstring& unicodeText);
+
 };
 
 #endif // SDS_CUTILITY_H

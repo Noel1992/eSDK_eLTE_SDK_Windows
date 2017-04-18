@@ -48,19 +48,19 @@
         <Param name="congest_rel_timer" value="100"/>
         <Param name="congest_pre_thd" value="300"/>
         <Param name="congest_rel_hys" value="50"/>
-        <Param name="jitter_filter" value=".001"/>
+        <Param name="jitter_filter" value="0.001"/>
       </SvcParams>
       <LoadModules>
         <Module lib="ubp_sca" entry="CreateCfgMgr" />
-        <Module lib="ubp_svcmgr" />
-        <Module lib="ubp_error" />
-        <Module lib="ubp_threadpool" />
-        <Module lib="ubp_timer" />
-        <Module lib="ubp_encryption" />
-        <Module lib="ubp_dao" />
-        <Module lib="ubp_mq" />
-        <Module lib="ubp_fmproxy" />
-        <Module lib="ubp_lmproxy" />
+        <Module lib="ubp_svcmgr" entry="CreateModule"/>
+        <Module lib="ubp_error" entry="CreateModule"/>
+        <Module lib="ubp_threadpool" entry="CreateModule"/>
+        <Module lib="ubp_timer" entry="CreateModule"/>
+        <Module lib="ubp_encryption" entry="CreateModule"/>
+        <Module lib="ubp_dao" entry="CreateModule"/>
+        <Module lib="ubp_mq" entry="CreateModule"/>
+        <Module lib="ubp_fmproxy" entry="CreateModule"/>
+        <Module lib="ubp_lmproxy" entry="CreateModule"/>
       </LoadModules>
       <LoadPB>
       </LoadPB>

@@ -140,6 +140,8 @@ BEGIN_DISPATCH_MAP(CeLTE_PlayerCtrl, COleControl)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHalfDpxDial", dispidELTE_OCX_P2PHalfDpxDial, ELTE_OCX_P2PHalfDpxDial, VT_BSTR, VTS_BSTR)
 	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_P2PHalfDpxRelease", dispidELTE_OCX_P2PHalfDpxRelease, ELTE_OCX_P2PHalfDpxRelease, VT_BSTR, VTS_BSTR)
 	//DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_TempUserJoinGroup", dispidELTE_OCX_TempUserJoinGroup, ELTE_OCX_TempUserJoinGroup, VT_BSTR, VTS_BSTR VTS_BSTR)
+//	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StartRecord", dispidELTE_OCX_StartRecord, ELTE_OCX_StartRecord, VT_BSTR, VTS_BSTR VTS_BSTR)
+//	DISP_FUNCTION_ID(CeLTE_PlayerCtrl, "ELTE_OCX_StopRecord", dispidELTE_OCX_StopRecord, ELTE_OCX_StopRecord, VT_BSTR, VTS_BSTR VTS_BSTR)
 END_DISPATCH_MAP()//lint -e786
 
 
@@ -504,6 +506,12 @@ LRESULT CeLTE_PlayerCtrl::OnMsgPostEvent(WPARAM wparam, LPARAM lparam)
 							// 播放视频
 							(void)mediaPlayer.StartPlayer(videoPane.GetVideoStaticSafeHwnd());
 						}
+
+// 						if (1 == pInfo.iPtz)
+// 						{
+// 							//PTZ is supported
+// 							LOG_RUN_INFO("PTZ is supported.");
+// 						}
 
 						// 激活工具栏按钮
 						videoPane.EnableImageButton(TRUE);
@@ -4333,32 +4341,59 @@ BSTR CeLTE_PlayerCtrl::ELTE_OCX_P2PHalfDpxRelease(LPCTSTR pResourceID)
 }
 
 
-//BSTR CeLTE_PlayerCtrl::ELTE_OCX_TempUserJoinGroup(LPCTSTR pGroupID, LPCTSTR pPhonePatchParam)
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_StartRecord(LPCTSTR pResourceID, LPCTSTR pRecordParam)
 //{
 //	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 //
 //	CString strResult;
 //
 //	// TODO: Add your dispatch handler code here
-//	LOG_INTERFACE_TRACE();
-//	CXml xml;
 //
+//	CXml xml;
+//	LOG_INTERFACE_TRACE();
 //	// load类型是否支持
 //	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
-//
 //	// 入参检测
-//	if (NULL == pGroupID || NULL == pPhonePatchParam)
+//	if (NULL == pResourceID || NULL == pRecordParam)
 //	{
 //		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
 //		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
 //		return strResult.AllocSysString();
 //	}
 //
-//	// join call 
-//	ELTE_INT32 iRet = ELTE_SDK_TempUserJoinGroup(eLTE_Tool::UnicodeToANSI(pGroupID).c_str(), eLTE_Tool::UnicodeToANSI(pPhonePatchParam).c_str());
+//	ELTE_INT32 iRet = ELTE_SDK_StartRecord(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pRecordParam).c_str());
 //
 //	GET_RETURN_CODE_XML(xml, iRet, strResult);
-//	LOG_INTERFACE_INFO(iRet, "GroupID:%s", eLTE_Tool::UnicodeToANSI(pGroupID).c_str());
+//	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, RecordParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pRecordParam).c_str());
+//
+//	return strResult.AllocSysString();
+//}
+
+
+//BSTR CeLTE_PlayerCtrl::ELTE_OCX_StopRecord(LPCTSTR pResourceID, LPCTSTR pRecordParam)
+//{
+//	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+//
+//	CString strResult;
+//
+//	// TODO: Add your dispatch handler code here
+//
+//	CXml xml;
+//	LOG_INTERFACE_TRACE();
+//	// load类型是否支持
+//	CHECK_ELTE_OCX_LOAD_TYPE(m_ulType, xml, strResult);
+//	// 入参检测
+//	if (NULL == pResourceID || NULL == pRecordParam)
+//	{
+//		GET_RETURN_CODE_XML(xml, eLTE_ERR_INVALID_PARAM, strResult);
+//		LOG_INTERFACE_INFO(eLTE_ERR_INVALID_PARAM, "");
+//		return strResult.AllocSysString();
+//	}
+//
+//	ELTE_INT32 iRet = ELTE_SDK_StopRecord(eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pRecordParam).c_str());
+//
+//	GET_RETURN_CODE_XML(xml, iRet, strResult);
+//	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, RecordParam:%s", eLTE_Tool::UnicodeToANSI(pResourceID).c_str(), eLTE_Tool::UnicodeToANSI(pRecordParam).c_str());
 //
 //	return strResult.AllocSysString();
 //}

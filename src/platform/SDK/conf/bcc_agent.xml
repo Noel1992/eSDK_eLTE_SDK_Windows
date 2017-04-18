@@ -44,22 +44,23 @@
         <Param name="response_603_output" value="1"/>
         <Param name="init_wait_time" value="120"/>
         <Param name="fir_req_list" value="HUAWEI TEx0,HUAWEI VP"/>
-		<Param name="eSpace_Agent" value="Huawei eSpace"/>
-        <Param name="video_transcode_license_on_one_bdc" value="4"/>
-        <Param name="video_transcode_license_on_multi_bdc" value="76"/>
+        <Param name="ux_gw_req_list" value="Huawei eSpace U2980,Huawei eSpace USM"/>
+        <Param name="sip_forbidden_trans_other_code" value="0"/>
+        <Param name="sip_forbidden_trans_other_value" value="480"/>
+        <Param name="roam_switch" value="0"/>
       </SvcParams>
       <LoadModules>
         <Module lib="ubp_sca" entry="CreateCfgMgr" />
-        <Module lib="ubp_svcmgr" />
-        <Module lib="ubp_error" />
-        <Module lib="ubp_threadpool" />
-        <Module lib="ubp_timer" />
-        <Module lib="ubp_encryption" />
-        <Module lib="ubp_dao" />
-        <Module lib="ubp_mq" />
-        <Module lib="ubp_fmproxy" />
-        <Module lib="ubp_lmproxy" />
-        <Module lib="ubp_lic_man_proxy" />
+        <Module lib="ubp_svcmgr" entry="CreateModule"/>
+        <Module lib="ubp_error" entry="CreateModule"/>
+        <Module lib="ubp_threadpool" entry="CreateModule"/>
+        <Module lib="ubp_timer" entry="CreateModule"/>
+        <Module lib="ubp_encryption" entry="CreateModule"/>
+        <Module lib="ubp_dao" entry="CreateModule"/>
+        <Module lib="ubp_mq" entry="CreateModule"/>
+        <Module lib="ubp_fmproxy" entry="CreateModule"/>
+        <Module lib="ubp_lmproxy" entry="CreateModule"/>
+        <Module lib="ubp_lic_man_proxy" entry="CreateModule"/>
       </LoadModules>
       <LoadPB>
       </LoadPB>

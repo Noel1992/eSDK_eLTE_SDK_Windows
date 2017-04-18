@@ -43,12 +43,14 @@ typedef enum {
     P2Pvideocall_IND_STATUS_VIDEO_CONTROL = 3024,               /** for SDK_GW, or VGW */
     P2Pvideocall_IND_STATUS_PICKEDUP = 3040,                     /** the video request is answered by SDK_GW*/
     P2Pvideocall_IND_STATUS_DISPATCH = 3041,                     /** the video is dispatched to this SDK_GW*/
-    P2Pvideocall_IND_STATUS_BEARER_RELEASED = 3042,              //视频监控承载释放
-    P2Pvideodisp_IND_STATUS_BEARER_RELEASED = 3043,               //视频分发承载释放
+    P2Pvideocall_IND_STATUS_BEARER_RELEASED = 3042,              /** video monitor bearer released*/
+    P2Pvideodisp_IND_STATUS_BEARER_RELEASED = 3043,               /** video dispatch bearer released*/
     P2Pvideodisp_IND_STATUS_CALLER_UNSUPPORT = 3044,              /** caller unsupport*/
     P2Pvideodisp_IND_STATUS_CALLEE_UNSUPPORT = 3045,              /** callee unsupport*/
     P2Pvideodisp_IND_STATUS_CIPHER_NOT_AVAILABLE = 3046,          /** cipher not available*/
-    P2Pvideodisp_IND_STATUS_MISCELLANEOUS_WARNING = 3047          /** Miscellaneous warning*/
+    P2Pvideodisp_IND_STATUS_MISCELLANEOUS_WARNING = 3047,          /** Miscellaneous warning*/
+    P2Pvideocall_IND_STATUS_REMOTE_PROHIBITED = 3048,               /** remote no permissions*/
+    P2Pvideocall_IND_STATUS_DECFAILED = 3049                        /** start decode failed*/
 
 } P2pvideocall_Status_t;
 
@@ -124,7 +126,8 @@ public:
     char* getRecDownloadURL();
 
     void setPTZFlag(int ptz);
-    int getPTZFlag();
+    int getPTZFlag(); //0 or 1: support,2:not support
+
     //set retransfer payload type
     void setRetransferPT(int pt){rts_pt = pt;}
     int getRetransferPT(){return rts_pt;}
@@ -132,6 +135,9 @@ public:
     unsigned long getRetransferSSRC(){return rts_ssrc;}
     void setOriSSRC(unsigned long orissrc){ori_ssrc = orissrc;}
     unsigned long getOriSSRC(){return ori_ssrc;}
+
+    bool isP2PVideoDial();
+    void setP2PVideoDialFalg(bool);
 
 private:
     MSISDN theCaller;
@@ -173,6 +179,7 @@ private:
     int rts_pt;     //retransfer payloadtype
     unsigned long rts_ssrc;   //retransfer ssrc
     unsigned long ori_ssrc;   //original ssrc
+    bool m_videodialflag;     //true means p2p video dial, false means not
 };
 
 #endif // P2PVIDEOCALLSTATUS_INDICATOR_H

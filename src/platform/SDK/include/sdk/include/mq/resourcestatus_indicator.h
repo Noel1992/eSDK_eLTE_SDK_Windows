@@ -141,6 +141,11 @@ public:
     const char* getSpeakName(){return _speakname;}
     virtual bool serialize(Json::Value&);    //serialize into text format
     virtual bool parse(const Json::Value& value);
+
+    void setCallerCause(const std::string& callerCause );
+    void setCalleeCause(const std::string& calleeCause );
+    std::string getCallerCause() const;
+    std::string getCalleeCause() const;
 protected:
     MSISDN _peerid;
     int _dir;       // 1=caller， 2=callee
@@ -152,6 +157,8 @@ protected:
 
     int _speakid; //used in Half Voice Call
     char _speakname[MAX_PEERNUM_LEN];//used in Half Voice Call
+    std::string m_callerCause;
+    std::string m_calleeCause;
 };
 
 //when status_type = VIDEOSTATUSSTATUS ,use below derived class

@@ -738,7 +738,7 @@ void Logic_Queue::InterfaceMediaMgr(const QUEUE_DATA& data) const
 			//停止视频上墙
 		case ELTE_SERVICE_VWALLSTOP_REQ:
 			{			
-				VWallStop(data);
+				StopVWall(data);
 			}
 			break;			
 // 			//发起PSTN/PLMN电话呼叫
@@ -777,6 +777,18 @@ void Logic_Queue::InterfaceMediaMgr(const QUEUE_DATA& data) const
 				P2PTransfer(data);
 			}
 			break;
+			//发起音视频录制
+		case ELTE_SERVICE_STARTRECORD_REQ:
+			{
+//				StartRecord(data);
+			}
+			break;
+		case ELTE_SERVICE_STOPRECORD_REQ:
+			{
+				StopRecord(data);
+			}
+			break;
+			//终止音视频录制
 			//默认
 		default:
 			{
@@ -2982,7 +2994,7 @@ void Logic_Queue::StartVWall(const QUEUE_DATA& data) const
 
 		// xml解析
 		int resId;
-		VWALL_PARAM param;		
+		StartVWALL_PARAM param;		
 		int iRet = XMLProcess::GetXml_StartVWall_Req(data.Value, resId, param);
 
 		if (eLTE_SVC_ERR_SUCCESS != iRet)
@@ -3084,7 +3096,7 @@ void Logic_Queue::GetDcVWallIDList(const QUEUE_DATA& data) const
 
 
 // 视频下墙
-void Logic_Queue::VWallStop(const QUEUE_DATA& data) const
+void Logic_Queue::StopVWall(const QUEUE_DATA& data) const
 {
 	SSL_CHECK(data);
 
@@ -3284,7 +3296,7 @@ void Logic_Queue::StartEnvironmentListen(const QUEUE_DATA& data) const
 	else
 	{
 		// ssl状态不正确，有可能连接中断，不发送数据
-		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
+		LOG_RUN_INFO("SSL state error, send data failed. msgType = %x", data.MsgType);
 	}
 }
 
@@ -3323,6 +3335,88 @@ void Logic_Queue::P2PTransfer(const QUEUE_DATA& data) const
 	else
 	{
 		// ssl状态不正确，有可能连接中断，不发送数据
-		LOG_RUN_INFO("SSL state is not ok, don't send the data. msgType = %x", data.MsgType);
+		LOG_RUN_INFO("SSL state error, send data failed. msgType = %x", data.MsgType);
+	}
+}
+
+// 开始音视频录制
+void Logic_Queue::StartRecord(const QUEUE_DATA& data) const
+{
+	SSL_CHECK(data);
+
+	if (SSL_ST_OK == SSL_state(_ssl))
+	{
+		// 构造消息头
+		PACKET_HEAD head(data);
+		head.MsgType |= RSP_MSG_FLAG;
+		head.PacketLength = PACKET_HEAD_SIZE;
+
+		// xml解析
+		int resId;
+		Record_parameter param;		
+		int iRet = XMLProcess::GetXml_StartRecord_Req(data.Value, resId, param);
+		if (eLTE_SVC_ERR_SUCCESS != iRet)
+		{
+			LOG_RUN_ERROR("GetXml_StartRecord_Req failed.");
+			head.RspCode = iRet;
+			// 发送消息头
+			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+			return;
+		}
+
+		iRet = OperationMgr::Instance().RecordStart(resId, param);
+		if (eLTE_SVC_ERR_SUCCESS != iRet)
+		{
+			LOG_RUN_ERROR("RecordStart failed.");
+		}
+		head.RspCode = iRet;
+		// 发送消息头
+		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+	}
+	else
+	{
+		// ssl状态不正确，有可能连接中断，不发送数据
+		LOG_RUN_INFO("SSL state error, send data failed. msgType = %x", data.MsgType);
+	}
+}
+
+//终止音视频录制
+void Logic_Queue::StopRecord(const QUEUE_DATA& data) const
+{
+	SSL_CHECK(data);
+
+	if (SSL_ST_OK == SSL_state(_ssl))
+	{
+		// 构造消息头
+		PACKET_HEAD head(data);
+		head.MsgType |= RSP_MSG_FLAG;
+		head.PacketLength = PACKET_HEAD_SIZE;
+
+		// xml解析
+		int resId;
+		Record_parameter param;		
+		int iRet = XMLProcess::GetXml_StopRecord_Req(data.Value, resId, param);
+		if (eLTE_SVC_ERR_SUCCESS != iRet)
+		{
+			LOG_RUN_ERROR("GetXml_StopRecord_Req failed.");
+			head.RspCode = iRet;
+			// 发送消息头
+			SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+			return;
+		}
+
+		iRet = OperationMgr::Instance().RecordStop(resId, param);
+		if (eLTE_SVC_ERR_SUCCESS != iRet)
+		{
+			LOG_RUN_ERROR("RecordStop failed.");
+		}
+		head.RspCode = iRet;
+		// 发送消息头
+		SSL_WRITE(_ssl, &head, PACKET_HEAD_SIZE);
+	}
+	else
+	{
+		// ssl状态不正确，有可能连接中断，不发送数据
+		LOG_RUN_INFO("SSL state error, send data failed. msgType = %x", data.MsgType);
 	}
 }

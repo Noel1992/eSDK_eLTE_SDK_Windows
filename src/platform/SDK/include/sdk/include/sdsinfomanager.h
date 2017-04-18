@@ -42,6 +42,7 @@ class SDK_IMPORT_EXPORT SdsInfo
         std::string trid_t;
         std::string flag_t;//0:success,1:failed
         std::string group_t;
+        std::string subject;
         int direct;//0,接收; 1,发送; 2,双向
         SdsInfo();
         SdsInfo( SdsInfo& sds);

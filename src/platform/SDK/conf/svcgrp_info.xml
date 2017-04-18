@@ -67,14 +67,6 @@
 		<Service name="ubp_itf_manager" />
 		<Service name="ubp_sdk_agent_01" />
 		<Service name="ubp_sdk_agent_02" />
-		<Service name="ubp_sdk_agent_03" />
-		<Service name="ubp_sdk_agent_04" />
-		<Service name="ubp_sdk_agent_05" />
-		<Service name="ubp_sdk_agent_06" />
-		<Service name="ubp_sdk_agent_07" />
-		<Service name="ubp_sdk_agent_08" />
-		<Service name="ubp_sdk_agent_09" />
-		<Service name="ubp_sdk_agent_10" />
     </ServiceGroup>
       <ServiceGroup name="BDC">
         <Service name="ubp_mq_broker" />

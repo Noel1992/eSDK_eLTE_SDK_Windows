@@ -20,7 +20,7 @@ public:
     static void change_sip_ua(const char * sipua);
 
     static void clean_invalid_reg();
-    
+
     static int checkDcPriority(int , int);
 
     //异步调用invoke Operation
@@ -48,20 +48,20 @@ public:
     static const Res_Reg_Status* findUserRegStatus(MSISDN iUeUd, Reg_Type_t type);
 
     /**
-     \brief send SIP informessage, it's like:Call-Info: <xxxxx>;name1=value1; name2=value2;
-     \param callid: Call-info id
-     \return: Only return 0 means successfully
+    \brief send SIP informessage, it's like:Call-Info: <xxxxx>;name1=value1; name2=value2;
+    \param callid: Call-info id
+    \return: Only return 0 means successfully
     */
     static int SendSipInfoMsg(MSISDN callid, char *name1,char* value1,char *name2,char* value2);
     /**
-      \brief set the logon type
+    \brief set the logon type
     */
     static void setLogonType(LogOn_Proxy_t type);
     static LogOn_Proxy_t getLogonType();
     /**
-     \brief set video loss retransfer info
-     \param status: 0: not support, 1: support,default is 0
-     \param rtxtime: original RTP max cache time
+    \brief set video loss retransfer info
+    \param status: 0: not support, 1: support,default is 0
+    \param rtxtime: original RTP max cache time
     */
     static void setVideoLossRetransInfo(int status, int rtxtime);
 

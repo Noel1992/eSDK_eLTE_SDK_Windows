@@ -48,7 +48,7 @@
     <dbcfg name="port"
            value="3306" />
     <dbcfg name="max_connection"
-           value="30" />
+           value="50" />
     <dbcfg name="min_connection"
            value="1" />
   </DAO>  

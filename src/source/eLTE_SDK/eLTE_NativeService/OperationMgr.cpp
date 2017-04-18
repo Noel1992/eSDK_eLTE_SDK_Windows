@@ -1592,3 +1592,57 @@ int OperationMgr::P2PTransfer(const int iResId, transfer_parameter& param) const
 	pResInfo = NULL;
 	return iRet;//lint !e438
 }
+
+// 调度台发起音视频录制
+int OperationMgr::RecordStart(int iResId, Record_parameter& param) const
+{
+	LOG_TRACE();
+
+	// 获取SDK实例指针
+	GET_SDK_POINTER;
+
+	// 构建资源
+	ResourceInfo* pResInfo = new ResourceInfo(iResId);
+	if (NULL == pResInfo)//lint !e774
+	{
+		LOG_RUN_ERROR("new ResourceInfo failed.");
+		return eLTE_SVC_ERR_MEMORY_APPLY;
+	}
+	// 发起音视频录制
+	Op_Return_t iRet = pOM->invokeOp_multipara(pResInfo, (void*)&param, REC_START);
+	if (OP_OK_ACCEPTED != iRet)
+	{
+		LOG_RUN_ERROR("invokeOp_multipara REC_START failed. (%d)", iRet);
+	}
+	// 释放资源
+	delete pResInfo;
+	pResInfo = NULL;
+	return iRet;//lint !e438
+}
+
+// 调度台终止音视频录制
+int OperationMgr::RecordStop(int iResId, Record_parameter& param) const
+{
+	LOG_TRACE();
+
+	// 获取SDK实例指针
+	GET_SDK_POINTER;
+
+	// 构建资源
+	ResourceInfo* pResInfo = new ResourceInfo(iResId);
+	if (NULL == pResInfo)//lint !e774
+	{
+		LOG_RUN_ERROR("new ResourceInfo failed.");
+		return eLTE_SVC_ERR_MEMORY_APPLY;
+	}
+	// 终止音视频录制
+	Op_Return_t iRet = pOM->invokeOp_multipara(pResInfo, (void*)&param, REC_STOP);
+	if (OP_OK_ACCEPTED != iRet)
+	{
+		LOG_RUN_ERROR("invokeOp_multipara REC_STOP failed. (%d)", iRet);
+	}
+	// 释放资源
+	delete pResInfo;
+	pResInfo = NULL;
+	return iRet;//lint !e438
+}

@@ -2,7 +2,7 @@
 <Moc-Config>
 	<MOC MOC_NAME="DCAttribute" MOC_NAME_C="调度台权限信息" Module="OMC,MDC,MRS" ACCESS_CONTROL="read" DEST_SVC="" Group="" Relation="">
 		<Parameter name="ISDN" desc="DC用户号码" type="string" range="[1,8]" constrain="PRI" not_begin_with="0" all_num="" mode="display" FK="FK:DRUR:FixedUser:ISDN" />
-		<Parameter name="Privilege" desc="业务权限" type="bitset" range="" vlist="1:强拆,2:抢话,4:缜密侦听,8:视频监控,16:短消息导出,32:环境侦听,64:视频上墙,128:非确认方式视频回传,256:GIS订阅,512:GIS轨迹回放,1024:调度台本地录音,2048:调度台本地录像,4096:录音录像文件列表查看,8192:录音录像回放,16384:录音录像下载,32768:录音录像删除" constrain="NOT NULL" mode="update" />
+		<Parameter name="Privilege" desc="业务权限" type="bitset" range="" vlist="1:强拆,2:抢话,4:缜密侦听,8:视频监控,16:短消息归档,32:环境侦听,64:视频上墙,128:非确认方式视频回传,256:GIS订阅,512:GIS轨迹回放,1024:调度台本地录音,2048:调度台本地录像,4096:录音录像文件列表查看,8192:录音录像回放,16384:录音录像下载,32768:录音录像删除,65536:视频点呼" constrain="NOT NULL" mode="update" />
 		<Parameter name="DispatcherRole" desc="调度员角色" type="enum" range="0,1,2" vlist="0:管理员,1:普通调度员,2:上级调度员" constrain="NOT NULL" mode="update" default="1" />
 	</MOC>
 </Moc-Config>

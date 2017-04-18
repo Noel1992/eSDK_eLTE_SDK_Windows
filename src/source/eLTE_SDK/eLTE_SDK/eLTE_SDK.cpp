@@ -31,7 +31,7 @@ history			:	2015/1/5 初始版本
 
 
 // SDK版本号
-#define ELTE_SDK_VERSION		"2.1.10.0"
+#define ELTE_SDK_VERSION		"2.1.10.100"
 #define LOG_CATEGORY            3
 CUserMgr* g_pUserMgr = NULL;
 static std::string g_strLogPath = "";
@@ -1395,5 +1395,41 @@ ELTE_INT32 __SDK_CALL ELTE_SDK_ModifyDynamicGroup(const ELTE_CHAR* pResourceID, 
 // 
 // 	ELTE_INT32 iRet = g_pUserMgr->GetOperationMgr().TempUserJoinGroup(pResourceID, pPhonePatchParam);
 // 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, PhonePatchParam:%s", pResourceID, pPhonePatchParam);
+// 	return iRet;
+// }
+
+//开始音视频录制
+// ELTE_INT32 __SDK_CALL ELTE_SDK_StartRecord(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pTypeParam)
+// {
+// 	LOG_INTERFACE_TRACE();
+// 	if(NULL == pResourceID || NULL == pTypeParam)
+// 	{
+// 		LOG_RUN_ERROR("ResourceID or TypeParam is null.");
+// 		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, "");
+// 		return eLTE_SDK_ERR_INVALID_PARAM;
+// 	}
+// 	LOG_RUN_INFO("ResourceID:%s, TypeParam:%s.", pResourceID, pTypeParam);
+// 
+// 	CHECK_INTERFACE_POINTER(g_pUserMgr, "ResourceID:%s, TypeParam:%s", pResourceID, pTypeParam);
+// 	ELTE_INT32 iRet = g_pUserMgr->GetMediaMgr().startRecord(pResourceID, pTypeParam);
+// 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, TypeParam:%s", pResourceID, pTypeParam);
+// 	return iRet;
+// }
+
+//终止音视频录制
+// ELTE_INT32 __SDK_CALL ELTE_SDK_StopRecord(const ELTE_CHAR* pResourceID, const ELTE_CHAR* pTypeParam)
+// {	
+// 	LOG_INTERFACE_TRACE();
+// 	if(NULL == pResourceID || NULL == pTypeParam)
+// 	{
+// 		LOG_RUN_ERROR("ResourceID or TypeParam is null.");
+// 		LOG_INTERFACE_INFO(eLTE_SDK_ERR_INVALID_PARAM, "");
+// 		return eLTE_SDK_ERR_INVALID_PARAM;
+// 	}
+// 	LOG_RUN_INFO("ResourceID:%s, TypeParam:%s.", pResourceID, pTypeParam);
+// 
+// 	CHECK_INTERFACE_POINTER(g_pUserMgr, "ResourceID:%s, TypeParam:%s", pResourceID, pTypeParam);
+// 	ELTE_INT32 iRet = g_pUserMgr->GetMediaMgr().stopRecord(pResourceID, pTypeParam);
+// 	LOG_INTERFACE_INFO(iRet, "ResourceID:%s, TypeParam:%s", pResourceID, pTypeParam);
 // 	return iRet;
 // }

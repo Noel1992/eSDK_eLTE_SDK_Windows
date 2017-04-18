@@ -322,6 +322,8 @@ private:
 	void RecvVideoPlay(const QUEUE_DATA& data) const;
 	// 开始视频上墙
 	void StartVWall(const QUEUE_DATA& data) const;
+	//停止视频上墙
+	void StopVWall(const QUEUE_DATA& data) const;
 	//获取视频上墙ID列表
 	void GetDcVWallIDList(const QUEUE_DATA& data) const;
 	//查询终端的GIS配置信息
@@ -336,9 +338,6 @@ private:
 	// 组呼添加临时用户
 //	void TempUserJoinGroup(const QUEUE_DATA& data) const;
 
-	//停止视频上墙
-	void VWallStop(const QUEUE_DATA& data) const;
-
 	//发起PSTN/PLMN电话呼叫
 //	void TelephoneDial(const QUEUE_DATA& data) const;
 	//挂断PSTN/PLMN电话呼叫
@@ -351,6 +350,11 @@ private:
 	void StartEnvironmentListen(const QUEUE_DATA& data) const;
 	//发起人工转接
 	void P2PTransfer(const QUEUE_DATA& data) const;
+
+	// 开始音视频录制
+	void StartRecord(const QUEUE_DATA& data) const;
+	//停止音视频录制
+	void StopRecord(const QUEUE_DATA& data) const;
 private:
 	std::queue<QUEUE_DATA> m_logicQueue;
 	HANDLE m_hRun;

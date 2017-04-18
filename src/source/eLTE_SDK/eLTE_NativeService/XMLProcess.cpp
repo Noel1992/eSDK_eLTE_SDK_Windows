@@ -140,9 +140,22 @@ int XMLProcess::SetXml_NotifyResourceStatus(ResourceStatusIndicator* const pInfo
 	(void)xml.AddElem("AttachingGroup");
 	(void)xml.SetElemValue(eLTE_Tool::Int2String(pInfo->getAttachingGrp()).c_str());
 
-
+	if (GRPCALLSTATUS == eStatusType)
+	{
+		//组呼当前的主讲人
+		GrpResourceStatusIndicator *pGrpResourceStatus = dynamic_cast<GrpResourceStatusIndicator*>(pInfo);
+		if (NULL == pGrpResourceStatus)
+		{
+			LOG_RUN_ERROR("pGrpResourceStatus is null.");
+			return eLTE_SVC_ERR_NULL_POINTER;
+		}
+		
+		(void)xml.AddElem("Speaker");
+		(void)xml.SetElemValue(pGrpResourceStatus->getSpeaker().c_str());
+	}
+	
 	// 动态组添加cause字段
-	if (USERDGNASTATUS == eStatusType)
+	else if (USERDGNASTATUS == eStatusType)
 	{
 		DGNAStatusIndicator *pDGNAStatus = dynamic_cast<DGNAStatusIndicator*>(pInfo);
 		if (NULL == pDGNAStatus)
@@ -154,7 +167,7 @@ int XMLProcess::SetXml_NotifyResourceStatus(ResourceStatusIndicator* const pInfo
 		(void)xml.SetElemValue(eLTE_Tool::Int2String(pDGNAStatus->getCause()).c_str());
 	}
 	// 派接组组添加cause字段
-	if (GRPPATCHSTATUS == eStatusType)
+	else if (GRPPATCHSTATUS == eStatusType)
 	{
 		GroupPatchStatusIndicator *pPCHGRPStatus = dynamic_cast<GroupPatchStatusIndicator*>(pInfo);
 		if (NULL == pPCHGRPStatus)
@@ -167,6 +180,53 @@ int XMLProcess::SetXml_NotifyResourceStatus(ResourceStatusIndicator* const pInfo
 		(void)xml.AddElem("MemberID");
 		(void)xml.SetElemValue(eLTE_Tool::Int2String(pPCHGRPStatus->getMember()).c_str());
 	}
+	// 视频分发状态
+	else if (VIDEODISPATCHSTATUS == eStatusType)
+	{
+		VideoDispatchStatusIndicator *pVideoDispatchStatus = dynamic_cast<VideoDispatchStatusIndicator*>(pInfo);
+		if (NULL == pVideoDispatchStatus)
+		{
+			LOG_RUN_ERROR("pVideoDispatchStatus is null.");
+			return eLTE_SVC_ERR_NULL_POINTER;
+		}
+		(void)xml.AddElem("CameraID");
+		(void)xml.SetElemValue(eLTE_Tool::Int2String(pVideoDispatchStatus->getCamID()).c_str());
+	}
+	// 静音状态
+	else if (MUTESTATUS == eStatusType)
+	{
+		MuteStatusIndicator *pMuteStatus = dynamic_cast<MuteStatusIndicator*>(pInfo);
+		if (NULL == pMuteStatus)
+		{
+			LOG_RUN_ERROR("pMuteStatus is null.");
+			return eLTE_SVC_ERR_NULL_POINTER;
+		}
+		MUTE_LIST groupList = pMuteStatus->getGroupLst();
+		LOG_RUN_ERROR("zzq %d", groupList.size());
+		if (groupList.size() > 0)
+		{
+			(void)xml.AddElem("GroupIDList");
+			(void)xml.IntoElem();
+			MUTE_LIST::const_iterator it_b = groupList.begin();
+			MUTE_LIST::const_iterator it_e = groupList.end();
+			for (MUTE_LIST::const_iterator itor = it_b; it_e != itor; itor++)
+			{
+				if (it_b == itor)
+				{
+					(void)xml.AddChildElem("GroupID");
+					(void)xml.IntoElem();
+				}
+				else
+				{
+					(void)xml.AddElem("GroupID");
+				}
+				(void)xml.SetElemValue(eLTE_Tool::Int2String(*itor).c_str());
+
+				xml.OutOfElem();
+			}
+		}
+	}
+
 	xml.OutOfElem();
 
 	unsigned int uiLen = 0;
@@ -285,6 +345,7 @@ int XMLProcess::SetXml_NotifyP2pvideocallStatus(P2pvideocallStatusIndicator* con
 		<SignalError></SignalError>
 		<FromString></FromString>
 		<ToString></ToString>
+		<Ptz></Ptz>
 	</Content>
 	************************************************************************/
 
@@ -337,6 +398,8 @@ int XMLProcess::SetXml_NotifyP2pvideocallStatus(P2pvideocallStatusIndicator* con
 	(void)xml.SetElemValue(pInfo->getFromString());
 	(void)xml.AddElem("ToString");
 	(void)xml.SetElemValue(pInfo->getToString());
+	(void)xml.AddElem("Ptz");
+	(void)xml.SetElemValue(eLTE_Tool::Int2String(pInfo->getPTZFlag()).c_str());
 	xml.OutOfElem();
 	LOG_RUN_DEBUG("SetXml_NotifyP2pvideocallStatus SET XML finished.");
 
@@ -1758,9 +1821,9 @@ int XMLProcess::GetXml_OperatePatchGroup_Req(const char* xmlStr, PCHGRP_Para& pa
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "PatchGroupID", srcValue, elemValue, uiMaxLen);
 	param.PatchGroupId = eLTE_Tool::String2Int(elemValue);
 
-	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
-	GET_XML_ELEM_VALUE_CHAR(xmlParse, "DcID", srcValue, elemValue, uiMaxLen);
-	param.DcId = eLTE_Tool::String2Int(elemValue);
+// 	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);
+// 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "DcID", srcValue, elemValue, uiMaxLen);
+// 	param.DcId = eLTE_Tool::String2Int(elemValue);
 
 	if (xmlParse.FindElem("PatchGroupName"))													
 	{																			
@@ -3158,7 +3221,7 @@ int XMLProcess::SetXml_GetTempGroupID_Rsp(const int groupId, std::string& xmlStr
 	return eLTE_SVC_ERR_SUCCESS;
 }
 
-int XMLProcess::GetXml_StartVWall_Req(const char* xmlStr, int& resId, VWALL_PARAM& param)
+int XMLProcess::GetXml_StartVWall_Req(const char* xmlStr, int& resId, StartVWALL_PARAM& param)
 {
 	/************************************************************************
 	--- XML 格式 ---
@@ -3408,6 +3471,90 @@ int XMLProcess::GetXml_P2PTransfer_Req(const char* xmlStr,int& resId,transfer_pa
 	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ObjectID", srcValue, elemValue, uiMaxLen);
 	m_transferNum = elemValue;
 	param.objectid = m_transferNum.c_str();
+
+	return eLTE_SVC_ERR_SUCCESS;
+}
+
+int XMLProcess::GetXml_StartRecord_Req(const char* xmlStr, int& resId, Record_parameter& param)
+{
+	/************************************************************************
+	--- XML 格式 ---
+	<Content>
+		<ResourceID>资源ID</ResourceID>
+		<RecordParam>
+		<tasktype ></tasktype >//0表示录音 1表示录像
+		<calltype ></calltype >//0表示点呼 1表示组呼 2视频回传
+		</RecordParam>
+	</Content>
+	************************************************************************/
+
+	PARSE_XML_DATA(xmlStr);
+
+	const unsigned int XML_VAR_LENGTH = 20;
+	unsigned int uiMaxLen = XML_VAR_LENGTH;
+	char elemValue[XML_VAR_LENGTH] = {0};
+	const char* srcValue;
+
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
+	resId = eLTE_Tool::String2Int(elemValue);
+
+	if (!xmlParse.FindElem("RecordParam"))
+	{
+		LOG_RUN_ERROR("FindElem RecordParam failed.");
+		return eLTE_SVC_ERR_XML_FIND_ELEM;
+	}
+	(void)xmlParse.IntoElem();
+
+	uiMaxLen = XML_VAR_LENGTH;
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "tasktype", srcValue, elemValue, uiMaxLen);
+	param.task_type = eLTE_Tool::String2Int(elemValue);
+
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "calltype", srcValue, elemValue, uiMaxLen);
+	param.call_type = eLTE_Tool::String2Int(elemValue);
+
+	return eLTE_SVC_ERR_SUCCESS;
+}
+
+int XMLProcess::GetXml_StopRecord_Req(const char* xmlStr, int& resId, Record_parameter& param)
+{
+	/************************************************************************
+	--- XML 格式 ---
+	<Content>
+		<ResourceID>资源ID</ResourceID>
+		<RecordParam>
+		<tasktype ></tasktype >//0表示录音 1表示录像
+		<calltype ></calltype >//0表示点呼 1表示组呼 2视频回传
+		</RecordParam>
+	</Content>
+	************************************************************************/
+
+	PARSE_XML_DATA(xmlStr);
+
+	const unsigned int XML_VAR_LENGTH = 20;
+	unsigned int uiMaxLen = XML_VAR_LENGTH;
+	char elemValue[XML_VAR_LENGTH] = {0};
+	const char* srcValue;
+
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "ResourceID", srcValue, elemValue, uiMaxLen);
+	resId = eLTE_Tool::String2Int(elemValue);
+
+	if (!xmlParse.FindElem("RecordParam"))
+	{
+		LOG_RUN_ERROR("FindElem RecordParam failed.");
+		return eLTE_SVC_ERR_XML_FIND_ELEM;
+	}
+	(void)xmlParse.IntoElem();
+
+	uiMaxLen = XML_VAR_LENGTH;
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "tasktype", srcValue, elemValue, uiMaxLen);
+	param.task_type = eLTE_Tool::String2Int(elemValue);
+
+	eSDK_MEMSET(elemValue, 0, sizeof(char)*XML_VAR_LENGTH);	
+	GET_XML_ELEM_VALUE_CHAR(xmlParse, "calltype", srcValue, elemValue, uiMaxLen);
+	param.call_type = eLTE_Tool::String2Int(elemValue);
 
 	return eLTE_SVC_ERR_SUCCESS;
 }

@@ -104,8 +104,12 @@ public:
 
 	// 调度台发起视频上墙
 	int VWallStart(int iResId, VWallStart_parameter& param) const;
-	// 视频下墙
+	// 调度台终止视频上墙
 	int VWallStop(int iResId, VWallStop_parameter& param) const;
+	// 调度台发起音视频录制
+	int RecordStart(int iResId, Record_parameter& param) const;
+	// 调度台终止音视频录制
+	int RecordStop(int iResId, Record_parameter& param) const;
 	// 更新电视墙ID状态
 	int UpdateDcVWallIDState(VWallInfoList* const &m_WallInfoList) const;
 

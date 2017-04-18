@@ -6,6 +6,7 @@
 #include "UserMgr.h"
 #include "ConfigMgr.h"
 #include "SDL.h"
+#include "eLTE_Tool.h"
 
 #define SERVICE_NAME		"HUAWEI eSDK eLTE Service"
 
@@ -126,8 +127,9 @@ ELTE_VOID CServerMgr::StartServer() const
 			BOOL bRet = FALSE;
 			if (m_bMediaBypass)
 			{
-				LPCSTR args[] = {"MediaBypass"};
-				bRet = StartService(scv, 1, args);
+				std::string strInitMode = eLTE_Tool::Int2String(m_bMediaBypass);
+				LPCSTR args[] = {"MediaBypass", strInitMode.c_str()};
+				bRet = StartService(scv, 2, args);
 			} 
 			else
 			{

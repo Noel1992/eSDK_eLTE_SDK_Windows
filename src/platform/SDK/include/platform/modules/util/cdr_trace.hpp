@@ -74,6 +74,7 @@ namespace ubp
 				static CDRTraceAdp * cdr_trace_ptr_;  
 				void PollingThread( void );
 				ACE_INT32 Rollover( void );
+				bool if_exists_header (const std::string &file_name);        
 				/*This is a  luxuriant delimeter*/
 			private:
 				std::string cdr_path_;
